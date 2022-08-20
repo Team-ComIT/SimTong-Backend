@@ -2,7 +2,7 @@ package team.comit.simtong
 
 import org.junit.jupiter.api.Test
 
-class KoalaApplicationTests {
+class SimtongApplicationTests {
 
     @Test
     fun contextLoads() {
