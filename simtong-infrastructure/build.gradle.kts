@@ -7,6 +7,9 @@ plugins {
 
 dependencies {
 
+    // kotlin
+    implementation(Dependencies.JACKSON)
+
     // validation
     implementation(Dependencies.SPRING_VALIDATION)
 
