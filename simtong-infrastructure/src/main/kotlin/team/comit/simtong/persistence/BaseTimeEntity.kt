@@ -7,5 +7,5 @@ import javax.validation.constraints.NotNull
 @MappedSuperclass
 abstract class BaseTimeEntity(
     @field:NotNull
-    val createDate: LocalDateTime = LocalDateTime.now(),
+    val createdAt: LocalDateTime = LocalDateTime.now(),
 )
