@@ -1,10 +1,14 @@
 server:
   port: 8080
+  shutdown: graceful
 
 spring:
+  lifecycle:
+    timeout-per-shutdown-phase: "60s"
+
   datasource:
-    url: ${MYSQL_URL}
-    username: ${MYSQL_NAME}
+    url: jdbc:mysql://${DB_URL}:3306/${DB_NAME}?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
