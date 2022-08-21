@@ -6,6 +6,13 @@ import javax.persistence.Entity
 import javax.persistence.Table
 import javax.validation.constraints.NotNull
 
+/**
+  *
+  * 지점에 대해 관리하는 SpotJpaEntity
+  *
+  * @author kimbeomjin
+  * @date 2022/08/21
+ **/
 @Entity
 @Table(name = "tbl_spot")
 class SpotJpaEntity(
