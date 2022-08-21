@@ -3,7 +3,7 @@ package team.comit.simtong.persistence.user.entity
 import org.hibernate.annotations.ColumnDefault
 import org.hibernate.validator.constraints.Length
 import team.comit.simtong.domain.user.model.Authority
-import team.comit.simtong.persistence.BaseUUIDEntity
+import team.comit.simtong.persistence.BaseEntity
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -50,4 +50,4 @@ class UserJpaEntity(
     val profileImagePath: String,
 
     val deletedAt: LocalDateTime?
-) : BaseUUIDEntity()
+) : BaseEntity()
