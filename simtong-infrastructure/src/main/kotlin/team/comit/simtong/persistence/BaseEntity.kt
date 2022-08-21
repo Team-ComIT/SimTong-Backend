@@ -6,8 +6,8 @@ import javax.persistence.Id
 import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class BaseUUIDEntity(
+abstract class BaseEntity(
     @Id
     @Column(columnDefinition = "BINARY(16)")
     val id: UUID = UUID.randomUUID()
-)
+) : BaseTimeEntity()
