@@ -1,4 +1,4 @@
-name: SimTong CI with Gradle
+name: Build with Gradle
 
 on:
   push:
