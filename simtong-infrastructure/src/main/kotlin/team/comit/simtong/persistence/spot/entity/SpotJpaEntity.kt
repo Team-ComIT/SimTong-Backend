@@ -15,6 +15,6 @@ class SpotJpaEntity(
     val name: String,
 
     @field:NotNull
-    @field:Length(max = 20)
+    @field:Length(max = 40)
     val location: String
 ) : BaseUUIDEntity()
