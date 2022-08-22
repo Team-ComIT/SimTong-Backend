@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository
   *
   * @author JoKyungHyeon
   * @date 2022/08/22
-  *
+  * @version 1.0.0
  **/
 @Repository
 interface CertifiedJpaRepository : CrudRepository<CertifiedJpaRepository, String> {

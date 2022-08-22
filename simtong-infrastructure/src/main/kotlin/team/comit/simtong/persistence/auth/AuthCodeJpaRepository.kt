@@ -10,6 +10,7 @@ import team.comit.simtong.persistence.auth.entity.AuthCodeJpaEntity
   *
   * @author JoKyungHyeon
   * @date 2022/08/22
+  * @version 1.0.0
  **/
 @Repository
 interface AuthCodeJpaRepository : CrudRepository<AuthCodeJpaEntity, String> {

@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull
   *
   * @author JoKyungHyeon
   * @date 2022/08/22
+  * @version 1.0.0
  **/
 @RedisHash("tbl_auth_code")
 class AuthCodeJpaEntity(
