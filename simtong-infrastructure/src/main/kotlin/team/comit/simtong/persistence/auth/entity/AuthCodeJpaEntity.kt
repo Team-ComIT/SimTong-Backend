@@ -2,10 +2,9 @@ package team.comit.simtong.persistence.auth.entity
 
 import org.hibernate.annotations.ColumnDefault
 import org.hibernate.validator.constraints.Length
+import org.springframework.data.annotation.Id
 import org.springframework.data.redis.core.RedisHash
-import java.util.Date
-import javax.persistence.Id
-import javax.persistence.Table
+import java.util.*
 import javax.validation.constraints.NotNull
 
 /**
@@ -15,8 +14,7 @@ import javax.validation.constraints.NotNull
   * @author JoKyungHyeon
   * @date 2022/08/22
  **/
-@RedisHash
-@Table(name = "tbl_auth_code")
+@RedisHash("tbl_auth_code")
 class AuthCodeJpaEntity(
     @Id
     val key: String,

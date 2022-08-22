@@ -1,10 +1,9 @@
 package team.comit.simtong.persistence.auth.entity
 
+import org.springframework.data.annotation.Id
 import org.springframework.data.redis.core.RedisHash
 import org.springframework.data.redis.core.TimeToLive
 import javax.persistence.Column
-import javax.persistence.Id
-import javax.persistence.Table
 import javax.validation.constraints.NotNull
 
 /**
@@ -14,8 +13,7 @@ import javax.validation.constraints.NotNull
   * @author JoKyungHyeon
   * @date 2022/08/22
  **/
-@RedisHash
-@Table(name = "tbl_certified")
+@RedisHash("tbl_certified")
 class CertifiedJpaEntity(
     @Id
     val key: String,
