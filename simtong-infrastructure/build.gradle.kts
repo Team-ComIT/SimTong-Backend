@@ -13,6 +13,9 @@ dependencies {
     // validation
     implementation(Dependencies.SPRING_VALIDATION)
 
+    // security
+    implementation(Dependencies.SPRING_SECURITY)
+
     // database
     implementation(Dependencies.SPRING_DATA_JPA)
     runtimeOnly(Dependencies.MYSQL_CONNECTOR)
