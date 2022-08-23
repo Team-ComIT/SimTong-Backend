@@ -2,7 +2,7 @@ package team.comit.simtong.domain.user.model
 
 /**
  *
- * 유저(직원, 관리자)의 권한을 관리하는 enum Authority
+ * 유저(직원, 관리자)의 권한을 관리하는 Authority
  *
  * @author kimbeomjin
  * @date 2022/08/21
