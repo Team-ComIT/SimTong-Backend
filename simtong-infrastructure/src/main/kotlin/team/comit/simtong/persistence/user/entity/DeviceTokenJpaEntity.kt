@@ -11,11 +11,12 @@ import javax.persistence.Table
 import javax.validation.constraints.NotNull
 
 /**
-  *
-  * 유저(직원, 관리자)의 디바이스 토큰을 관리하는 DeviceTokenJpaEntity
-  *
-  * @author kimbeomjin
-  * @date 2022/08/21
+ *
+ * 유저(직원, 관리자)의 디바이스 토큰을 관리하는 DeviceTokenJpaEntity
+ *
+ * @author kimbeomjin
+ * @date 2022/08/21
+ * @version 1.0.0
  **/
 @Entity
 @Table(name = "tbl_device")

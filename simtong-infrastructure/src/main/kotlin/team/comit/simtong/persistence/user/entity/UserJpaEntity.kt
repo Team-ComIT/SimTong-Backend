@@ -13,11 +13,12 @@ import javax.persistence.Table
 import javax.validation.constraints.NotNull
 
 /**
-  *
-  * 유저(직원, 관리자) 정보를 관리하는 UserJpaEntity
-  *
-  * @author kimbeomjin
-  * @date 2022/08/21
+ *
+ * 유저(직원, 관리자) 정보를 관리하는 UserJpaEntity
+ *
+ * @author kimbeomjin
+ * @date 2022/08/21
+ * @version 1.0.0
  **/
 @Entity
 @Table(name = "tbl_user")
