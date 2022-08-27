@@ -1,0 +1,33 @@
+package team.comit.simtong.global.aop
+
+import org.springframework.context.annotation.ComponentScan
+import org.springframework.context.annotation.ComponentScan.Filter
+import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.FilterType
+import team.comit.simtong.global.annotation.ReadOnlyUseCase
+import team.comit.simtong.global.annotation.UseCase
+
+/**
+ *
+ * 사용자 UseCase를 Bean으로 등록하는 UseCaseScan
+ *
+ * @author kimbeomjin
+ * @date 2022/08/27
+ * @version 1.0.0
+ **/
+@Configuration
+@ComponentScan(
+    basePackages = ["team.comit.simtong"],
+    includeFilters = [
+        Filter(
+            type = FilterType.ANNOTATION,
+            classes = [UseCase::class]
+        ),
+        Filter(
+            type = FilterType.ANNOTATION,
+            classes = [ReadOnlyUseCase::class]
+        )
+    ]
+)
+class UseCaseScan {
+}
