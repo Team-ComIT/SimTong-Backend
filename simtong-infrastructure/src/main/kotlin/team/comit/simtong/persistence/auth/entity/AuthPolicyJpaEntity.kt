@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull
   * @version 1.0.0
  **/
 @RedisHash("tbl_auth_policy")
-class AuthPolicyJpaEntity(
+data class AuthPolicyJpaEntity(
     @Id
     val key: String,
 
