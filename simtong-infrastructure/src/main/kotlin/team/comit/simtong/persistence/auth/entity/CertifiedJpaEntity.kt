@@ -1,5 +1,6 @@
 package team.comit.simtong.persistence.auth.entity
 
+import org.hibernate.annotations.ColumnDefault
 import org.springframework.data.annotation.Id
 import org.springframework.data.redis.core.RedisHash
 import org.springframework.data.redis.core.TimeToLive
@@ -25,6 +26,7 @@ class CertifiedJpaEntity(
 ) {
     @field:NotNull
     @Column(columnDefinition = "BIT(1)")
+    @ColumnDefault("false")
     val isVerified: Boolean = false
 
 }
