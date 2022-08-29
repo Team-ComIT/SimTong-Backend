@@ -11,11 +11,12 @@ import javax.persistence.Table
 import javax.validation.constraints.NotNull
 
 /**
-  *
-  * 지점에 속한 팀을 관리하는 TeamJpaEntity
-  *
-  * @author kimbeomjin
-  * @date 2022/08/21
+ *
+ * 지점에 속한 팀을 관리하는 TeamJpaEntity
+ *
+ * @author kimbeomjin
+ * @date 2022/08/21
+ * @version 1.0.0
  **/
 @Entity
 @Table(name = "tbl_team")

@@ -6,11 +6,12 @@ import javax.persistence.Id
 import javax.persistence.MappedSuperclass
 
 /**
-  *
-  * pk의 타입이 UUID 일 경우 상속받는 BaseUUIDEntity
-  *
-  * @author kimbeomjin
-  * @date 2022/08/21
+ *
+ * pk의 타입이 UUID 일 경우 상속받는 BaseUUIDEntity
+ *
+ * @author kimbeomjin
+ * @date 2022/08/21
+ * @version 1.0.0
  **/
 @MappedSuperclass
 abstract class BaseUUIDEntity(

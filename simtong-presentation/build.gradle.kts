@@ -9,6 +9,9 @@ dependencies {
     // web
     implementation(Dependencies.SPRING_WEB)
 
+    // validation
+    implementation(Dependencies.SPRING_VALIDATION)
+
     // impl project
     implementation(project(":simtong-infrastructure"))
 }
