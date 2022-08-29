@@ -21,9 +21,9 @@ class AuthPolicyJpaEntity(
 
     @field:NotNull
     @TimeToLive
-    val expirationTime: Int
-) {
+    val expirationTime: Int,
+
     @field:NotNull
     @ColumnDefault("1")
-    val attemptCount: Int = 1
-}
+    val attemptCount: Short
+)
