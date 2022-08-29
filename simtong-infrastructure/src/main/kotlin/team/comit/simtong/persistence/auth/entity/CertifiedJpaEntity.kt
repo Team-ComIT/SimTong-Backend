@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull
 
 /**
   *
-  * 이메일이 인증되었는지 여부를 관리하는 CertifiedJapEntity
+  * 이메일이 인증되었는지 여부를 관리하는 CertifiedJpaEntity
   *
   * @author JoKyungHyeon
   * @date 2022/08/22
