@@ -8,14 +8,14 @@ import javax.validation.constraints.NotNull
 
 /**
   *
-  * 이메일 인증시 사용자의 이메일인지 확인하는 AuthCodeJpaEntity
+  * 이메일 인증시 사용자의 이메일인지 확인하는 AuthCodeEntity
   *
   * @author JoKyungHyeon
   * @date 2022/08/22
   * @version 1.0.0
  **/
 @RedisHash("tbl_auth_code")
-class AuthCodeJpaEntity(
+class AuthCodeEntity(
     @Id
     val key: String,
 
