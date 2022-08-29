@@ -2,7 +2,7 @@ package team.comit.simtong.persistence.auth
 
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
-import team.comit.simtong.persistence.auth.entity.AuthPolicyEntity
+import team.comit.simtong.persistence.auth.entity.AuthCodePolicyEntity
 
 /**
   *
@@ -13,5 +13,5 @@ import team.comit.simtong.persistence.auth.entity.AuthPolicyEntity
   * @version 1.0.0
  **/
 @Repository
-interface AuthPolicyRepository: CrudRepository<AuthPolicyEntity, String> {
+interface AuthCodePolicyRepository: CrudRepository<AuthCodePolicyEntity, String> {
 }

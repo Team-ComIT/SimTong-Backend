@@ -8,14 +8,14 @@ import javax.validation.constraints.NotNull
 
 /**
   *
-  * 이메일 인증 정책을 관리하는 AuthPolicyEntity
+  * 이메일 인증 정책을 관리하는 AuthCodePolicyEntity
   *
   * @author JoKyungHyeon
   * @date 2022/08/29
   * @version 1.0.0
  **/
-@RedisHash("tbl_auth_policy")
-data class AuthPolicyEntity(
+@RedisHash("tbl_auth_code_policy")
+class AuthCodePolicyEntity(
     @Id
     val key: String,
 
