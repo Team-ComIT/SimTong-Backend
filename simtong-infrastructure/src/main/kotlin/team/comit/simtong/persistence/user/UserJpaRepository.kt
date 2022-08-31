@@ -15,4 +15,7 @@ import java.util.*
  **/
 @Repository
 interface UserJpaRepository : CrudRepository<UserJpaEntity, UUID> {
+
+    fun queryUserJpaEntityById(id: UUID): UserJpaEntity?
+
 }
