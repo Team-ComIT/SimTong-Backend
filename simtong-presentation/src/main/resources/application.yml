@@ -29,6 +29,11 @@ spring:
     port: ${REDIS_PORT:6379}
     host: ${REDIS_HOST:localhost}
 
+  security:
+    secret-key: ${SECRET_KEY:asdfasfdasfadsf}
+    access-exp: ${ACCESS_EXP:180}
+    refresh-exp: ${REFRESH_EXP:180}
+
 logging:
   level:
     com:
