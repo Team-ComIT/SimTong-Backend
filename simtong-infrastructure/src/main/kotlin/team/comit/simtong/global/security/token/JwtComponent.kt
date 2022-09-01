@@ -10,7 +10,8 @@ package team.comit.simtong.global.security.token
  **/
 object JwtComponent {
 
-    const val JWT_AUTHORITY = "authority"
-    const val JWT_ACCESS = "access"
-    const val JWT_REFRESH = "refresh"
+    const val AUTHORITY = "authority"
+    const val ACCESS = "access"
+    const val REFRESH = "refresh"
+
 }
