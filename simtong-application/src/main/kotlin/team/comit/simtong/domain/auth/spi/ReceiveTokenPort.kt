@@ -4,7 +4,7 @@ import team.comit.simtong.domain.user.model.Authority
 
 /**
   *
-  * Jwt 토큰을 반환하는 ReceiveTokenPort
+  * Jwt 토큰을 요청하는 ReceiveTokenPort
   *
   * @author JoKyungHyeon
   * @date 2022/09/01
