@@ -16,6 +16,9 @@ dependencies {
     // security
     implementation(Dependencies.SPRING_SECURITY)
 
+    //jwt
+    implementation(Dependencies.JWT)
+
     // database
     implementation(Dependencies.SPRING_DATA_JPA)
     runtimeOnly(Dependencies.MYSQL_CONNECTOR)
@@ -25,6 +28,9 @@ dependencies {
     // mapstruct
     implementation(Dependencies.MAPSTRUCT)
     kapt(Dependencies.MAPSTRUCT_PROCESSER)
+
+    // configuration
+    annotationProcessor(Dependencies.CONFIGURATION_PROCESSOR)
 
     // api project
     api(project(":simtong-application"))
