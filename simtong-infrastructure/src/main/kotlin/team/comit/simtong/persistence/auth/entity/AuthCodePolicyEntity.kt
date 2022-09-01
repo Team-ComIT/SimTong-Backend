@@ -18,7 +18,6 @@ import javax.validation.constraints.NotNull
 @RedisHash("tbl_auth_code_policy")
 class AuthCodePolicyEntity(
     @Id
-    @Indexed
     val key: String,
 
     @field:NotNull

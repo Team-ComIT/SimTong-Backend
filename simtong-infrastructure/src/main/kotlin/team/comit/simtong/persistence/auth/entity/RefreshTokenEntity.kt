@@ -19,7 +19,6 @@ import javax.validation.constraints.NotNull
 @RedisHash("tbl_refresh_token")
 class RefreshTokenEntity(
     @Id
-    @Indexed
     val token: String,
 
     @field:NotNull
