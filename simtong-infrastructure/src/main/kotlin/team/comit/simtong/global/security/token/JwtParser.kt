@@ -25,13 +25,12 @@ class JwtParser(
                 .setSigningKey(securityProperties.encodingSecretKey)
                 .parseClaimsJws(token)
         } catch (e: Exception) {
-            // TODO Exception 설정
             when(e) {
-                is InvalidClaimException -> throw Exception()
-                is ExpiredJwtException -> throw Exception()
-                is JwtException -> throw Exception()
-                is IllegalArgumentException -> throw Exception()
-                else -> throw Exception()
+                is InvalidClaimException -> throw Exception() // TODO Exception 설정
+                is ExpiredJwtException -> throw Exception() // TODO Exception 설정
+                is JwtException -> throw Exception() // TODO Exception 설정
+                is IllegalArgumentException -> throw Exception() // TODO Exception 설정
+                else -> throw Exception() // TODO Exception 설정
             }
         }
     }
