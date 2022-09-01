@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration
 
 /**
  *
- * @ConfigurationProperties을 활성화하기 위한 ConfigurationPropertiesConfig
+ * ConfigurationProperties 어노테이션을 활성화하기 위한 ConfigurationPropertiesConfig
  *
  * @author kimbeomjin
  * @date 2022/08/31
