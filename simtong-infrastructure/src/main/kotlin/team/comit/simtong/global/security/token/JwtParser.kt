@@ -25,10 +25,10 @@ class JwtParser(
                 .parseClaimsJws(token)
         } catch (e: Exception) {
             when(e) {
-                is InvalidClaimException -> TODO("Exception 설정")
-                is ExpiredJwtException -> TODO("Exception 설정")
-                is JwtException -> TODO("Exception 설정")
-                is IllegalArgumentException -> TODO("Exception 설정")
+                is InvalidClaimException -> throw Exception() // TODO Exception 설정
+                is ExpiredJwtException -> throw Exception() // TODO Exception 설정
+                is JwtException -> throw Exception() // TODO Exception 설정
+                is IllegalArgumentException -> throw Exception() // TODO Exception 설정
                 else -> TODO("Exception 설정")
             }
         }
