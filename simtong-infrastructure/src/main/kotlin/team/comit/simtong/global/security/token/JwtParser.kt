@@ -1,7 +1,6 @@
 package team.comit.simtong.global.security.token
 
 import io.jsonwebtoken.*
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import team.comit.simtong.global.security.SecurityProperties
@@ -26,11 +25,11 @@ class JwtParser(
                 .parseClaimsJws(token)
         } catch (e: Exception) {
             when(e) {
-                is InvalidClaimException -> throw Exception() // TODO Exception 설정
-                is ExpiredJwtException -> throw Exception() // TODO Exception 설정
-                is JwtException -> throw Exception() // TODO Exception 설정
-                is IllegalArgumentException -> throw Exception() // TODO Exception 설정
-                else -> throw Exception() // TODO Exception 설정
+                is InvalidClaimException -> TODO("Exception 설정")
+                is ExpiredJwtException -> TODO("Exception 설정")
+                is JwtException -> TODO("Exception 설정")
+                is IllegalArgumentException -> TODO("Exception 설정")
+                else -> TODO("Exception 설정")
             }
         }
     }
