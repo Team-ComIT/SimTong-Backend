@@ -3,7 +3,12 @@ package team.comit.simtong.global.security.token
 import io.jsonwebtoken.*
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
+import team.comit.simtong.global.exception.InternalServerErrorException
 import team.comit.simtong.global.security.SecurityProperties
+import team.comit.simtong.global.security.exception.UnexpectedTokenException
+import team.comit.simtong.global.security.exception.ExpiredTokenException
+import team.comit.simtong.global.security.exception.InvalidTokenException
+import team.comit.simtong.global.security.exception.WrongTypeTokenException
 
 /**
   *
@@ -18,27 +23,31 @@ class JwtParser(
     private val securityProperties: SecurityProperties
 ) {
 
-    private fun getClaims(token: String): Jws<Claims> {
-        try {
-            return Jwts.parser()
+    private fun getClaims(token: String): Jws<Claims>? {
+        return try {
+            Jwts.parser()
                 .setSigningKey(securityProperties.encodingSecretKey)
                 .parseClaimsJws(token)
         } catch (e: Exception) {
             when(e) {
-                is InvalidClaimException -> throw Exception() // TODO Exception 설정
-                is ExpiredJwtException -> throw Exception() // TODO Exception 설정
-                is JwtException -> throw Exception() // TODO Exception 설정
-                is IllegalArgumentException -> throw Exception() // TODO Exception 설정
-                else -> TODO("Exception 설정")
+                is InvalidClaimException -> InvalidTokenException.EXCEPTION
+                is ExpiredJwtException -> ExpiredTokenException.EXCEPTION
+                is JwtException -> UnexpectedTokenException.EXCEPTION
+                else -> InternalServerErrorException.EXCEPTION
             }
+            null
         }
     }
 
     fun getAuthentication(token: String): Authentication? {
         val claims = getClaims(token)
 
-        if (claims.header[Header.JWT_TYPE] != JwtComponent.JWT_ACCESS) {
-            throw Exception() // TODO Exception 설정
+        claims?.let {
+
+            if (claims.header[Header.JWT_TYPE] != JwtComponent.ACCESS) {
+                WrongTypeTokenException.EXCEPTION
+            }
+
         }
 
          TODO("authDetail 로직 구현")
