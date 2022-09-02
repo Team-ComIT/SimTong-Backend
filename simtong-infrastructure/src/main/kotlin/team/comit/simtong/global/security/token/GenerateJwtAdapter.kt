@@ -40,7 +40,6 @@ class GenerateJwtAdapter(
         val token = Jwts.builder()
             .signWith(SignatureAlgorithm.HS512, securityProperties.encodingSecretKey)
             .setHeaderParam(Header.JWT_TYPE, JwtComponent.REFRESH)
-            .setId(UUID.randomUUID().toString())
             .setIssuedAt(Date())
             .setExpiration(Date(System.currentTimeMillis() + securityProperties.refreshExpiredTime))
             .compact()
