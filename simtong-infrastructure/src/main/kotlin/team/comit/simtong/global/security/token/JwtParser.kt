@@ -1,6 +1,7 @@
 package team.comit.simtong.global.security.token
 
 import io.jsonwebtoken.*
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import team.comit.simtong.global.exception.InternalServerErrorException
@@ -9,6 +10,7 @@ import team.comit.simtong.global.security.exception.UnexpectedTokenException
 import team.comit.simtong.global.security.exception.ExpiredTokenException
 import team.comit.simtong.global.security.exception.InvalidTokenException
 import team.comit.simtong.global.security.exception.WrongTypeTokenException
+import team.comit.simtong.global.security.principle.AuthDetailsService
 
 /**
   *
@@ -20,7 +22,8 @@ import team.comit.simtong.global.security.exception.WrongTypeTokenException
  **/
 @Component
 class JwtParser(
-    private val securityProperties: SecurityProperties
+    private val securityProperties: SecurityProperties,
+    private val authDetailsService: AuthDetailsService
 ) {
 
     private fun getClaims(token: String): Jws<Claims> {
@@ -38,13 +41,15 @@ class JwtParser(
         }
     }
 
-    fun getAuthentication(token: String): Authentication? {
+    fun getAuthentication(token: String): Authentication {
         val claims = getClaims(token)
 
         if (claims.header[Header.JWT_TYPE] != JwtComponent.ACCESS) {
             throw WrongTypeTokenException.EXCEPTION
         }
 
-         TODO("authDetail 로직 구현")
+        val details = authDetailsService.loadUserByUsername(claims.body.id)
+
+        return UsernamePasswordAuthenticationToken(details, "", details.authorities)
     }
 }
