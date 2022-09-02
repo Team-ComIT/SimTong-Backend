@@ -23,31 +23,26 @@ class JwtParser(
     private val securityProperties: SecurityProperties
 ) {
 
-    private fun getClaims(token: String): Jws<Claims>? {
+    private fun getClaims(token: String): Jws<Claims> {
         return try {
             Jwts.parser()
                 .setSigningKey(securityProperties.encodingSecretKey)
                 .parseClaimsJws(token)
         } catch (e: Exception) {
             when(e) {
-                is InvalidClaimException -> InvalidTokenException.EXCEPTION
-                is ExpiredJwtException -> ExpiredTokenException.EXCEPTION
-                is JwtException -> UnexpectedTokenException.EXCEPTION
-                else -> InternalServerErrorException.EXCEPTION
+                is InvalidClaimException -> throw InvalidTokenException.EXCEPTION
+                is ExpiredJwtException -> throw ExpiredTokenException.EXCEPTION
+                is JwtException -> throw UnexpectedTokenException.EXCEPTION
+                else -> throw InternalServerErrorException.EXCEPTION
             }
-            null
         }
     }
 
     fun getAuthentication(token: String): Authentication? {
         val claims = getClaims(token)
 
-        claims?.let {
-
-            if (claims.header[Header.JWT_TYPE] != JwtComponent.ACCESS) {
-                WrongTypeTokenException.EXCEPTION
-            }
-
+        if (claims.header[Header.JWT_TYPE] != JwtComponent.ACCESS) {
+            throw WrongTypeTokenException.EXCEPTION
         }
 
          TODO("authDetail 로직 구현")
