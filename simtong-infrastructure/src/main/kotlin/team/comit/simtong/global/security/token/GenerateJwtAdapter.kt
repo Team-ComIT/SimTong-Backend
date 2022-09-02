@@ -25,18 +25,18 @@ class GenerateJwtAdapter(
     private val securityProperties: SecurityProperties
 ) : ReceiveTokenPort {
 
-    override fun generateAccessToken(email: String, authority: Authority): String {
+    override fun generateAccessToken(userId: UUID, authority: Authority): String {
         return Jwts.builder()
             .signWith(SignatureAlgorithm.HS512, securityProperties.encodingSecretKey)
             .setHeaderParam(Header.JWT_TYPE, JwtComponent.ACCESS)
-            .setSubject(email)
+            .setId(userId.toString())
             .claim(JwtComponent.AUTHORITY, authority)
             .setIssuedAt(Date())
             .setExpiration(Date(System.currentTimeMillis() + securityProperties.accessExpiredTime))
             .compact()
     }
 
-    override fun generateRefreshToken(email: String, authority: Authority): String {
+    override fun generateRefreshToken(userId: UUID, authority: Authority): String {
         val token = Jwts.builder()
             .signWith(SignatureAlgorithm.HS512, securityProperties.encodingSecretKey)
             .setHeaderParam(Header.JWT_TYPE, JwtComponent.REFRESH)
@@ -47,7 +47,7 @@ class GenerateJwtAdapter(
         refreshTokenRepository.save(RefreshTokenEntity(
             token = token,
             authority = authority,
-            email = email,
+            userId = userId,
             expirationTime = securityProperties.refreshExpiredTime
         ))
 

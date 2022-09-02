@@ -1,6 +1,7 @@
 package team.comit.simtong.domain.auth.spi
 
 import team.comit.simtong.domain.user.model.Authority
+import java.util.*
 
 /**
   *
@@ -12,7 +13,7 @@ import team.comit.simtong.domain.user.model.Authority
  **/
 interface ReceiveTokenPort {
 
-    fun generateAccessToken(email: String, authority: Authority): String
+    fun generateAccessToken(userId: UUID, authority: Authority): String
 
-    fun generateRefreshToken(email: String, authority: Authority): String
+    fun generateRefreshToken(userId: UUID, authority: Authority): String
 }

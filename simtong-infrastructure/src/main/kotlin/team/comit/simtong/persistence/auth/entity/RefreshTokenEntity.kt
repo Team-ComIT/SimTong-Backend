@@ -4,8 +4,8 @@ import org.hibernate.validator.constraints.Length
 import org.springframework.data.annotation.Id
 import org.springframework.data.redis.core.RedisHash
 import org.springframework.data.redis.core.TimeToLive
-import org.springframework.data.redis.core.index.Indexed
 import team.comit.simtong.domain.user.model.Authority
+import java.util.*
 import javax.validation.constraints.NotNull
 
 /**
@@ -22,7 +22,7 @@ class RefreshTokenEntity(
     val token: String,
 
     @field:NotNull
-    val email: String,
+    val userId: UUID,
 
     @field:NotNull
     @field:Length(max = 11)
