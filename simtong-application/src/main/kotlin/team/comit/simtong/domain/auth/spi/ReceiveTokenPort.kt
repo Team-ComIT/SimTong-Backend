@@ -4,12 +4,12 @@ import team.comit.simtong.domain.user.model.Authority
 import java.util.*
 
 /**
-  *
-  * Jwt 토큰을 요청하는 ReceiveTokenPort
-  *
-  * @author JoKyungHyeon
-  * @date 2022/09/01
-  * @version 1.0.0
+ *
+ * Jwt 토큰을 요청하는 ReceiveTokenPort
+ *
+ * @author Chokyunghyeon
+ * @date 2022/09/01
+ * @version 1.0.0
  **/
 interface ReceiveTokenPort {
 

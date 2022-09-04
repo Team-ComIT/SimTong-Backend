@@ -13,8 +13,9 @@ import team.comit.simtong.global.security.token.JwtParser
  * SecurityFilterChain에 직접 만든 Filter를 등록하는 FilterConfig
  *
  * @author kimbeomjin
+ * @author Chokyunghyeon
  * @date 2022/08/31
- * @version 1.0.0
+ * @version 1.1.0
  **/
 @Component
 class FilterConfig(

@@ -13,12 +13,12 @@ import team.comit.simtong.global.security.exception.WrongTypeTokenException
 import team.comit.simtong.global.security.principle.AuthDetailsService
 
 /**
-  *
-  * Jwt 토큰의 정보를 얻는 JwtParser
-  *
-  * @author JoKyungHyeon
-  * @date 2022/09/01
-  * @version 1.0.0
+ *
+ * Jwt 토큰의 정보를 얻는 JwtParser
+ *
+ * @author Chokyunghyeon
+ * @date 2022/09/01
+ * @version 1.0.0
  **/
 @Component
 class JwtParser(
