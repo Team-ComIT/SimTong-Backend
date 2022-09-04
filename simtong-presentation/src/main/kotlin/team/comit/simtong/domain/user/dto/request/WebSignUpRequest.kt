@@ -1,8 +1,8 @@
 package team.comit.simtong.domain.user.dto.request
 
 import org.hibernate.validator.constraints.Length
-import org.hibernate.validator.constraints.Range
 import javax.validation.constraints.Email
+import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 
@@ -10,7 +10,7 @@ import javax.validation.constraints.Pattern
  *
  * 회원 가입을 요청하는 WebSignUpRequest
  *
- * @author JoKyungHyeon
+ * @author Chokyunghyeon
  * @date 2022/09/04
  * @version 1.0.0
  **/
@@ -23,8 +23,8 @@ data class WebSignUpRequest (
     val email: String,
 
     @field:NotNull
-    @field:Range(max = 10, min = 10)
-    val employee_number: Int,
+    @field:Min(1e9.toLong())
+    val employeeNumber: Int,
 
     @field:NotNull
     @field:Pattern(regexp = """[+\-_$\w]*""")
@@ -35,5 +35,5 @@ data class WebSignUpRequest (
     @field:Length(max = 20)
     val nickname: String?,
 
-    val profile_image_path: String?
+    val profileImagePath: String?
 )

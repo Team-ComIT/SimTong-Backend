@@ -15,7 +15,7 @@ import javax.validation.Valid
  *
  * User에 관한 요청을 받는 WebUserAdapter
  *
- * @author JoKyungHyeon
+ * @author Chokyunghyeon
  * @date 2022/09/04
  * @version 1.0.0
  **/
@@ -25,11 +25,13 @@ class WebUserAdapter(
     private val signUpUseCase: SignUpUseCase
 ) {
 
-    @PostMapping("/")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun signUp(@RequestBody @Valid request: WebSignUpRequest) {
 
         // TODO Email 인증 확인 로직
+
+        // TODO name & employeeNumber 확인 로직
 
         val nickname = "" // TODO 랜덤 닉네임 로직
 
@@ -38,8 +40,8 @@ class WebUserAdapter(
             email = request.email,
             password = request.password,
             nickname = nickname,
-            profileImagePath = request.profile_image_path,
-            employeeNumber = request.employee_number
+            profileImagePath = request.profileImagePath,
+            employeeNumber = request.employeeNumber
         ))
 
 
