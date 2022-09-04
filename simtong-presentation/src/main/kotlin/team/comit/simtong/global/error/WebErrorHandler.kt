@@ -1,6 +1,7 @@
 package team.comit.simtong.global.error
 
 import org.springframework.http.HttpStatus
+import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.validation.BindException
 import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -15,6 +16,7 @@ import javax.validation.ConstraintViolationException
  * presentation layer에서 발생하는 예외를 핸들링하는 WebErrorHandler
  *
  * @author kimbeomjin
+ * @author Chokyunghyeon
  * @date 2022/08/22
  * @version 1.0.0
  **/
@@ -86,4 +88,17 @@ class WebErrorHandler {
     ): ErrorResponse? {
         return ErrorResponse.of(GlobalErrorCode.METHOD_NOT_ALLOWED)
     }
+
+    /**
+     * Http Message를 읽지 못하는 경우 발생
+     */
+    @ExceptionHandler(HttpMessageNotReadableException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected fun handleHttpMessageNotReadableException(
+        exception: HttpMessageNotReadableException
+    ): ErrorResponse? {
+        return ErrorResponse.of(GlobalErrorCode.BAD_REQUEST)
+    }
+
+
 }
