@@ -8,8 +8,9 @@ import team.comit.simtong.global.error.ErrorProperty
  * Security와 관련해 발생하는 ErrorCode를 관리하는 SecurityErrorCode
  *
  * @author kimbeomjin
+ * @author Chokyunghyeon
  * @date 2022/08/31
- * @version 1.0.0
+ * @version 1.1.0
  **/
 enum class SecurityErrorCode(
     private val status: HttpStatus,

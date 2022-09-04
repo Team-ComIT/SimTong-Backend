@@ -12,12 +12,12 @@ import team.comit.simtong.persistence.auth.entity.RefreshTokenEntity
 import java.util.*
 
 /**
-  *
-  * Access 토큰과 Refresh 토큰을 생성하는 GenerateJwtAdapter
-  *
-  * @author JoKyungHyeon
-  * @date 2022/09/01
-  * @version 1.0.0
+ *
+ * Access 토큰과 Refresh 토큰을 생성하는 GenerateJwtAdapter
+ *
+ * @author Chokyunghyeon
+ * @date 2022/09/01
+ * @version 1.0.0
  **/
 @Component
 class GenerateJwtAdapter(

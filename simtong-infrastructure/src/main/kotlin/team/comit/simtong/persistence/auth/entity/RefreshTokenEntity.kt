@@ -9,12 +9,12 @@ import java.util.*
 import javax.validation.constraints.NotNull
 
 /**
-  *
-  * Access 토큰을 재발급하기 위한 RefreshTokenEntity
-  *
-  * @author JoKyungHyeon
-  * @date 2022/09/01
-  * @version 1.0.0
+ *
+ * Access 토큰을 재발급하기 위한 RefreshTokenEntity
+ *
+ * @author Chokyunghyeon
+ * @date 2022/09/01
+ * @version 1.0.0
  **/
 @RedisHash("tbl_refresh_token")
 class RefreshTokenEntity(

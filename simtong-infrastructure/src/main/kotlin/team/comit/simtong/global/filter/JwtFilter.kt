@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 /**
-  *
-  * Jwt를 검사해 권한을 인증하는 JwtFilter
-  *
-  * @author JoKyungHyeon
-  * @date 2022/09/03
-  * @version 1.0.0
+ *
+ * Jwt를 검사해 권한을 인증하는 JwtFilter
+ *
+ * @author Chokyunghyeon
+ * @date 2022/09/03
+ * @version 1.0.0
  **/
 class JwtFilter(
     private val jwtParser: JwtParser
