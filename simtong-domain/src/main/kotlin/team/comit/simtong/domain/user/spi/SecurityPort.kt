@@ -13,4 +13,5 @@ interface SecurityPort {
     fun compare(target: String, encryptedPassword: String): Boolean
 
     fun encode(password: String): String
+
 }
