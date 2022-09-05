@@ -9,7 +9,7 @@ import team.comit.simtong.persistence.user.entity.UserJpaEntity
  *
  * UserEntity와 DomainUser의 변환을 담당하는 UserMapper
  *
- * @author JoKyungHyeon
+ * @author Chokyunghyeon
  * @date 2022/09/04
  * @version 1.0.0
  **/

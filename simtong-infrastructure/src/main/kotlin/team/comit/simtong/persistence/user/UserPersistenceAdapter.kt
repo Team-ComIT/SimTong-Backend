@@ -13,7 +13,7 @@ import java.util.*
  *
  * User의 영속성을 관리하는 UserPersistenceAdapter
  *
- * @author JoKyungHyeon
+ * @author Chokyunghyeon
  * @date 2022/09/04
  * @version 1.0.0
  **/
