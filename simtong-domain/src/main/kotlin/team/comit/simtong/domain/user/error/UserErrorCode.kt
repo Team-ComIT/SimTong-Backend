@@ -17,7 +17,7 @@ enum class UserErrorCode(
 
     ALREADY_USED_EMAIL(409, "이미 사용된 이메일"),
 
-    USER_NOT_FOUND(401, "유저를 찾을 수 없음"); // TODO Http status 사용에 대해 논의
+    USER_NOT_FOUND(401, "유저를 찾을 수 없음");
 
     override fun status(): Int = status
 
