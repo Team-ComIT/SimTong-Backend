@@ -12,12 +12,12 @@ import team.comit.simtong.persistence.auth.entity.RefreshTokenEntity
 import java.util.*
 
 /**
-  *
-  * Access 토큰과 Refresh 토큰을 생성하는 GenerateJwtAdapter
-  *
-  * @author JoKyungHyeon
-  * @date 2022/09/01
-  * @version 1.0.0
+ *
+ * Access 토큰과 Refresh 토큰을 생성하는 GenerateJwtAdapter
+ *
+ * @author Chokyunghyeon
+ * @date 2022/09/01
+ * @version 1.0.0
  **/
 @Component
 class GenerateJwtAdapter(
@@ -25,18 +25,18 @@ class GenerateJwtAdapter(
     private val securityProperties: SecurityProperties
 ) : ReceiveTokenPort {
 
-    override fun generateAccessToken(email: String, authority: Authority): String {
+    override fun generateAccessToken(userId: UUID, authority: Authority): String {
         return Jwts.builder()
             .signWith(SignatureAlgorithm.HS512, securityProperties.encodingSecretKey)
             .setHeaderParam(Header.JWT_TYPE, JwtComponent.ACCESS)
-            .setSubject(email)
+            .setId(userId.toString())
             .claim(JwtComponent.AUTHORITY, authority)
             .setIssuedAt(Date())
             .setExpiration(Date(System.currentTimeMillis() + securityProperties.accessExpiredTime))
             .compact()
     }
 
-    override fun generateRefreshToken(email: String, authority: Authority): String {
+    override fun generateRefreshToken(userId: UUID, authority: Authority): String {
         val token = Jwts.builder()
             .signWith(SignatureAlgorithm.HS512, securityProperties.encodingSecretKey)
             .setHeaderParam(Header.JWT_TYPE, JwtComponent.REFRESH)
@@ -47,7 +47,7 @@ class GenerateJwtAdapter(
         refreshTokenRepository.save(RefreshTokenEntity(
             token = token,
             authority = authority,
-            email = email,
+            userId = userId,
             expirationTime = securityProperties.refreshExpiredTime
         ))
 
