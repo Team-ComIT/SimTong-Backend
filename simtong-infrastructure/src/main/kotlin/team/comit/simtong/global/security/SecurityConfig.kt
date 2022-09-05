@@ -18,7 +18,7 @@ import team.comit.simtong.global.filter.FilterConfig
  * @author kimbeomjin
  * @author Chokyunghyeon
  * @date 2022/08/31
- * @version 1.1.0
+ * @version 1.0.0
  **/
 @Configuration
 class SecurityConfig(
@@ -38,7 +38,6 @@ class SecurityConfig(
 
         http
             .authorizeRequests()
-                // TODO end-point permission
             .antMatchers(HttpMethod.POST, "/users").permitAll()
             .anyRequest().authenticated()
 
