@@ -11,7 +11,7 @@ import team.comit.simtong.global.error.BusinessException
  * @date 2022/09/04
  * @version 1.0.0
  **/
-class UsedEmailException private constructor(): BusinessException(UserErrorCode.ALREADY_EMAIL_USED) {
+class UsedEmailException private constructor(): BusinessException(UserErrorCode.ALREADY_USED_EMAIL) {
 
     companion object {
         @JvmField
