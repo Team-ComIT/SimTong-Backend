@@ -7,7 +7,7 @@ import java.util.UUID
  *
  * User에 관한 Query를 요청하는 QueryUserPort
  *
- * @author JoKyungHyeon
+ * @author Chokyunghyeon
  * @date 2022/09/04
  * @version 1.0.0
  **/

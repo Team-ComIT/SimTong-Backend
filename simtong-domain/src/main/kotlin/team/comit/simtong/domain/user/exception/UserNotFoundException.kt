@@ -7,7 +7,7 @@ import team.comit.simtong.global.error.BusinessException
  *
  * User Not Found Error를 발생시키는 UserNotFoundException
  *
- * @author JoKyungHyeon
+ * @author Chokyunghyeon
  * @date 2022/09/04
  * @version 1.0.0
  **/

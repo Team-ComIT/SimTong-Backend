@@ -4,7 +4,7 @@ package team.comit.simtong.domain.user.usecase.dto
  *
  * 회원 가입 정보를 전달하는 DomainSignUpRequest
  *
- * @author JoKyungHyeon
+ * @author Chokyunghyeon
  * @date 2022/09/04
  * @version 1.0.0
  **/

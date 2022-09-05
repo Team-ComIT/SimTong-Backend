@@ -11,7 +11,7 @@ import team.comit.simtong.global.annotation.UseCase
  *
  * 사용자의 회원가입 기능을 담당하는 SignUpUseCase
  *
- * @author JoKyungHyeon
+ * @author Chokyunghyeon
  * @date 2022/09/04
  * @version 1.0.0
  **/

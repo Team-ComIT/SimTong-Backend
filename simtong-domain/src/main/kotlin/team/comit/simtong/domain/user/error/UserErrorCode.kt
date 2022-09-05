@@ -4,9 +4,9 @@ import team.comit.simtong.global.error.ErrorProperty
 
 /**
  *
- *  User에 대해 발생하는 Error를 관리하는 UserErrorCode
+ * User에 대해 발생하는 Error를 관리하는 UserErrorCode
  *
- * @author JoKyungHyeon
+ * @author Chokyunghyeon
  * @date 2022/09/04
  * @version 1.0.0
  **/

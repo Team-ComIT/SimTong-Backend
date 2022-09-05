@@ -6,7 +6,7 @@ import team.comit.simtong.domain.user.model.User
  *
  * User의 저장을 요청하는 SaveUserPort
  *
- * @author JoKyungHyeon
+ * @author Chokyunghyeon
  * @date 2022/09/04
  * @version 1.0.0
  **/
