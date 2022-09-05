@@ -10,7 +10,7 @@ import team.comit.simtong.global.error.ErrorProperty
  * @author kimbeomjin
  * @author Chokyunghyeon
  * @date 2022/08/31
- * @version 1.1.0
+ * @version 1.0.0
  **/
 enum class SecurityErrorCode(
     private val status: HttpStatus,
