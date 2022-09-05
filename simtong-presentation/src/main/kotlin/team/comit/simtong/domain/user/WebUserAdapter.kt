@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.user.dto.request.WebSignUpRequest
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
-import team.comit.simtong.domain.user.usecase.dto.DomainSignUpRequest
+import team.comit.simtong.domain.user.dto.SignUpRequest
 import javax.validation.Valid
 
 /**
@@ -25,27 +25,19 @@ class WebUserAdapter(
     private val signUpUseCase: SignUpUseCase
 ) {
 
-    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun signUp(@RequestBody @Valid request: WebSignUpRequest) {
-
-        // TODO Email 인증 확인 로직
-
-        // TODO name & employeeNumber 확인 로직
-
-        val nickname = "" // TODO 랜덤 닉네임 로직
-
-        signUpUseCase.execute(DomainSignUpRequest(
-            name = request.name,
-            email = request.email,
-            password = request.password,
-            nickname = nickname,
-            profileImagePath = request.profileImagePath,
-            employeeNumber = request.employeeNumber
-        ))
-
-
-        // TODO Token Response
+    @PostMapping
+    fun signUp(@Valid @RequestBody request: WebSignUpRequest) {
+        signUpUseCase.execute(
+            SignUpRequest(
+                name = request.name,
+                email = request.email,
+                password = request.password,
+                nickname = request.nickname,
+                profileImagePath = request.profileImagePath,
+                employeeNumber = request.employeeNumber
+            )
+        )
     }
 
 }
