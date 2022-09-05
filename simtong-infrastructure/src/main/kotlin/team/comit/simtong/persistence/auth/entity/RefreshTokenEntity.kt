@@ -4,17 +4,17 @@ import org.hibernate.validator.constraints.Length
 import org.springframework.data.annotation.Id
 import org.springframework.data.redis.core.RedisHash
 import org.springframework.data.redis.core.TimeToLive
-import org.springframework.data.redis.core.index.Indexed
 import team.comit.simtong.domain.user.model.Authority
+import java.util.*
 import javax.validation.constraints.NotNull
 
 /**
-  *
-  * Access 토큰을 재발급하기 위한 RefreshTokenEntity
-  *
-  * @author JoKyungHyeon
-  * @date 2022/09/01
-  * @version 1.0.0
+ *
+ * Access 토큰을 재발급하기 위한 RefreshTokenEntity
+ *
+ * @author Chokyunghyeon
+ * @date 2022/09/01
+ * @version 1.0.0
  **/
 @RedisHash("tbl_refresh_token")
 class RefreshTokenEntity(
@@ -22,7 +22,7 @@ class RefreshTokenEntity(
     val token: String,
 
     @field:NotNull
-    val email: String,
+    val userId: UUID,
 
     @field:NotNull
     @field:Length(max = 11)

@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import team.comit.simtong.global.filter.FilterConfig
+import team.comit.simtong.global.security.token.JwtParser
 
 /**
  *
@@ -22,7 +23,8 @@ import team.comit.simtong.global.filter.FilterConfig
  **/
 @Configuration
 class SecurityConfig(
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
+    private val jwtParser: JwtParser
 ) {
 
     @Bean
@@ -42,7 +44,7 @@ class SecurityConfig(
             .anyRequest().authenticated()
 
         http
-            .apply(FilterConfig(objectMapper))
+            .apply(FilterConfig(objectMapper, jwtParser))
 
         return http.build()
     }
