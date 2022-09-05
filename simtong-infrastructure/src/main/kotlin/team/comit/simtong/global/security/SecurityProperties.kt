@@ -17,9 +17,9 @@ import java.util.*
 class SecurityProperties(
     secretKey: String,
     accessExp: Int,
-    refreshExp: Int
+    val refreshExp: Int
 ) {
-    val accessExpiredTime = accessExp * 1000
-    val refreshExpiredTime = refreshExp * 1000
+    val accessExpiredTime = accessExp * 1000L
+    val refreshExpiredTime = refreshExp * 1000L
     val encodingSecretKey = Base64.getEncoder().encodeToString(secretKey.toByteArray())!!
 }
