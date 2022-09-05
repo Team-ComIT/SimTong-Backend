@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.user.dto.request.WebSignUpRequest
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
 import team.comit.simtong.domain.user.dto.SignUpRequest
@@ -27,8 +28,8 @@ class WebUserAdapter(
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    fun signUp(@Valid @RequestBody request: WebSignUpRequest) {
-        signUpUseCase.execute(
+    fun signUp(@Valid @RequestBody request: WebSignUpRequest): TokenResponse {
+        return signUpUseCase.execute(
             SignUpRequest(
                 name = request.name,
                 email = request.email,
