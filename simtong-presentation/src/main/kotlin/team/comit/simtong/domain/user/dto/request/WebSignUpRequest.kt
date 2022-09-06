@@ -33,9 +33,11 @@ data class WebSignUpRequest (
     val password: String,
 
     /**
-     * white space , _ , . , a ~ z, A ~ Z , 0 ~ 9 , 가 ~ 힣
+     * first word - 가 ~ 힣
+     *
+     * white space , _ , . , 가 ~ 힣
      **/
-    @field:Pattern(regexp = """[\s_.\w]|[가-힣]*""")
+    @field:Pattern(regexp = """^[가-힣][\s_.가-힣]*""")
     @field:Length(max = 20)
     val nickname: String?,
 
