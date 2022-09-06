@@ -50,7 +50,7 @@ class GenerateJwtAdapter(
             token = token,
             authority = authority,
             userId = userId,
-            expirationTime = securityProperties.refreshExp
+            expirationTime = securityProperties.refreshExpiredTime / 1000
         ))
 
         return token
