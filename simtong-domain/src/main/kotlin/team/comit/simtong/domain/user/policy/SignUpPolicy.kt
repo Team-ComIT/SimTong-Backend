@@ -4,7 +4,7 @@ import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.CheckEmailPort
-import team.comit.simtong.domain.user.spi.RandomNamePort
+import team.comit.simtong.domain.user.spi.NickNamePort
 import team.comit.simtong.domain.user.spi.SecurityPort
 
 /**
@@ -18,7 +18,7 @@ import team.comit.simtong.domain.user.spi.SecurityPort
 class SignUpPolicy(
     private val checkEmailPort: CheckEmailPort,
     private val securityPort: SecurityPort,
-    private val randomNamePort: RandomNamePort
+    private val randomNamePort: NickNamePort
 ) {
 
     fun implement(request: SignUpRequest): User {
@@ -33,7 +33,7 @@ class SignUpPolicy(
             name = request.name,
             email = request.email,
             password = securityPort.encode(request.password),
-            nickname = request.nickname ?: randomNamePort.randomNickname(),
+            nickname = request.nickname ?: randomNamePort.random(),
             employeeNumber = request.employeeNumber,
             authority = Authority.ROLE_COMMON,
             adminCode = null,

@@ -8,8 +8,8 @@ package team.comit.simtong.domain.user.spi
  * @date 2022/09/05
  * @version 1.0.0
  **/
-interface RandomNamePort {
+interface NickNamePort {
 
-    fun randomNickname(): String
+    fun random(): String
 
 }
