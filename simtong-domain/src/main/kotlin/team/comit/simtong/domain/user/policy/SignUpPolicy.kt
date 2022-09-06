@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.user.policy
 
-import team.comit.simtong.domain.user.dto.SignUpRequest
+import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.CheckEmailPort
@@ -21,7 +21,7 @@ class SignUpPolicy(
     private val randomNamePort: NickNamePort
 ) {
 
-    fun implement(request: SignUpRequest): User {
+    fun implement(request: DomainSignUpRequest): User {
 
         checkEmailPort.checkCertifiedEmail(request.email)
         checkEmailPort.checkUsedEmail(request.email)

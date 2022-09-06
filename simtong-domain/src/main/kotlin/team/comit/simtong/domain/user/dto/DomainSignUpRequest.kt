@@ -8,7 +8,7 @@ package team.comit.simtong.domain.user.dto
  * @date 2022/09/04
  * @version 1.0.0
  **/
-data class SignUpRequest(
+data class DomainSignUpRequest(
     val name: String,
 
     val email: String,

@@ -2,7 +2,7 @@ package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.auth.spi.ReceiveTokenPort
 import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
-import team.comit.simtong.domain.user.dto.SignUpRequest
+import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.policy.SignUpPolicy
 import team.comit.simtong.domain.user.spi.SaveUserPort
 import team.comit.simtong.global.annotation.UseCase
@@ -22,7 +22,7 @@ class SignUpUseCase(
     private val signUpPolicy: SignUpPolicy
 ) {
 
-    fun execute(request: SignUpRequest): TokenResponse {
+    fun execute(request: DomainSignUpRequest): TokenResponse {
         val user = saveUserPort.saveUser(signUpPolicy.implement(request))
 
         return receiveTokenPort.generateJsonWebToken(
