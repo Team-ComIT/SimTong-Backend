@@ -2,6 +2,7 @@ package team.comit.simtong.domain.user.dto.request
 
 import org.hibernate.validator.constraints.Length
 import javax.validation.constraints.Email
+import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
@@ -16,7 +17,7 @@ import javax.validation.constraints.Size
  **/
 data class WebSignUpRequest (
 
-    @field:NotNull
+    @field:NotBlank
     val name: String,
 
     @field:Email
@@ -29,7 +30,7 @@ data class WebSignUpRequest (
     /**
      * $ , + , - , _ , a ~ z , A ~ Z , 0 ~ 9
      **/
-    @field:NotNull
+    @field:NotBlank
     @field:Pattern(regexp = """[+\-_$\w]*""")
     @field:Length(max = 20, min = 8)
     val password: String,
