@@ -11,9 +11,9 @@ import java.util.Date
  * @version 1.0.0
  **/
 data class TokenResponse(
-    val access_token: String,
+    val accessToken: String,
 
-    val access_token_exp: Date,
+    val accessTokenExp: Date,
 
-    val refresh_token: String
+    val refreshToken: String
 )

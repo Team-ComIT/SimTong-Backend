@@ -58,9 +58,9 @@ class GenerateJwtAdapter(
 
     override fun generateJsonWebToken(userId: UUID, authority: Authority): TokenResponse {
         return TokenResponse(
-            access_token = generateAccessToken(userId, authority),
-            refresh_token = generateRefreshToken(userId, authority),
-            access_token_exp = Date(System.currentTimeMillis() + securityProperties.accessExpiredTime)
+            accessToken = generateAccessToken(userId, authority),
+            refreshToken = generateRefreshToken(userId, authority),
+            accessTokenExp = Date(System.currentTimeMillis() + securityProperties.accessExpiredTime)
         )
     }
 
