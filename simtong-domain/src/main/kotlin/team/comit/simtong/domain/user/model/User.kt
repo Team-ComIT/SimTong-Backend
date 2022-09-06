@@ -5,7 +5,7 @@ import java.util.UUID
 
 /**
  *
- * User Aggregate를 담당하는 User
+ * Root Aggregate를 담당하는 User
  *
  * @author Chokyunghyeon
  * @date 2022/09/04
