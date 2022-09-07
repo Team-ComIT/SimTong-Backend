@@ -5,11 +5,13 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.auth.spi.ReceiveTokenPort
+import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.global.security.SecurityProperties
 import team.comit.simtong.persistence.auth.RefreshTokenRepository
 import team.comit.simtong.persistence.auth.entity.RefreshTokenEntity
-import java.util.*
+import java.util.UUID
+import java.util.Date
 
 /**
  *
@@ -25,7 +27,7 @@ class GenerateJwtAdapter(
     private val securityProperties: SecurityProperties
 ) : ReceiveTokenPort {
 
-    override fun generateAccessToken(userId: UUID, authority: Authority): String {
+    private fun generateAccessToken(userId: UUID, authority: Authority): String {
         return Jwts.builder()
             .signWith(SignatureAlgorithm.HS512, securityProperties.encodingSecretKey)
             .setHeaderParam(Header.JWT_TYPE, JwtComponent.ACCESS)
@@ -36,7 +38,7 @@ class GenerateJwtAdapter(
             .compact()
     }
 
-    override fun generateRefreshToken(userId: UUID, authority: Authority): String {
+    private fun generateRefreshToken(userId: UUID, authority: Authority): String {
         val token = Jwts.builder()
             .signWith(SignatureAlgorithm.HS512, securityProperties.encodingSecretKey)
             .setHeaderParam(Header.JWT_TYPE, JwtComponent.REFRESH)
@@ -48,9 +50,18 @@ class GenerateJwtAdapter(
             token = token,
             authority = authority,
             userId = userId,
-            expirationTime = securityProperties.refreshExpiredTime
+            expirationTime = securityProperties.refreshExpiredTime / 1000
         ))
 
         return token
     }
+
+    override fun generateJsonWebToken(userId: UUID, authority: Authority): TokenResponse {
+        return TokenResponse(
+            accessToken = generateAccessToken(userId, authority),
+            refreshToken = generateRefreshToken(userId, authority),
+            accessTokenExp = Date(System.currentTimeMillis() + securityProperties.accessExpiredTime)
+        )
+    }
+
 }

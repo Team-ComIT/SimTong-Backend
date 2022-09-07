@@ -3,6 +3,7 @@ package team.comit.simtong.global.security
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -16,6 +17,7 @@ import team.comit.simtong.global.security.token.JwtParser
  * Spring Security와 관련된 설정을 관리하는 SecurityConfig
  *
  * @author kimbeomjin
+ * @author Chokyunghyeon
  * @date 2022/08/31
  * @version 1.0.0
  **/
@@ -38,7 +40,7 @@ class SecurityConfig(
 
         http
             .authorizeRequests()
-                // TODO end-point permission
+            .antMatchers(HttpMethod.POST, "/users").permitAll()
             .anyRequest().authenticated()
 
         http
