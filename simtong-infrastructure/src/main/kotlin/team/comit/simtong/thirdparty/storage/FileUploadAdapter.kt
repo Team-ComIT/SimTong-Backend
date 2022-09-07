@@ -22,7 +22,7 @@ import java.util.*
  * @version 1.0.0
  **/
 @Component
-class UploadFileAdapter(
+class FileUploadAdapter(
     private val awsProperties: AwsS3Properties,
     private val amazonS3Client: AmazonS3Client
 ): UploadFilePort {
