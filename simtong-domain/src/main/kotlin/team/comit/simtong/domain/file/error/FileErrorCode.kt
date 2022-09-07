@@ -2,6 +2,14 @@ package team.comit.simtong.domain.file.error
 
 import team.comit.simtong.global.error.ErrorProperty
 
+/**
+ *
+ * File Error를 관리하는 FileErrorCode
+ *
+ * @author Chokyunghyeon
+ * @date 2022/09/08
+ * @version 1.0.0
+ **/
 enum class FileErrorCode(
     private val status: Int,
     private val message: String
