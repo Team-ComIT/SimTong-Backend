@@ -8,6 +8,7 @@ import java.util.*
  * UserAggregate Root를 담당하는 User
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/09/04
  * @version 1.0.0
  **/
