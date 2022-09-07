@@ -5,6 +5,7 @@ import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.CheckEmailPort
+import team.comit.simtong.domain.user.spi.CheckEmployeePort
 import team.comit.simtong.domain.user.spi.NickNamePort
 import team.comit.simtong.domain.user.spi.SecurityPort
 
@@ -18,6 +19,7 @@ import team.comit.simtong.domain.user.spi.SecurityPort
  **/
 @Component
 class SignUpPolicy(
+    private val checkEmployeePort: CheckEmployeePort,
     private val checkEmailPort: CheckEmailPort,
     private val randomNamePort: NickNamePort,
     private val securityPort: SecurityPort
@@ -28,7 +30,7 @@ class SignUpPolicy(
         checkEmailPort.checkCertifiedEmail(request.email)
         checkEmailPort.checkUsedEmail(request.email)
 
-        // TODO name & employeeNumber 확인 로직
+        checkEmployeePort.checkList(request.name, request.employeeNumber)
 
         return User(
             id = null,
