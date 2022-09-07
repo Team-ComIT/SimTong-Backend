@@ -34,6 +34,20 @@ spring:
     access-exp: ${ACCESS_EXP:180}
     refresh-exp: ${REFRESH_EXP:180}
 
+  aws:
+    bucket: ${BUCKET_NAME:simtong}
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS}
+      secret-key: ${AWS_SECRET}
+    region:
+      static: ${AWS_REGION:ap-northeast-2}
+      auto: false
+    stack:
+      auto: false
+
 logging:
   level:
     com:

@@ -25,6 +25,9 @@ dependencies {
     implementation(Dependencies.REDIS)
     implementation(Dependencies.SPRING_REDIS)
 
+    // aws
+    implementation(Dependencies.SPRING_AWS)
+
     // mapstruct
     implementation(Dependencies.MAPSTRUCT)
     kapt(Dependencies.MAPSTRUCT_PROCESSER)
