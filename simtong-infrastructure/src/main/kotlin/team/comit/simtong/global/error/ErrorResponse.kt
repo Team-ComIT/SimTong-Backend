@@ -3,8 +3,7 @@ package team.comit.simtong.global.error
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.validation.BindingResult
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
-import javax.validation.ConstraintViolation
-import javax.validation.Path
+import javax.validation.ConstraintViolationException
 
 /**
  *
@@ -17,60 +16,57 @@ import javax.validation.Path
 class ErrorResponse(
     val status: Int,
     val message: String,
-    val reason: String
+    val fieldErrors: List<CustomFieldError>
 ) {
 
     companion object {
-        fun of(exception: ErrorProperty) = of(
-            exception = exception,
-            reason = ""
+        fun of(exception: ErrorProperty) = ErrorResponse(
+            status = exception.status(),
+            message = exception.message(),
+            fieldErrors = emptyList()
         )
 
-        fun of(bindingResult: BindingResult): ErrorResponse {
-            val errorMap = bindingResult.fieldErrors.associate { it.field to it.defaultMessage }
+        fun of(bindingResult: BindingResult): ErrorResponse = of(
+            exception = GlobalErrorCode.BAD_REQUEST,
+            fieldErrors = CustomFieldError.of(bindingResult)
+        )
+
+        fun of(exception: ConstraintViolationException): ErrorResponse {
+            val fieldErrors = exception.constraintViolations.flatMap { violation ->
+                val path = violation.propertyPath
+                println(path)
+                val field = path.last().name
+                println(field)
+                val message = violation.message
+                println(message)
+                CustomFieldError.of(field, "", message)
+            }
 
             return of(
                 exception = GlobalErrorCode.BAD_REQUEST,
-                reason = errorMap.toString()
-            )
-        }
-
-        fun of(violations: Set<ConstraintViolation<*>>): ErrorResponse {
-            val reason = violations.associate { propertyName(it.propertyPath) to it.message }
-
-            return of(
-                exception = GlobalErrorCode.BAD_REQUEST,
-                reason = reason.toString()
+                fieldErrors = fieldErrors
             )
         }
 
         fun of(exception: MethodArgumentTypeMismatchException): ErrorResponse {
-            val reason = exception.name + ":" + exception.errorCode + ":" + exception.value
+            val value = exception.value
+            val fieldErrors = CustomFieldError.of(exception.name, value.toString(), exception.errorCode)
 
             return of(
                 exception = GlobalErrorCode.BAD_REQUEST,
-                reason = reason
+                fieldErrors = fieldErrors
             )
         }
 
-        fun of(exception: DataIntegrityViolationException): ErrorResponse {
-            val reason = exception.cause.toString()
-
-            return of(
-                exception = GlobalErrorCode.BAD_REQUEST,
-                reason = reason
-            )
-        }
-
-        private fun of(exception: ErrorProperty, reason: String) = ErrorResponse(
-            status = exception.status(),
-            message = exception.message(),
-            reason = reason
+        fun of(exception: DataIntegrityViolationException): ErrorResponse = of(
+            exception = GlobalErrorCode.BAD_REQUEST,
+            fieldErrors = CustomFieldError.of("", "", exception.message ?: "")
         )
 
-        private fun propertyName(path: Path): String {
-            val pathToString = path.toString()
-            return pathToString.substring(pathToString.lastIndexOf('.') + 1)
-        }
+        private fun of(exception: ErrorProperty, fieldErrors: List<CustomFieldError>) = ErrorResponse(
+            status = exception.status(),
+            message = exception.message(),
+            fieldErrors = fieldErrors
+        )
     }
 }
