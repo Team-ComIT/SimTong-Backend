@@ -18,7 +18,7 @@ import team.comit.simtong.global.annotation.Policy
  **/
 @Policy
 class SignUpPolicy(
-    private val nickNamePort: NickNamePort,
+//    private val nickNamePort: NickNamePort,
     private val securityPort: SecurityPort
 ) {
 
