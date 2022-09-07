@@ -27,6 +27,7 @@ dependencies {
 
     // aws
     implementation(Dependencies.SPRING_AWS)
+    implementation(Dependencies.AWS_SES)
 
     // mapstruct
     implementation(Dependencies.MAPSTRUCT)

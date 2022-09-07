@@ -4,4 +4,5 @@ object DependencyVersions {
     const val AWS_VERSION = "2.2.6.RELEASE"
     const val REDIS_VERSION = "2.7.2"
     const val SERVLET = "4.0.1"
+    const val AWS_SES_VERSION = "1.12.296"
 }

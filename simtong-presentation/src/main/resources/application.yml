@@ -34,9 +34,6 @@ spring:
     access-exp: ${ACCESS_EXP:180}
     refresh-exp: ${REFRESH_EXP:180}
 
-  aws:
-    bucket: ${BUCKET_NAME:simtong}
-
 cloud:
   aws:
     credentials:
@@ -47,6 +44,10 @@ cloud:
       auto: false
     stack:
       auto: false
+    s3:
+      bucket: ${BUCKET_NAME:simtong}
+    ses:
+      source: ${SES_SENDER}
 
 logging:
   level:
