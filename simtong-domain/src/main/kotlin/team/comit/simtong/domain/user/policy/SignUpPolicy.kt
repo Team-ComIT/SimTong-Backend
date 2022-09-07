@@ -1,6 +1,5 @@
 package team.comit.simtong.domain.user.policy
 
-import org.springframework.stereotype.Component
 import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -8,16 +7,18 @@ import team.comit.simtong.domain.user.spi.CheckEmailPort
 import team.comit.simtong.domain.user.spi.CheckEmployeePort
 import team.comit.simtong.domain.user.spi.NickNamePort
 import team.comit.simtong.domain.user.spi.SecurityPort
+import team.comit.simtong.global.annotation.Policy
 
 /**
  *
  * 회원 가입 정책을 관리하는 SignUpPolicy
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/09/05
  * @version 1.0.0
  **/
-@Component
+@Policy
 class SignUpPolicy(
     private val checkEmployeePort: CheckEmployeePort,
     private val checkEmailPort: CheckEmailPort,
