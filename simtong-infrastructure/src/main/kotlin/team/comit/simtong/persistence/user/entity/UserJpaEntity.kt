@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.persistence.BaseEntity
 import java.time.LocalDateTime
+import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -23,6 +24,7 @@ import javax.validation.constraints.NotNull
 @Entity
 @Table(name = "tbl_user")
 class UserJpaEntity(
+    override val id: UUID?,
 
     @field:NotNull
     @Column(unique = true)
@@ -51,11 +53,11 @@ class UserJpaEntity(
     val password: String,
 
     @Column(columnDefinition = "CHAR(60)")
-    val adminCode: String,
+    val adminCode: String?,
 
     @field:NotNull
     @ColumnDefault("'default image'") // TODO 기본 프로필 이미지 설정
     val profileImagePath: String,
 
     val deletedAt: LocalDateTime?
-) : BaseEntity()
+) : BaseEntity(id)

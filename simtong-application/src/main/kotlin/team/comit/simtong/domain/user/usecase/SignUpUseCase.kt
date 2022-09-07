@@ -12,6 +12,7 @@ import team.comit.simtong.global.annotation.UseCase
  * 사용자의 회원가입 기능을 담당하는 SignUpUseCase
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/09/04
  * @version 1.0.0
  **/
@@ -26,7 +27,7 @@ class SignUpUseCase(
         val user = saveUserPort.saveUser(signUpPolicy.implement(request))
 
         return receiveTokenPort.generateJsonWebToken(
-            userId = user.id!!,
+            userId = user.id,
             authority = user.authority
         )
     }

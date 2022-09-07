@@ -30,14 +30,12 @@ class SignUpPolicy(
         // 임직원 확인
 
         return User(
-            id = null,
             name = request.name,
             email = request.email,
             password = securityPort.encode(request.password),
             nickname = request.nickname ?: "", // nickNamePort.random()
             employeeNumber = request.employeeNumber,
             authority = Authority.ROLE_COMMON,
-            adminCode = null,
             profileImagePath = request.profileImagePath ?: User.defaultImage
         )
     }
