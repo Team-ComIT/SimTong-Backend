@@ -4,8 +4,8 @@ import org.springframework.stereotype.Component
 import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
-//import team.comit.simtong.domain.user.spi.CheckEmailPort
-//import team.comit.simtong.domain.user.spi.NickNamePort
+import team.comit.simtong.domain.user.spi.CheckEmailPort
+import team.comit.simtong.domain.user.spi.NickNamePort
 import team.comit.simtong.domain.user.spi.SecurityPort
 
 /**
@@ -18,15 +18,15 @@ import team.comit.simtong.domain.user.spi.SecurityPort
  **/
 @Component
 class SignUpPolicy(
-//    private val checkEmailPort: CheckEmailPort,
-//    private val randomNamePort: NickNamePort,
+    private val checkEmailPort: CheckEmailPort,
+    private val randomNamePort: NickNamePort,
     private val securityPort: SecurityPort
 ) {
 
     fun implement(request: DomainSignUpRequest): User {
 
-//        checkEmailPort.checkCertifiedEmail(request.email)
-//        checkEmailPort.checkUsedEmail(request.email)
+        checkEmailPort.checkCertifiedEmail(request.email)
+        checkEmailPort.checkUsedEmail(request.email)
 
         // TODO name & employeeNumber 확인 로직
 
@@ -35,8 +35,7 @@ class SignUpPolicy(
             name = request.name,
             email = request.email,
             password = securityPort.encode(request.password),
-//            nickname = request.nickname ?: randomNamePort.random(),
-            nickname = request.nickname ?: "TODO",
+            nickname = request.nickname ?: randomNamePort.random(),
             employeeNumber = request.employeeNumber,
             authority = Authority.ROLE_COMMON,
             adminCode = null,
