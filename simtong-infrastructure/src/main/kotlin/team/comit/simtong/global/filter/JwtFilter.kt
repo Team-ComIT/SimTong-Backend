@@ -37,7 +37,7 @@ class JwtFilter(
     private fun resolvedToken(request: HttpServletRequest): String? {
         val bearerToken = request.getHeader(JwtComponent.HEADER)
 
-        if(bearerToken.isNotEmpty().and(bearerToken.startsWith(JwtComponent.PREFIX))) {
+        if(bearerToken != null && (bearerToken.startsWith(JwtComponent.PREFIX))) {
             return bearerToken.substring(7)
         }
 

@@ -1,5 +1,7 @@
 package team.comit.simtong.global.annotation
 
+import org.springframework.transaction.annotation.Transactional
+
 /**
  *
  * 추가, 수정, 삭제 기능을 담당하는 사용자 UseCase를 나타내는 어노테이션
@@ -10,4 +12,5 @@ package team.comit.simtong.global.annotation
  **/
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS)
+@Transactional
 annotation class UseCase()
