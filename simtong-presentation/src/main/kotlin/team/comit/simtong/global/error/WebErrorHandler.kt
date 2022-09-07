@@ -66,7 +66,7 @@ class WebErrorHandler {
     protected fun handleConstraintViolationException(
         exception: ConstraintViolationException
     ): ErrorResponse? {
-        return ErrorResponse.of(exception.constraintViolations)
+        return ErrorResponse.of(exception)
     }
 
     /**
