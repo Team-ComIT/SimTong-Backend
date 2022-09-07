@@ -35,8 +35,7 @@ class MailSendAdapter(
     }
 
     private fun sendEmail(template: MailTemplate, templateData: Map<String, String>, vararg emails: String) {
-        val emailRequest = SendTemplatedEmailRequest()
-        emailRequest.also {
+        val emailRequest = SendTemplatedEmailRequest().also {
             it.destination = Destination(emails.toList())
             it.template = template.name
             it.source = awsSESProperties.source
