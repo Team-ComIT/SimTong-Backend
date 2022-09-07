@@ -1,11 +1,11 @@
 package team.comit.simtong.domain.user.model
 
 import team.comit.simtong.global.annotation.Aggregate
-import java.util.UUID
+import java.util.*
 
 /**
  *
- * Root Aggregate를 담당하는 User
+ * UserAggregate Root를 담당하는 User
  *
  * @author Chokyunghyeon
  * @date 2022/09/04
@@ -13,7 +13,7 @@ import java.util.UUID
  **/
 @Aggregate
 data class User(
-    val id: UUID?,
+    val id: UUID = UUID(0, 0),
 
     val nickname: String,
 
@@ -27,7 +27,7 @@ data class User(
 
     val authority: Authority,
 
-    val adminCode: String?,
+    val adminCode: String? = null,
 
     val profileImagePath: String
 ) {

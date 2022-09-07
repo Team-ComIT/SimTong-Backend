@@ -26,7 +26,7 @@ class SignUpUseCase(
         val user = saveUserPort.saveUser(signUpPolicy.implement(request))
 
         return receiveTokenPort.generateJsonWebToken(
-            userId = user.id!!,
+            userId = user.id,
             authority = user.authority
         )
     }
