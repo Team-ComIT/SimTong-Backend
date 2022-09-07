@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.kotlin.plugin.allopen") version PluginVersions.ALLOPEN_VERSION
+    kotlin("plugin.allopen") version PluginVersions.ALLOPEN_VERSION
 }
 
 dependencies {
