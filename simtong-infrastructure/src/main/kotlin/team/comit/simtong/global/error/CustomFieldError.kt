@@ -2,6 +2,14 @@ package team.comit.simtong.global.error
 
 import org.springframework.validation.BindingResult
 
+/**
+ *
+ * 상세한 예외를 보여주기 위한 CustomFieldError
+ *
+ * @author kimbeomjin
+ * @date 2022/09/07
+ * @version 1.0.0
+ **/
 class CustomFieldError(
     val field: String,
     val value: String,
