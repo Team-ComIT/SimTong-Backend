@@ -4,12 +4,13 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.ComponentScan.Filter
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.FilterType
+import team.comit.simtong.global.annotation.Policy
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
 import team.comit.simtong.global.annotation.UseCase
 
 /**
  *
- * 사용자 UseCase를 Bean으로 등록하는 UseCaseScan
+ * Annotation을 scan해 Bean으로 등록하는 GlobalComponentScan
  *
  * @author kimbeomjin
  * @date 2022/08/27
@@ -26,8 +27,12 @@ import team.comit.simtong.global.annotation.UseCase
         Filter(
             type = FilterType.ANNOTATION,
             classes = [ReadOnlyUseCase::class]
+        ),
+        Filter(
+            type = FilterType.ANNOTATION,
+            classes = [Policy::class]
         )
     ]
 )
-class UseCaseScan {
+class GlobalComponentScan {
 }
