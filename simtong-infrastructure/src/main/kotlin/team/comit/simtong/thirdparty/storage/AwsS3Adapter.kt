@@ -28,7 +28,7 @@ class AwsS3Adapter(
 ): ManageFilePort {
 
     override fun upload(file: File): String {
-        if(file.extension != "jpa" && file.extension != "jpeg" && file.extension != "png") {
+        if(file.extension != "jpg" && file.extension != "jpeg" && file.extension != "png") {
             throw FileInvalidExtensionException.EXCEPTION
         }
 
