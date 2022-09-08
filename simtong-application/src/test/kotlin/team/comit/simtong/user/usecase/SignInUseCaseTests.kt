@@ -22,7 +22,6 @@ import java.util.*
 @ExtendWith(SpringExtension::class)
 class SignInUseCaseTests {
 
-
     @MockBean
     private lateinit var queryUserPort: QueryUserPort
 
@@ -42,7 +41,7 @@ class SignInUseCaseTests {
             nickname = "test nickname",
             name = "test name",
             email = "test@test.com",
-            password = "\$2a\$10\$.av8Mef703TEdRsGqoLcIe4esR6v0JfwpO9fBfH8bgZGrJYvQ0oBa",
+            password = "test password",
             employeeNumber = employeeNumber,
             authority = Authority.ROLE_COMMON,
             profileImagePath = "test path"
@@ -52,7 +51,7 @@ class SignInUseCaseTests {
     private val requestStub: SignInRequest by lazy {
         SignInRequest(
             employeeNumber = employeeNumber,
-            password = "rlaqjawls1-"
+            password = "test password"
         )
     }
 
@@ -97,7 +96,7 @@ class SignInUseCaseTests {
         given(securityPort.compare(requestStub.password, userStub.password))
             .willReturn(false)
 
-        // when then
+        // when & then
         assertThrows<DifferentPasswordException> {
             signInUseCase.execute(requestStub)
         }
