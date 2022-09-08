@@ -31,12 +31,14 @@ class ExceptionFilter(
     ) {
         try {
             filterChain.doFilter(request, response)
-        } catch (exception: Exception) {
-            when (exception) {
-                is BusinessException -> writeErrorCode(exception.exceptionProperty, response)
+        } catch (e: BusinessException) {
+            writeErrorCode(e.exceptionProperty, response)
+        } catch (e: Exception) {
+            when (e.cause) {
+                is BusinessException -> writeErrorCode((e.cause as BusinessException).exceptionProperty, response)
                 else -> {
+                    e.printStackTrace()
                     writeErrorCode(InternalServerErrorException.EXCEPTION.exceptionProperty, response)
-                    exception.printStackTrace()
                 }
             }
         }
