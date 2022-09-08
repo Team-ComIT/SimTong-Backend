@@ -6,7 +6,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import org.springframework.stereotype.Component
-import team.comit.simtong.domain.file.exception.FileExtensionInvalidException
+import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
 import team.comit.simtong.domain.file.spi.ManageFilePort
 import team.comit.simtong.domain.file.exception.FileIOInterruptedException
 import java.io.File
@@ -29,7 +29,7 @@ class AwsS3Adapter(
 
     override fun upload(file: File): String {
         if(file.extension != "jpa" && file.extension != "jpeg" && file.extension != "png") {
-            throw FileExtensionInvalidException.EXCEPTION
+            throw FileInvalidExtensionException.EXCEPTION
         }
 
         val fileName = "${UUID.randomUUID()}${file.name}"

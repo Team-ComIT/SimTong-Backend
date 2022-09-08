@@ -5,7 +5,7 @@ import team.comit.simtong.global.error.BusinessException
 
 /**
  *
- * 파일 입출력 처리 오류를 발생시키는 FileIoInterruptedException
+ * 파일 입출력 처리 오류를 발생시키는 FileIOInterruptedException
  *
  * @author Chokyunghyeon
  * @date 2022/09/07
