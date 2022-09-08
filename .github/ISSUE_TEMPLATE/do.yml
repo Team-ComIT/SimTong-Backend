@@ -9,8 +9,8 @@ body:
       description: |
         [설명] 작업에 관한 설명을 작성해주세요.
       placeholder: |
-        - [ ] <!-- 작업 내용 작성 -->
-        - [ ] <!-- 작업 내용 작성 -->
+        - <!-- 작업 내용 작성 -->
+        - <!-- 작업 내용 작성 -->
   - type: textarea
     attributes:
       label: Additional
