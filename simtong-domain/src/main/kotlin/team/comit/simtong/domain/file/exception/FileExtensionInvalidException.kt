@@ -11,9 +11,10 @@ import team.comit.simtong.global.error.BusinessException
  * @date 2022/09/07
  * @version 1.0.0
  **/
-class FileExtensionInvalidException private constructor() : BusinessException(FileErrorCode.EXTENSION_INVALID) {
+class FileExtensionInvalidException private constructor() : BusinessException(FileErrorCode.INVALID_EXTENSION) {
 
     companion object {
+        @JvmField
         val EXCEPTION = FileExtensionInvalidException()
     }
 
