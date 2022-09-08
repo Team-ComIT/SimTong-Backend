@@ -6,7 +6,7 @@ import team.comit.simtong.persistence.auth.entity.AuthCodePolicyEntity
 
 /**
  *
- * Spring Repository의 기능을 이용하는 AuthPolicyRepository
+ * Spring Repository의 기능을 이용하는 AuthCodePolicyRepository
  *
  * @author Chokyunghyeon
  * @date 2022/08/29
