@@ -20,6 +20,8 @@ interface UserJpaRepository : CrudRepository<UserJpaEntity, UUID> {
 
     fun queryUserJpaEntityById(id: UUID): UserJpaEntity?
 
+    fun queryUserJpaEntityByEmployeeNumber(employeeNumber: Int): UserJpaEntity?
+
     fun queryUserJpaEntityByEmail(email: String): UserJpaEntity?
 
     fun queryUserJpaEntityByNickname(nickName: String): UserJpaEntity?
