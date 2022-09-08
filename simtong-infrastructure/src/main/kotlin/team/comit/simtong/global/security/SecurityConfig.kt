@@ -40,7 +40,11 @@ class SecurityConfig(
 
         http
             .authorizeRequests()
+
+            // users
             .antMatchers(HttpMethod.POST, "/users").permitAll()
+            .antMatchers(HttpMethod.POST, "/users/tokens").permitAll()
+
             .anyRequest().authenticated()
 
         http
