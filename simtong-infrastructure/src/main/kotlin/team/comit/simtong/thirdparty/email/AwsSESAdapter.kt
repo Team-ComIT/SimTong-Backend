@@ -4,7 +4,6 @@ import com.amazonaws.services.simpleemail.AmazonSimpleEmailService
 import com.amazonaws.services.simpleemail.model.Destination
 import com.amazonaws.services.simpleemail.model.SendTemplatedEmailRequest
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.auth.spi.SendEmailPort
 import team.comit.simtong.thirdparty.email.template.MailTemplate
@@ -24,7 +23,6 @@ class AwsSESAdapter(
     private val objectMapper: ObjectMapper
 ): SendEmailPort {
 
-    @Async
     override fun sendAuthCode(code: String, email: String) {
         val templateData = HashMap<String, String>()
         templateData["code"] = code
