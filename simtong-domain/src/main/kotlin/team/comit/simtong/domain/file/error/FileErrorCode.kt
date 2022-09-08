@@ -15,7 +15,7 @@ enum class FileErrorCode(
     private val message: String
 ) : ErrorProperty {
 
-    EXTENSION_INVALID(400, "제한된 확장자(jpg, jpeg, png)"),
+    INVALID_EXTENSION(400, "제한된 확장자(jpg, jpeg, png)"),
 
     IO_INTERRUPTED(500, "파일 입출력 처리 중단");
 
