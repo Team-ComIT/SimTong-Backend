@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
-import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.util.FileCopyUtils
 import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
@@ -22,7 +21,6 @@ import java.io.File
 
 @Import(AwsMockConfig::class)
 @ExtendWith(SpringExtension::class)
-@TestPropertySource(locations = ["classpath:application.yml"])
 class AwsS3AdapterTests {
 
     @Autowired
