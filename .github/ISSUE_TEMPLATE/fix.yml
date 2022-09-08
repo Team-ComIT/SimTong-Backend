@@ -9,8 +9,16 @@ body:
       description: |
         [설명] 버그에 관한 설명을 간단하게 작성해주세요.
       placeholder: |
-        - [ ] <!-- 버그 내용 작성 -->
-        - [ ] <!-- 버그 내용 작성 -->
+        - <!-- 버그 내용 작성 -->
+        - <!-- 버그 내용 작성 -->
+  - type: textarea
+    attributes:
+      label: How
+      description: |
+        [이유] 어떤 상황에서 생기는 버그인지 간단하게 설명해주세요.
+      placeholder: |
+        1. <!-- 상황 설명 작성 -->
+        2. <!-- 상황 설명 작성 -->
   - type: textarea
     attributes:
       label: Additional
