@@ -42,4 +42,7 @@ object Dependencies {
 
     // test
     const val SPRING_TEST = "org.springframework.boot:spring-boot-starter-test:${PluginVersions.SPRING_BOOT_VERSION}"
+
+    // s3 test
+    const val S3MOCK = "io.findify:s3mock_2.12:${DependencyVersions.S3MOCK}"
 }

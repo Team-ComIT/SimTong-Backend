@@ -6,5 +6,6 @@ object DependencyVersions {
     const val SERVLET = "4.0.1"
     const val AWS_SES_VERSION = "1.12.296"
     const val SPRING_TRANSACTION = "5.3.22"
+    const val S3MOCK = "0.2.4"
 
 }

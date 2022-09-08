@@ -38,6 +38,9 @@ dependencies {
 
     // api project
     api(project(":simtong-application"))
+
+    // s3mock
+    testImplementation(Dependencies.S3MOCK)
 }
 
 kapt {
