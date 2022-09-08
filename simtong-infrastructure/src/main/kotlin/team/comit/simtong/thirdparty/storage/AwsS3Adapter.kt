@@ -32,7 +32,7 @@ class AwsS3Adapter(
             throw FileInvalidExtensionException.EXCEPTION
         }
 
-        val fileName = "${UUID.randomUUID()}${file.name}"
+        val fileName = "${UUID.randomUUID()}@${file.name}"
         inputS3(file, fileName)
 
         return getResource(fileName)
