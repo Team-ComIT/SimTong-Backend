@@ -10,14 +10,14 @@ import team.comit.simtong.thirdparty.email.template.MailTemplate
 
 /**
  *
- * Mail 전송을 처리하는 MailSendAdapter
+ * AWS SES를 이용해 메일 전송을 처리하는 SesAdapter
  *
  * @author Chokyunghyeon
  * @date 2022/09/08
  * @version 1.0.0
  **/
 @Component
-class MailSendAdapter(
+class AwsSESAdapter(
     private val amazonSimpleEmailService: AmazonSimpleEmailService,
     private val awsSESProperties: AwsSESProperties,
     private val objectMapper: ObjectMapper
