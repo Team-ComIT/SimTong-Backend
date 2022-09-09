@@ -65,7 +65,7 @@ class AwsS3AdapterTests {
     @Test
     fun `파일 업로드`() {
         // given
-        val file = File("test.jpg")
+        val file = File("test.png")
         multipartFileStub.transferTo(file)
 
         // when
