@@ -61,7 +61,6 @@ class AwsS3AdapterTests {
         assertThat(result.objectMetadata.contentType).isEqualTo(contentType)
         assertThat(String(FileCopyUtils.copyToByteArray(result.objectContent))).isEqualTo("")
 
-
     }
 
     @Test
