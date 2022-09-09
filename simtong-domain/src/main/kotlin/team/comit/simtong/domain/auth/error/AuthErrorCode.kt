@@ -22,6 +22,5 @@ enum class AuthErrorCode(
     ALREADY_USED_EMAIL(409, "이미 사용된 이메일");
 
     override fun message(): String = message
-
     override fun status(): Int = status
 }
