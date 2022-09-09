@@ -63,7 +63,37 @@ class AwsS3AdapterTests {
     }
 
     @Test
-    fun `파일 업로드`() {
+    fun `jpg 파일 업로드`() {
+        // given
+        val file = File("test.jpg")
+        multipartFileStub.transferTo(file)
+
+        // when
+        val result = awsS3Adapter.upload(file)
+
+        // then
+        assertThat(result).contains(awsS3Properties.bucket)
+        assertThat(result).contains(file.name)
+        assertTrue(file.delete())
+    }
+
+    @Test
+    fun `jpeg 파일 업로드`() {
+        // given
+        val file = File("test.jpeg")
+        multipartFileStub.transferTo(file)
+
+        // when
+        val result = awsS3Adapter.upload(file)
+
+        // then
+        assertThat(result).contains(awsS3Properties.bucket)
+        assertThat(result).contains(file.name)
+        assertTrue(file.delete())
+    }
+
+    @Test
+    fun `png 파일 업로드`() {
         // given
         val file = File("test.png")
         multipartFileStub.transferTo(file)
