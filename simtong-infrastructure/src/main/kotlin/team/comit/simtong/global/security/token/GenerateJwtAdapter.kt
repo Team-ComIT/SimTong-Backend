@@ -8,7 +8,7 @@ import team.comit.simtong.domain.auth.spi.ReceiveTokenPort
 import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.global.security.SecurityProperties
-import team.comit.simtong.persistence.auth.RefreshTokenRepository
+import team.comit.simtong.persistence.auth.repository.RefreshTokenRepository
 import team.comit.simtong.persistence.auth.entity.RefreshTokenEntity
 import java.util.UUID
 import java.util.Date
