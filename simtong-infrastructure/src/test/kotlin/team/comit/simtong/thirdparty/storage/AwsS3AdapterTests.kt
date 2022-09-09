@@ -1,18 +1,17 @@
 package team.comit.simtong.thirdparty.storage
 
-import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
-import io.findify.s3mock.S3Mock
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
+import org.springframework.mock.web.MockMultipartFile
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.util.FileCopyUtils
 import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
@@ -24,19 +23,25 @@ import java.io.File
 class AwsS3AdapterTests {
 
     @Autowired
-    private lateinit var s3Mock: S3Mock
+    private lateinit var amazonS3Client: AmazonS3Client
 
     @Autowired
-    private lateinit var amazonS3: AmazonS3
+    private lateinit var awsS3Properties: AwsS3Properties
 
-    @MockBean
     private lateinit var awsS3Adapter: AwsS3Adapter
 
-    private val bucket: String = "simtong"
+    private val multipartFileStub: MockMultipartFile by lazy {
+        MockMultipartFile(
+            "test",
+            "test.jpg",
+            "image/jpg",
+            "test".toByteArray()
+        )
+    }
 
-    @AfterEach
-    fun tearDown() {
-        s3Mock.stop()
+    @BeforeEach
+    fun setUp() {
+        awsS3Adapter = AwsS3Adapter(awsS3Properties, amazonS3Client)
     }
 
     @Test
@@ -45,15 +50,16 @@ class AwsS3AdapterTests {
         val path = "test.jpg"
         val contentType = "image/jpg"
         val objectMetadata = ObjectMetadata().also { it.contentType = contentType }
-        val putObjectRequest = PutObjectRequest(bucket, path, "".byteInputStream(), objectMetadata)
-        amazonS3.putObject(putObjectRequest)
+        val putObjectRequest = PutObjectRequest(awsS3Properties.bucket, path, "".byteInputStream(), objectMetadata)
+        amazonS3Client.putObject(putObjectRequest)
 
         // when
-        val result = amazonS3.getObject(bucket, path)
+        val result = amazonS3Client.getObject(awsS3Properties.bucket, path)
 
         // then
         assertThat(result.objectMetadata.contentType).isEqualTo(contentType)
         assertThat(String(FileCopyUtils.copyToByteArray(result.objectContent))).isEqualTo("")
+
 
     }
 
@@ -61,12 +67,15 @@ class AwsS3AdapterTests {
     fun `파일 업로드`() {
         // given
         val file = File("test.jpg")
+        multipartFileStub.transferTo(file)
 
         // when
         val result = awsS3Adapter.upload(file)
 
         // then
-        assertNotNull(result)
+        assertThat(result).contains(awsS3Properties.bucket)
+        assertThat(result).contains(file.name)
+        assertTrue(file.delete())
     }
 
     @Test

@@ -9,6 +9,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import io.findify.s3mock.S3Mock
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
+import team.comit.simtong.thirdparty.storage.AwsS3Properties
 
 @TestConfiguration
 class AwsMockConfig {
@@ -16,6 +17,11 @@ class AwsMockConfig {
     private val bucket = "simtong"
 
     @Bean
+    fun awsS3Properties(): AwsS3Properties {
+        return AwsS3Properties(bucket)
+    }
+
+    @Bean(destroyMethod = "stop")
     fun s3Mock(): S3Mock {
         return S3Mock.Builder().withPort(8001).withInMemoryBackend().build()
     }
