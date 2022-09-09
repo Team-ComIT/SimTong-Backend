@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Import
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.util.FileCopyUtils
+import team.comit.simtong.domain.file.exception.FileIOInterruptedException
 import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
 import team.comit.simtong.thirdparty.AwsMockConfig
 import java.io.File
@@ -85,6 +86,17 @@ class AwsS3AdapterTests {
 
         // when & then
         assertThrows<FileInvalidExtensionException> {
+            awsS3Adapter.upload(file)
+        }
+    }
+
+    @Test
+    fun `파일 입출력 오류`() {
+        // given
+        val file = File("test.jpg")
+
+        // when & then
+        assertThrows<FileIOInterruptedException> {
             awsS3Adapter.upload(file)
         }
     }
