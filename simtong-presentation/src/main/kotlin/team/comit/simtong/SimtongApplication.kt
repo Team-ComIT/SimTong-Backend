@@ -7,6 +7,6 @@ import org.springframework.boot.runApplication
 class SimtongApplication
 
 fun main(args: Array<String>) {
-    println("hello world")
+    println("hello world2")
     runApplication<SimtongApplication>(*args)
 }
