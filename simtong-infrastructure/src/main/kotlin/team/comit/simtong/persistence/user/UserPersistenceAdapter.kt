@@ -2,7 +2,7 @@ package team.comit.simtong.persistence.user
 
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.user.model.User
-import team.comit.simtong.domain.user.spi.CheckUserPort
+import team.comit.simtong.domain.auth.spi.CheckUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.SaveUserPort
 import team.comit.simtong.persistence.user.mapper.UserMapper

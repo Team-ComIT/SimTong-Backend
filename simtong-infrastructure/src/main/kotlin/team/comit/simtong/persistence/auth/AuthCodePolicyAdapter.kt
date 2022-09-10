@@ -2,7 +2,7 @@ package team.comit.simtong.persistence.auth
 
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
-import team.comit.simtong.domain.user.spi.CheckAuthCodePolicyPort
+import team.comit.simtong.domain.auth.spi.CheckAuthCodePolicyPort
 import team.comit.simtong.persistence.auth.repository.AuthCodePolicyRepository
 
 /**

@@ -5,8 +5,8 @@ import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.auth.exception.UsedEmailException
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
-import team.comit.simtong.domain.user.spi.CheckAuthCodePolicyPort
-import team.comit.simtong.domain.user.spi.CheckUserPort
+import team.comit.simtong.domain.auth.spi.CheckAuthCodePolicyPort
+import team.comit.simtong.domain.auth.spi.CheckUserPort
 import team.comit.simtong.domain.user.spi.SecurityPort
 import team.comit.simtong.global.annotation.Policy
 

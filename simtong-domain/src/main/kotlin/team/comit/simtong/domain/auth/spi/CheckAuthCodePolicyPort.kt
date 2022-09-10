@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.user.spi
+package team.comit.simtong.domain.auth.spi
 
 /**
  *
