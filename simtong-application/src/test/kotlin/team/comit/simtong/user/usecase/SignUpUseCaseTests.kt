@@ -112,7 +112,7 @@ class SignUpUseCaseTests {
             .willReturn(false)
 
         given(checkAuthCodePolicyPort.checkCertifiedEmail(requestStub.email))
-            .willReturn(false)
+            .willReturn(true)
 
         given(securityPort.encode(requestStub.password))
             .willReturn(userStub.password)
