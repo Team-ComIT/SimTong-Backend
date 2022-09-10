@@ -134,7 +134,7 @@ class SignUpUseCaseTests {
     fun `인증되지 않은 이메일`() {
         // given
         given(checkAuthCodePolicyPort.checkCertifiedEmail(requestStub.email))
-            .willReturn(true)
+            .willReturn(false)
 
         // when & then
         assertThrows<UncertifiedEmailException> {
@@ -146,7 +146,7 @@ class SignUpUseCaseTests {
     fun `이미 사용된 이메일`() {
         // given
         given(checkAuthCodePolicyPort.checkCertifiedEmail(requestStub.email))
-            .willReturn(false)
+            .willReturn(true)
 
         given(checkUserPort.existsUserByEmail(requestStub.email))
             .willReturn(true)

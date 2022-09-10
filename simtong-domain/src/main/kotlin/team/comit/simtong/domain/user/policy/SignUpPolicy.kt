@@ -29,7 +29,7 @@ class SignUpPolicy(
 
     fun implement(request: DomainSignUpRequest): User {
 
-        if(checkAuthCodePolicyPort.checkCertifiedEmail(request.email)) {
+        if(!checkAuthCodePolicyPort.checkCertifiedEmail(request.email)) {
             throw UncertifiedEmailException.EXCEPTION
         }
 
