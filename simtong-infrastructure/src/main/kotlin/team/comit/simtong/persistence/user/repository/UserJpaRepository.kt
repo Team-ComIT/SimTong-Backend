@@ -1,8 +1,8 @@
-package team.comit.simtong.persistence.user
+package team.comit.simtong.persistence.user.repository
 
-import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
+import team.comit.simtong.persistence.user.repository.extension.UserQueryDSLExtension
 import team.comit.simtong.persistence.user.entity.UserJpaEntity
 import java.util.*
 
@@ -16,7 +16,7 @@ import java.util.*
  * @version 1.0.0
  **/
 @Repository
-interface UserJpaRepository : CrudRepository<UserJpaEntity, UUID> {
+interface UserJpaRepository : CrudRepository<UserJpaEntity, UUID>, UserQueryDSLExtension {
 
     fun queryUserJpaEntityById(id: UUID): UserJpaEntity?
 
@@ -27,6 +27,5 @@ interface UserJpaRepository : CrudRepository<UserJpaEntity, UUID> {
     fun queryUserJpaEntityByNickname(nickName: String): UserJpaEntity?
 
     fun existsUserJpaEntitiesByEmail(email: String): Boolean
-
 
 }

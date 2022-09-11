@@ -5,6 +5,7 @@ import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.SaveUserPort
 import team.comit.simtong.persistence.user.mapper.UserMapper
+import team.comit.simtong.persistence.user.repository.UserJpaRepository
 import java.util.*
 
 /**
@@ -43,6 +44,12 @@ class UserPersistenceAdapter(
     override fun queryUserByNickName(nickName: String): User {
         return userMapper.toDomain(
             userJpaProvider.queryUserEntityByNickName(nickName)
+        )
+    }
+
+    override fun queryUserByNameAndSpotAndEmail(name: String, spot: String, email: String): User {
+        return userMapper.toDomain(
+            userJpaProvider.queryUserEntityByNameAndSpotAndEmail(name, spot, email)
         )
     }
 

@@ -3,6 +3,7 @@ package team.comit.simtong.persistence.user
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.persistence.user.entity.UserJpaEntity
+import team.comit.simtong.persistence.user.repository.UserJpaRepository
 import java.util.*
 
 /**
@@ -10,6 +11,7 @@ import java.util.*
  * JPA를 통해 DB로부터 정보를 조회하고 가공하는 UserJpaProvider
  *
  * @author kimbeomjin
+ * @author ChoKyungHyeon
  * @date 2022/09/08
  * @version 1.0.0
  **/
@@ -33,6 +35,10 @@ class UserJpaProvider(
     fun queryUserEntityByEmployeeNumber(employeeNumber: Int): UserJpaEntity {
         return userJpaRepository.queryUserJpaEntityByEmployeeNumber(employeeNumber)
             ?: throw UserNotFoundException.EXCEPTION
+    }
+
+    fun queryUserEntityByNameAndSpotAndEmail(name: String, spot: String, email: String): UserJpaEntity {
+        return userJpaRepository.queryUserJpaEntityByNameAndSpotAndEmail(name, spot, email) ?: throw UserNotFoundException.EXCEPTION
     }
 
 }

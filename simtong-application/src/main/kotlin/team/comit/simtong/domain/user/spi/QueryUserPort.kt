@@ -22,6 +22,8 @@ interface QueryUserPort {
 
     fun queryUserByNickName(nickName: String): User
 
+    fun queryUserByNameAndSpotAndEmail(name: String, spot: String, email: String): User
+
     fun existsUserByEmail(email: String): Boolean
 
 }
