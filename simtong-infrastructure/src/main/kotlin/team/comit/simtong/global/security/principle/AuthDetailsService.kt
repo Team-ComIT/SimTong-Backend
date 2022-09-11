@@ -4,7 +4,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component
 import team.comit.simtong.global.security.exception.InvalidTokenException
-import team.comit.simtong.persistence.user.UserJpaRepository
+import team.comit.simtong.persistence.user.repository.UserJpaRepository
 import java.util.*
 
 /**
