@@ -1,4 +1,4 @@
-package team.comit.simtong.user.usecase
+package team.comit.simtong.domain.user.usecase
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
