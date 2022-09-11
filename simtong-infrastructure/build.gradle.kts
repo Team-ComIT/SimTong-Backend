@@ -25,6 +25,10 @@ dependencies {
     implementation(Dependencies.REDIS)
     implementation(Dependencies.SPRING_REDIS)
 
+    // aws
+    implementation(Dependencies.SPRING_AWS)
+    implementation(Dependencies.AWS_SES)
+
     // mapstruct
     implementation(Dependencies.MAPSTRUCT)
     kapt(Dependencies.MAPSTRUCT_PROCESSER)
@@ -34,6 +38,9 @@ dependencies {
 
     // api project
     api(project(":simtong-application"))
+
+    // s3mock
+    testImplementation(Dependencies.S3MOCK)
 }
 
 kapt {
