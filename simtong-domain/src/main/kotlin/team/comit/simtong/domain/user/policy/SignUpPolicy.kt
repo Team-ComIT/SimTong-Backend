@@ -5,8 +5,8 @@ import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.auth.exception.UsedEmailException
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
-import team.comit.simtong.domain.auth.spi.CheckAuthCodePolicyPort
-import team.comit.simtong.domain.auth.spi.CheckUserPort
+import team.comit.simtong.domain.auth.spi.DomainQueryAuthCodePolicyPort
+import team.comit.simtong.domain.user.spi.DomainQueryUserPort
 import team.comit.simtong.domain.user.spi.SecurityPort
 import team.comit.simtong.global.annotation.Policy
 
@@ -22,18 +22,18 @@ import team.comit.simtong.global.annotation.Policy
 @Policy
 class SignUpPolicy(
 //    private val nickNamePort: NickNamePort,
-    private val checkAuthCodePolicyPort: CheckAuthCodePolicyPort,
-    private val checkUserPort: CheckUserPort,
+    private val domainQueryAuthCodePolicyPort: DomainQueryAuthCodePolicyPort,
+    private val domainQueryUserPort: DomainQueryUserPort,
     private val securityPort: SecurityPort
 ) {
 
     fun implement(request: DomainSignUpRequest): User {
 
-        if(!checkAuthCodePolicyPort.checkCertifiedEmail(request.email)) {
+        if(!domainQueryAuthCodePolicyPort.queryAuthCodePolicyByEmail(request.email).isVerified) {
             throw UncertifiedEmailException.EXCEPTION
         }
 
-        if(checkUserPort.existsUserByEmail(request.email)) {
+        if(domainQueryUserPort.existsUserByEmail(request.email)) {
             throw UsedEmailException.EXCEPTION
         }
 
