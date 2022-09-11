@@ -6,7 +6,7 @@ import team.comit.simtong.global.security.error.SecurityErrorCode
 /**
  *
  * 원하는 토큰 Type이 아닐 경우
- * Wrong Type Token Error를 발생시키는 TokenTypeException
+ * Wrong Type Token Error를 발생시키는 WrongTypeTokenException
  *
  * @author Chokyunghyeon
  * @date 2022/09/02
