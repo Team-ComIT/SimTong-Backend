@@ -2,7 +2,7 @@ package team.comit.simtong.domain.user.dto
 
 /**
  *
- * 회원 가입 정보를 전달하는 SignUpRequest
+ * 회원 가입 정보를 전달하는 DomainSignUpRequest
  *
  * @author Chokyunghyeon
  * @date 2022/09/04

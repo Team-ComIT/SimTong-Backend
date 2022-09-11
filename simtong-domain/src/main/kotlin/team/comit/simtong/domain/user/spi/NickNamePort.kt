@@ -2,7 +2,7 @@ package team.comit.simtong.domain.user.spi
 
 /**
  *
- * User의 랜덤한 Nickname을 요청하는 RandomNamePort
+ * User의 랜덤한 Nickname을 요청하는 NickNamePort
  *
  * @author Chokyunghyeon
  * @date 2022/09/05

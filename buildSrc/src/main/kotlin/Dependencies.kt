@@ -38,7 +38,11 @@ object Dependencies {
 
     // aws
     const val SPRING_AWS = "org.springframework.cloud:spring-cloud-starter-aws:${DependencyVersions.AWS_VERSION}"
+    const val AWS_SES = "com.amazonaws:aws-java-sdk-ses:${DependencyVersions.AWS_SES_VERSION}"
 
     // test
     const val SPRING_TEST = "org.springframework.boot:spring-boot-starter-test:${PluginVersions.SPRING_BOOT_VERSION}"
+
+    // s3 test
+    const val S3MOCK = "io.findify:s3mock_2.12:${DependencyVersions.S3MOCK}"
 }
