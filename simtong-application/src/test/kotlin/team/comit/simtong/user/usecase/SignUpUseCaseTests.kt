@@ -10,14 +10,15 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.auth.exception.UsedEmailException
+import team.comit.simtong.domain.auth.model.AuthCodePolicy
 import team.comit.simtong.domain.auth.spi.ReceiveTokenPort
 import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.policy.SignUpPolicy
-import team.comit.simtong.domain.auth.spi.CheckAuthCodePolicyPort
-import team.comit.simtong.domain.auth.spi.CheckUserPort
+import team.comit.simtong.domain.auth.spi.DomainQueryAuthCodePolicyPort
+import team.comit.simtong.domain.user.spi.DomainQueryUserPort
 import team.comit.simtong.domain.user.spi.SaveUserPort
 import team.comit.simtong.domain.user.spi.SecurityPort
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
@@ -36,10 +37,10 @@ class SignUpUseCaseTests {
     private lateinit var securityPort: SecurityPort
 
     @MockBean
-    private lateinit var checkUserPort: CheckUserPort
+    private lateinit var domainQueryUserPort: DomainQueryUserPort
 
     @MockBean
-    private lateinit var checkAuthCodePolicyPort: CheckAuthCodePolicyPort
+    private lateinit var domainQueryAuthCodePolicyPort: DomainQueryAuthCodePolicyPort
 
     private lateinit var signUpPolicy: SignUpPolicy
 
@@ -80,6 +81,24 @@ class SignUpUseCaseTests {
         )
     }
 
+    private val authCodePolicyStub: AuthCodePolicy by lazy {
+        AuthCodePolicy(
+            key = email,
+            expirationTime = 12345,
+            attemptCount = 1,
+            isVerified = true
+        )
+    }
+
+    private val unVerifiedAuthCodePolicyStub: AuthCodePolicy by lazy {
+        AuthCodePolicy(
+            key = email,
+            expirationTime = 12345,
+            attemptCount = 5,
+            isVerified = false
+        )
+    }
+
     private val requestStub: DomainSignUpRequest by lazy {
         DomainSignUpRequest(
             nickname = nickname,
@@ -101,18 +120,18 @@ class SignUpUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        signUpPolicy = SignUpPolicy(checkAuthCodePolicyPort, checkUserPort, securityPort)
+        signUpPolicy = SignUpPolicy(domainQueryAuthCodePolicyPort, domainQueryUserPort, securityPort)
         signUpUseCase = SignUpUseCase(receiveTokenPort, saveUserPort, signUpPolicy)
     }
 
     @Test
     fun `회원가입 성공`() {
         // given
-        given(checkUserPort.existsUserByEmail(requestStub.email))
-            .willReturn(false)
+        given(domainQueryAuthCodePolicyPort.queryAuthCodePolicyByEmail(requestStub.email))
+            .willReturn(authCodePolicyStub)
 
-        given(checkAuthCodePolicyPort.checkCertifiedEmail(requestStub.email))
-            .willReturn(true)
+        given(domainQueryUserPort.existsUserByEmail(requestStub.email))
+            .willReturn(false)
 
         given(securityPort.encode(requestStub.password))
             .willReturn(userStub.password)
@@ -133,8 +152,8 @@ class SignUpUseCaseTests {
     @Test
     fun `인증되지 않은 이메일`() {
         // given
-        given(checkAuthCodePolicyPort.checkCertifiedEmail(requestStub.email))
-            .willReturn(false)
+        given(domainQueryAuthCodePolicyPort.queryAuthCodePolicyByEmail(requestStub.email))
+            .willReturn(unVerifiedAuthCodePolicyStub)
 
         // when & then
         assertThrows<UncertifiedEmailException> {
@@ -145,10 +164,10 @@ class SignUpUseCaseTests {
     @Test
     fun `이미 사용된 이메일`() {
         // given
-        given(checkAuthCodePolicyPort.checkCertifiedEmail(requestStub.email))
-            .willReturn(true)
+        given(domainQueryAuthCodePolicyPort.queryAuthCodePolicyByEmail(requestStub.email))
+            .willReturn(authCodePolicyStub)
 
-        given(checkUserPort.existsUserByEmail(requestStub.email))
+        given(domainQueryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(true)
 
         // when & then

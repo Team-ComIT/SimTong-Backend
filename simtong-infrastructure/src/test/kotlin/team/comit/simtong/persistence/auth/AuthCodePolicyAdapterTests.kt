@@ -41,7 +41,7 @@ class AuthCodePolicyAdapterTests {
             .willReturn(authCodePolicyEntityStub)
 
         // when & then
-        assertFalse(authCodePolicyAdapter.checkCertifiedEmail(email))
+        assertFalse(authCodePolicyAdapter.queryAuthCodePolicyByEmail(email))
     }
 
     @Test
@@ -51,7 +51,7 @@ class AuthCodePolicyAdapterTests {
             .willReturn(null)
 
         assertThrows<UncertifiedEmailException> {
-            authCodePolicyAdapter.checkCertifiedEmail(email)
+            authCodePolicyAdapter.queryAuthCodePolicyByEmail(email)
         }
     }
 }
