@@ -1,7 +1,6 @@
 package team.comit.simtong.persistence.auth
 
 import org.springframework.stereotype.Component
-import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.auth.model.AuthCodePolicy
 import team.comit.simtong.domain.auth.spi.DomainQueryAuthCodePolicyPort
 import team.comit.simtong.persistence.auth.mapper.AuthCodePolicyMapper
@@ -21,9 +20,9 @@ class AuthCodePolicyAdapter(
     private val authCodePolicyRepository: AuthCodePolicyRepository
 ): DomainQueryAuthCodePolicyPort {
 
-    override fun queryAuthCodePolicyByEmail(email: String): AuthCodePolicy {
+    override fun queryAuthCodePolicyByEmail(email: String): AuthCodePolicy? {
         return authCodePolicyMapper.toDomain(
-            authCodePolicyRepository.queryAuthCodePolicyEntityByKey(email) ?: throw UncertifiedEmailException.EXCEPTION
+            authCodePolicyRepository.queryAuthCodePolicyEntityByKey(email)
         )
 
     }

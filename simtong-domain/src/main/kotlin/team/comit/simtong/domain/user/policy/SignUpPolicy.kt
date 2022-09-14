@@ -29,7 +29,8 @@ class SignUpPolicy(
 
     fun implement(request: DomainSignUpRequest): User {
 
-        if(!domainQueryAuthCodePolicyPort.queryAuthCodePolicyByEmail(request.email).isVerified) {
+        if(domainQueryAuthCodePolicyPort.queryAuthCodePolicyByEmail(request.email) == null ||
+            !domainQueryAuthCodePolicyPort.queryAuthCodePolicyByEmail(request.email)!!.isVerified) {
             throw UncertifiedEmailException.EXCEPTION
         }
 

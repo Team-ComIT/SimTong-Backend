@@ -12,6 +12,6 @@ import team.comit.simtong.domain.auth.model.AuthCodePolicy
  **/
 interface DomainQueryAuthCodePolicyPort {
 
-    fun queryAuthCodePolicyByEmail(email: String): AuthCodePolicy
+    fun queryAuthCodePolicyByEmail(email: String): AuthCodePolicy?
 
 }
