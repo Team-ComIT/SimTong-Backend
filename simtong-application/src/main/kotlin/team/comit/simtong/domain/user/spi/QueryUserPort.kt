@@ -12,7 +12,7 @@ import java.util.*
  * @date 2022/09/04
  * @version 1.0.0
  **/
-interface QueryUserPort {
+interface QueryUserPort : DomainQueryUserPort {
 
     fun queryUserById(id: UUID): User
 

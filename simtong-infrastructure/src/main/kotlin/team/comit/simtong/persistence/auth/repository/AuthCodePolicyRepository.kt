@@ -1,4 +1,4 @@
-package team.comit.simtong.persistence.auth
+package team.comit.simtong.persistence.auth.repository
 
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
@@ -14,4 +14,6 @@ import team.comit.simtong.persistence.auth.entity.AuthCodePolicyEntity
  **/
 @Repository
 interface AuthCodePolicyRepository: CrudRepository<AuthCodePolicyEntity, String> {
+
+    fun queryAuthCodePolicyEntityByKey(email: String): AuthCodePolicyEntity?
 }
