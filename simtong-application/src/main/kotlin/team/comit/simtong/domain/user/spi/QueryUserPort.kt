@@ -24,6 +24,4 @@ interface QueryUserPort : DomainQueryUserPort {
 
     fun queryUserByNameAndSpotAndEmail(name: String, spot: String, email: String): User
 
-    fun existsUserByEmail(email: String): Boolean
-
 }
