@@ -14,5 +14,9 @@ import team.comit.simtong.persistence.auth.entity.AuthCodePolicyEntity
  * @version 1.0.0
  **/
 @Mapper
-interface AuthCodePolicyMapper : GenericMapper<AuthCodePolicyEntity, AuthCodePolicy> {
+abstract class AuthCodePolicyMapper : GenericMapper<AuthCodePolicyEntity, AuthCodePolicy> {
+
+    abstract fun toDomain(entity: AuthCodePolicyEntity?): AuthCodePolicy?
+
+    abstract fun toEntity(domain: AuthCodePolicy?): AuthCodePolicyEntity?
 }
