@@ -20,10 +20,7 @@ enum class UserErrorCode(
     DIFFERENT_PASSWORD(401, "비밀번호가 일치하지 않음"),
 
     // 404
-    USER_NOT_FOUND(404, "유저를 찾을 수 없음"),
-
-    // 409
-    ALREADY_USED_EMAIL(409, "이미 사용된 이메일");
+    USER_NOT_FOUND(404, "유저를 찾을 수 없음");
 
     override fun status(): Int = status
 

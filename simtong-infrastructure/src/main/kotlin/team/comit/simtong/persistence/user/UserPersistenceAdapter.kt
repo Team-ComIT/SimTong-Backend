@@ -21,7 +21,7 @@ class UserPersistenceAdapter(
     private val userJpaRepository: UserJpaRepository,
     private val userJpaProvider: UserJpaProvider,
     private val userMapper: UserMapper
-) : QueryUserPort, SaveUserPort {
+): QueryUserPort, SaveUserPort {
     override fun queryUserById(id: UUID): User {
         return userMapper.toDomain(
             userJpaProvider.queryUserEntityById(id)
