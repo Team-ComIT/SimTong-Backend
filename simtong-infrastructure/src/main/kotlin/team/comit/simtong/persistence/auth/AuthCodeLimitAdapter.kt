@@ -21,10 +21,7 @@ class AuthCodeLimitAdapter(
     private val authCodeLimitRepository: AuthCodeLimitRepository
 ) : DomainQueryAuthCodeLimitPort {
 
-    override fun queryAuthCodeLimitByEmail(email: String): AuthCodeLimit? {
-        return authCodeLimitMapper.toDomain(
-            authCodeLimitRepository.queryAuthCodeLimitEntityByKey(email)
-        )
-
-    }
+    override fun queryAuthCodeLimitByEmail(email: String): AuthCodeLimit? = authCodeLimitMapper.toDomain(
+        authCodeLimitRepository.queryAuthCodeLimitEntityByKey(email)
+    )
 }
