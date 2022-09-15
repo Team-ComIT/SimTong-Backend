@@ -28,10 +28,9 @@ class SignUpPolicy(
 ) {
 
     fun implement(request: DomainSignUpRequest): User {
+        val authCodeLimit = domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email)
 
-        if (domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email) == null ||
-            !domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email)!!.isVerified
-        ) {
+        if (authCodeLimit == null || !authCodeLimit.isVerified) {
             throw UncertifiedEmailException.EXCEPTION
         }
 
