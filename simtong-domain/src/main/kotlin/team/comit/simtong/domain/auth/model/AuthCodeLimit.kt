@@ -4,14 +4,15 @@ import team.comit.simtong.global.annotation.Aggregate
 
 /**
  *
- * AuthCodePolicy Aggregate Root를 담당하는 AuthCodePolicy
+ * AuthCodeLimit Aggregate Root를 담당하는 AuthCodeLimit
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/09/11
  * @version 1.0.0
  **/
 @Aggregate
-class AuthCodePolicy(
+class AuthCodeLimit(
     val key: String,
 
     val expirationTime: Int,

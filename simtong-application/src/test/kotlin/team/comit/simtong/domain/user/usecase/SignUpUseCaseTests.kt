@@ -10,18 +10,17 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.auth.exception.UsedEmailException
-import team.comit.simtong.domain.auth.model.AuthCodePolicy
+import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.auth.spi.ReceiveTokenPort
 import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.policy.SignUpPolicy
-import team.comit.simtong.domain.auth.spi.DomainQueryAuthCodePolicyPort
+import team.comit.simtong.domain.auth.spi.DomainQueryAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.DomainQueryUserPort
 import team.comit.simtong.domain.user.spi.SaveUserPort
 import team.comit.simtong.domain.user.spi.SecurityPort
-import team.comit.simtong.domain.user.usecase.SignUpUseCase
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
@@ -40,7 +39,7 @@ class SignUpUseCaseTests {
     private lateinit var domainQueryUserPort: DomainQueryUserPort
 
     @MockBean
-    private lateinit var domainQueryAuthCodePolicyPort: DomainQueryAuthCodePolicyPort
+    private lateinit var domainQueryAuthCodeLimitPort: DomainQueryAuthCodeLimitPort
 
     private lateinit var signUpPolicy: SignUpPolicy
 
@@ -81,8 +80,8 @@ class SignUpUseCaseTests {
         )
     }
 
-    private val authCodePolicyStub: AuthCodePolicy by lazy {
-        AuthCodePolicy(
+    private val authCodeLimitStub: AuthCodeLimit by lazy {
+        AuthCodeLimit(
             key = email,
             expirationTime = 12345,
             attemptCount = 1,
@@ -90,8 +89,8 @@ class SignUpUseCaseTests {
         )
     }
 
-    private val unVerifiedAuthCodePolicyStub: AuthCodePolicy by lazy {
-        AuthCodePolicy(
+    private val unVerifiedAuthCodeLimitStub: AuthCodeLimit by lazy {
+        AuthCodeLimit(
             key = email,
             expirationTime = 12345,
             attemptCount = 5,
@@ -120,15 +119,15 @@ class SignUpUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        signUpPolicy = SignUpPolicy(domainQueryAuthCodePolicyPort, domainQueryUserPort, securityPort)
+        signUpPolicy = SignUpPolicy(domainQueryAuthCodeLimitPort, domainQueryUserPort, securityPort)
         signUpUseCase = SignUpUseCase(receiveTokenPort, saveUserPort, signUpPolicy)
     }
 
     @Test
     fun `회원가입 성공`() {
         // given
-        given(domainQueryAuthCodePolicyPort.queryAuthCodePolicyByEmail(requestStub.email))
-            .willReturn(authCodePolicyStub)
+        given(domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
 
         given(domainQueryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(false)
@@ -152,8 +151,8 @@ class SignUpUseCaseTests {
     @Test
     fun `인증되지 않은 이메일`() {
         // given
-        given(domainQueryAuthCodePolicyPort.queryAuthCodePolicyByEmail(requestStub.email))
-            .willReturn(unVerifiedAuthCodePolicyStub)
+        given(domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(unVerifiedAuthCodeLimitStub)
 
         // when & then
         assertThrows<UncertifiedEmailException> {
@@ -164,8 +163,8 @@ class SignUpUseCaseTests {
     @Test
     fun `이미 사용된 이메일`() {
         // given
-        given(domainQueryAuthCodePolicyPort.queryAuthCodePolicyByEmail(requestStub.email))
-            .willReturn(authCodePolicyStub)
+        given(domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
 
         given(domainQueryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(true)
