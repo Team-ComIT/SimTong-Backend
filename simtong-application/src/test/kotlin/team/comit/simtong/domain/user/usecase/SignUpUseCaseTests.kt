@@ -11,13 +11,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.auth.exception.UsedEmailException
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
+import team.comit.simtong.domain.auth.spi.DomainQueryAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.ReceiveTokenPort
 import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.policy.SignUpPolicy
-import team.comit.simtong.domain.auth.spi.DomainQueryAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.DomainQueryUserPort
 import team.comit.simtong.domain.user.spi.SaveUserPort
 import team.comit.simtong.domain.user.spi.SecurityPort
@@ -135,7 +135,7 @@ class SignUpUseCaseTests {
         given(securityPort.encode(requestStub.password))
             .willReturn(userStub.password)
 
-        given(saveUserPort.saveUser(userStub))
+        given(saveUserPort.save(userStub))
             .willReturn(saveUserStub)
 
         given(receiveTokenPort.generateJsonWebToken(saveUserStub.id, saveUserStub.authority))
@@ -153,6 +153,18 @@ class SignUpUseCaseTests {
         // given
         given(domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(unVerifiedAuthCodeLimitStub)
+
+        // when & then
+        assertThrows<UncertifiedEmailException> {
+            signUpUseCase.execute(requestStub)
+        }
+    }
+
+    @Test
+    fun `이메일 인증 객체 찾기 실패`() {
+        // given
+        given(domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(null)
 
         // when & then
         assertThrows<UncertifiedEmailException> {

@@ -12,6 +12,6 @@ import team.comit.simtong.domain.user.model.User
  **/
 interface SaveUserPort {
 
-    fun saveUser(user: User): User
+    fun save(user: User): User
 
 }

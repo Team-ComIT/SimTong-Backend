@@ -19,30 +19,29 @@ import java.util.*
 @Component
 class UserPersistenceAdapter(
     private val userJpaRepository: UserJpaRepository,
-    private val userJpaProvider: UserJpaProvider,
     private val userMapper: UserMapper
 ): QueryUserPort, SaveUserPort {
-    override fun queryUserById(id: UUID): User {
+    override fun queryUserById(id: UUID): User? {
         return userMapper.toDomain(
-            userJpaProvider.queryUserEntityById(id)
+            userJpaRepository.queryUserJpaEntityById(id)
         )
     }
 
-    override fun queryUserByEmployeeNumber(employeeNumber: Int): User {
+    override fun queryUserByEmployeeNumber(employeeNumber: Int): User? {
         return userMapper.toDomain(
-            userJpaProvider.queryUserEntityByEmployeeNumber(employeeNumber)
+            userJpaRepository.queryUserJpaEntityByEmployeeNumber(employeeNumber)
         )
     }
 
-    override fun queryUserByEmail(email: String): User {
+    override fun queryUserByEmail(email: String): User? {
         return userMapper.toDomain(
-            userJpaProvider.queryUserEntityByEmail(email)
+            userJpaRepository.queryUserJpaEntityByEmail(email)
         )
     }
 
-    override fun queryUserByNickName(nickName: String): User {
+    override fun queryUserByNickName(nickName: String): User? {
         return userMapper.toDomain(
-            userJpaProvider.queryUserEntityByNickName(nickName)
+            userJpaRepository.queryUserJpaEntityByNickname(nickName)
         )
     }
 
@@ -50,10 +49,10 @@ class UserPersistenceAdapter(
         return userJpaRepository.existsUserJpaEntitiesByEmail(email)
     }
 
-    override fun saveUser(user: User): User {
-        val entity = userJpaRepository.save(userMapper.toEntity(user))
+    override fun save(user: User): User {
+        val userEntity = userJpaRepository.save(userMapper.toEntity(user))
 
-        return userMapper.toDomain(entity)
+        return userMapper.toDomain(userEntity)!!
     }
 
 }
