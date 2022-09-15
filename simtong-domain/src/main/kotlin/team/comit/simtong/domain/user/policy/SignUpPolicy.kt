@@ -1,11 +1,11 @@
 package team.comit.simtong.domain.user.policy
 
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
-import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.auth.exception.UsedEmailException
+import team.comit.simtong.domain.auth.spi.DomainQueryAuthCodeLimitPort
+import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
-import team.comit.simtong.domain.auth.spi.DomainQueryAuthCodePolicyPort
 import team.comit.simtong.domain.user.spi.DomainQueryUserPort
 import team.comit.simtong.domain.user.spi.SecurityPort
 import team.comit.simtong.global.annotation.Policy
@@ -22,19 +22,20 @@ import team.comit.simtong.global.annotation.Policy
 @Policy
 class SignUpPolicy(
 //    private val nickNamePort: NickNamePort,
-    private val domainQueryAuthCodePolicyPort: DomainQueryAuthCodePolicyPort,
+    private val domainQueryAuthCodeLimitPort: DomainQueryAuthCodeLimitPort,
     private val domainQueryUserPort: DomainQueryUserPort,
     private val securityPort: SecurityPort
 ) {
 
     fun implement(request: DomainSignUpRequest): User {
 
-        if(domainQueryAuthCodePolicyPort.queryAuthCodePolicyByEmail(request.email) == null ||
-            !domainQueryAuthCodePolicyPort.queryAuthCodePolicyByEmail(request.email)!!.isVerified) {
+        if (domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email) == null ||
+            !domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email)!!.isVerified
+        ) {
             throw UncertifiedEmailException.EXCEPTION
         }
 
-        if(domainQueryUserPort.existsUserByEmail(request.email)) {
+        if (domainQueryUserPort.existsUserByEmail(request.email)) {
             throw UsedEmailException.EXCEPTION
         }
 
