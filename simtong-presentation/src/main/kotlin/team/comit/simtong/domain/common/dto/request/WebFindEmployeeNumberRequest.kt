@@ -2,7 +2,6 @@ package team.comit.simtong.domain.common.dto.request
 
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
 
 /**
  *
@@ -16,9 +15,10 @@ data class WebFindEmployeeNumberRequest(
     @field:NotBlank
     val name: String,
 
-    @field:NotNull
+    @field:NotBlank
     val spot: String,
 
+    @field:NotBlank
     @field:Email
     val email: String
 )
