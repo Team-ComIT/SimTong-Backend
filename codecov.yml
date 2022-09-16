@@ -7,3 +7,7 @@ comment:
   require_changes: false
   branches:
     - main
+
+coverage:
+  status:
+    patch: off

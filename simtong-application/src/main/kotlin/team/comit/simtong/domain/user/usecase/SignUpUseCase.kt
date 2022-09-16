@@ -24,7 +24,7 @@ class SignUpUseCase(
 ) {
 
     fun execute(request: DomainSignUpRequest): TokenResponse {
-        val user = saveUserPort.saveUser(signUpPolicy.implement(request))
+        val user = saveUserPort.save(signUpPolicy.implement(request))
 
         return receiveTokenPort.generateJsonWebToken(
             userId = user.id,

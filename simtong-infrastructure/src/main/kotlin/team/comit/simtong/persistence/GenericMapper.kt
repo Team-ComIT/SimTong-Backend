@@ -12,5 +12,5 @@ interface GenericMapper<E, D> {
 
     fun toEntity(model: D): E
 
-    fun toDomain(entity: E): D
+    fun toDomain(entity: E?): D?
 }

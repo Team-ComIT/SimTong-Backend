@@ -11,11 +11,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.spi.ReceiveTokenPort
 import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.user.exception.DifferentPasswordException
+import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.SecurityPort
-import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.dto.SignInRequest
 import java.util.*
 
@@ -98,6 +98,18 @@ class SignInUseCaseTests {
 
         // when & then
         assertThrows<DifferentPasswordException> {
+            signInUseCase.execute(requestStub)
+        }
+    }
+
+    @Test
+    fun `유저 찾기 실패`() {
+        // given
+        given(queryUserPort.queryUserByEmployeeNumber(employeeNumber))
+            .willReturn(null)
+
+        // when & then
+        assertThrows<UserNotFoundException> {
             signInUseCase.execute(requestStub)
         }
     }

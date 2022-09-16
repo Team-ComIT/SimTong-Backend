@@ -16,8 +16,4 @@ import team.comit.simtong.persistence.auth.entity.AuthCodeLimitEntity
  **/
 @Mapper
 abstract class AuthCodeLimitMapper : GenericMapper<AuthCodeLimitEntity, AuthCodeLimit> {
-
-    abstract fun toDomain(entity: AuthCodeLimitEntity?): AuthCodeLimit?
-
-    abstract fun toEntity(domain: AuthCodeLimit?): AuthCodeLimitEntity?
 }
