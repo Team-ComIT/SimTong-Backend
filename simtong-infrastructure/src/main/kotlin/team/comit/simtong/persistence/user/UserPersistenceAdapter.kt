@@ -19,41 +19,31 @@ import java.util.*
 @Component
 class UserPersistenceAdapter(
     private val userJpaRepository: UserJpaRepository,
-    private val userJpaProvider: UserJpaProvider,
     private val userMapper: UserMapper
 ): QueryUserPort, SaveUserPort {
-    override fun queryUserById(id: UUID): User {
-        return userMapper.toDomain(
-            userJpaProvider.queryUserEntityById(id)
-        )
-    }
 
-    override fun queryUserByEmployeeNumber(employeeNumber: Int): User {
-        return userMapper.toDomain(
-            userJpaProvider.queryUserEntityByEmployeeNumber(employeeNumber)
-        )
-    }
+    override fun queryUserById(id: UUID) = userMapper.toDomain(
+        userJpaRepository.queryUserJpaEntityById(id)
+    )
 
-    override fun queryUserByEmail(email: String): User {
-        return userMapper.toDomain(
-            userJpaProvider.queryUserEntityByEmail(email)
-        )
-    }
+    override fun queryUserByEmployeeNumber(employeeNumber: Int) = userMapper.toDomain(
+        userJpaRepository.queryUserJpaEntityByEmployeeNumber(employeeNumber)
+    )
 
-    override fun queryUserByNickName(nickName: String): User {
-        return userMapper.toDomain(
-            userJpaProvider.queryUserEntityByNickName(nickName)
-        )
-    }
+    override fun queryUserByEmail(email: String) = userMapper.toDomain(
+        userJpaRepository.queryUserJpaEntityByEmail(email)
+    )
 
-    override fun existsUserByEmail(email: String): Boolean {
-        return userJpaRepository.existsUserJpaEntitiesByEmail(email)
-    }
+    override fun queryUserByNickName(nickName: String) = userMapper.toDomain(
+        userJpaRepository.queryUserJpaEntityByNickname(nickName)
+    )
 
-    override fun saveUser(user: User): User {
-        val entity = userJpaRepository.save(userMapper.toEntity(user))
+    override fun existsUserByEmail(email: String) = userJpaRepository.existsUserJpaEntitiesByEmail(email)
 
-        return userMapper.toDomain(entity)
-    }
+
+    override fun save(user: User) = userMapper.toDomain(
+        userJpaRepository.save(
+            userMapper.toEntity(user)
+        ))!!
 
 }
