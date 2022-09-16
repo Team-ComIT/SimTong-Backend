@@ -26,13 +26,12 @@ class WebCommonAdapter(
 
     @GetMapping("/employee-number")
     fun findEmployeeNumber(@Valid @RequestBody request: WebFindEmployeeNumberRequest): WebFindEmployeeNumberResponse {
-        return WebFindEmployeeNumberResponse(
-            findEmployeeNumberUseCase.execute(FindEmployeeNumberRequest(
-                name = request.name,
-                spot = request.spot,
-                email = request.email
+        val result = findEmployeeNumberUseCase.execute(
+            FindEmployeeNumberRequest(
+                name = request.name, spot = request.spot, email = request.email
             ))
-        )
+
+        return WebFindEmployeeNumberResponse(result)
     }
 
 }
