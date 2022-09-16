@@ -1,12 +1,14 @@
 package team.comit.simtong.domain.common
 
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.common.dto.request.WebFindEmployeeNumberRequest
 import team.comit.simtong.domain.common.dto.response.WebFindEmployeeNumberResponse
 import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
 import team.comit.simtong.domain.user.usecase.dto.FindEmployeeNumberRequest
+import javax.validation.Valid
 
 /**
  *
@@ -23,7 +25,7 @@ class WebCommonAdapter(
 ) {
 
     @GetMapping("/employee-number")
-    fun findEmployeeNumber(request: WebFindEmployeeNumberRequest): WebFindEmployeeNumberResponse {
+    fun findEmployeeNumber(@Valid @RequestBody request: WebFindEmployeeNumberRequest): WebFindEmployeeNumberResponse {
         return WebFindEmployeeNumberResponse(
             findEmployeeNumberUseCase.execute(FindEmployeeNumberRequest(
                 name = request.name,
