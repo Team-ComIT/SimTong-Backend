@@ -1,5 +1,7 @@
 package team.comit.simtong.domain.user.usecase.dto
 
+import java.util.*
+
 /**
  *
  * 사원 번호 찾기 정보를 전달하는 FindEmployeeNumberRequest
@@ -11,7 +13,7 @@ package team.comit.simtong.domain.user.usecase.dto
 data class FindEmployeeNumberRequest(
     val name: String,
 
-    val spot: String,
+    val spot: UUID,
 
     val email: String
 )

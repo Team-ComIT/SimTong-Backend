@@ -1,6 +1,7 @@
 package team.comit.simtong.persistence.user.repository.extension
 
 import team.comit.simtong.persistence.user.entity.UserJpaEntity
+import java.util.*
 
 /**
  *
@@ -12,6 +13,6 @@ import team.comit.simtong.persistence.user.entity.UserJpaEntity
  **/
 interface UserQueryDSLExtension {
 
-    fun queryUserJpaEntityByNameAndSpotAndEmail(name: String, spot: String, email: String): UserJpaEntity?
+    fun queryUserJpaEntityByNameAndSpotAndEmail(name: String, spot: UUID, email: String): UserJpaEntity?
 
 }

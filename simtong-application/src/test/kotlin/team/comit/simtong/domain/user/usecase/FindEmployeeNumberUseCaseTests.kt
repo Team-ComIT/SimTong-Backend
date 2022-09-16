@@ -13,6 +13,7 @@ import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.usecase.dto.FindEmployeeNumberRequest
+import java.util.*
 
 @ExtendWith(SpringExtension::class)
 class FindEmployeeNumberUseCaseTests {
@@ -26,7 +27,7 @@ class FindEmployeeNumberUseCaseTests {
 
     private val email: String = "test email"
 
-    private val spot: String = "test spot"
+    private val spot: UUID = UUID.randomUUID()
 
     private val employeeNumber: Int = 1234567891
 
