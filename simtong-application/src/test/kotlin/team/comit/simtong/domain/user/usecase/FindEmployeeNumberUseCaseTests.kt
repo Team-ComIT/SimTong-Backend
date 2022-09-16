@@ -1,13 +1,14 @@
 package team.comit.simtong.domain.user.usecase
 
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.QueryUserPort
@@ -62,6 +63,18 @@ class FindEmployeeNumberUseCaseTests {
 
         // when & then
         assertEquals(findEmployeeNumberUseCase.execute(requestStub), employeeNumber)
+    }
+
+    @Test
+    fun `사원 번호 찾기 실패`() {
+        // given
+        given(queryUserPort.queryUserByNameAndSpotAndEmail(name, spot, email))
+            .willReturn(null)
+
+        // when & then
+        assertThrows<UserNotFoundException> {
+            findEmployeeNumberUseCase.execute(requestStub)
+        }
     }
 
 }
