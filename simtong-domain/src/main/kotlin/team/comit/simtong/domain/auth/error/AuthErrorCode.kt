@@ -17,9 +17,7 @@ enum class AuthErrorCode(
 
     // 401
     UNCERTIFIED_EMAIL(401, "인증되지 않은 이메일"),
-
-    // 404
-    REFRESH_TOKEN_NOT_FOUND(404, "토큰을 찾을 수 없음"),
+    REFRESH_TOKEN_NOT_FOUND(401, "토큰을 찾을 수 없음"),
 
     // 409
     ALREADY_USED_EMAIL(409, "이미 사용된 이메일");
