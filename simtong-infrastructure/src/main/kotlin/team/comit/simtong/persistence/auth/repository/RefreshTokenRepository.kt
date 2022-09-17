@@ -14,4 +14,6 @@ import team.comit.simtong.persistence.auth.entity.RefreshTokenEntity
  **/
 @Repository
 interface RefreshTokenRepository : CrudRepository<RefreshTokenEntity, String> {
+
+    fun queryRefreshTokenEntityByToken(token: String): RefreshTokenEntity?
 }
