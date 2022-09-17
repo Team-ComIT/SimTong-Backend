@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull
  * 유저(직원, 관리자) 정보를 관리하는 UserJpaEntity
  *
  * @author kimbeomjin
+ * @author Chokyunghyeon
  * @date 2022/08/21
  * @version 1.0.0
  **/
