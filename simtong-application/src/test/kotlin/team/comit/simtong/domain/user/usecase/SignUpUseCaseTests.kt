@@ -14,6 +14,7 @@ import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.auth.spi.DomainQueryAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.ReceiveTokenPort
 import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
+import team.comit.simtong.domain.spot.exception.SpotNotFoundException
 import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.spot.spi.DomainQuerySpotPort
 import team.comit.simtong.domain.user.dto.DomainSignUpRequest
@@ -206,4 +207,23 @@ class SignUpUseCaseTests {
             signUpUseCase.execute(requestStub)
         }
     }
+
+    @Test
+    fun `지점 찾기 실패`() {
+        // given
+        given(domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
+
+        given(domainQueryUserPort.existsUserByEmail(requestStub.email))
+            .willReturn(false)
+
+        given(domainQuerySpotPort.querySpotByName(spotName))
+            .willReturn(null)
+
+        // when & then
+        assertThrows<SpotNotFoundException> {
+            signUpUseCase.execute(requestStub)
+        }
+    }
+
 }
