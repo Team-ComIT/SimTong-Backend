@@ -1,8 +1,8 @@
 package team.comit.simtong.domain.common
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import team.comit.simtong.domain.auth.usecase.ReissueTokenUseCase
+import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.common.dto.request.WebFindEmployeeNumberRequest
 import team.comit.simtong.domain.common.dto.response.WebFindEmployeeNumberResponse
 import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
@@ -20,6 +20,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/commons")
 class WebCommonAdapter(
+    private val reissueTokenUseCase: ReissueTokenUseCase,
     private val findEmployeeNumberUseCase: FindEmployeeNumberUseCase
 ) {
 
@@ -31,6 +32,11 @@ class WebCommonAdapter(
             ))
 
         return WebFindEmployeeNumberResponse(result)
+    }
+
+    @PutMapping("/token/reissue")
+    fun reissueJsonWebToken(@RequestHeader("Refresh-Token") request: String): TokenResponse {
+        return reissueTokenUseCase.execute(request)
     }
 
 }
