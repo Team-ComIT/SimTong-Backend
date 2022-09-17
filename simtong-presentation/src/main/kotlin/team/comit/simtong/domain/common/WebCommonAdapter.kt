@@ -1,7 +1,6 @@
 package team.comit.simtong.domain.common
 
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.common.dto.request.WebFindEmployeeNumberRequest
@@ -25,7 +24,7 @@ class WebCommonAdapter(
 ) {
 
     @GetMapping("/employee-number")
-    fun findEmployeeNumber(@Valid @RequestBody request: WebFindEmployeeNumberRequest): WebFindEmployeeNumberResponse {
+    fun findEmployeeNumber(@Valid request: WebFindEmployeeNumberRequest): WebFindEmployeeNumberResponse {
         val result = findEmployeeNumberUseCase.execute(
             FindEmployeeNumberRequest(
                 name = request.name, spotId = request.spotId, email = request.email
