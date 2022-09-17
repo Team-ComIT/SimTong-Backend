@@ -1,8 +1,12 @@
 package team.comit.simtong.persistence.user.mapper
 
 import org.mapstruct.Mapper
+import org.mapstruct.Mapping
+import org.mapstruct.Mappings
+import org.springframework.beans.factory.annotation.Autowired
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.persistence.GenericMapper
+import team.comit.simtong.persistence.spot.SpotJpaRepository
 import team.comit.simtong.persistence.user.entity.UserJpaEntity
 
 /**
@@ -15,4 +19,17 @@ import team.comit.simtong.persistence.user.entity.UserJpaEntity
  **/
 @Mapper
 abstract class UserMapper: GenericMapper<UserJpaEntity, User> {
+
+    @Autowired
+    protected lateinit var spotJpaRepository: SpotJpaRepository
+
+    @Mappings(
+        Mapping(target = "spot", expression = "java(spotJpaRepository.querySpotJpaEntityById(model.getSpotId()))")
+    )
+    abstract override fun toEntity(model: User): UserJpaEntity
+
+    @Mappings(
+        Mapping(target = "spotId", expression = "java(entity.getSpot().getId())")
+    )
+    abstract override fun toDomain(entity: UserJpaEntity?): User?
 }
