@@ -3,6 +3,7 @@ package team.comit.simtong.domain.user.usecase
 import team.comit.simtong.domain.auth.spi.ReceiveTokenPort
 import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.user.exception.DifferentPasswordException
+import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.SecurityPort
@@ -25,7 +26,7 @@ class SignInUseCase(
 ) {
 
     fun execute(request: SignInRequest): TokenResponse {
-        val user = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber)
+        val user = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber) ?: throw UserNotFoundException.EXCEPTION
 
         if (!securityPort.compare(request.password, user.password)) {
             throw DifferentPasswordException.EXCEPTION

@@ -16,6 +16,7 @@ data class WebSignUpRequest (
     @field:NotBlank
     val name: String,
 
+    @field:NotBlank
     @field:Email
     val email: String,
 

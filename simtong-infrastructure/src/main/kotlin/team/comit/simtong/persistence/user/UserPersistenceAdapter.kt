@@ -5,6 +5,7 @@ import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.SaveUserPort
 import team.comit.simtong.persistence.user.mapper.UserMapper
+import team.comit.simtong.persistence.user.repository.UserJpaRepository
 import java.util.*
 
 /**
@@ -19,41 +20,35 @@ import java.util.*
 @Component
 class UserPersistenceAdapter(
     private val userJpaRepository: UserJpaRepository,
-    private val userJpaProvider: UserJpaProvider,
     private val userMapper: UserMapper
-) : QueryUserPort, SaveUserPort {
-    override fun queryUserById(id: UUID): User {
-        return userMapper.toDomain(
-            userJpaProvider.queryUserEntityById(id)
-        )
-    }
+): QueryUserPort, SaveUserPort {
 
-    override fun queryUserByEmployeeNumber(employeeNumber: Int): User {
-        return userMapper.toDomain(
-            userJpaProvider.queryUserEntityByEmployeeNumber(employeeNumber)
-        )
-    }
+    override fun queryUserById(id: UUID) = userMapper.toDomain(
+        userJpaRepository.queryUserJpaEntityById(id)
+    )
 
-    override fun queryUserByEmail(email: String): User {
-        return userMapper.toDomain(
-            userJpaProvider.queryUserEntityByEmail(email)
-        )
-    }
+    override fun queryUserByEmployeeNumber(employeeNumber: Int) = userMapper.toDomain(
+        userJpaRepository.queryUserJpaEntityByEmployeeNumber(employeeNumber)
+    )
 
-    override fun queryUserByNickName(nickName: String): User {
-        return userMapper.toDomain(
-            userJpaProvider.queryUserEntityByNickName(nickName)
-        )
-    }
+    override fun queryUserByEmail(email: String) = userMapper.toDomain(
+        userJpaRepository.queryUserJpaEntityByEmail(email)
+    )
 
-    override fun existsUserByEmail(email: String): Boolean {
-        return userJpaRepository.existsUserJpaEntitiesByEmail(email)
-    }
+    override fun queryUserByNickName(nickName: String) = userMapper.toDomain(
+        userJpaRepository.queryUserJpaEntityByNickname(nickName)
+    )
 
-    override fun saveUser(user: User): User {
-        val entity = userJpaRepository.save(userMapper.toEntity(user))
+    override fun queryUserByNameAndSpotAndEmail(name: String, spotId: UUID, email: String) = userMapper.toDomain(
+        null // TODO User와 Spot 연관관계 필요
+    )
 
-        return userMapper.toDomain(entity)
-    }
+    override fun existsUserByEmail(email: String) = userJpaRepository.existsUserJpaEntitiesByEmail(email)
+
+
+    override fun save(user: User) = userMapper.toDomain(
+        userJpaRepository.save(
+            userMapper.toEntity(user)
+        ))!!
 
 }

@@ -45,6 +45,9 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/users").permitAll()
             .antMatchers(HttpMethod.POST, "/users/tokens").permitAll()
 
+            // commons
+            .antMatchers(HttpMethod.GET, "/commons/employee-number").permitAll()
+
             .anyRequest().authenticated()
 
         http

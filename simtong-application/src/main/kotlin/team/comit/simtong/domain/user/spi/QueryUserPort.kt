@@ -12,16 +12,16 @@ import java.util.*
  * @date 2022/09/04
  * @version 1.0.0
  **/
-interface QueryUserPort {
+interface QueryUserPort : DomainQueryUserPort {
 
-    fun queryUserById(id: UUID): User
+    fun queryUserById(id: UUID): User?
 
-    fun queryUserByEmployeeNumber(employeeNumber: Int): User
+    fun queryUserByEmployeeNumber(employeeNumber: Int): User?
 
-    fun queryUserByEmail(email: String): User
+    fun queryUserByEmail(email: String): User?
 
-    fun queryUserByNickName(nickName: String): User
+    fun queryUserByNickName(nickName: String): User?
 
-    fun existsUserByEmail(email: String): Boolean
+    fun queryUserByNameAndSpotAndEmail(name: String, spotId: UUID, email: String): User?
 
 }

@@ -1,4 +1,4 @@
-package team.comit.simtong.persistence.user
+package team.comit.simtong.persistence.user.repository
 
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
