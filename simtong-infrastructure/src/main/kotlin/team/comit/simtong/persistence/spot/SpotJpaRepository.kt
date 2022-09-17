@@ -15,4 +15,7 @@ import java.util.*
  **/
 @Repository
 interface SpotJpaRepository : CrudRepository<SpotJpaEntity, UUID> {
+
+    fun querySpotJpaEntityById(id: UUID): SpotJpaEntity?
+
 }

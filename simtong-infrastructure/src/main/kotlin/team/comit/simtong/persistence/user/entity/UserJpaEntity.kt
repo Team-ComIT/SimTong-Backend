@@ -4,13 +4,10 @@ import org.hibernate.annotations.ColumnDefault
 import org.hibernate.validator.constraints.Length
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.persistence.BaseEntity
+import team.comit.simtong.persistence.spot.entity.SpotJpaEntity
 import java.time.LocalDateTime
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.Table
+import javax.persistence.*
 import javax.validation.constraints.NotNull
 
 /**
@@ -54,6 +51,11 @@ class UserJpaEntity(
 
     @Column(columnDefinition = "CHAR(60)")
     val adminCode: String?,
+
+    @field:NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "spot_id", columnDefinition = "BINARY(16)", nullable = false)
+    val spot: SpotJpaEntity,
 
     @field:NotNull
     @ColumnDefault("'default image'") // TODO 기본 프로필 이미지 설정
