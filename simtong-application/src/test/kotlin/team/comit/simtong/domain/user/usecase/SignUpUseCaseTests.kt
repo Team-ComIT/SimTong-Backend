@@ -64,6 +64,7 @@ class SignUpUseCaseTests {
             password = "test encode password",
             employeeNumber = employeeNumber,
             authority = Authority.ROLE_COMMON,
+            spotId = UUID.randomUUID(),
             profileImagePath = profileImagePath
         )
     }

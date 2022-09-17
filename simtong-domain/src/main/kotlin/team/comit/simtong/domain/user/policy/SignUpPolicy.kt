@@ -9,6 +9,7 @@ import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.DomainQueryUserPort
 import team.comit.simtong.domain.user.spi.SecurityPort
 import team.comit.simtong.global.annotation.Policy
+import java.util.*
 
 /**
  *
@@ -48,6 +49,7 @@ class SignUpPolicy(
             nickname = request.nickname ?: "", // nickNamePort.random()
             employeeNumber = request.employeeNumber,
             authority = Authority.ROLE_COMMON,
+            spotId = UUID.randomUUID(), // 임직원 확인시 지점 정보 가져오기
             profileImagePath = request.profileImagePath ?: User.defaultImage
         )
     }
