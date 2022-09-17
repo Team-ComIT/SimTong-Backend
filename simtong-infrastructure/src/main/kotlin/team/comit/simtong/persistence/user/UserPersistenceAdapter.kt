@@ -5,6 +5,7 @@ import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.SaveUserPort
 import team.comit.simtong.persistence.user.mapper.UserMapper
+import team.comit.simtong.persistence.user.repository.UserJpaRepository
 import java.util.*
 
 /**
@@ -36,6 +37,10 @@ class UserPersistenceAdapter(
 
     override fun queryUserByNickName(nickName: String) = userMapper.toDomain(
         userJpaRepository.queryUserJpaEntityByNickname(nickName)
+    )
+
+    override fun queryUserByNameAndSpotAndEmail(name: String, spotId: UUID, email: String) = userMapper.toDomain(
+        null // TODO User와 Spot 연관관계 필요
     )
 
     override fun existsUserByEmail(email: String) = userJpaRepository.existsUserJpaEntitiesByEmail(email)
