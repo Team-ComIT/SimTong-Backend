@@ -22,6 +22,6 @@ interface QueryUserPort : DomainQueryUserPort {
 
     fun queryUserByNickName(nickName: String): User?
 
-    fun queryUserByNameAndSpotAndEmail(name: String, spot: UUID, email: String): User?
+    fun queryUserByNameAndSpotAndEmail(name: String, spotId: UUID, email: String): User?
 
 }

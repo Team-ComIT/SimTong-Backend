@@ -13,7 +13,7 @@ import java.util.*
 data class FindEmployeeNumberRequest(
     val name: String,
 
-    val spot: UUID,
+    val spotId: UUID,
 
     val email: String
 )

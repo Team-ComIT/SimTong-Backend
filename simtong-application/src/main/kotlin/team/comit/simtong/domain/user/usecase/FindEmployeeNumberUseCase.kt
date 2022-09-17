@@ -19,7 +19,7 @@ class FindEmployeeNumberUseCase(
 ) {
 
     fun execute(request: FindEmployeeNumberRequest): Int {
-        val user = queryUserPort.queryUserByNameAndSpotAndEmail(request.name, request.spot, request.email)
+        val user = queryUserPort.queryUserByNameAndSpotAndEmail(request.name, request.spotId, request.email)
             ?: throw UserNotFoundException.EXCEPTION
 
         return user.employeeNumber

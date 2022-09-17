@@ -39,8 +39,8 @@ class UserPersistenceAdapter(
         userJpaRepository.queryUserJpaEntityByNickname(nickName)
     )
 
-    override fun queryUserByNameAndSpotAndEmail(name: String, spot: UUID, email: String) = userMapper.toDomain(
-        userJpaRepository.queryUserJpaEntityByNameAndSpotAndEmail(name, spot, email)
+    override fun queryUserByNameAndSpotAndEmail(name: String, spotId: UUID, email: String) = userMapper.toDomain(
+        userJpaRepository.queryUserJpaEntityByNameAndSpotAndEmail(name, spotId, email)
     )
 
     override fun existsUserByEmail(email: String) = userJpaRepository.existsUserJpaEntitiesByEmail(email)

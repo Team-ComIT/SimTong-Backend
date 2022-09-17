@@ -17,7 +17,7 @@ data class WebFindEmployeeNumberRequest(
     val name: String,
 
     @field:NotBlank
-    val spot: UUID,
+    val spotId: UUID,
 
     @field:NotBlank
     @field:Email

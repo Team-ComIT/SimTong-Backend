@@ -27,7 +27,7 @@ class FindEmployeeNumberUseCaseTests {
 
     private val email: String = "test email"
 
-    private val spot: UUID = UUID.randomUUID()
+    private val spotId: UUID = UUID.randomUUID()
 
     private val employeeNumber: Int = 1234567891
 
@@ -46,7 +46,7 @@ class FindEmployeeNumberUseCaseTests {
     private val requestStub: FindEmployeeNumberRequest by lazy {
         FindEmployeeNumberRequest(
             name = name,
-            spot = spot,
+            spotId = spotId,
             email = email
         )
     }
@@ -59,7 +59,7 @@ class FindEmployeeNumberUseCaseTests {
     @Test
     fun `사원 번호 찾기`() {
         // given
-        given(queryUserPort.queryUserByNameAndSpotAndEmail(name, spot, email))
+        given(queryUserPort.queryUserByNameAndSpotAndEmail(name, spotId, email))
             .willReturn(userStub)
 
         // when & then
@@ -69,7 +69,7 @@ class FindEmployeeNumberUseCaseTests {
     @Test
     fun `사원 번호 찾기 실패`() {
         // given
-        given(queryUserPort.queryUserByNameAndSpotAndEmail(name, spot, email))
+        given(queryUserPort.queryUserByNameAndSpotAndEmail(name, spotId, email))
             .willReturn(null)
 
         // when & then

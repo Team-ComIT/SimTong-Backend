@@ -28,7 +28,7 @@ class WebCommonAdapter(
     fun findEmployeeNumber(@Valid @RequestBody request: WebFindEmployeeNumberRequest): WebFindEmployeeNumberResponse {
         val result = findEmployeeNumberUseCase.execute(
             FindEmployeeNumberRequest(
-                name = request.name, spot = request.spot, email = request.email
+                name = request.name, spotId = request.spotId, email = request.email
             ))
 
         return WebFindEmployeeNumberResponse(result)

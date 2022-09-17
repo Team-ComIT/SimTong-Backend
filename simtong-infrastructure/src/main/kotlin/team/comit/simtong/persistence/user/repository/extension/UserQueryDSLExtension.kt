@@ -13,6 +13,6 @@ import java.util.*
  **/
 interface UserQueryDSLExtension {
 
-    fun queryUserJpaEntityByNameAndSpotAndEmail(name: String, spot: UUID, email: String): UserJpaEntity?
+    fun queryUserJpaEntityByNameAndSpotAndEmail(name: String, spotId: UUID, email: String): UserJpaEntity?
 
 }
