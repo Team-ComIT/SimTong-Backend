@@ -15,7 +15,7 @@ import team.comit.simtong.persistence.auth.repository.AuthCodeLimitRepository
  * @version 1.0.0
  **/
 @Component
-class AuthCodeLimitAdapter(
+class AuthCodeLimitPersistenceAdapter(
     private val authCodeLimitMapper: AuthCodeLimitMapper,
     private val authCodeLimitRepository: AuthCodeLimitRepository
 ) : AuthCodeLimitPort {

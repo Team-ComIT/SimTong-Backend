@@ -15,7 +15,7 @@ import team.comit.simtong.persistence.auth.repository.RefreshTokenRepository
  * @version 1.0.0
  **/
 @Component
-class RefreshTokenAdapter(
+class RefreshTokenPersistenceAdapter(
     private val refreshTokenRepository: RefreshTokenRepository,
     private val refreshTokenMapper: RefreshTokenMapper
 ) : RefreshTokenPort {
