@@ -11,7 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.exception.RefreshTokenNotFoundException
 import team.comit.simtong.domain.auth.model.RefreshToken
 import team.comit.simtong.domain.auth.spi.QueryRefreshTokenPort
-import team.comit.simtong.domain.auth.spi.ReceiveTokenPort
+import team.comit.simtong.domain.auth.spi.JwtPort
 import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.user.model.Authority
 import java.util.*
@@ -20,7 +20,7 @@ import java.util.*
 class ReissueTokenUseCaseTests {
 
     @MockBean
-    private lateinit var receiveTokenPort: ReceiveTokenPort
+    private lateinit var jwtPort: JwtPort
 
     @MockBean
     private lateinit var queryRefreshTokenPort: QueryRefreshTokenPort
@@ -52,7 +52,7 @@ class ReissueTokenUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        reissueTokenUseCase = ReissueTokenUseCase(receiveTokenPort, queryRefreshTokenPort)
+        reissueTokenUseCase = ReissueTokenUseCase(jwtPort, queryRefreshTokenPort)
     }
 
     @Test
@@ -61,7 +61,7 @@ class ReissueTokenUseCaseTests {
         given(queryRefreshTokenPort.queryRefreshTokenByToken(token))
             .willReturn(refreshTokenStub)
 
-        given(receiveTokenPort.generateJsonWebToken(userId, authority))
+        given(jwtPort.receiveToken(userId, authority))
             .willReturn(tokenResponseStub)
 
         // when & then

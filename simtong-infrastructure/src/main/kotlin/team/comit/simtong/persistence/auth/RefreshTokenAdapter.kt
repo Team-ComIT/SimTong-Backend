@@ -1,7 +1,7 @@
 package team.comit.simtong.persistence.auth
 
 import org.springframework.stereotype.Component
-import team.comit.simtong.domain.auth.spi.QueryRefreshTokenPort
+import team.comit.simtong.domain.auth.spi.RefreshTokenPort
 import team.comit.simtong.persistence.auth.mapper.RefreshTokenMapper
 import team.comit.simtong.persistence.auth.repository.RefreshTokenRepository
 
@@ -10,6 +10,7 @@ import team.comit.simtong.persistence.auth.repository.RefreshTokenRepository
  * Refresh Token을 관리하는 RefreshTokenAdapter
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/09/18
  * @version 1.0.0
  **/
@@ -17,7 +18,7 @@ import team.comit.simtong.persistence.auth.repository.RefreshTokenRepository
 class RefreshTokenAdapter(
     private val refreshTokenRepository: RefreshTokenRepository,
     private val refreshTokenMapper: RefreshTokenMapper
-): QueryRefreshTokenPort {
+) : RefreshTokenPort {
 
     override fun queryRefreshTokenByToken(token: String) = refreshTokenMapper.toDomain(
         refreshTokenRepository.queryRefreshTokenEntityByToken(token)
