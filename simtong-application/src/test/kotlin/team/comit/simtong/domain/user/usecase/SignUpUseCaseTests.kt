@@ -17,6 +17,9 @@ import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.spot.exception.SpotNotFoundException
 import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.spot.spi.DomainQuerySpotPort
+import team.comit.simtong.domain.team.exception.TeamNotFoundException
+import team.comit.simtong.domain.team.model.Team
+import team.comit.simtong.domain.team.spi.DomainQueryTeamPort
 import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -45,6 +48,9 @@ class SignUpUseCaseTests {
     private lateinit var domainQuerySpotPort: DomainQuerySpotPort
 
     @MockBean
+    private lateinit var domainQueryTeamPort: DomainQueryTeamPort
+
+    @MockBean
     private lateinit var domainQueryAuthCodeLimitPort: DomainQueryAuthCodeLimitPort
 
     private lateinit var signUpPolicy: SignUpPolicy
@@ -61,13 +67,23 @@ class SignUpUseCaseTests {
 
     private val profileImagePath = "test path"
 
-    private val spotName = ""
+    private val spotName = "test spotName"
+
+    private val teamName = "test teamName"
 
     private val spotStub: Spot by lazy {
         Spot(
             id = UUID.randomUUID(),
             name = spotName,
             location = "test location"
+        )
+    }
+
+    private val teamStub: Team by lazy {
+        Team(
+            id = UUID.randomUUID(),
+            name = teamName,
+            spotId = spotStub.id
         )
     }
 
@@ -81,6 +97,7 @@ class SignUpUseCaseTests {
             employeeNumber = employeeNumber,
             authority = Authority.ROLE_COMMON,
             spotId = spotStub.id,
+            teamId = teamStub.id,
             profileImagePath = profileImagePath
         )
     }
@@ -94,6 +111,7 @@ class SignUpUseCaseTests {
             employeeNumber = employeeNumber,
             authority = Authority.ROLE_COMMON,
             spotId = spotStub.id,
+            teamId = teamStub.id,
             profileImagePath = profileImagePath
         )
     }
@@ -137,7 +155,7 @@ class SignUpUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        signUpPolicy = SignUpPolicy(domainQuerySpotPort, domainQueryAuthCodeLimitPort, domainQueryUserPort, securityPort)
+        signUpPolicy = SignUpPolicy(domainQueryTeamPort, domainQuerySpotPort, domainQueryAuthCodeLimitPort, domainQueryUserPort, securityPort)
         signUpUseCase = SignUpUseCase(receiveTokenPort, saveUserPort, signUpPolicy)
     }
 
@@ -155,6 +173,9 @@ class SignUpUseCaseTests {
 
         given(domainQuerySpotPort.querySpotByName(spotName))
             .willReturn(spotStub)
+
+        given(domainQueryTeamPort.queryTeamByName(teamName))
+            .willReturn(teamStub)
 
         given(saveUserPort.save(userStub))
             .willReturn(saveUserStub)
@@ -222,6 +243,27 @@ class SignUpUseCaseTests {
 
         // when & then
         assertThrows<SpotNotFoundException> {
+            signUpUseCase.execute(requestStub)
+        }
+    }
+
+    @Test
+    fun `팀 찾기 실패`() {
+        // given
+        given(domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
+
+        given(domainQueryUserPort.existsUserByEmail(requestStub.email))
+            .willReturn(false)
+
+        given(domainQuerySpotPort.querySpotByName(spotName))
+            .willReturn(spotStub)
+
+        given(domainQueryTeamPort.queryTeamByName(teamName))
+            .willReturn(null)
+
+        // when & then
+        assertThrows<TeamNotFoundException> {
             signUpUseCase.execute(requestStub)
         }
     }
