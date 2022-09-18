@@ -14,6 +14,9 @@ import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.auth.spi.DomainQueryAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.ReceiveTokenPort
 import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
+import team.comit.simtong.domain.spot.exception.SpotNotFoundException
+import team.comit.simtong.domain.spot.model.Spot
+import team.comit.simtong.domain.spot.spi.DomainQuerySpotPort
 import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -39,6 +42,9 @@ class SignUpUseCaseTests {
     private lateinit var domainQueryUserPort: DomainQueryUserPort
 
     @MockBean
+    private lateinit var domainQuerySpotPort: DomainQuerySpotPort
+
+    @MockBean
     private lateinit var domainQueryAuthCodeLimitPort: DomainQueryAuthCodeLimitPort
 
     private lateinit var signUpPolicy: SignUpPolicy
@@ -55,6 +61,16 @@ class SignUpUseCaseTests {
 
     private val profileImagePath = "test path"
 
+    private val spotName = ""
+
+    private val spotStub: Spot by lazy {
+        Spot(
+            id = UUID.randomUUID(),
+            name = spotName,
+            location = "test location"
+        )
+    }
+
     private val saveUserStub: User by lazy {
         User(
             id = UUID.randomUUID(),
@@ -64,6 +80,7 @@ class SignUpUseCaseTests {
             password = "test encode password",
             employeeNumber = employeeNumber,
             authority = Authority.ROLE_COMMON,
+            spotId = spotStub.id,
             profileImagePath = profileImagePath
         )
     }
@@ -76,6 +93,7 @@ class SignUpUseCaseTests {
             password = "encode test password",
             employeeNumber = employeeNumber,
             authority = Authority.ROLE_COMMON,
+            spotId = spotStub.id,
             profileImagePath = profileImagePath
         )
     }
@@ -119,7 +137,7 @@ class SignUpUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        signUpPolicy = SignUpPolicy(domainQueryAuthCodeLimitPort, domainQueryUserPort, securityPort)
+        signUpPolicy = SignUpPolicy(domainQuerySpotPort, domainQueryAuthCodeLimitPort, domainQueryUserPort, securityPort)
         signUpUseCase = SignUpUseCase(receiveTokenPort, saveUserPort, signUpPolicy)
     }
 
@@ -134,6 +152,9 @@ class SignUpUseCaseTests {
 
         given(securityPort.encode(requestStub.password))
             .willReturn(userStub.password)
+
+        given(domainQuerySpotPort.querySpotByName(spotName))
+            .willReturn(spotStub)
 
         given(saveUserPort.save(userStub))
             .willReturn(saveUserStub)
@@ -186,4 +207,23 @@ class SignUpUseCaseTests {
             signUpUseCase.execute(requestStub)
         }
     }
+
+    @Test
+    fun `지점 찾기 실패`() {
+        // given
+        given(domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
+
+        given(domainQueryUserPort.existsUserByEmail(requestStub.email))
+            .willReturn(false)
+
+        given(domainQuerySpotPort.querySpotByName(spotName))
+            .willReturn(null)
+
+        // when & then
+        assertThrows<SpotNotFoundException> {
+            signUpUseCase.execute(requestStub)
+        }
+    }
+
 }

@@ -28,6 +28,8 @@ data class User(
 
     val authority: Authority,
 
+    val spotId: UUID,
+
     val adminCode: String? = null,
 
     val profileImagePath: String

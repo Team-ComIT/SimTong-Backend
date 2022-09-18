@@ -44,6 +44,7 @@ class SignInUseCaseTests {
             password = "test password",
             employeeNumber = employeeNumber,
             authority = Authority.ROLE_COMMON,
+            spotId = UUID.randomUUID(),
             profileImagePath = "test path"
         )
     }
