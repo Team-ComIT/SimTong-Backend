@@ -28,7 +28,8 @@ class TeamJpaEntity(
     @field:Length(max = 8)
     val name: String,
 
+    @field:NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "spot_id", columnDefinition = "BINARY(16)", nullable = false)
+    @JoinColumn(name = "spot_id", columnDefinition = "BINARY(16)")
     val spot: SpotJpaEntity,
 ) : BaseUUIDEntity(id)
