@@ -4,7 +4,7 @@ import team.comit.simtong.domain.user.spi.UserSecurityPort
 
 /**
  *
- * Security와 관한 요청하는 SecurityPort
+ * Security에 관한 요청을 하는 SecurityPort
  *
  * @author kimbeomjin
  * @date 2022/09/18
