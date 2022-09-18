@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.persistence.GenericMapper
 import team.comit.simtong.persistence.spot.SpotJpaRepository
+import team.comit.simtong.persistence.team.TeamJpaRepository
 import team.comit.simtong.persistence.user.entity.UserJpaEntity
 
 /**
@@ -24,7 +25,7 @@ abstract class UserMapper: GenericMapper<UserJpaEntity, User> {
     protected lateinit var spotJpaRepository: SpotJpaRepository
     
     @Autowired
-    protected lateinit var teamJpaRepository: SpotJpaRepository
+    protected lateinit var teamJpaRepository: TeamJpaRepository
 
     @Mappings(
         Mapping(target = "spot", expression = "java(spotJpaRepository.querySpotJpaEntityById(model.getSpotId()))"),
