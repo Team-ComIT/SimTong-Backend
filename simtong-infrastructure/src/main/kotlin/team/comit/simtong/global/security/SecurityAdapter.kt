@@ -2,7 +2,7 @@ package team.comit.simtong.global.security
 
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
-import team.comit.simtong.domain.user.spi.UserSecurityPort
+import team.comit.simtong.domain.auth.spi.SecurityPort
 
 /**
  *
@@ -15,7 +15,7 @@ import team.comit.simtong.domain.user.spi.UserSecurityPort
 @Component
 class SecurityAdapter(
     private val passwordEncoder: PasswordEncoder
-) : UserSecurityPort {
+) : SecurityPort {
     override fun compare(target: String, encryptedPassword: String): Boolean {
         return passwordEncoder.matches(target, encryptedPassword)
     }

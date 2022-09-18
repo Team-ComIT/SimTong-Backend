@@ -2,7 +2,7 @@ package team.comit.simtong.domain.user.spi
 
 /**
  *
- * 비밀번호 암호화를 담당하는 UserSecurityPort
+ * User와 관한 보안 처리를 요청하는 UserSecurityPort
  *
  * @author Chokyunghyeon
  * @author kimbeomjin
