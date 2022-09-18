@@ -1,7 +1,7 @@
 package team.comit.simtong.persistence.spot
 
 import org.springframework.stereotype.Component
-import team.comit.simtong.domain.spot.spi.DomainQuerySpotPort
+import team.comit.simtong.domain.spot.spi.SpotPort
 import team.comit.simtong.persistence.spot.mapper.SpotMapper
 
 /**
@@ -16,7 +16,7 @@ import team.comit.simtong.persistence.spot.mapper.SpotMapper
 class SpotPersistenceAdapter(
     private val spotJpaRepository: SpotJpaRepository,
     private val spotMapper: SpotMapper
-): DomainQuerySpotPort {
+) : SpotPort {
 
     override fun querySpotByName(name: String) = spotMapper.toDomain(
         spotJpaRepository.querySpotJpaEntityByName(name)

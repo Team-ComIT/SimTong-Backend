@@ -3,16 +3,11 @@ package team.comit.simtong.domain.user.policy
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.auth.exception.UsedEmailException
 import team.comit.simtong.domain.spot.exception.SpotNotFoundException
-import team.comit.simtong.domain.spot.spi.DomainQuerySpotPort
 import team.comit.simtong.domain.team.exception.TeamNotFoundException
-import team.comit.simtong.domain.team.spi.DomainQueryTeamPort
 import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
-import team.comit.simtong.domain.user.spi.QueryUserPort
-import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
-import team.comit.simtong.domain.user.spi.UserQuerySpotPort
-import team.comit.simtong.domain.user.spi.UserSecurityPort
+import team.comit.simtong.domain.user.spi.*
 import team.comit.simtong.global.annotation.Policy
 
 /**
@@ -27,7 +22,7 @@ import team.comit.simtong.global.annotation.Policy
 @Policy
 class SignUpPolicy(
 //    private val nickNamePort: NickNamePort,
-    private val domainQueryTeamPort: DomainQueryTeamPort,
+    private val userQueryTeamPort: UserQueryTeamPort,
     private val userQuerySpotPort: UserQuerySpotPort,
     private val userQueryAuthCodeLimitPort: UserQueryAuthCodeLimitPort,
     private val queryUserPort: QueryUserPort,
@@ -51,7 +46,7 @@ class SignUpPolicy(
         val spot = userQuerySpotPort.querySpotByName("test spotName") // 임직원 확인시 지점 이름 가져오기
             ?: throw SpotNotFoundException.EXCEPTION
 
-        val team = domainQueryTeamPort.queryTeamByName("test teamName") // 임직원 확인시 팀 이름 가져오기
+        val team = userQueryTeamPort.queryTeamByName("test teamName") // 임직원 확인시 팀 이름 가져오기
             ?: throw TeamNotFoundException.EXCEPTION
 
         return User(

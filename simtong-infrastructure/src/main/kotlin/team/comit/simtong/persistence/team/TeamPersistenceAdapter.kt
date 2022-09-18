@@ -1,9 +1,8 @@
 package team.comit.simtong.persistence.team
 
 import org.springframework.stereotype.Component
-import team.comit.simtong.domain.team.spi.DomainQueryTeamPort
+import team.comit.simtong.domain.team.spi.TeamPort
 import team.comit.simtong.persistence.team.mapper.TeamMapper
-import java.util.*
 
 /**
  *
@@ -17,11 +16,7 @@ import java.util.*
 class TeamPersistenceAdapter(
     private val teamJpaRepository: TeamJpaRepository,
     private val teamMapper: TeamMapper
-): DomainQueryTeamPort {
-
-    override fun queryTeamById(id: UUID) = teamMapper.toDomain(
-        teamJpaRepository.queryTeamJpaEntityById(id)
-    )
+) : TeamPort {
 
     override fun queryTeamByName(name: String) = teamMapper.toDomain(
         teamJpaRepository.queryTeamJpaEntityByName(name)
