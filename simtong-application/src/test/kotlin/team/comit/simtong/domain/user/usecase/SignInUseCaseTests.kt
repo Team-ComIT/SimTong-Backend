@@ -8,14 +8,14 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import team.comit.simtong.domain.auth.spi.ReceiveTokenPort
 import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.user.exception.DifferentPasswordException
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.QueryUserPort
-import team.comit.simtong.domain.user.spi.SecurityPort
+import team.comit.simtong.domain.user.spi.UserJwtPort
+import team.comit.simtong.domain.user.spi.UserSecurityPort
 import team.comit.simtong.domain.user.usecase.dto.SignInRequest
 import java.util.*
 
@@ -26,10 +26,10 @@ class SignInUseCaseTests {
     private lateinit var queryUserPort: QueryUserPort
 
     @MockBean
-    private lateinit var securityPort: SecurityPort
+    private lateinit var userSecurityPort: UserSecurityPort
 
     @MockBean
-    private lateinit var tokenPort: ReceiveTokenPort
+    private lateinit var userJwtPort: UserJwtPort
 
     private lateinit var signInUseCase: SignInUseCase
 
@@ -67,7 +67,7 @@ class SignInUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        signInUseCase = SignInUseCase(queryUserPort, securityPort, tokenPort)
+        signInUseCase = SignInUseCase(queryUserPort, userSecurityPort, userJwtPort)
     }
 
     @Test
@@ -76,10 +76,10 @@ class SignInUseCaseTests {
         given(queryUserPort.queryUserByEmployeeNumber(employeeNumber))
             .willReturn(userStub)
 
-        given(securityPort.compare(requestStub.password, userStub.password))
+        given(userSecurityPort.compare(requestStub.password, userStub.password))
             .willReturn(true)
 
-        given(tokenPort.generateJsonWebToken(userStub.id, userStub.authority))
+        given(userJwtPort.receiveToken(userStub.id, userStub.authority))
             .willReturn(responseStub)
 
         // when
@@ -95,7 +95,7 @@ class SignInUseCaseTests {
         given(queryUserPort.queryUserByEmployeeNumber(employeeNumber))
             .willReturn(userStub)
 
-        given(securityPort.compare(requestStub.password, userStub.password))
+        given(userSecurityPort.compare(requestStub.password, userStub.password))
             .willReturn(false)
 
         // when & then
