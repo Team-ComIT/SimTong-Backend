@@ -47,6 +47,7 @@ class SecurityConfig(
 
             // commons
             .antMatchers(HttpMethod.GET, "/commons/employee-number").permitAll()
+            .antMatchers(HttpMethod.PUT, "/commons/token/reissue").permitAll()
 
             .anyRequest().authenticated()
 
