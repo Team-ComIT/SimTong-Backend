@@ -17,7 +17,7 @@ import team.comit.simtong.persistence.team.entity.TeamJpaEntity
  * @version 1.0.0
  **/
 @Mapper
-abstract class TeamMapper : GenericMapper<TeamJpaEntity, Team>{
+abstract class TeamMapper : GenericMapper<TeamJpaEntity, Team> {
 
     @Autowired
     protected lateinit var spotJpaRepository: SpotJpaRepository

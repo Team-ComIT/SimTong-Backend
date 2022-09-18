@@ -7,7 +7,11 @@ import team.comit.simtong.domain.team.exception.TeamNotFoundException
 import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
-import team.comit.simtong.domain.user.spi.*
+import team.comit.simtong.domain.user.spi.QueryUserPort
+import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
+import team.comit.simtong.domain.user.spi.UserQuerySpotPort
+import team.comit.simtong.domain.user.spi.UserQueryTeamPort
+import team.comit.simtong.domain.user.spi.UserSecurityPort
 import team.comit.simtong.global.annotation.Policy
 
 /**
