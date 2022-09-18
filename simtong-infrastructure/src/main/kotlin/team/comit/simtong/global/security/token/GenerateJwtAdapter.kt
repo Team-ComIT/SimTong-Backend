@@ -4,20 +4,20 @@ import io.jsonwebtoken.Header
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.stereotype.Component
-import team.comit.simtong.domain.auth.spi.ReceiveTokenPort
+import team.comit.simtong.domain.auth.spi.JwtPort
 import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.global.security.SecurityProperties
-import team.comit.simtong.persistence.auth.repository.RefreshTokenRepository
 import team.comit.simtong.persistence.auth.entity.RefreshTokenEntity
-import java.util.UUID
-import java.util.Date
+import team.comit.simtong.persistence.auth.repository.RefreshTokenRepository
+import java.util.*
 
 /**
  *
  * Access 토큰과 Refresh 토큰을 생성하는 GenerateJwtAdapter
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/09/01
  * @version 1.0.0
  **/
@@ -25,10 +25,10 @@ import java.util.Date
 class GenerateJwtAdapter(
     private val refreshTokenRepository: RefreshTokenRepository,
     private val securityProperties: SecurityProperties
-) : ReceiveTokenPort {
+) : JwtPort {
 
-    private fun generateAccessToken(userId: UUID, authority: Authority): String {
-        return Jwts.builder()
+    private fun generateAccessToken(userId: UUID, authority: Authority) =
+        Jwts.builder()
             .signWith(SignatureAlgorithm.HS512, securityProperties.encodingSecretKey)
             .setHeaderParam(Header.JWT_TYPE, JwtComponent.ACCESS)
             .setId(userId.toString())
@@ -36,7 +36,6 @@ class GenerateJwtAdapter(
             .setIssuedAt(Date())
             .setExpiration(Date(System.currentTimeMillis() + securityProperties.accessExpiredTime))
             .compact()
-    }
 
     private fun generateRefreshToken(userId: UUID, authority: Authority): String {
         val token = Jwts.builder()
@@ -46,22 +45,22 @@ class GenerateJwtAdapter(
             .setExpiration(Date(System.currentTimeMillis() + securityProperties.refreshExpiredTime))
             .compact()
 
-        refreshTokenRepository.save(RefreshTokenEntity(
-            token = token,
-            authority = authority,
-            userId = userId,
-            expirationTime = securityProperties.refreshExpiredTime / 1000
-        ))
+        refreshTokenRepository.save(
+            RefreshTokenEntity(
+                token = token,
+                authority = authority,
+                userId = userId,
+                expirationTime = securityProperties.refreshExpiredTime / 1000
+            )
+        )
 
         return token
     }
 
-    override fun generateJsonWebToken(userId: UUID, authority: Authority): TokenResponse {
-        return TokenResponse(
-            accessToken = generateAccessToken(userId, authority),
-            refreshToken = generateRefreshToken(userId, authority),
-            accessTokenExp = Date(System.currentTimeMillis() + securityProperties.accessExpiredTime)
-        )
-    }
+    override fun receiveToken(userId: UUID, authority: Authority) = TokenResponse(
+        accessToken = generateAccessToken(userId, authority),
+        refreshToken = generateRefreshToken(userId, authority),
+        accessTokenExp = Date(System.currentTimeMillis() + securityProperties.accessExpiredTime)
+    )
 
 }

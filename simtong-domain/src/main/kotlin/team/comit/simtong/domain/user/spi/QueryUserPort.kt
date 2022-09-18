@@ -12,7 +12,9 @@ import java.util.*
  * @date 2022/09/04
  * @version 1.0.0
  **/
-interface QueryUserPort : DomainQueryUserPort {
+interface QueryUserPort {
+
+    fun existsUserByEmail(email: String): Boolean
 
     fun queryUserById(id: UUID): User?
 

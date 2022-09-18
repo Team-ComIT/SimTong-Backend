@@ -2,8 +2,7 @@ package team.comit.simtong.persistence.user
 
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.user.model.User
-import team.comit.simtong.domain.user.spi.QueryUserPort
-import team.comit.simtong.domain.user.spi.SaveUserPort
+import team.comit.simtong.domain.user.spi.UserPort
 import team.comit.simtong.persistence.user.mapper.UserMapper
 import team.comit.simtong.persistence.user.repository.UserJpaRepository
 import java.util.*
@@ -21,7 +20,7 @@ import java.util.*
 class UserPersistenceAdapter(
     private val userJpaRepository: UserJpaRepository,
     private val userMapper: UserMapper
-): QueryUserPort, SaveUserPort {
+) : UserPort {
 
     override fun queryUserById(id: UUID) = userMapper.toDomain(
         userJpaRepository.queryUserJpaEntityById(id)
@@ -45,10 +44,10 @@ class UserPersistenceAdapter(
 
     override fun existsUserByEmail(email: String) = userJpaRepository.existsUserJpaEntitiesByEmail(email)
 
-
     override fun save(user: User) = userMapper.toDomain(
         userJpaRepository.save(
             userMapper.toEntity(user)
-        ))!!
+        )
+    )!!
 
 }

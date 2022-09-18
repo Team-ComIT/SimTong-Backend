@@ -11,41 +11,41 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.auth.exception.UsedEmailException
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
-import team.comit.simtong.domain.auth.spi.DomainQueryAuthCodeLimitPort
-import team.comit.simtong.domain.auth.spi.ReceiveTokenPort
 import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.spot.exception.SpotNotFoundException
 import team.comit.simtong.domain.spot.model.Spot
-import team.comit.simtong.domain.spot.spi.DomainQuerySpotPort
 import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.policy.SignUpPolicy
-import team.comit.simtong.domain.user.spi.DomainQueryUserPort
-import team.comit.simtong.domain.user.spi.SaveUserPort
-import team.comit.simtong.domain.user.spi.SecurityPort
+import team.comit.simtong.domain.user.spi.CommandUserPort
+import team.comit.simtong.domain.user.spi.QueryUserPort
+import team.comit.simtong.domain.user.spi.UserJwtPort
+import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
+import team.comit.simtong.domain.user.spi.UserQuerySpotPort
+import team.comit.simtong.domain.user.spi.UserSecurityPort
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
 class SignUpUseCaseTests {
 
     @MockBean
-    private lateinit var receiveTokenPort: ReceiveTokenPort
+    private lateinit var userJwtPort: UserJwtPort
 
     @MockBean
-    private lateinit var saveUserPort: SaveUserPort
+    private lateinit var commandUserPort: CommandUserPort
 
     @MockBean
-    private lateinit var securityPort: SecurityPort
+    private lateinit var userSecurityPort: UserSecurityPort
 
     @MockBean
-    private lateinit var domainQueryUserPort: DomainQueryUserPort
+    private lateinit var queryUserPort: QueryUserPort
 
     @MockBean
-    private lateinit var domainQuerySpotPort: DomainQuerySpotPort
+    private lateinit var userQuerySpotPort: UserQuerySpotPort
 
     @MockBean
-    private lateinit var domainQueryAuthCodeLimitPort: DomainQueryAuthCodeLimitPort
+    private lateinit var userQueryAuthCodeLimitPort: UserQueryAuthCodeLimitPort
 
     private lateinit var signUpPolicy: SignUpPolicy
 
@@ -137,29 +137,30 @@ class SignUpUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        signUpPolicy = SignUpPolicy(domainQuerySpotPort, domainQueryAuthCodeLimitPort, domainQueryUserPort, securityPort)
-        signUpUseCase = SignUpUseCase(receiveTokenPort, saveUserPort, signUpPolicy)
+        signUpPolicy =
+            SignUpPolicy(userQuerySpotPort, userQueryAuthCodeLimitPort, queryUserPort, userSecurityPort)
+        signUpUseCase = SignUpUseCase(userJwtPort, commandUserPort, signUpPolicy)
     }
 
     @Test
     fun `회원가입 성공`() {
         // given
-        given(domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(authCodeLimitStub)
 
-        given(domainQueryUserPort.existsUserByEmail(requestStub.email))
+        given(queryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(false)
 
-        given(securityPort.encode(requestStub.password))
+        given(userSecurityPort.encode(requestStub.password))
             .willReturn(userStub.password)
 
-        given(domainQuerySpotPort.querySpotByName(spotName))
+        given(userQuerySpotPort.querySpotByName(spotName))
             .willReturn(spotStub)
 
-        given(saveUserPort.save(userStub))
+        given(commandUserPort.save(userStub))
             .willReturn(saveUserStub)
 
-        given(receiveTokenPort.generateJsonWebToken(saveUserStub.id, saveUserStub.authority))
+        given(userJwtPort.receiveToken(saveUserStub.id, saveUserStub.authority))
             .willReturn(responseStub)
 
         // when
@@ -172,7 +173,7 @@ class SignUpUseCaseTests {
     @Test
     fun `인증되지 않은 이메일`() {
         // given
-        given(domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(unVerifiedAuthCodeLimitStub)
 
         // when & then
@@ -184,7 +185,7 @@ class SignUpUseCaseTests {
     @Test
     fun `이메일 인증 객체 찾기 실패`() {
         // given
-        given(domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(null)
 
         // when & then
@@ -196,10 +197,10 @@ class SignUpUseCaseTests {
     @Test
     fun `이미 사용된 이메일`() {
         // given
-        given(domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(authCodeLimitStub)
 
-        given(domainQueryUserPort.existsUserByEmail(requestStub.email))
+        given(queryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(true)
 
         // when & then
@@ -211,13 +212,13 @@ class SignUpUseCaseTests {
     @Test
     fun `지점 찾기 실패`() {
         // given
-        given(domainQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(authCodeLimitStub)
 
-        given(domainQueryUserPort.existsUserByEmail(requestStub.email))
+        given(queryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(false)
 
-        given(domainQuerySpotPort.querySpotByName(spotName))
+        given(userQuerySpotPort.querySpotByName(spotName))
             .willReturn(null)
 
         // when & then
