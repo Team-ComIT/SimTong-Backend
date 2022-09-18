@@ -26,8 +26,9 @@ class DeviceTokenJpaEntity(
     val userId: UUID,
 
     @MapsId
+    @field:NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", columnDefinition = "BINARY(16)", nullable = false)
+    @JoinColumn(name = "user_id", columnDefinition = "BINARY(16)")
     val user: UserJpaEntity,
 
     @field:NotNull
