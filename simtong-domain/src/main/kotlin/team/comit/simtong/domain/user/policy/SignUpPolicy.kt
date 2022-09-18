@@ -5,6 +5,8 @@ import team.comit.simtong.domain.auth.exception.UsedEmailException
 import team.comit.simtong.domain.auth.spi.DomainQueryAuthCodeLimitPort
 import team.comit.simtong.domain.spot.exception.SpotNotFoundException
 import team.comit.simtong.domain.spot.spi.DomainQuerySpotPort
+import team.comit.simtong.domain.team.exception.TeamNotFoundException
+import team.comit.simtong.domain.team.spi.DomainQueryTeamPort
 import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -24,6 +26,7 @@ import team.comit.simtong.global.annotation.Policy
 @Policy
 class SignUpPolicy(
 //    private val nickNamePort: NickNamePort,
+    private val domainQueryTeamPort: DomainQueryTeamPort,
     private val domainQuerySpotPort: DomainQuerySpotPort,
     private val domainQueryAuthCodeLimitPort: DomainQueryAuthCodeLimitPort,
     private val domainQueryUserPort: DomainQueryUserPort,
@@ -44,8 +47,11 @@ class SignUpPolicy(
         // TODO 비즈니스 로직 직접 구현
         // 임직원 확인
 
-        val spot = domainQuerySpotPort.querySpotByName("") // 임직원 확인시 지점 이름 가져오기
+        val spot = domainQuerySpotPort.querySpotByName("test spotName") // 임직원 확인시 지점 이름 가져오기
             ?: throw SpotNotFoundException.EXCEPTION
+
+        val team = domainQueryTeamPort.queryTeamByName("test testName") // 임직원 확인시 팀 이름 가져오기
+            ?: throw TeamNotFoundException.EXCEPTION
 
         return User(
             name = request.name,
@@ -55,6 +61,7 @@ class SignUpPolicy(
             employeeNumber = request.employeeNumber,
             authority = Authority.ROLE_COMMON,
             spotId = spot.id,
+            teamId = team.id,
             profileImagePath = request.profileImagePath ?: User.defaultImage
         )
     }
