@@ -50,7 +50,7 @@ class SignUpPolicy(
         val spot = domainQuerySpotPort.querySpotByName("test spotName") // 임직원 확인시 지점 이름 가져오기
             ?: throw SpotNotFoundException.EXCEPTION
 
-        val team = domainQueryTeamPort.queryTeamByName("test testName") // 임직원 확인시 팀 이름 가져오기
+        val team = domainQueryTeamPort.queryTeamByName("test teamName") // 임직원 확인시 팀 이름 가져오기
             ?: throw TeamNotFoundException.EXCEPTION
 
         return User(

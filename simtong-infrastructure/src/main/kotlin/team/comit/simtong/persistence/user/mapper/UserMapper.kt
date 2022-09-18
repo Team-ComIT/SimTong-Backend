@@ -19,11 +19,11 @@ import team.comit.simtong.persistence.user.entity.UserJpaEntity
  * @version 1.0.0
  **/
 @Mapper
-abstract class UserMapper: GenericMapper<UserJpaEntity, User> {
+abstract class UserMapper : GenericMapper<UserJpaEntity, User> {
 
     @Autowired
     protected lateinit var spotJpaRepository: SpotJpaRepository
-    
+
     @Autowired
     protected lateinit var teamJpaRepository: TeamJpaRepository
 

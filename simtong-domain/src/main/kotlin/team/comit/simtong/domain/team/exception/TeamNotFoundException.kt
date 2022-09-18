@@ -11,7 +11,7 @@ import team.comit.simtong.global.error.BusinessException
  * @date 2022/09/18
  * @version 1.0.0
  **/
-class TeamNotFoundException private constructor() : BusinessException(TeamErrorCode.TEAM_NOT_FOUND) {
+class TeamNotFoundException private constructor(): BusinessException(TeamErrorCode.TEAM_NOT_FOUND) {
 
     companion object {
         @JvmField
