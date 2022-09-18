@@ -4,13 +4,14 @@ import team.comit.simtong.domain.user.model.User
 
 /**
  *
- * User의 저장을 요청하는 SaveUserPort
+ * User의 저장을 요청하는 CommandUserPort
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/09/04
  * @version 1.0.0
  **/
-interface SaveUserPort {
+interface CommandUserPort {
 
     fun save(user: User): User
 

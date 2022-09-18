@@ -1,7 +1,7 @@
 package team.comit.simtong.persistence.auth
 
 import org.springframework.stereotype.Component
-import team.comit.simtong.domain.auth.spi.DomainQueryAuthCodeLimitPort
+import team.comit.simtong.domain.auth.spi.AuthCodeLimitPort
 import team.comit.simtong.persistence.auth.mapper.AuthCodeLimitMapper
 import team.comit.simtong.persistence.auth.repository.AuthCodeLimitRepository
 
@@ -18,7 +18,7 @@ import team.comit.simtong.persistence.auth.repository.AuthCodeLimitRepository
 class AuthCodeLimitAdapter(
     private val authCodeLimitMapper: AuthCodeLimitMapper,
     private val authCodeLimitRepository: AuthCodeLimitRepository
-) : DomainQueryAuthCodeLimitPort {
+) : AuthCodeLimitPort {
 
     override fun queryAuthCodeLimitByEmail(email: String) = authCodeLimitMapper.toDomain(
         authCodeLimitRepository.queryAuthCodeLimitEntityByKey(email)

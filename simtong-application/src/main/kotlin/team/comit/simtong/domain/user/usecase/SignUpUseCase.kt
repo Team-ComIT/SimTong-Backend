@@ -1,10 +1,10 @@
 package team.comit.simtong.domain.user.usecase
 
-import team.comit.simtong.domain.auth.spi.ReceiveTokenPort
 import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.policy.SignUpPolicy
-import team.comit.simtong.domain.user.spi.SaveUserPort
+import team.comit.simtong.domain.user.spi.CommandUserPort
+import team.comit.simtong.domain.user.spi.UserJwtPort
 import team.comit.simtong.global.annotation.UseCase
 
 /**
@@ -18,15 +18,17 @@ import team.comit.simtong.global.annotation.UseCase
  **/
 @UseCase
 class SignUpUseCase(
-    private val receiveTokenPort: ReceiveTokenPort,
-    private val saveUserPort: SaveUserPort,
+    private val userJwtPort: UserJwtPort,
+    private val commandUserPort: CommandUserPort,
     private val signUpPolicy: SignUpPolicy
 ) {
 
     fun execute(request: DomainSignUpRequest): TokenResponse {
-        val user = saveUserPort.save(signUpPolicy.implement(request))
+        val user = commandUserPort.save(
+            signUpPolicy.implement(request)
+        )
 
-        return receiveTokenPort.generateJsonWebToken(
+        return userJwtPort.receiveToken(
             userId = user.id,
             authority = user.authority
         )
