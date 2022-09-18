@@ -22,14 +22,19 @@ abstract class UserMapper: GenericMapper<UserJpaEntity, User> {
 
     @Autowired
     protected lateinit var spotJpaRepository: SpotJpaRepository
+    
+    @Autowired
+    protected lateinit var teamJpaRepository: SpotJpaRepository
 
     @Mappings(
-        Mapping(target = "spot", expression = "java(spotJpaRepository.querySpotJpaEntityById(model.getSpotId()))")
+        Mapping(target = "spot", expression = "java(spotJpaRepository.querySpotJpaEntityById(model.getSpotId()))"),
+        Mapping(target = "team", expression = "java(teamJpaRepository.queryTeamJpaEntityById(model.getTeamId()))")
     )
     abstract override fun toEntity(model: User): UserJpaEntity
 
     @Mappings(
-        Mapping(target = "spotId", expression = "java(entity.getSpot().getId())")
+        Mapping(target = "spotId", expression = "java(entity.getSpot().getId())"),
+        Mapping(target = "teamId", expression = "java(entity.getTeam().getId())")
     )
     abstract override fun toDomain(entity: UserJpaEntity?): User?
 }
