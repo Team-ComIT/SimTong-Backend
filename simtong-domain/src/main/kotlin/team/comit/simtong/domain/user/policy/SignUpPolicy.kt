@@ -40,14 +40,14 @@ class SignUpPolicy(
         employeeNumber: Int,
         profileImagePath: String?
     ): User {
+        if (queryUserPort.existsUserByEmail(email)) {
+            throw UsedEmailException.EXCEPTION
+        }
+
         val authCodeLimit = userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
 
         if (authCodeLimit == null || !authCodeLimit.isVerified) {
             throw UncertifiedEmailException.EXCEPTION
-        }
-
-        if (queryUserPort.existsUserByEmail(email)) {
-            throw UsedEmailException.EXCEPTION
         }
 
         // TODO 비즈니스 로직 직접 구현
