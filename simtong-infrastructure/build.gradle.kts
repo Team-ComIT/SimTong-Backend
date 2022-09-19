@@ -6,6 +6,10 @@ plugins {
 }
 
 dependencies {
+    // impl project
+    implementation(project(":simtong-domain"))
+    implementation(project(":simtong-application"))
+    implementation(project(":simtong-presentation"))
 
     // kotlin
     implementation(Dependencies.JACKSON)
@@ -36,9 +40,6 @@ dependencies {
     // configuration
     annotationProcessor(Dependencies.CONFIGURATION_PROCESSOR)
 
-    // api project
-    api(project(":simtong-application"))
-
     // s3mock
     testImplementation(Dependencies.S3MOCK)
 }
@@ -62,6 +63,6 @@ noArg {
     annotation("javax.persistence.Embeddable")
 }
 
-tasks.getByName<Jar>("bootJar") {
+tasks.getByName<Jar>("jar") {
     enabled = false
 }
