@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
+import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.user.dto.request.WebSignInRequest
 import team.comit.simtong.user.dto.request.WebSignUpRequest
 import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
-import team.comit.simtong.domain.user.usecase.dto.SignInRequest
-import team.comit.simtong.domain.user.usecase.dto.SignUpRequest
+import team.comit.simtong.domain.user.dto.SignInRequest
+import team.comit.simtong.domain.user.dto.SignUpRequest
 import javax.validation.Valid
 
 /**

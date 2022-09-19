@@ -1,10 +1,10 @@
 package team.comit.simtong.domain.user.usecase
 
-import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
+import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.user.policy.SignUpPolicy
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.UserJwtPort
-import team.comit.simtong.domain.user.usecase.dto.SignUpRequest
+import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.global.annotation.UseCase
 
 /**

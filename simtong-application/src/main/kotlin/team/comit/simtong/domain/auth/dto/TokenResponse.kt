@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.auth.usecase.dto
+package team.comit.simtong.domain.auth.dto
 
 import java.util.Date
 

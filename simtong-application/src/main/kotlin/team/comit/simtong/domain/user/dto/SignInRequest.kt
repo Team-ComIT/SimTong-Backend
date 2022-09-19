@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.user.usecase.dto
+package team.comit.simtong.domain.user.dto
 
 /**
  *

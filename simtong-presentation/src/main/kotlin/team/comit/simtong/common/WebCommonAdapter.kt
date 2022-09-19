@@ -2,11 +2,11 @@ package team.comit.simtong.common
 
 import org.springframework.web.bind.annotation.*
 import team.comit.simtong.domain.auth.usecase.ReissueTokenUseCase
-import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
+import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.common.dto.request.WebFindEmployeeNumberRequest
 import team.comit.simtong.common.dto.response.WebFindEmployeeNumberResponse
 import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
-import team.comit.simtong.domain.user.usecase.dto.FindEmployeeNumberRequest
+import team.comit.simtong.domain.user.dto.FindEmployeeNumberRequest
 import javax.validation.Valid
 
 /**
@@ -29,7 +29,8 @@ class WebCommonAdapter(
         val result = findEmployeeNumberUseCase.execute(
             FindEmployeeNumberRequest(
                 name = request.name, spotId = request.spotId, email = request.email
-            ))
+            )
+        )
 
         return WebFindEmployeeNumberResponse(result)
     }

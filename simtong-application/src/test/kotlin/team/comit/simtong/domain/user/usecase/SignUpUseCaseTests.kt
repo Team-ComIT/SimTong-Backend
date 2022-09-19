@@ -11,7 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.auth.exception.UsedEmailException
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
-import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
+import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.spot.exception.SpotNotFoundException
 import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.team.exception.TeamNotFoundException
@@ -26,7 +26,7 @@ import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.UserQuerySpotPort
 import team.comit.simtong.domain.user.spi.UserQueryTeamPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
-import team.comit.simtong.domain.user.usecase.dto.SignUpRequest
+import team.comit.simtong.domain.user.dto.SignUpRequest
 import java.util.*
 
 @ExtendWith(SpringExtension::class)

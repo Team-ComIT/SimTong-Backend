@@ -12,7 +12,7 @@ import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.QueryUserPort
-import team.comit.simtong.domain.user.usecase.dto.FindEmployeeNumberRequest
+import team.comit.simtong.domain.user.dto.FindEmployeeNumberRequest
 import java.util.*
 
 @ExtendWith(SpringExtension::class)

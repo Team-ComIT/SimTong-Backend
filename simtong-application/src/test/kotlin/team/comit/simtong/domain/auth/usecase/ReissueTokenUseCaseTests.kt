@@ -12,7 +12,7 @@ import team.comit.simtong.domain.auth.exception.RefreshTokenNotFoundException
 import team.comit.simtong.domain.auth.model.RefreshToken
 import team.comit.simtong.domain.auth.spi.QueryRefreshTokenPort
 import team.comit.simtong.domain.auth.spi.JwtPort
-import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
+import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.user.model.Authority
 import java.util.*
 
