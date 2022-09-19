@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.common.dto.request
+package team.comit.simtong.common.dto.request
 
 import java.util.*
 import javax.validation.constraints.Email

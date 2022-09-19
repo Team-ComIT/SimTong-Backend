@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.common.dto.response
+package team.comit.simtong.common.dto.response
 
 /**
  *
