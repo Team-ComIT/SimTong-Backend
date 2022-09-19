@@ -2,7 +2,7 @@ package team.comit.simtong.domain.user.spi
 
 import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
 import team.comit.simtong.domain.user.model.Authority
-import java.util.*
+import java.util.UUID
 
 /**
  *

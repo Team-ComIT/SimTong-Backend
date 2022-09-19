@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.persistence.GenericMapper
 import team.comit.simtong.persistence.spot.SpotJpaRepository
+import team.comit.simtong.persistence.team.TeamJpaRepository
 import team.comit.simtong.persistence.user.entity.UserJpaEntity
 
 /**
@@ -18,18 +19,23 @@ import team.comit.simtong.persistence.user.entity.UserJpaEntity
  * @version 1.0.0
  **/
 @Mapper
-abstract class UserMapper: GenericMapper<UserJpaEntity, User> {
+abstract class UserMapper : GenericMapper<UserJpaEntity, User> {
 
     @Autowired
     protected lateinit var spotJpaRepository: SpotJpaRepository
 
+    @Autowired
+    protected lateinit var teamJpaRepository: TeamJpaRepository
+
     @Mappings(
-        Mapping(target = "spot", expression = "java(spotJpaRepository.querySpotJpaEntityById(model.getSpotId()))")
+        Mapping(target = "spot", expression = "java(spotJpaRepository.querySpotJpaEntityById(model.getSpotId()))"),
+        Mapping(target = "team", expression = "java(teamJpaRepository.queryTeamJpaEntityById(model.getTeamId()))")
     )
     abstract override fun toEntity(model: User): UserJpaEntity
 
     @Mappings(
-        Mapping(target = "spotId", expression = "java(entity.getSpot().getId())")
+        Mapping(target = "spotId", expression = "java(entity.getSpot().getId())"),
+        Mapping(target = "teamId", expression = "java(entity.getTeam().getId())")
     )
     abstract override fun toDomain(entity: UserJpaEntity?): User?
 }

@@ -40,6 +40,7 @@ class FindEmployeeNumberUseCaseTests {
             password = "test password",
             authority = Authority.ROLE_COMMON,
             spotId = UUID.randomUUID(),
+            teamId = UUID.randomUUID(),
             profileImagePath = "test path"
         )
     }

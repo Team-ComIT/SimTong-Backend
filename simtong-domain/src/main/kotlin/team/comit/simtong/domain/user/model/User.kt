@@ -30,6 +30,8 @@ data class User(
 
     val spotId: UUID,
 
+    val teamId: UUID,
+
     val adminCode: String? = null,
 
     val profileImagePath: String
