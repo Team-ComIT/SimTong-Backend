@@ -1,14 +1,15 @@
-package team.comit.simtong.domain.user.dto
+package team.comit.simtong.domain.user.usecase.dto
 
 /**
  *
- * 회원 가입 정보를 전달하는 DomainSignUpRequest
+ * 회원 가입 정보를 전달하는 SignUpRequest
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/09/04
  * @version 1.0.0
  **/
-data class DomainSignUpRequest(
+data class SignUpRequest(
     val name: String,
 
     val email: String,
