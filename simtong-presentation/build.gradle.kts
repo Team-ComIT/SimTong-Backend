@@ -14,7 +14,3 @@ dependencies {
     // validation
     implementation(Dependencies.SPRING_VALIDATION)
 }
-
-tasks.getByName<Jar>("bootJar") {
-    enabled = false
-}
