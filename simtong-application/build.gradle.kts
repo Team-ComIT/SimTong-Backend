@@ -3,12 +3,11 @@ plugins {
 }
 
 dependencies {
+    // impl project
+    implementation(project(":simtong-domain"))
 
     // spring transaction
     implementation(Dependencies.SPRING_TRANSACTION)
-
-    // api project
-    api(project(":simtong-domain"))
 }
 
 allOpen {

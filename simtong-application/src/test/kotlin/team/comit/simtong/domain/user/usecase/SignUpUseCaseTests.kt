@@ -11,16 +11,22 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.auth.exception.UsedEmailException
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
-import team.comit.simtong.domain.auth.usecase.dto.TokenResponse
+import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.spot.exception.SpotNotFoundException
 import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.team.exception.TeamNotFoundException
 import team.comit.simtong.domain.team.model.Team
-import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.policy.SignUpPolicy
-import team.comit.simtong.domain.user.spi.*
+import team.comit.simtong.domain.user.spi.CommandUserPort
+import team.comit.simtong.domain.user.spi.QueryUserPort
+import team.comit.simtong.domain.user.spi.UserJwtPort
+import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
+import team.comit.simtong.domain.user.spi.UserQuerySpotPort
+import team.comit.simtong.domain.user.spi.UserQueryTeamPort
+import team.comit.simtong.domain.user.spi.UserSecurityPort
+import team.comit.simtong.domain.user.dto.SignUpRequest
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
@@ -128,8 +134,8 @@ class SignUpUseCaseTests {
         )
     }
 
-    private val requestStub: DomainSignUpRequest by lazy {
-        DomainSignUpRequest(
+    private val requestStub: SignUpRequest by lazy {
+        SignUpRequest(
             nickname = nickname,
             name = name,
             email = email,
@@ -149,7 +155,13 @@ class SignUpUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        signUpPolicy = SignUpPolicy(userQueryTeamPort, userQuerySpotPort, userQueryAuthCodeLimitPort, queryUserPort, userSecurityPort)
+        signUpPolicy = SignUpPolicy(
+            userQueryTeamPort,
+            userQuerySpotPort,
+            userQueryAuthCodeLimitPort,
+            queryUserPort,
+            userSecurityPort
+        )
         signUpUseCase = SignUpUseCase(userJwtPort, commandUserPort, signUpPolicy)
     }
 

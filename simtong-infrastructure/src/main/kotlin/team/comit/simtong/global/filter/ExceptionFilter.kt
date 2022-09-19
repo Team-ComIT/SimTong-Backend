@@ -5,7 +5,7 @@ import org.springframework.http.MediaType
 import org.springframework.web.filter.OncePerRequestFilter
 import team.comit.simtong.global.error.BusinessException
 import team.comit.simtong.global.error.ErrorProperty
-import team.comit.simtong.global.error.ErrorResponse
+import team.comit.simtong.global.error.dto.ErrorResponse
 import team.comit.simtong.global.exception.InternalServerErrorException
 import java.nio.charset.StandardCharsets
 import javax.servlet.FilterChain

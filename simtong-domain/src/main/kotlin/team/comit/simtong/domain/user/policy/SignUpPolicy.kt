@@ -4,7 +4,6 @@ import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.auth.exception.UsedEmailException
 import team.comit.simtong.domain.spot.exception.SpotNotFoundException
 import team.comit.simtong.domain.team.exception.TeamNotFoundException
-import team.comit.simtong.domain.user.dto.DomainSignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.QueryUserPort
@@ -33,15 +32,22 @@ class SignUpPolicy(
     private val userSecurityPort: UserSecurityPort
 ) {
 
-    fun implement(request: DomainSignUpRequest): User {
-        val authCodeLimit = userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email)
+    fun implement(
+        nickname: String?,
+        name: String,
+        email: String,
+        password: String,
+        employeeNumber: Int,
+        profileImagePath: String?
+    ): User {
+        if (queryUserPort.existsUserByEmail(email)) {
+            throw UsedEmailException.EXCEPTION
+        }
+
+        val authCodeLimit = userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
 
         if (authCodeLimit == null || !authCodeLimit.isVerified) {
             throw UncertifiedEmailException.EXCEPTION
-        }
-
-        if (queryUserPort.existsUserByEmail(request.email)) {
-            throw UsedEmailException.EXCEPTION
         }
 
         // TODO 비즈니스 로직 직접 구현
@@ -54,15 +60,15 @@ class SignUpPolicy(
             ?: throw TeamNotFoundException.EXCEPTION
 
         return User(
-            name = request.name,
-            email = request.email,
-            password = userSecurityPort.encode(request.password),
-            nickname = request.nickname ?: "", // nickNamePort.random()
-            employeeNumber = request.employeeNumber,
+            nickname = nickname ?: "", // nickNamePort.random()
+            name = name,
+            email = email,
+            password = userSecurityPort.encode(password),
+            employeeNumber = employeeNumber,
             authority = Authority.ROLE_COMMON,
             spotId = spot.id,
             teamId = team.id,
-            profileImagePath = request.profileImagePath ?: User.defaultImage
+            profileImagePath = profileImagePath ?: User.defaultImage
         )
     }
 }

@@ -1,4 +1,4 @@
-package team.comit.simtong.global.error
+package team.comit.simtong.global.error.dto
 
 import org.springframework.validation.BindingResult
 

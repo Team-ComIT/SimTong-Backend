@@ -1,8 +1,10 @@
-package team.comit.simtong.global.error
+package team.comit.simtong.global.error.dto
 
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.validation.BindingResult
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
+import team.comit.simtong.global.error.ErrorProperty
+import team.comit.simtong.global.error.GlobalErrorCode
 import javax.validation.ConstraintViolationException
 
 /**
