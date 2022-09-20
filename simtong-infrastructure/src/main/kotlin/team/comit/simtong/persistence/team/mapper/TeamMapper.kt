@@ -25,7 +25,7 @@ abstract class TeamMapper : GenericMapper<TeamJpaEntity, Team> {
     @Mapping(target = "spot", expression = "java(spotJpaRepository.querySpotJpaEntityById(model.getSpotId()))")
     abstract override fun toEntity(model: Team): TeamJpaEntity
 
-    @Mapping(target = "spotId", expression = "java(entity.getId())")
+    @Mapping(target = "spotId", expression = "java(entity.getSpot().getId())")
     abstract override fun toDomain(entity: TeamJpaEntity?): Team?
 
 }
