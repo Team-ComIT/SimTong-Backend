@@ -4,7 +4,6 @@ import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -74,7 +73,6 @@ class AwsS3AdapterTests {
         // then
         assertThat(result).contains(awsS3Properties.bucket)
         assertThat(result).contains(file.name)
-        assertTrue(file.delete())
     }
 
     @Test
@@ -89,7 +87,6 @@ class AwsS3AdapterTests {
         // then
         assertThat(result).contains(awsS3Properties.bucket)
         assertThat(result).contains(file.name)
-        assertTrue(file.delete())
     }
 
     @Test
@@ -104,7 +101,6 @@ class AwsS3AdapterTests {
         // then
         assertThat(result).contains(awsS3Properties.bucket)
         assertThat(result).contains(file.name)
-        assertTrue(file.delete())
     }
 
     @Test
