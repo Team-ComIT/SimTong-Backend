@@ -28,7 +28,7 @@ class AwsS3Adapter(
 ): ManageFilePort {
 
     override fun upload(file: File): String {
-        checkExtension(file)
+        file.let(checkExtension)
 
         val fileName = "${UUID.randomUUID()}@${file.name}"
         inputS3(file, fileName)
@@ -38,7 +38,7 @@ class AwsS3Adapter(
 
     override fun upload(files: List<File>): List<String> {
         return files
-            .onEach{ checkExtension(it) }
+            .onEach(checkExtension)
             .map {
                 val fileName = "${UUID.randomUUID()}@${it.name}"
                 inputS3(it, fileName)
@@ -47,20 +47,16 @@ class AwsS3Adapter(
             }
     }
 
-    private fun checkExtension(file: File) {
-        when (file.extension) {
-            "jpg", "jpeg", "png" -> return
-            else -> throw FileInvalidExtensionException.EXCEPTION
-        }
-    }
-
     private fun inputS3(file: File, fileName: String) {
         try {
             val inputStream = file.inputStream()
-            val objectMetadata = ObjectMetadata()
-            objectMetadata.contentType = Mimetypes.getInstance().getMimetype(file)
+            val objectMetadata = ObjectMetadata().apply {
+                this.contentLength = file.length()
+                this.contentType = Mimetypes.getInstance().getMimetype(file)
+            }
 
             amazonS3Client.putObject(PutObjectRequest(awsProperties.bucket, fileName, inputStream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead))
+            file.delete()
         } catch (e: IOException) {
             throw FileIOInterruptedException.EXCEPTION
         }
@@ -69,4 +65,12 @@ class AwsS3Adapter(
     private fun getResource(fileName: String): String {
         return amazonS3Client.getResourceUrl(awsProperties.bucket, fileName)
     }
+
+    private val checkExtension = { file: File ->
+        when (file.extension) {
+            "jpg", "jpeg", "png" -> Unit
+            else -> throw FileInvalidExtensionException.EXCEPTION
+        }
+    }
+
 }

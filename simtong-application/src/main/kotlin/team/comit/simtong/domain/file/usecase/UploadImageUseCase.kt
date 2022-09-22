@@ -17,12 +17,8 @@ class UploadImageUseCase(
     private val manageFilePort: ManageFilePort
 ) {
 
-    fun execute(file: File): String {
-        return manageFilePort.upload(file);
-    }
+    fun execute(file: File): String = manageFilePort.upload(file)
 
-    fun execute(files: List<File>): List<String> {
-        return manageFilePort.upload(files)
-    }
+    fun execute(files: List<File>): List<String> = manageFilePort.upload(files)
     
 }

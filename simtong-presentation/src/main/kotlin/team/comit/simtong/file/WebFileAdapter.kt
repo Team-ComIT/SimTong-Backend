@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 import team.comit.simtong.domain.file.usecase.UploadImageUseCase
 import team.comit.simtong.file.dto.response.WebUploadImageListResponse
 import team.comit.simtong.file.dto.response.WebUploadImageResponse
 import java.io.File
-import javax.validation.Valid
-import javax.validation.constraints.NotNull
+import java.io.FileOutputStream
 
 /**
  *
@@ -28,18 +28,26 @@ class WebFileAdapter(
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    fun singleImage(@Valid @NotNull file: File): WebUploadImageResponse {
+    fun singleImage(file: MultipartFile): WebUploadImageResponse {
         return WebUploadImageResponse(
-            uploadImageUseCase.execute(file)
+            uploadImageUseCase.execute(file.let(transferFile))
         )
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/list")
-    fun multipleImage(@Valid files: List<File>): WebUploadImageListResponse {
+    fun multipleImage(files: List<MultipartFile>): WebUploadImageListResponse {
         return WebUploadImageListResponse(
-            uploadImageUseCase.execute(files)
+            uploadImageUseCase.execute(files.map(transferFile))
         )
+    }
+
+    private val transferFile = { multipartFile: MultipartFile ->
+        File(multipartFile.originalFilename!!).let {
+            it.createNewFile()
+            FileOutputStream(it).write(multipartFile.bytes)
+            it
+        }
     }
 
 }
