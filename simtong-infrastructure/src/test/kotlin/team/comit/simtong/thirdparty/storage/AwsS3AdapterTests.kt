@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -33,10 +34,20 @@ class AwsS3AdapterTests {
     private val multipartFileStub: MockMultipartFile by lazy {
         MockMultipartFile(
             "test",
-            "test.jpg",
-            "image/jpg",
+            "test.png",
+            "image/png",
             "test".toByteArray()
         )
+    }
+
+    private val pngFile: File by lazy { fileStub("test.png") }
+
+    private val svgFile: File by lazy { fileStub("test.svg") }
+
+    private fun fileStub(name: String): File {
+        val file = File(name)
+        multipartFileStub.transferTo(file)
+        return file
     }
 
     @BeforeEach
@@ -62,56 +73,30 @@ class AwsS3AdapterTests {
     }
 
     @Test
-    fun `jpg 파일 업로드`() {
-        // given
-        val file = File("test.jpg")
-        multipartFileStub.transferTo(file)
-
+    fun `단일 파일 업로드`() {
         // when
-        val result = awsS3Adapter.upload(file)
+        val result = awsS3Adapter.upload(pngFile)
 
         // then
         assertThat(result).contains(awsS3Properties.bucket)
-        assertThat(result).contains(file.name)
     }
 
     @Test
-    fun `jpeg 파일 업로드`() {
-        // given
-        val file = File("test.jpeg")
-        multipartFileStub.transferTo(file)
-
+    fun `다중 파일 업로드`() {
         // when
-        val result = awsS3Adapter.upload(file)
+        val result = awsS3Adapter.upload(listOf(pngFile))
 
         // then
-        assertThat(result).contains(awsS3Properties.bucket)
-        assertThat(result).contains(file.name)
-    }
-
-    @Test
-    fun `png 파일 업로드`() {
-        // given
-        val file = File("test.png")
-        multipartFileStub.transferTo(file)
-
-        // when
-        val result = awsS3Adapter.upload(file)
-
-        // then
-        assertThat(result).contains(awsS3Properties.bucket)
-        assertThat(result).contains(file.name)
+        result.forEach{ assertThat(it).contains(awsS3Properties.bucket) }
     }
 
     @Test
     fun `파일 확장자 제한`() {
-        // given
-        val file = File("test.svg")
-
         // when & then
         assertThrows<FileInvalidExtensionException> {
-            awsS3Adapter.upload(file)
+            awsS3Adapter.upload(svgFile)
         }
+        assertTrue(svgFile.delete())
     }
 
     @Test

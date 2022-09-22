@@ -22,11 +22,7 @@ class UploadImageUseCaseTests {
 
     private val filePathListStub = listOf(filePathStub)
 
-    private val fileStub: File by lazy {
-        File(
-            "test.jpg"
-        )
-    }
+    private val fileStub: File by lazy { File("test.jpg") }
 
     private val filesStub: List<File> by lazy {
         listOf(fileStub)
