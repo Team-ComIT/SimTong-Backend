@@ -40,11 +40,15 @@ class AwsS3AdapterTests {
         )
     }
 
-    private val pngFile: File by lazy { fileStub("test.png") }
+    private val jpgFileStub: File by lazy { createFile("test.jpg") }
 
-    private val svgFile: File by lazy { fileStub("test.svg") }
+    private val jpegFileStub: File by lazy { createFile("test.jpeg") }
 
-    private fun fileStub(name: String): File {
+    private val pngFileStub: File by lazy { createFile("test.png") }
+
+    private val svgFileStub: File by lazy { createFile("test.svg") }
+
+    private fun createFile(name: String): File {
         val file = File(name)
         multipartFileStub.transferTo(file)
         return file
@@ -75,28 +79,36 @@ class AwsS3AdapterTests {
     @Test
     fun `단일 파일 업로드`() {
         // when
-        val result = awsS3Adapter.upload(pngFile)
+        val jpg = awsS3Adapter.upload(jpgFileStub)
+        val jpeg = awsS3Adapter.upload(jpegFileStub)
+        val png = awsS3Adapter.upload(pngFileStub)
 
         // then
-        assertThat(result).contains(awsS3Properties.bucket)
+        assertThat(jpg).contains(awsS3Properties.bucket)
+        assertThat(jpeg).contains(awsS3Properties.bucket)
+        assertThat(png).contains(awsS3Properties.bucket)
     }
 
     @Test
     fun `다중 파일 업로드`() {
         // when
-        val result = awsS3Adapter.upload(listOf(pngFile))
+        val jpg = awsS3Adapter.upload(listOf(jpgFileStub))
+        val jpeg = awsS3Adapter.upload(listOf(jpegFileStub))
+        val png = awsS3Adapter.upload(listOf(pngFileStub))
 
         // then
-        result.forEach{ assertThat(it).contains(awsS3Properties.bucket) }
+        jpg.forEach{ assertThat(it).contains(awsS3Properties.bucket) }
+        jpeg.forEach{ assertThat(it).contains(awsS3Properties.bucket) }
+        png.forEach{ assertThat(it).contains(awsS3Properties.bucket) }
     }
 
     @Test
     fun `파일 확장자 제한`() {
         // when & then
         assertThrows<FileInvalidExtensionException> {
-            awsS3Adapter.upload(svgFile)
+            awsS3Adapter.upload(svgFileStub)
         }
-        assertTrue(svgFile.delete())
+        assertTrue(svgFileStub.delete())
     }
 
     @Test
