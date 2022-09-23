@@ -67,7 +67,10 @@ class UploadImageUseCaseTests {
     @Test
     fun `다중 파일 확장자 오류`() {
         // given
-        val files = listOf(File("test.svg"))
+        val files = listOf(
+            File("test.jpg"),
+            File("test.png"),
+            File("test.svg"))
 
         // when & then
         assertThrows<FileInvalidExtensionException> {
