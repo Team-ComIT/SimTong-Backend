@@ -103,10 +103,19 @@ class AwsS3AdapterTests {
     }
 
     @Test
-    fun `파일 확장자 제한`() {
+    fun `단일 파일 확장자 제한`() {
         // when & then
         assertThrows<FileInvalidExtensionException> {
             awsS3Adapter.upload(svgFileStub)
+        }
+        assertTrue(svgFileStub.delete())
+    }
+
+    @Test
+    fun `다중 파일 확장자 제한`() {
+        // when & then
+        assertThrows<FileInvalidExtensionException> {
+            awsS3Adapter.upload(listOf(svgFileStub))
         }
         assertTrue(svgFileStub.delete())
     }
