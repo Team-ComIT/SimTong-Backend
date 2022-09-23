@@ -24,7 +24,13 @@ class UploadImageUseCaseTests {
 
     private val filePathListStub = listOf(filePathStub)
 
-    private val fileStub: File by lazy { File("test.jpg") }
+    private val jpgFileStub by lazy { File("test.jpg") }
+
+    private val jpegFileStub by lazy { File("test.jpeg") }
+
+    private val pngFileStub by lazy { File("test.png") }
+
+    private val svgFileStub by lazy { File("test.svg") }
 
     @BeforeEach
     fun setUp() {
@@ -34,17 +40,25 @@ class UploadImageUseCaseTests {
     @Test
     fun `단일 이미지 업로드`() {
         // given
-        given(managerFilePort.upload(fileStub))
+        given(managerFilePort.upload(jpgFileStub))
+            .willReturn(filePathStub)
+
+        given(managerFilePort.upload(jpegFileStub))
+            .willReturn(filePathStub)
+
+        given(managerFilePort.upload(pngFileStub))
             .willReturn(filePathStub)
 
         // when & then
-        assertEquals(uploadImageUseCase.execute(fileStub), filePathStub)
+        assertEquals(uploadImageUseCase.execute(jpgFileStub), filePathStub)
+        assertEquals(uploadImageUseCase.execute(jpegFileStub), filePathStub)
+        assertEquals(uploadImageUseCase.execute(pngFileStub), filePathStub)
     }
 
     @Test
     fun `다중 이미지 업로드`() {
         // given
-        val filesStub = listOf(fileStub)
+        val filesStub = listOf(jpgFileStub, jpegFileStub, pngFileStub)
 
         given(managerFilePort.upload(filesStub))
             .willReturn(filePathListStub)
@@ -55,22 +69,16 @@ class UploadImageUseCaseTests {
 
     @Test
     fun `단일 파일 확장자 오류`() {
-        // given
-        val file = File("test.svg")
-
         // when & then
         assertThrows<FileInvalidExtensionException> {
-            uploadImageUseCase.execute(file)
+            uploadImageUseCase.execute(svgFileStub)
         }
     }
 
     @Test
     fun `다중 파일 확장자 오류`() {
         // given
-        val files = listOf(
-            File("test.jpg"),
-            File("test.png"),
-            File("test.svg"))
+        val files = listOf(jpgFileStub, jpegFileStub, pngFileStub, svgFileStub)
 
         // when & then
         assertThrows<FileInvalidExtensionException> {
