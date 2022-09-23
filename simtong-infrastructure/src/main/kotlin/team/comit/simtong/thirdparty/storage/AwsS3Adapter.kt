@@ -10,7 +10,6 @@ import team.comit.simtong.domain.file.exception.FileIOInterruptedException
 import team.comit.simtong.domain.file.spi.ManageFilePort
 import java.io.File
 import java.io.IOException
-import java.util.UUID
 
 /**
  *
@@ -27,18 +26,15 @@ class AwsS3Adapter(
 ): ManageFilePort {
 
     override fun upload(file: File): String {
-        val fileName = "${UUID.randomUUID()}@${file.name}"
-        inputS3(file, fileName)
+        inputS3(file, file.name)
 
-        return getResource(fileName)
+        return getResource(file.name)
     }
 
     override fun upload(files: List<File>): List<String> {
         return files.map {
-                val fileName = "${UUID.randomUUID()}@${it.name}"
-                inputS3(it, fileName)
-
-                getResource(fileName)
+                inputS3(it, it.name)
+                getResource(it.name)
             }
     }
 

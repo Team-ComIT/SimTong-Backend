@@ -11,6 +11,7 @@ import team.comit.simtong.file.dto.response.WebUploadImageListResponse
 import team.comit.simtong.file.dto.response.WebUploadImageResponse
 import java.io.File
 import java.io.FileOutputStream
+import java.util.UUID
 
 /**
  *
@@ -43,7 +44,7 @@ class WebFileAdapter(
     }
 
     private val transferFile = { multipartFile: MultipartFile ->
-        File(multipartFile.originalFilename!!).let {
+        File("${UUID.randomUUID()}@${multipartFile.originalFilename}").let {
             FileOutputStream(it).run {
                 this.write(multipartFile.bytes)
                 this.close()
