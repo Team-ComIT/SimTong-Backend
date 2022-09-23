@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.file.usecase
 
+import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
 import team.comit.simtong.domain.file.spi.ManageFilePort
 import team.comit.simtong.global.annotation.UseCase
 import java.io.File
@@ -17,8 +18,32 @@ class UploadImageUseCase(
     private val manageFilePort: ManageFilePort
 ) {
 
-    fun execute(file: File): String = manageFilePort.upload(file)
+    fun execute(file: File): String {
+        if(checkExtension(file)) {
+            file.delete()
+            throw FileInvalidExtensionException.EXCEPTION
+        }
 
-    fun execute(files: List<File>): List<String> = manageFilePort.upload(files)
+        return manageFilePort.upload(file)
+    }
+
+    fun execute(files: List<File>): List<String> {
+        files.forEach {
+            if(checkExtension(it)) {
+                files.forEach{ file ->
+                    file.delete()
+                }
+                throw FileInvalidExtensionException.EXCEPTION
+            }
+        }
+        return manageFilePort.upload(files)
+    }
+
+    private fun checkExtension(file: File): Boolean {
+        return when (file.extension) {
+            "jpg", "jpeg", "png" -> false
+            else -> true
+        }
+    }
     
 }

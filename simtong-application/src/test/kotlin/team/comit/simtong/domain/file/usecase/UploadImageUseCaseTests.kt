@@ -3,10 +3,12 @@ package team.comit.simtong.domain.file.usecase
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
 import team.comit.simtong.domain.file.spi.ManageFilePort
 import java.io.File
 
@@ -23,10 +25,6 @@ class UploadImageUseCaseTests {
     private val filePathListStub = listOf(filePathStub)
 
     private val fileStub: File by lazy { File("test.jpg") }
-
-    private val filesStub: List<File> by lazy {
-        listOf(fileStub)
-    }
 
     @BeforeEach
     fun setUp() {
@@ -46,11 +44,35 @@ class UploadImageUseCaseTests {
     @Test
     fun `다중 이미지 업로드`() {
         // given
+        val filesStub = listOf(fileStub)
+
         given(managerFilePort.upload(filesStub))
             .willReturn(filePathListStub)
 
         // when & then
         assertEquals(uploadImageUseCase.execute(filesStub), filePathListStub)
+    }
+
+    @Test
+    fun `단일 파일 확장자 오류`() {
+        // given
+        val file = File("test.svg")
+
+        // when & then
+        assertThrows<FileInvalidExtensionException> {
+            uploadImageUseCase.execute(file)
+        }
+    }
+
+    @Test
+    fun `다중 파일 확장자 오류`() {
+        // given
+        val files = listOf(File("test.svg"))
+
+        // when & then
+        assertThrows<FileInvalidExtensionException> {
+            uploadImageUseCase.execute(files)
+        }
     }
 
 }

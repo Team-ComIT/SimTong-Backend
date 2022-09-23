@@ -7,7 +7,6 @@ import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.file.exception.FileIOInterruptedException
-import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
 import team.comit.simtong.domain.file.spi.ManageFilePort
 import java.io.File
 import java.io.IOException
@@ -28,8 +27,6 @@ class AwsS3Adapter(
 ): ManageFilePort {
 
     override fun upload(file: File): String {
-        file.let(checkExtension)
-
         val fileName = "${UUID.randomUUID()}@${file.name}"
         inputS3(file, fileName)
 
@@ -37,9 +34,7 @@ class AwsS3Adapter(
     }
 
     override fun upload(files: List<File>): List<String> {
-        return files
-            .onEach(checkExtension)
-            .map {
+        return files.map {
                 val fileName = "${UUID.randomUUID()}@${it.name}"
                 inputS3(it, fileName)
 
@@ -64,13 +59,6 @@ class AwsS3Adapter(
 
     private fun getResource(fileName: String): String {
         return amazonS3Client.getResourceUrl(awsProperties.bucket, fileName)
-    }
-
-    private val checkExtension = { file: File ->
-        when (file.extension) {
-            "jpg", "jpeg", "png" -> Unit
-            else -> throw FileInvalidExtensionException.EXCEPTION
-        }
     }
 
 }
