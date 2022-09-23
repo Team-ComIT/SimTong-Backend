@@ -44,8 +44,10 @@ class WebFileAdapter(
 
     private val transferFile = { multipartFile: MultipartFile ->
         File(multipartFile.originalFilename!!).let {
-            it.createNewFile()
-            FileOutputStream(it).write(multipartFile.bytes)
+            FileOutputStream(it).run {
+                this.write(multipartFile.bytes)
+                this.close()
+            }
             it
         }
     }

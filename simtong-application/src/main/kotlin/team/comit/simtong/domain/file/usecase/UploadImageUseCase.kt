@@ -19,7 +19,7 @@ class UploadImageUseCase(
 ) {
 
     fun execute(file: File): String {
-        if(checkExtension(file)) {
+        if (checkExtension(file)) {
             file.delete()
             throw FileInvalidExtensionException.EXCEPTION
         }
@@ -29,7 +29,7 @@ class UploadImageUseCase(
 
     fun execute(files: List<File>): List<String> {
         files.forEach {
-            if(checkExtension(it)) {
+            if (checkExtension(it)) {
                 files.deleteAll()
                 throw FileInvalidExtensionException.EXCEPTION
             }
