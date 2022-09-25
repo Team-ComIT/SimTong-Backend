@@ -26,9 +26,9 @@ class AuthCodeLimitEntity(
 
     @field:NotNull
     @ColumnDefault("1")
-    val attemptCount: Short = 1,
+    val attemptCount: Short,
 
     @field:NotNull
     @ColumnDefault("false")
-    val isVerified: Boolean = false
+    val isVerified: Boolean
 )
