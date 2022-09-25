@@ -1,10 +1,7 @@
 package team.comit.simtong.thirdparty.storage
 
 import com.amazonaws.services.s3.AmazonS3Client
-import com.amazonaws.services.s3.model.ObjectMetadata
-import com.amazonaws.services.s3.model.PutObjectRequest
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -13,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Import
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.util.FileCopyUtils
 import team.comit.simtong.domain.file.exception.FileIOInterruptedException
-import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
 import team.comit.simtong.thirdparty.AwsMockConfig
 import java.io.File
 
@@ -34,10 +29,16 @@ class AwsS3AdapterTests {
     private val multipartFileStub: MockMultipartFile by lazy {
         MockMultipartFile(
             "test",
-            "test.jpg",
-            "image/jpg",
+            "test.png",
+            "image/png",
             "test".toByteArray()
         )
+    }
+
+    private fun createFile(name: String): File {
+        val file = File(name)
+        multipartFileStub.transferTo(file)
+        return file
     }
 
     @BeforeEach
@@ -46,76 +47,24 @@ class AwsS3AdapterTests {
     }
 
     @Test
-    fun `S3 테스트`() {
-        // given
-        val path = "test.jpg"
-        val contentType = "image/jpg"
-        val objectMetadata = ObjectMetadata().also { it.contentType = contentType }
-        val putObjectRequest = PutObjectRequest(awsS3Properties.bucket, path, "".byteInputStream(), objectMetadata)
-        amazonS3Client.putObject(putObjectRequest)
-
+    fun `단일 파일 업로드`() {
         // when
-        val result = amazonS3Client.getObject(awsS3Properties.bucket, path)
-
-        // then
-        assertThat(result.objectMetadata.contentType).isEqualTo(contentType)
-        assertThat(String(FileCopyUtils.copyToByteArray(result.objectContent))).isEqualTo("")
-    }
-
-    @Test
-    fun `jpg 파일 업로드`() {
-        // given
-        val file = File("test.jpg")
-        multipartFileStub.transferTo(file)
-
-        // when
-        val result = awsS3Adapter.upload(file)
+        val result = awsS3Adapter.upload(createFile("test.png"))
 
         // then
         assertThat(result).contains(awsS3Properties.bucket)
-        assertThat(result).contains(file.name)
-        assertTrue(file.delete())
     }
 
     @Test
-    fun `jpeg 파일 업로드`() {
-        // given
-        val file = File("test.jpeg")
-        multipartFileStub.transferTo(file)
-
+    fun `다중 파일 업로드`() {
         // when
-        val result = awsS3Adapter.upload(file)
+        val result = awsS3Adapter.upload(listOf(
+                createFile("test.jpg"),
+                createFile("test.jpeg"),
+                createFile("test.png")))
 
         // then
-        assertThat(result).contains(awsS3Properties.bucket)
-        assertThat(result).contains(file.name)
-        assertTrue(file.delete())
-    }
-
-    @Test
-    fun `png 파일 업로드`() {
-        // given
-        val file = File("test.png")
-        multipartFileStub.transferTo(file)
-
-        // when
-        val result = awsS3Adapter.upload(file)
-
-        // then
-        assertThat(result).contains(awsS3Properties.bucket)
-        assertThat(result).contains(file.name)
-        assertTrue(file.delete())
-    }
-
-    @Test
-    fun `파일 확장자 제한`() {
-        // given
-        val file = File("test.svg")
-
-        // when & then
-        assertThrows<FileInvalidExtensionException> {
-            awsS3Adapter.upload(file)
-        }
+        result.forEach{ assertThat(it).contains(awsS3Properties.bucket) }
     }
 
     @Test
