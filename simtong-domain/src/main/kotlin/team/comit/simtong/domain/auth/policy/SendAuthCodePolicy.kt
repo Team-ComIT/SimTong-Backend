@@ -34,7 +34,7 @@ class SendAuthCodePolicy(
             throw CertifiedEmailException.EXCEPTION
         }
 
-        if (authCodeLimit.attemptCount <= AuthCodeLimit.MAX_ATTEMPT_COUNT) {
+        if (authCodeLimit.attemptCount >= AuthCodeLimit.MAX_ATTEMPT_COUNT) {
             throw ExceededSendAuthCodeRequestException.EXCEPTION
         }
 
