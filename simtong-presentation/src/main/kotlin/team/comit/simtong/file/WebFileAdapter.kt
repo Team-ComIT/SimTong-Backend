@@ -29,7 +29,7 @@ class WebFileAdapter(
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    fun singleImage(file: MultipartFile): WebUploadImageResponse {
+    fun uploadSingleImage(file: MultipartFile): WebUploadImageResponse {
         return WebUploadImageResponse(
             uploadImageUseCase.execute(file.let(transferFile))
         )
@@ -37,7 +37,7 @@ class WebFileAdapter(
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/list")
-    fun multipleImage(files: List<MultipartFile>): WebUploadImageListResponse {
+    fun uploadMultipleImage(files: List<MultipartFile>): WebUploadImageListResponse {
         return WebUploadImageListResponse(
             uploadImageUseCase.execute(files.map(transferFile))
         )

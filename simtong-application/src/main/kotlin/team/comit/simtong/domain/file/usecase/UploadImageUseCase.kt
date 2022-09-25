@@ -19,7 +19,7 @@ class UploadImageUseCase(
 ) {
 
     fun execute(file: File): String {
-        if (checkExtension(file)) {
+        if (!isCorrectExtension(file)) {
             file.delete()
             throw FileInvalidExtensionException.EXCEPTION
         }
@@ -29,7 +29,7 @@ class UploadImageUseCase(
 
     fun execute(files: List<File>): List<String> {
         files.forEach {
-            if (checkExtension(it)) {
+            if (!isCorrectExtension(it)) {
                 files.deleteAll()
                 throw FileInvalidExtensionException.EXCEPTION
             }
@@ -38,11 +38,9 @@ class UploadImageUseCase(
         return manageFilePort.upload(files)
     }
 
-    private fun checkExtension(file: File): Boolean {
-        return when (file.extension) {
-            "jpg", "jpeg", "png" -> false
-            else -> true
-        }
+    private fun isCorrectExtension(file: File) = when (file.extension) {
+        "jpg", "jpeg", "png" -> true
+        else -> false
     }
 
     private fun List<File>.deleteAll() = this.forEach(File::delete)
