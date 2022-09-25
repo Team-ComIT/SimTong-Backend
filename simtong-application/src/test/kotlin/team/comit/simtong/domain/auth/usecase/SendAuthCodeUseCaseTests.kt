@@ -1,6 +1,5 @@
 package team.comit.simtong.domain.auth.usecase
 
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -105,9 +104,6 @@ class SendAuthCodeUseCaseTests {
 
         // when
         val result = sendAuthCodeUseCase.execute(email)
-
-        // then
-        assertEquals(result, 1)
     }
 
     @Test
