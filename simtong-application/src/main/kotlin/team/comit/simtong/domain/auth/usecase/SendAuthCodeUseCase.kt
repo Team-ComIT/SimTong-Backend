@@ -22,8 +22,8 @@ class SendAuthCodeUseCase(
     private val sendEmailPort: SendEmailPort
 ) {
 
-    fun execute(email: String): Short {
-        val authCodeLimit = commandAuthCodeLimitPort.save(
+    fun execute(email: String) {
+        commandAuthCodeLimitPort.save(
             sendAuthCodePolicy.restriction(email)
         )
 
@@ -32,8 +32,6 @@ class SendAuthCodeUseCase(
         )
 
         sendEmailPort.sendAuthCode(authCode.code, email)
-
-        return authCodeLimit.attemptCount
     }
 
 }

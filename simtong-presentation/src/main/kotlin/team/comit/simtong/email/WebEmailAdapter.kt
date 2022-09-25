@@ -9,7 +9,6 @@ import team.comit.simtong.domain.auth.usecase.CheckAuthCodeUseCase
 import team.comit.simtong.domain.auth.usecase.SendAuthCodeUseCase
 import team.comit.simtong.email.dto.request.WebCheckAuthCodeRequest
 import team.comit.simtong.email.dto.request.WebSendAuthCodeRequest
-import team.comit.simtong.email.dto.response.WebRemainChanceResponse
 import javax.validation.Valid
 
 /**
@@ -28,10 +27,8 @@ class WebEmailAdapter(
 ) {
 
     @PostMapping("/code")
-    fun sendAuthCode(@Valid @RequestBody request: WebSendAuthCodeRequest): WebRemainChanceResponse {
-        return WebRemainChanceResponse(
-            sendAuthCodeUseCase.execute(request.email)
-        )
+    fun sendAuthCode(@Valid @RequestBody request: WebSendAuthCodeRequest) {
+        sendAuthCodeUseCase.execute(request.email)
     }
 
     @GetMapping
