@@ -4,8 +4,8 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import team.comit.simtong.domain.menu.dto.MenuResponse
 import team.comit.simtong.domain.menu.usecase.QueryMenuByMonthUseCase
-import team.comit.simtong.menu.dto.response.MenuResponse
 import java.time.LocalDate
 
 /**
@@ -24,11 +24,7 @@ class WebMenuAdapter(
 
     @GetMapping
     fun getMenu(@RequestParam date: LocalDate): MenuResponse {
-        val menu = queryMenuByMonthUseCase.execute(date)
-
-        val result = menu.map { MenuResponse.MenuElement(it.date, it.meal) }
-
-        return MenuResponse(result)
+        return queryMenuByMonthUseCase.execute(date)
     }
 
 }
