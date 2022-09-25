@@ -4,7 +4,7 @@ import team.comit.simtong.global.annotation.Aggregate
 
 /**
  *
- * AuthCodeLimit Aggregate Root를 담당하는 AuthCodeLimit
+ * AuthCodeLimitAggregate Root를 담당하는 AuthCodeLimit
  *
  * @author Chokyunghyeon
  * @author kimbeomjin
@@ -20,4 +20,21 @@ class AuthCodeLimit(
     val attemptCount: Short,
 
     val isVerified: Boolean
-)
+) {
+
+    companion object {
+        const val EXPIRED = 1800
+        const val MAX_ATTEMPT_COUNT = 5
+        const val VERIFIED_EXPIRED = 2700
+    }
+
+    fun sendAuthCode(): AuthCodeLimit {
+        return AuthCodeLimit(
+            key = key,
+            expirationTime = expirationTime,
+            attemptCount = attemptCount.inc(),
+            isVerified = false
+        )
+    }
+
+}
