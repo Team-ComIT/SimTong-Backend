@@ -92,6 +92,7 @@ class WebErrorHandler {
 
     /**
      * Http Message를 읽지 못하는 경우 발생
+     * 주로 객체를 JSON 형태로 받지 못하는 경우 발생
      */
     @ExceptionHandler(HttpMessageNotReadableException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -101,5 +102,12 @@ class WebErrorHandler {
         return ErrorResponse.of(GlobalErrorCode.BAD_REQUEST)
     }
 
-
+    /**
+     * 전송받은 Request 의 Non-Null 필드가 Null 일 때 발생
+     */
+    @ExceptionHandler(NullPointerException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected fun handleNestedServletException(exception: NullPointerException): ErrorResponse? {
+        return ErrorResponse.of(GlobalErrorCode.BAD_REQUEST)
+    }
 }
