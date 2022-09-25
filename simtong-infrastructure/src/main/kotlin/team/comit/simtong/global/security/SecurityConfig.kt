@@ -49,6 +49,10 @@ class SecurityConfig(
             .antMatchers(HttpMethod.GET, "/commons/employee-number").permitAll()
             .antMatchers(HttpMethod.PUT, "/commons/token/reissue").permitAll()
 
+            // emails
+            .antMatchers(HttpMethod.HEAD, "/emails").permitAll()
+            .antMatchers(HttpMethod.POST, "/emails/code").permitAll()
+
             .anyRequest().authenticated()
 
         http
