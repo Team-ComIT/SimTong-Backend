@@ -52,6 +52,10 @@ class SecurityConfig(
             // menu
             .antMatchers(HttpMethod.GET, "/menu").permitAll()
 
+            // files
+            .antMatchers(HttpMethod.POST, "/files").permitAll()
+            .antMatchers(HttpMethod.POST, "/files/list").permitAll()
+
             .anyRequest().authenticated()
 
         http
