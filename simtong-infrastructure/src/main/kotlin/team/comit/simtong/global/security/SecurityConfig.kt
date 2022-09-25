@@ -53,6 +53,10 @@ class SecurityConfig(
             .antMatchers(HttpMethod.HEAD, "/emails").permitAll()
             .antMatchers(HttpMethod.POST, "/emails/code").permitAll()
 
+            // files
+            .antMatchers(HttpMethod.POST, "/files").permitAll()
+            .antMatchers(HttpMethod.POST, "/files/list").permitAll()
+
             .anyRequest().authenticated()
 
         http

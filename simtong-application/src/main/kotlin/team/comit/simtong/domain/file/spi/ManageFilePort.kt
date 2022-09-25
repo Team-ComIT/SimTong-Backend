@@ -14,4 +14,6 @@ interface ManageFilePort {
 
     fun upload(file: File): String
 
+    fun upload(files: List<File>): List<String>
+
 }
