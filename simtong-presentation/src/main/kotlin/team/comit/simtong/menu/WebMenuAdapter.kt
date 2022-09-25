@@ -26,7 +26,7 @@ class WebMenuAdapter(
     fun getMenu(@RequestParam date: LocalDate): MenuResponse {
         val menu = queryMenuByMonthUseCase.execute(date)
 
-        val result = menu.map { MenuResponse.MenuElement(it?.date, it?.meal) }
+        val result = menu.map { MenuResponse.MenuElement(it.date, it.meal) }
 
         return MenuResponse(result)
     }
