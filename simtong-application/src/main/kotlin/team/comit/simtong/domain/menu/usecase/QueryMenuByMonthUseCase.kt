@@ -18,10 +18,11 @@ class QueryMenuByMonthUseCase(
     private val queryMenuPort: QueryMenuPort
 ) {
 
-    fun execute(today: LocalDate): List<Menu?> {
-        val endDate = today.plusDays(30)
+    fun execute(today: LocalDate): List<Menu> {
+        val year = today.year
+        val month = today.monthValue
 
-        return queryMenuPort.queryMenuByMonth(today, endDate)
+        return queryMenuPort.queryMenuByMonth(year, month)
     }
 
 }

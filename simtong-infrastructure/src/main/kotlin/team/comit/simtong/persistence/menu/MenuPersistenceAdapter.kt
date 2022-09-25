@@ -1,7 +1,9 @@
 package team.comit.simtong.persistence.menu
 
 import org.springframework.stereotype.Component
+import team.comit.simtong.domain.menu.spi.MenuPort
 import team.comit.simtong.persistence.menu.mapper.MenuMapper
+import team.comit.simtong.persistence.menu.repository.MenuJpaRepository
 
 /**
  *
@@ -15,8 +17,11 @@ import team.comit.simtong.persistence.menu.mapper.MenuMapper
 class MenuPersistenceAdapter(
     private val menuJpaRepository: MenuJpaRepository,
     private val menuMapper: MenuMapper
-) {
+) : MenuPort {
 
-    // TODO 영속성 로직
+    override fun queryMenuByMonth(year: Int, month: Int) =
+        menuJpaRepository.findMenuJpaEntitiesByDate_YearAndDate_MonthValue(year, month).map {
+            menuMapper.toDomain(it)!!
+        }
 
 }

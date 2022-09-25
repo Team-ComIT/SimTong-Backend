@@ -1,7 +1,6 @@
 package team.comit.simtong.domain.menu.spi
 
 import team.comit.simtong.domain.menu.model.Menu
-import java.time.LocalDate
 
 /**
  *
@@ -13,6 +12,6 @@ import java.time.LocalDate
  **/
 interface QueryMenuPort {
 
-    fun queryMenuByMonth(startDate: LocalDate, endDate: LocalDate): List<Menu?>
+    fun queryMenuByMonth(year: Int, month: Int): List<Menu>
 
 }
