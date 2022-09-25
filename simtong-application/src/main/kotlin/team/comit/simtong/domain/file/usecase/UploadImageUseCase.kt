@@ -38,7 +38,7 @@ class UploadImageUseCase(
         return manageFilePort.upload(files)
     }
 
-    private fun isCorrectExtension(file: File) = when (file.extension) {
+    private fun isCorrectExtension(file: File) = when (file.extension) { // TODO Coverage 경고 해결
         "jpg", "jpeg", "png" -> true
         else -> false
     }
