@@ -1,4 +1,4 @@
-package team.comit.simtong.persistence.menu
+package team.comit.simtong.persistence.menu.repository
 
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
@@ -15,4 +15,7 @@ import java.time.LocalDate
  **/
 @Repository
 interface MenuJpaRepository : CrudRepository<MenuJpaEntity, LocalDate> {
+
+    fun findMenuJpaEntitiesByDate_YearAndDate_MonthValue(year: Int, month: Int): List<MenuJpaEntity>
+
 }
