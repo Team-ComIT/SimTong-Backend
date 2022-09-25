@@ -24,7 +24,7 @@ class AuthCodeLimit(
 
     companion object {
         const val EXPIRED = 1800
-        const val MAX_ATTEMPT_COUNT = 5
+        const val MAX_ATTEMPT_COUNT: Short = 5
         const val VERIFIED_EXPIRED = 2700
     }
 
