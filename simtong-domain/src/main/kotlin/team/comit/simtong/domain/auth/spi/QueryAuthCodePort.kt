@@ -1,5 +1,7 @@
 package team.comit.simtong.domain.auth.spi
 
+import team.comit.simtong.domain.auth.model.AuthCode
+
 /**
  *
  * AuthCode에 관한 Query를 요청하는 QueryAuthCodePort
@@ -10,6 +12,6 @@ package team.comit.simtong.domain.auth.spi
  **/
 interface QueryAuthCodePort {
 
-    fun existsAuthCodeByEmailAndCode(email: String, code: String): Boolean
+    fun queryAuthCodeByEmail(email: String): AuthCode?
 
 }

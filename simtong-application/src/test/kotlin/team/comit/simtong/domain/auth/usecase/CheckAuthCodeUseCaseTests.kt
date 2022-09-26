@@ -7,7 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import team.comit.simtong.domain.auth.exception.AuthCodeNotFoundException
+import team.comit.simtong.domain.auth.exception.AuthCodeMismatchException
+import team.comit.simtong.domain.auth.model.AuthCode
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.auth.policy.CheckAuthCodePolicy
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
@@ -39,6 +40,22 @@ class CheckAuthCodeUseCaseTests {
         )
     }
 
+    private val authCodeStub: AuthCode by lazy {
+        AuthCode(
+            key = email,
+            code = code,
+            expirationTime = AuthCode.EXPIRED
+        )
+    }
+
+    private val differentAuthCodeStub by lazy {
+        AuthCode(
+            key = email,
+            code = "654321",
+            expirationTime = AuthCode.EXPIRED
+        )
+    }
+
     @BeforeEach
     fun setUp() {
         checkAuthCodePolicy = CheckAuthCodePolicy(queryAuthCodePort)
@@ -48,8 +65,8 @@ class CheckAuthCodeUseCaseTests {
     @Test
     fun `이메일 인증 확인 성공`() {
         // given
-        given(queryAuthCodePort.existsAuthCodeByEmailAndCode(email, code))
-            .willReturn(true)
+        given(queryAuthCodePort.queryAuthCodeByEmail(email))
+            .willReturn(authCodeStub)
 
         given(commandAuthCodeLimitPort.save(verifiedAuthCodeLimitStub))
             .willReturn(verifiedAuthCodeLimitStub)
@@ -59,13 +76,25 @@ class CheckAuthCodeUseCaseTests {
     }
 
     @Test
-    fun `이메일 인증 확인 실패`() {
+    fun `이메일 인증 코드 찾지 못함`() {
         // given
-        given(queryAuthCodePort.existsAuthCodeByEmailAndCode(email, code))
-            .willReturn(false)
+        given(queryAuthCodePort.queryAuthCodeByEmail(email))
+            .willReturn(null)
 
         // when & then
-        assertThrows<AuthCodeNotFoundException> {
+        assertThrows<AuthCodeMismatchException> {
+            checkAuthCodeUseCase.execute(email, code)
+        }
+    }
+
+    @Test
+    fun `이메일 인증 코드 비 일치`() {
+        // given
+        given(queryAuthCodePort.queryAuthCodeByEmail(email))
+            .willReturn(differentAuthCodeStub)
+
+        // when & then
+        assertThrows<AuthCodeMismatchException> {
             checkAuthCodeUseCase.execute(email, code)
         }
     }

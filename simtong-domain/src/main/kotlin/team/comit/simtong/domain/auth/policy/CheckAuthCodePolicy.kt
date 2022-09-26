@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.auth.policy
 
-import team.comit.simtong.domain.auth.exception.AuthCodeNotFoundException
+import team.comit.simtong.domain.auth.exception.AuthCodeMismatchException
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.auth.spi.QueryAuthCodePort
 import team.comit.simtong.global.annotation.Policy
@@ -19,8 +19,10 @@ class CheckAuthCodePolicy(
 ) {
 
     fun implement(email: String, code: String): AuthCodeLimit {
-        if (!queryAuthCodePort.existsAuthCodeByEmailAndCode(email, code)) {
-            throw AuthCodeNotFoundException.EXCEPTION
+        val authCode = queryAuthCodePort.queryAuthCodeByEmail(email)
+
+        if (authCode?.code != code) {
+            throw AuthCodeMismatchException.EXCEPTION
         }
 
         return AuthCodeLimit(

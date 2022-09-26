@@ -5,17 +5,17 @@ import team.comit.simtong.global.error.BusinessException
 
 /**
  *
- * AuthCode Not Found Error를 발생시키는 AuthCodeNotFoundException
+ * AuthCode Mismatch Error를 발생시키는 AuthCodeMismatchException
  *
  * @author Chokyunghyeon
  * @date 2022/09/25
  * @version 1.0.0
  **/
-class AuthCodeNotFoundException private constructor(): BusinessException(AuthErrorCode.AUTHCODE_NOT_FOUND) {
+class AuthCodeMismatchException private constructor(): BusinessException(AuthErrorCode.AUTHCODE_MISMATCH) {
 
     companion object {
         @JvmField
-        val EXCEPTION = AuthCodeNotFoundException()
+        val EXCEPTION = AuthCodeMismatchException()
     }
 
 }

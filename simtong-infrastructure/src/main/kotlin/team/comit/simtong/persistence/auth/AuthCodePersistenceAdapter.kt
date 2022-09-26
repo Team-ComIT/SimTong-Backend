@@ -20,8 +20,9 @@ class AuthCodePersistenceAdapter(
     private val authCodeRepository: AuthCodeRepository
 ): AuthCodePort {
 
-    override fun existsAuthCodeByEmailAndCode(email: String, code: String) =
-        authCodeRepository.existsAuthCodeEntityByKeyAndCode(email, code)
+    override fun queryAuthCodeByEmail(email: String) = authCodeMapper.toDomain(
+        authCodeRepository.queryAuthCodeEntityByKey(email)
+    )
 
     override fun save(authCode: AuthCode) = authCodeMapper.toDomain(
         authCodeRepository.save(

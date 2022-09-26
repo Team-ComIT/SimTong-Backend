@@ -16,7 +16,7 @@ enum class AuthErrorCode(
 ): ErrorProperty {
 
     // 401
-    AUTHCODE_NOT_FOUND(401, "인증 코드를 찾을 수 없음"),
+    AUTHCODE_MISMATCH(401, "인증 코드 불일치"),
     UNCERTIFIED_EMAIL(401, "인증되지 않은 이메일"),
     REFRESH_TOKEN_NOT_FOUND(401, "토큰을 찾을 수 없음"),
 
