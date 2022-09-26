@@ -44,17 +44,19 @@ class QueryMenuByMonthUseCaseTests {
     @Test
     fun `메뉴 조회 성공`() {
         // given
+        val spotId = UUID.randomUUID()
         val now = LocalDate.now()
-        given(queryMenuPort.queryMenuByMonth(now, now.plusDays(30)))
+
+        given(queryMenuPort.queryMenuByMonth(now.year, now.monthValue, spotId))
             .willReturn(
                 listOf(menuStub, menuStub2)
             )
 
         // when
-        val menu = queryMenuByMonthUseCase.execute(now)
+        val response = queryMenuByMonthUseCase.execute(now, spotId)
 
         // then
-        assertThat(menu).isNotNull
+        assertThat(response).isNotNull
     }
 
 }

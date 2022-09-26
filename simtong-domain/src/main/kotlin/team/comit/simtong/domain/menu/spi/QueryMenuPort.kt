@@ -1,6 +1,7 @@
 package team.comit.simtong.domain.menu.spi
 
 import team.comit.simtong.domain.menu.model.Menu
+import java.util.*
 
 /**
  *
@@ -12,6 +13,6 @@ import team.comit.simtong.domain.menu.model.Menu
  **/
 interface QueryMenuPort {
 
-    fun queryMenuByMonth(year: Int, month: Int): List<Menu>
+    fun queryMenuByMonth(year: Int, month: Int, spotId: UUID): List<Menu>
 
 }

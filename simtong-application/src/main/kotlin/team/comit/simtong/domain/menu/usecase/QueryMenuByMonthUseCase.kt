@@ -4,6 +4,7 @@ import team.comit.simtong.domain.menu.dto.MenuResponse
 import team.comit.simtong.domain.menu.spi.QueryMenuPort
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
 import java.time.LocalDate
+import java.util.*
 
 /**
  *
@@ -18,11 +19,8 @@ class QueryMenuByMonthUseCase(
     private val queryMenuPort: QueryMenuPort
 ) {
 
-    fun execute(today: LocalDate): MenuResponse {
-        val year = today.year
-        val month = today.monthValue
-
-        val menu = queryMenuPort.queryMenuByMonth(year, month)
+    fun execute(today: LocalDate, spotId: UUID): MenuResponse {
+        val menu = queryMenuPort.queryMenuByMonth(today.year, today.monthValue, spotId)
         val result = menu.map { MenuResponse.MenuElement(it.date, it.meal) }
 
         return MenuResponse(result)
