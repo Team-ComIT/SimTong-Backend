@@ -49,6 +49,9 @@ class SecurityConfig(
             .antMatchers(HttpMethod.GET, "/commons/employee-number").permitAll()
             .antMatchers(HttpMethod.PUT, "/commons/token/reissue").permitAll()
 
+            // menu
+            .antMatchers(HttpMethod.GET, "/menu").permitAll()
+
             // files
             .antMatchers(HttpMethod.POST, "/files").permitAll()
             .antMatchers(HttpMethod.POST, "/files/list").permitAll()

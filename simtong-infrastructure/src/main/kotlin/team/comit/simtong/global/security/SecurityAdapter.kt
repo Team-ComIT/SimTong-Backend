@@ -1,8 +1,10 @@
 package team.comit.simtong.global.security
 
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.auth.spi.SecurityPort
+import java.util.*
 
 /**
  *
@@ -22,6 +24,10 @@ class SecurityAdapter(
 
     override fun encode(password: String): String {
         return passwordEncoder.encode(password)
+    }
+
+    override fun getCurrentUserId(): UUID {
+        return UUID.fromString(SecurityContextHolder.getContext().authentication.name)
     }
 
 }
