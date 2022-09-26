@@ -103,7 +103,7 @@ class WebErrorHandler {
     }
 
     /**
-     * 전송받은 Request 의 Non-Null 필드가 Null 일 때 발생
+     * 허용되지 않은 Null 값이 할당될 때 발생
      */
     @ExceptionHandler(NullPointerException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
