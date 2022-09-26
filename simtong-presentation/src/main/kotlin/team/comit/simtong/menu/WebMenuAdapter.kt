@@ -1,14 +1,12 @@
 package team.comit.simtong.menu
 
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.menu.dto.MenuResponse
 import team.comit.simtong.domain.menu.usecase.QueryMenuByMonthUseCase
 import java.time.LocalDate
-import java.util.*
 
 /**
  *
@@ -24,12 +22,11 @@ class WebMenuAdapter(
     private val queryMenuByMonthUseCase: QueryMenuByMonthUseCase
 ) {
 
-    @GetMapping("/{spotId}")
+    @GetMapping
     fun getMenu(
-        @RequestParam date: LocalDate,
-        @PathVariable("spotId") spotId: UUID
+        @RequestParam date: LocalDate
     ): MenuResponse {
-        return queryMenuByMonthUseCase.execute(date, spotId)
+        return queryMenuByMonthUseCase.execute(date)
     }
 
 }
