@@ -28,10 +28,18 @@ class MenuPersistenceAdapter(
             .selectFrom(menuJpaEntity)
             .leftJoin(menuJpaEntity.spot, spotJpaEntity)
             .on(spotJpaEntity.id.eq(spotId))
+            .where(
+                yearEq(year),
+                monthEq(month)
+            )
             .fetch()
             .map {
                 menuMapper.toDomain(it)!!
             }
     }
+
+    private fun yearEq(year: Int) = menuJpaEntity.date.year().eq(year)
+
+    private fun monthEq(month: Int) = menuJpaEntity.date.month().eq(month)
 
 }
