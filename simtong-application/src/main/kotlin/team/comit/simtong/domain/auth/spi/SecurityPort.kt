@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.auth.spi
 
+import team.comit.simtong.domain.menu.spi.MenuSecurityPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
 
 /**
@@ -10,4 +11,4 @@ import team.comit.simtong.domain.user.spi.UserSecurityPort
  * @date 2022/09/18
  * @version 1.0.0
  **/
-interface SecurityPort : UserSecurityPort
+interface SecurityPort : UserSecurityPort, MenuSecurityPort

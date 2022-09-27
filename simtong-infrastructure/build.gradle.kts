@@ -29,6 +29,10 @@ dependencies {
     implementation(Dependencies.REDIS)
     implementation(Dependencies.SPRING_REDIS)
 
+    // querydsl
+    implementation(Dependencies.QUERYDSL)
+    kapt(Dependencies.QUERYDSL_PROCESSOR)
+
     // aws
     implementation(Dependencies.SPRING_AWS)
     implementation(Dependencies.AWS_SES)
