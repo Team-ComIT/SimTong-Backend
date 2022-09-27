@@ -71,7 +71,7 @@ class CheckAuthCodeUseCaseTests {
     }
 
     @Test
-    fun `이메일 인증 코드 비 일치`() {
+    fun `이메일 인증 코드 불 일치`() {
         // given
         given(queryAuthCodePort.queryAuthCodeByEmail(email))
             .willReturn(differentAuthCodeStub)

@@ -17,7 +17,7 @@ import team.comit.simtong.global.annotation.UseCase
 @UseCase
 class CheckAuthCodeUseCase(
     private val commandAuthCodeLimitPort: CommandAuthCodeLimitPort,
-    private val  queryAuthCodePort: QueryAuthCodePort
+    private val queryAuthCodePort: QueryAuthCodePort
 ) {
 
     fun execute(email: String, code: String) {
