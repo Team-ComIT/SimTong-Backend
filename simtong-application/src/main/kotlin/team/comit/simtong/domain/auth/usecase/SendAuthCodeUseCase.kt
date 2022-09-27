@@ -1,5 +1,7 @@
 package team.comit.simtong.domain.auth.usecase
 
+import net.bytebuddy.utility.RandomString
+import team.comit.simtong.domain.auth.model.AuthCode
 import team.comit.simtong.domain.auth.policy.SendAuthCodePolicy
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.CommandAuthCodePort
@@ -24,11 +26,15 @@ class SendAuthCodeUseCase(
 
     fun execute(email: String) {
         commandAuthCodeLimitPort.save(
-            sendAuthCodePolicy.restriction(email)
+            sendAuthCodePolicy.implement(email)
         )
 
         val authCode = commandAuthCodePort.save(
-            sendAuthCodePolicy.implement(email)
+            AuthCode(
+                key = email,
+                code = RandomString(6).nextString(),
+                expirationTime = AuthCode.EXPIRED
+            )
         )
 
         sendEmailPort.sendAuthCode(authCode.code, email)

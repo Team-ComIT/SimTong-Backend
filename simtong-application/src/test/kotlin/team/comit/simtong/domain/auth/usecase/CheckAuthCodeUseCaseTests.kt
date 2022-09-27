@@ -10,7 +10,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.exception.AuthCodeMismatchException
 import team.comit.simtong.domain.auth.model.AuthCode
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
-import team.comit.simtong.domain.auth.policy.CheckAuthCodePolicy
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.QueryAuthCodePort
 
@@ -22,8 +21,6 @@ class CheckAuthCodeUseCaseTests {
 
     @MockBean
     private lateinit var commandAuthCodeLimitPort: CommandAuthCodeLimitPort
-
-    private lateinit var checkAuthCodePolicy: CheckAuthCodePolicy
 
     private lateinit var checkAuthCodeUseCase: CheckAuthCodeUseCase
 
@@ -58,8 +55,7 @@ class CheckAuthCodeUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        checkAuthCodePolicy = CheckAuthCodePolicy(queryAuthCodePort)
-        checkAuthCodeUseCase = CheckAuthCodeUseCase(checkAuthCodePolicy, commandAuthCodeLimitPort)
+        checkAuthCodeUseCase = CheckAuthCodeUseCase(commandAuthCodeLimitPort, queryAuthCodePort)
     }
 
     @Test
@@ -67,9 +63,6 @@ class CheckAuthCodeUseCaseTests {
         // given
         given(queryAuthCodePort.queryAuthCodeByEmail(email))
             .willReturn(authCodeStub)
-
-        given(commandAuthCodeLimitPort.save(verifiedAuthCodeLimitStub))
-            .willReturn(verifiedAuthCodeLimitStub)
 
         // when
         checkAuthCodeUseCase.execute(email, code)

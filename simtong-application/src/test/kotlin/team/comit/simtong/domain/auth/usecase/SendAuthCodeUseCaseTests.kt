@@ -42,15 +42,6 @@ class SendAuthCodeUseCaseTests {
 
     private val code = "123456"
 
-    private val authCodeLimitStub by lazy {
-        AuthCodeLimit(
-            key = email,
-            expirationTime = AuthCodeLimit.EXPIRED,
-            attemptCount = 1,
-            isVerified = false
-        )
-    }
-
     private val verifiedAuthCodeLimitStub by lazy {
         AuthCodeLimit(
             key = email,
@@ -94,16 +85,13 @@ class SendAuthCodeUseCaseTests {
         given(queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email))
             .willReturn(null)
 
-        given(commandAuthCodeLimitPort.save(any()))
-            .willReturn(authCodeLimitStub)
-
         given(commandAuthCodePort.save(any()))
             .willReturn(authCodeStub)
 
         willDoNothing().given(sendEmailPort).sendAuthCode(code, email)
 
         // when
-        val result = sendAuthCodeUseCase.execute(email)
+        sendAuthCodeUseCase.execute(email)
     }
 
     @Test
