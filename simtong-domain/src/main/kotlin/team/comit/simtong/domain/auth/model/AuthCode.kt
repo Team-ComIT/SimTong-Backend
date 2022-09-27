@@ -20,7 +20,7 @@ class AuthCode(
 ) {
 
     companion object {
-        const val EXPIRED = 180
+        val EXPIRED = System.getenv("AUTHCODE_EXPIRED").toInt()
     }
 
 }
