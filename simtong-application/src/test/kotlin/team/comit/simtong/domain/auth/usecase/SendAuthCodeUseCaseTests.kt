@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
-import org.mockito.BDDMockito.willDoNothing
 import org.mockito.kotlin.any
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -87,8 +86,6 @@ class SendAuthCodeUseCaseTests {
 
         given(commandAuthCodePort.save(any()))
             .willReturn(authCodeStub)
-
-        willDoNothing().given(sendEmailPort).sendAuthCode(code, email)
 
         // when
         sendAuthCodeUseCase.execute(email)
