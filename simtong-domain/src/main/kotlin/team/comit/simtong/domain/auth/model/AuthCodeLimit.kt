@@ -32,7 +32,7 @@ class AuthCodeLimit(
     }
 
     fun increaseCount(): AuthCodeLimit {
-        if (attemptCount >= VERIFIED_EXPIRED) {
+        if (attemptCount >= MAX_ATTEMPT_COUNT) {
             throw ExceededSendAuthCodeRequestException.EXCEPTION
         }
 
