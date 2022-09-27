@@ -2,6 +2,7 @@ package team.comit.simtong.domain.auth.usecase
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
@@ -86,8 +87,10 @@ class SendAuthCodeUseCaseTests {
 
         willDoNothing().given(sendEmailPort).sendAuthCode(code, email)
 
-        // when
-        sendAuthCodeUseCase.execute(email)
+        // when & then
+        assertDoesNotThrow {
+            sendAuthCodeUseCase.execute(email)
+        }
     }
 
     @Test
@@ -108,6 +111,7 @@ class SendAuthCodeUseCaseTests {
         given(queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email))
             .willReturn(exceedAuthCodeLimitStub)
 
+        // when & then
         assertThrows<ExceededSendAuthCodeRequestException> {
             sendAuthCodeUseCase.execute(email)
         }
