@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.willDoNothing
 import org.mockito.kotlin.any
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -12,7 +13,6 @@ import team.comit.simtong.domain.auth.exception.CertifiedEmailException
 import team.comit.simtong.domain.auth.exception.ExceededSendAuthCodeRequestException
 import team.comit.simtong.domain.auth.model.AuthCode
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
-import team.comit.simtong.domain.auth.policy.SendAuthCodePolicy
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.CommandAuthCodePort
 import team.comit.simtong.domain.auth.spi.QueryAuthCodeLimitPort
@@ -32,8 +32,6 @@ class SendAuthCodeUseCaseTests {
 
     @MockBean
     private lateinit var sendEmailPort: SendEmailPort
-
-    private lateinit var sendAuthCodePolicy: SendAuthCodePolicy
 
     private lateinit var sendAuthCodeUseCase: SendAuthCodeUseCase
 
@@ -69,11 +67,10 @@ class SendAuthCodeUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        sendAuthCodePolicy = SendAuthCodePolicy(queryAuthCodeLimitPort)
         sendAuthCodeUseCase = SendAuthCodeUseCase(
-            sendAuthCodePolicy,
             commandAuthCodeLimitPort,
             commandAuthCodePort,
+            queryAuthCodeLimitPort,
             sendEmailPort
         )
     }
@@ -86,6 +83,8 @@ class SendAuthCodeUseCaseTests {
 
         given(commandAuthCodePort.save(any()))
             .willReturn(authCodeStub)
+
+        willDoNothing().given(sendEmailPort).sendAuthCode(code, email)
 
         // when
         sendAuthCodeUseCase.execute(email)

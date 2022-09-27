@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.auth.model
 
+import team.comit.simtong.domain.auth.exception.ExceededSendAuthCodeRequestException
 import team.comit.simtong.global.annotation.Aggregate
 
 /**
@@ -30,7 +31,11 @@ class AuthCodeLimit(
         const val VERIFIED_EXPIRED = 2700
     }
 
-    fun sendAuthCode(): AuthCodeLimit {
+    fun increaseCount(): AuthCodeLimit {
+        if (attemptCount >= VERIFIED_EXPIRED) {
+            throw ExceededSendAuthCodeRequestException.EXCEPTION
+        }
+
         return AuthCodeLimit(
             key = key,
             expirationTime = expirationTime,
