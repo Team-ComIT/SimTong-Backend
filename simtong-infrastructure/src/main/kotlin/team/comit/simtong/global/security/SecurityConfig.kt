@@ -9,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.global.filter.FilterConfig
 import team.comit.simtong.global.security.token.JwtParser
 
@@ -44,6 +45,7 @@ class SecurityConfig(
             // users
             .antMatchers(HttpMethod.POST, "/users").permitAll()
             .antMatchers(HttpMethod.POST, "/users/tokens").permitAll()
+            .antMatchers(HttpMethod.GET, "/users/information").hasAnyRole(Authority.ROLE_COMMON.name)
 
             // commons
             .antMatchers(HttpMethod.GET, "/commons/employee-number").permitAll()
