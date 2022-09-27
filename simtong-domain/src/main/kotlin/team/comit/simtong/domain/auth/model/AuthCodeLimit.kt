@@ -23,9 +23,11 @@ class AuthCodeLimit(
 ) {
 
     companion object {
-        val EXPIRED = System.getenv("AUTHCODELIMIT_EXPIRED").toInt()
-        val MAX_ATTEMPT_COUNT = System.getenv("AUTHCODELIMIT_MAX_ATTEMPT_COUNT").toShort()
-        val VERIFIED_EXPIRED = System.getenv("AUTHCODELIMIT_VERIFIED_EXPIRED").toInt()
+        // TODO 환경 변수 관리
+
+        const val EXPIRED = 1800
+        const val MAX_ATTEMPT_COUNT: Short = 5
+        const val VERIFIED_EXPIRED = 2700
     }
 
     fun sendAuthCode(): AuthCodeLimit {
