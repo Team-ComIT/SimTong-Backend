@@ -9,7 +9,6 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.exception.AuthCodeMismatchException
 import team.comit.simtong.domain.auth.model.AuthCode
-import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.QueryAuthCodePort
 
@@ -27,15 +26,6 @@ class CheckAuthCodeUseCaseTests {
     private val email = "test@test.com"
 
     private val code = "123456"
-
-    private val verifiedAuthCodeLimitStub: AuthCodeLimit by lazy {
-        AuthCodeLimit(
-            key = email,
-            expirationTime = AuthCodeLimit.VERIFIED_EXPIRED,
-            attemptCount = 0,
-            isVerified = true
-        )
-    }
 
     private val authCodeStub: AuthCode by lazy {
         AuthCode(
