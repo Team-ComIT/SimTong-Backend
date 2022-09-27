@@ -26,9 +26,9 @@ class AuthCodeLimitPersistenceAdapter(
     )
 
     override fun save(authCodeLimit: AuthCodeLimit) = authCodeLimitMapper.toDomain(
-       authCodeLimitRepository.save(
-           authCodeLimitMapper.toEntity(authCodeLimit)
-       )
+        authCodeLimitRepository.save(
+            authCodeLimitMapper.toEntity(authCodeLimit)
+        )
     )!!
 
 }
