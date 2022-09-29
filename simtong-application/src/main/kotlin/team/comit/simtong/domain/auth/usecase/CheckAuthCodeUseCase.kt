@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.auth.usecase
 
 import team.comit.simtong.domain.auth.exception.AuthCodeMismatchException
-import team.comit.simtong.domain.auth.model.AuthCodeLimit
+import team.comit.simtong.domain.auth.service.ConstructAuthCodeLimitService
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.QueryAuthCodePort
 import team.comit.simtong.global.annotation.UseCase
@@ -17,6 +17,7 @@ import team.comit.simtong.global.annotation.UseCase
 @UseCase
 class CheckAuthCodeUseCase(
     private val commandAuthCodeLimitPort: CommandAuthCodeLimitPort,
+    private val constructAuthCodeLimitService: ConstructAuthCodeLimitService,
     private val queryAuthCodePort: QueryAuthCodePort
 ) {
 
@@ -28,12 +29,7 @@ class CheckAuthCodeUseCase(
         }
 
         commandAuthCodeLimitPort.save(
-            AuthCodeLimit(
-                key = email,
-                expirationTime = AuthCodeLimit.VERIFIED_EXPIRED,
-                attemptCount = 0,
-                isVerified = true
-            )
+            constructAuthCodeLimitService.verified(email)
         )
     }
 

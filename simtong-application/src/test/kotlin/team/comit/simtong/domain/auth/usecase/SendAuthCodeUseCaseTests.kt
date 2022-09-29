@@ -7,13 +7,14 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.willDoNothing
-import org.mockito.kotlin.any
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.exception.CertifiedEmailException
 import team.comit.simtong.domain.auth.exception.ExceededSendAuthCodeRequestException
 import team.comit.simtong.domain.auth.model.AuthCode
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
+import team.comit.simtong.domain.auth.service.ConstructAuthCodeLimitService
+import team.comit.simtong.domain.auth.service.ConstructAuthCodeService
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.CommandAuthCodePort
 import team.comit.simtong.domain.auth.spi.QueryAuthCodeLimitPort
@@ -34,11 +35,26 @@ class SendAuthCodeUseCaseTests {
     @MockBean
     private lateinit var sendEmailPort: SendEmailPort
 
+    @MockBean
+    private lateinit var constructAuthCodeLimitService: ConstructAuthCodeLimitService
+
+    @MockBean
+    private lateinit var constructAuthCodeService: ConstructAuthCodeService
+
     private lateinit var sendAuthCodeUseCase: SendAuthCodeUseCase
 
     private val email = "test@test.com"
 
     private val code = "123456"
+
+    private val authCodeLimitStub by lazy {
+        AuthCodeLimit(
+            key = email,
+            expirationTime = AuthCodeLimit.EXPIRED,
+            attemptCount = 0,
+            isVerified = false
+        )
+    }
 
     private val verifiedAuthCodeLimitStub by lazy {
         AuthCodeLimit(
@@ -72,6 +88,8 @@ class SendAuthCodeUseCaseTests {
             commandAuthCodeLimitPort,
             commandAuthCodePort,
             queryAuthCodeLimitPort,
+            constructAuthCodeLimitService,
+            constructAuthCodeService,
             sendEmailPort
         )
     }
@@ -82,7 +100,13 @@ class SendAuthCodeUseCaseTests {
         given(queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email))
             .willReturn(null)
 
-        given(commandAuthCodePort.save(any()))
+        given(constructAuthCodeLimitService.construct(email))
+            .willReturn(authCodeLimitStub)
+
+        given(constructAuthCodeService.construct(email))
+            .willReturn(authCodeStub)
+
+        given(commandAuthCodePort.save(authCodeStub))
             .willReturn(authCodeStub)
 
         willDoNothing().given(sendEmailPort).sendAuthCode(code, email)

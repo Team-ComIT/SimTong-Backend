@@ -2,6 +2,7 @@ package team.comit.simtong.domain.auth.usecase
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
@@ -9,6 +10,8 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.exception.AuthCodeMismatchException
 import team.comit.simtong.domain.auth.model.AuthCode
+import team.comit.simtong.domain.auth.model.AuthCodeLimit
+import team.comit.simtong.domain.auth.service.ConstructAuthCodeLimitService
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.QueryAuthCodePort
 
@@ -19,6 +22,9 @@ class CheckAuthCodeUseCaseTests {
     private lateinit var queryAuthCodePort: QueryAuthCodePort
 
     @MockBean
+    private lateinit var constructAuthCodeLimitService: ConstructAuthCodeLimitService
+
+    @MockBean
     private lateinit var commandAuthCodeLimitPort: CommandAuthCodeLimitPort
 
     private lateinit var checkAuthCodeUseCase: CheckAuthCodeUseCase
@@ -26,6 +32,15 @@ class CheckAuthCodeUseCaseTests {
     private val email = "test@test.com"
 
     private val code = "123456"
+
+    private val verifiedAuthCodeLimitStub: AuthCodeLimit by lazy {
+        AuthCodeLimit(
+            key = email,
+            expirationTime = AuthCodeLimit.VERIFIED_EXPIRED,
+            attemptCount = 0,
+            isVerified = true
+        )
+    }
 
     private val authCodeStub: AuthCode by lazy {
         AuthCode(
@@ -45,7 +60,11 @@ class CheckAuthCodeUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        checkAuthCodeUseCase = CheckAuthCodeUseCase(commandAuthCodeLimitPort, queryAuthCodePort)
+        checkAuthCodeUseCase = CheckAuthCodeUseCase(
+            commandAuthCodeLimitPort,
+            constructAuthCodeLimitService,
+            queryAuthCodePort
+        )
     }
 
     @Test
@@ -54,8 +73,13 @@ class CheckAuthCodeUseCaseTests {
         given(queryAuthCodePort.queryAuthCodeByEmail(email))
             .willReturn(authCodeStub)
 
-        // when
-        checkAuthCodeUseCase.execute(email, code)
+        given(constructAuthCodeLimitService.verified(email))
+            .willReturn(verifiedAuthCodeLimitStub)
+
+        // when & then
+        assertDoesNotThrow {
+            checkAuthCodeUseCase.execute(email, code)
+        }
     }
 
     @Test
