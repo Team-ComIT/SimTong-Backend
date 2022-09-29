@@ -31,6 +31,13 @@ class AuthCodeLimit(
         const val VERIFIED_EXPIRED = 2700
     }
 
+    constructor(email: String) : this(
+        key = email,
+        expirationTime = EXPIRED,
+        attemptCount = MAX_ATTEMPT_COUNT,
+        isVerified = false
+    )
+
     fun increaseCount(): AuthCodeLimit {
         if (attemptCount >= MAX_ATTEMPT_COUNT) {
             throw ExceededSendAuthCodeRequestException.EXCEPTION

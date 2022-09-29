@@ -1,6 +1,5 @@
 package team.comit.simtong.domain.auth.usecase
 
-import net.bytebuddy.utility.RandomString
 import team.comit.simtong.domain.auth.exception.CertifiedEmailException
 import team.comit.simtong.domain.auth.model.AuthCode
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
@@ -28,12 +27,7 @@ class SendAuthCodeUseCase(
 
     fun execute(email: String) {
         val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
-            ?: AuthCodeLimit(
-                key = email,
-                expirationTime = AuthCodeLimit.EXPIRED,
-                attemptCount = 0,
-                isVerified = false
-            )
+            ?: AuthCodeLimit(email)
 
         if(authCodeLimit.isVerified) {
             throw CertifiedEmailException.EXCEPTION
@@ -41,13 +35,7 @@ class SendAuthCodeUseCase(
 
         commandAuthCodeLimitPort.save(authCodeLimit.increaseCount())
 
-        val authCode = commandAuthCodePort.save(
-            AuthCode(
-                key = email,
-                code = RandomString(6).nextString(),
-                expirationTime = AuthCode.EXPIRED
-            )
-        )
+        val authCode = commandAuthCodePort.save(AuthCode(email))
 
         sendEmailPort.sendAuthCode(authCode.code, email)
     }
