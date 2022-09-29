@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.auth.model
 
+import net.bytebuddy.utility.RandomString
 import team.comit.simtong.global.annotation.Aggregate
 
 /**
@@ -21,6 +22,12 @@ class AuthCode(
 
     companion object {
         const val EXPIRED = 180
+
+        fun default(email: String) = AuthCode(
+            key = email,
+            code = RandomString(6).nextString(),
+            expirationTime = EXPIRED
+        )
     }
 
 }

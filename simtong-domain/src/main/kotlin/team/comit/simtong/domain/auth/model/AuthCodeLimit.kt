@@ -26,9 +26,24 @@ class AuthCodeLimit(
     companion object {
         // TODO 환경 변수 관리
 
-        const val EXPIRED = 1800
         const val MAX_ATTEMPT_COUNT: Short = 5
+        const val EXPIRED = 1800
         const val VERIFIED_EXPIRED = 2700
+
+        fun verified(email: String) = AuthCodeLimit(
+            key = email,
+            expirationTime = VERIFIED_EXPIRED,
+            attemptCount = 0,
+            isVerified = true
+        )
+
+        fun default(email: String) = AuthCodeLimit(
+            key = email,
+            expirationTime = EXPIRED,
+            attemptCount = 0,
+            isVerified = false
+        )
+
     }
 
     fun increaseCount(): AuthCodeLimit {

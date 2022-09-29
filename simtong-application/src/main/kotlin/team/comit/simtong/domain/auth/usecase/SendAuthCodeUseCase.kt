@@ -1,8 +1,8 @@
 package team.comit.simtong.domain.auth.usecase
 
 import team.comit.simtong.domain.auth.exception.CertifiedEmailException
-import team.comit.simtong.domain.auth.service.ConstructAuthCodeLimitService
-import team.comit.simtong.domain.auth.service.ConstructAuthCodeService
+import team.comit.simtong.domain.auth.model.AuthCode
+import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.CommandAuthCodePort
 import team.comit.simtong.domain.auth.spi.QueryAuthCodeLimitPort
@@ -22,14 +22,12 @@ class SendAuthCodeUseCase(
     private val commandAuthCodeLimitPort: CommandAuthCodeLimitPort,
     private val commandAuthCodePort: CommandAuthCodePort,
     private val queryAuthCodeLimitPort: QueryAuthCodeLimitPort,
-    private val constructAuthCodeLimitService: ConstructAuthCodeLimitService,
-    private val constructAuthCodeService: ConstructAuthCodeService,
     private val sendEmailPort: SendEmailPort
 ) {
 
     fun execute(email: String) {
         val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
-            ?: constructAuthCodeLimitService.construct(email)
+            ?: AuthCodeLimit.default(email)
 
         if(authCodeLimit.isVerified) {
             throw CertifiedEmailException.EXCEPTION
@@ -37,9 +35,7 @@ class SendAuthCodeUseCase(
 
         commandAuthCodeLimitPort.save(authCodeLimit.increaseCount())
 
-        val authCode = commandAuthCodePort.save(
-            constructAuthCodeService.construct(email)
-        )
+        val authCode = commandAuthCodePort.save(AuthCode.default(email))
 
         sendEmailPort.sendAuthCode(authCode.code, email)
     }
