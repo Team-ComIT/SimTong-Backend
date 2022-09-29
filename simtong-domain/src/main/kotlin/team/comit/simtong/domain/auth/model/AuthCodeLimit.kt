@@ -34,7 +34,7 @@ class AuthCodeLimit(
     constructor(email: String) : this(
         key = email,
         expirationTime = EXPIRED,
-        attemptCount = MAX_ATTEMPT_COUNT,
+        attemptCount = 0,
         isVerified = false
     )
 
