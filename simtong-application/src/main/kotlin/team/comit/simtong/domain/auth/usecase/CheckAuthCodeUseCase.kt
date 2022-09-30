@@ -28,7 +28,7 @@ class CheckAuthCodeUseCase(
         }
 
         commandAuthCodeLimitPort.save(
-            AuthCodeLimit.verified(email)
+            AuthCodeLimit.certified(email)
         )
     }
 

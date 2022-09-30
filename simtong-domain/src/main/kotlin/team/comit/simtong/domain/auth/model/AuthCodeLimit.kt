@@ -38,7 +38,7 @@ class AuthCodeLimit @Default constructor(
         const val EXPIRED = 1800
         const val VERIFIED_EXPIRED = 2700
 
-        fun verified(email: String) = AuthCodeLimit(
+        fun certified(email: String) = AuthCodeLimit(
             key = email,
             expirationTime = VERIFIED_EXPIRED,
             attemptCount = MAX_ATTEMPT_COUNT,
