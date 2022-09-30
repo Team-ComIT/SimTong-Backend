@@ -24,6 +24,7 @@ subprojects {
 
         // test
         implementation(Dependencies.SPRING_TEST)
+        testImplementation(Dependencies.MOCKITO_KOTLIN)
     }
 }
 
