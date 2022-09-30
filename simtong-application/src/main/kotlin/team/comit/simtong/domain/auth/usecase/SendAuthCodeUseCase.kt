@@ -27,7 +27,7 @@ class SendAuthCodeUseCase(
 
     fun execute(email: String) {
         val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
-            ?: AuthCodeLimit.default(email)
+            ?: AuthCodeLimit(email)
 
         if(authCodeLimit.isVerified) {
             throw CertifiedEmailException.EXCEPTION
@@ -35,7 +35,7 @@ class SendAuthCodeUseCase(
 
         commandAuthCodeLimitPort.save(authCodeLimit.increaseCount())
 
-        val authCode = commandAuthCodePort.save(AuthCode.default(email))
+        val authCode = commandAuthCodePort.save(AuthCode(email))
 
         sendEmailPort.sendAuthCode(authCode.code, email)
     }

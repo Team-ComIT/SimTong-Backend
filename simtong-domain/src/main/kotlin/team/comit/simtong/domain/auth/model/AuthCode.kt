@@ -2,6 +2,7 @@ package team.comit.simtong.domain.auth.model
 
 import net.bytebuddy.utility.RandomString
 import team.comit.simtong.global.annotation.Aggregate
+import team.comit.simtong.global.annotation.Default
 
 /**
  *
@@ -12,7 +13,7 @@ import team.comit.simtong.global.annotation.Aggregate
  * @version 1.0.0
  **/
 @Aggregate
-class AuthCode(
+class AuthCode @Default constructor(
     val key: String,
 
     val code: String,
@@ -20,14 +21,14 @@ class AuthCode(
     val expirationTime: Int
 ) {
 
+    constructor(email: String) : this(
+        key = email,
+        code = RandomString(6).nextString(),
+        expirationTime = EXPIRED
+    )
+
     companion object {
         const val EXPIRED = 180
-
-        fun default(email: String) = AuthCode(
-            key = email,
-            code = RandomString(6).nextString(),
-            expirationTime = EXPIRED
-        )
     }
 
 }

@@ -2,6 +2,7 @@ package team.comit.simtong.domain.auth.model
 
 import team.comit.simtong.domain.auth.exception.ExceededSendAuthCodeRequestException
 import team.comit.simtong.global.annotation.Aggregate
+import team.comit.simtong.global.annotation.Default
 
 /**
  *
@@ -13,7 +14,7 @@ import team.comit.simtong.global.annotation.Aggregate
  * @version 1.0.0
  **/
 @Aggregate
-class AuthCodeLimit(
+class AuthCodeLimit @Default constructor(
     val key: String,
 
     val expirationTime: Int,
@@ -22,6 +23,13 @@ class AuthCodeLimit(
 
     val isVerified: Boolean
 ) {
+
+    constructor(email: String) : this(
+        key = email,
+        expirationTime = EXPIRED,
+        attemptCount = 0,
+        isVerified = false
+    )
 
     companion object {
         // TODO 환경 변수 관리
@@ -33,17 +41,9 @@ class AuthCodeLimit(
         fun verified(email: String) = AuthCodeLimit(
             key = email,
             expirationTime = VERIFIED_EXPIRED,
-            attemptCount = 0,
+            attemptCount = MAX_ATTEMPT_COUNT,
             isVerified = true
         )
-
-        fun default(email: String) = AuthCodeLimit(
-            key = email,
-            expirationTime = EXPIRED,
-            attemptCount = 0,
-            isVerified = false
-        )
-
     }
 
     fun increaseCount(): AuthCodeLimit {
