@@ -22,13 +22,13 @@ class AuthCodeLimitEntity(
 
     @field:NotNull
     @TimeToLive
-    val expirationTime: Int
-) {
+    val expirationTime: Int,
+
     @field:NotNull
     @ColumnDefault("1")
-    val attemptCount: Short = 1
+    val attemptCount: Short,
 
     @field:NotNull
     @ColumnDefault("false")
-    val isVerified: Boolean = false
-}
+    val isVerified: Boolean
+)

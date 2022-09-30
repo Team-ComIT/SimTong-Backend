@@ -14,4 +14,7 @@ import team.comit.simtong.persistence.auth.entity.AuthCodeEntity
  **/
 @Repository
 interface AuthCodeRepository : CrudRepository<AuthCodeEntity, String> {
+
+    fun queryAuthCodeEntityByKey(key: String): AuthCodeEntity?
+
 }
