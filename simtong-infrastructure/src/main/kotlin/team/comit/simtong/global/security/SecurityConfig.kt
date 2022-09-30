@@ -50,7 +50,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.PUT, "/commons/token/reissue").permitAll()
 
             // emails
-            .antMatchers(HttpMethod.HEAD, "/emails").permitAll()
+            .antMatchers(HttpMethod.GET, "/emails").permitAll()
             .antMatchers(HttpMethod.POST, "/emails/code").permitAll()
 
             // menu

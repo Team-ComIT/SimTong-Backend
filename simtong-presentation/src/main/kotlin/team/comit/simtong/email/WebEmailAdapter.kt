@@ -1,9 +1,9 @@
 package team.comit.simtong.email
 
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.auth.usecase.CheckAuthCodeUseCase
 import team.comit.simtong.domain.auth.usecase.SendAuthCodeUseCase
@@ -31,7 +31,7 @@ class WebEmailAdapter(
         sendAuthCodeUseCase.execute(request.email)
     }
 
-    @RequestMapping(method = [RequestMethod.HEAD])
+    @GetMapping
     fun checkAuthCode(@Valid request: WebCheckAuthCodeRequest) {
         checkAuthCodeUseCase.execute(request.email, request.code)
     }
