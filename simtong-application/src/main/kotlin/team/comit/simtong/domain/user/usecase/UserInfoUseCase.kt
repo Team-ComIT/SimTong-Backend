@@ -24,9 +24,9 @@ class UserInfoUseCase(
 ) {
 
     fun execute(): UserInfoResponse {
-        val id = userSecurityPort.getCurrentUserId()
+        val currentUserId = userSecurityPort.getCurrentUserId()
 
-        val user = queryUserPort.queryUserById(id) ?: throw UserNotFoundException.EXCEPTION
+        val user = queryUserPort.queryUserById(currentUserId) ?: throw UserNotFoundException.EXCEPTION
         val spot = userQuerySpotPort.querySpotById(user.spotId) ?: throw SpotNotFoundException.EXCEPTION
 
         return UserInfoResponse(

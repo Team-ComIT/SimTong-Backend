@@ -11,9 +11,9 @@ import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.user.dto.SignInRequest
 import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.domain.user.dto.UserInfoResponse
-import team.comit.simtong.domain.user.usecase.UserInfoUseCase
 import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
+import team.comit.simtong.domain.user.usecase.UserInfoUseCase
 import team.comit.simtong.user.dto.request.WebSignInRequest
 import team.comit.simtong.user.dto.request.WebSignUpRequest
 import javax.validation.Valid
@@ -61,7 +61,7 @@ class WebUserAdapter(
     }
 
     @GetMapping("/information")
-    fun getInfo(): UserInfoResponse {
+    fun getMyInfo(): UserInfoResponse {
         return getInfoUseCase.execute()
     }
 
