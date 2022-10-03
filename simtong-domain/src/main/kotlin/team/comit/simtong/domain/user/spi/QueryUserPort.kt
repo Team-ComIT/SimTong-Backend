@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.user.spi
 
 import team.comit.simtong.domain.user.model.User
-import java.util.*
+import java.util.UUID
 
 /**
  *
@@ -15,6 +15,8 @@ import java.util.*
 interface QueryUserPort {
 
     fun existsUserByEmail(email: String): Boolean
+
+    fun existsUserByNickname(nickname: String): Boolean
 
     fun queryUserById(id: UUID): User?
 
