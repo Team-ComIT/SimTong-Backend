@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.user.spi
 
 import team.comit.simtong.domain.user.model.User
-import java.util.*
+import java.util.UUID
 
 /**
  *
@@ -25,5 +25,7 @@ interface QueryUserPort {
     fun queryUserByNickName(nickName: String): User?
 
     fun queryUserByNameAndSpotAndEmail(name: String, spotId: UUID, email: String): User?
+
+    fun queryUserByEmailAndEmployeeNumber(email: String, employeeNumber: Int): User?
 
 }
