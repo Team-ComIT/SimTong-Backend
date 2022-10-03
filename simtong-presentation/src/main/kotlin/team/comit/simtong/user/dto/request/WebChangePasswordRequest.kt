@@ -8,6 +8,14 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 
+/**
+ *
+ * 비밀번호 변경을 요청하는 WebChangePasswordRequest
+ *
+ * @author Chokyunghyeon
+ * @date 2022/10/03
+ * @version 1.0.0
+ **/
 data class WebChangePasswordRequest(
     @field:NotBlank
     @field:Email
