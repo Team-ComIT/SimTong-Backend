@@ -62,6 +62,9 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/files").permitAll()
             .antMatchers(HttpMethod.POST, "/files/list").permitAll()
 
+            // admins
+            .antMatchers(HttpMethod.POST, "/admins/tokens").hasRole(Authority.ROLE_ADMIN.name)
+
             .anyRequest().authenticated()
 
         http
