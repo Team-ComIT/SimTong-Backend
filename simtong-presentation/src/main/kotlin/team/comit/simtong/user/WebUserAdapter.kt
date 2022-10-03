@@ -36,7 +36,7 @@ import javax.validation.Valid
 class WebUserAdapter(
     private val signUpUseCase: SignUpUseCase,
     private val signInUseCase: SignInUseCase,
-    private val getInfoUseCase: UserInfoUseCase
+    private val getInfoUseCase: UserInfoUseCase,
     private val changePasswordUseCase: ChangePasswordUseCase
 ) {
 
