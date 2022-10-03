@@ -1,5 +1,7 @@
 package team.comit.simtong.domain.user.spi
 
+import java.util.UUID
+
 /**
  *
  * User에 관한 보안 처리를 요청하는 UserSecurityPort
@@ -14,5 +16,7 @@ interface UserSecurityPort {
     fun compare(target: String, encryptedPassword: String): Boolean
 
     fun encode(password: String): String
+
+    fun getCurrentUserId(): UUID
 
 }
