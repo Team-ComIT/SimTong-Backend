@@ -3,17 +3,21 @@ package team.comit.simtong.user
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.auth.dto.TokenResponse
+import team.comit.simtong.domain.user.dto.ChangePasswordRequest
 import team.comit.simtong.domain.user.dto.SignInRequest
 import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.domain.user.dto.UserInfoResponse
+import team.comit.simtong.domain.user.usecase.ChangePasswordUseCase
 import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
 import team.comit.simtong.domain.user.usecase.UserInfoUseCase
+import team.comit.simtong.user.dto.request.WebChangePasswordRequest
 import team.comit.simtong.user.dto.request.WebSignInRequest
 import team.comit.simtong.user.dto.request.WebSignUpRequest
 import javax.validation.Valid
@@ -33,6 +37,7 @@ class WebUserAdapter(
     private val signUpUseCase: SignUpUseCase,
     private val signInUseCase: SignInUseCase,
     private val getInfoUseCase: UserInfoUseCase
+    private val changePasswordUseCase: ChangePasswordUseCase
 ) {
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -63,6 +68,18 @@ class WebUserAdapter(
     @GetMapping("/information")
     fun getMyInfo(): UserInfoResponse {
         return getInfoUseCase.execute()
+    }
+
+    @PutMapping("/password")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun changePassword(@Valid @RequestBody request: WebChangePasswordRequest) {
+        return changePasswordUseCase.execute(
+            ChangePasswordRequest(
+                email = request.email,
+                employeeNumber = request.employeeNumber,
+                newPassword = request.newPassword
+            )
+        )
     }
 
 }
