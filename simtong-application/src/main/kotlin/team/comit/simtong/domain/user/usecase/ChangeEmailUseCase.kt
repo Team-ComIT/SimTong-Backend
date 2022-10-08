@@ -27,14 +27,14 @@ class ChangeEmailUseCase(
 ) {
 
     fun execute(request: ChangeEmailRequest) {
+        if (queryUserPort.existsUserByEmail(request.email)) {
+            throw UsedEmailException.EXCEPTION
+        }
+
         val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email)
 
         if (authCodeLimit?.isVerified != true) {
             throw UncertifiedEmailException.EXCEPTION
-        }
-
-        if (queryUserPort.existsUserByEmail(request.email)) {
-            throw UsedEmailException.EXCEPTION
         }
 
         val currentUserId = userSecurityPort.getCurrentUserId()
