@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.auth.dto.TokenResponse
-import team.comit.simtong.domain.user.dto.ChangePasswordRequest
+import team.comit.simtong.domain.user.dto.ResetPasswordRequest
 import team.comit.simtong.domain.user.dto.SignInRequest
 import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.domain.user.dto.UserInfoResponse
-import team.comit.simtong.domain.user.usecase.ChangePasswordUseCase
+import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
 import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
 import team.comit.simtong.domain.user.usecase.UserInfoUseCase
-import team.comit.simtong.user.dto.request.WebChangePasswordRequest
+import team.comit.simtong.user.dto.request.WebResetPasswordRequest
 import team.comit.simtong.user.dto.request.WebSignInRequest
 import team.comit.simtong.user.dto.request.WebSignUpRequest
 import javax.validation.Valid
@@ -37,7 +37,7 @@ class WebUserAdapter(
     private val signUpUseCase: SignUpUseCase,
     private val signInUseCase: SignInUseCase,
     private val getInfoUseCase: UserInfoUseCase,
-    private val changePasswordUseCase: ChangePasswordUseCase
+    private val resetPasswordUseCase: ResetPasswordUseCase
 ) {
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -70,11 +70,11 @@ class WebUserAdapter(
         return getInfoUseCase.execute()
     }
 
-    @PutMapping("/password")
+    @PutMapping("/password/initialization")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun changePassword(@Valid @RequestBody request: WebChangePasswordRequest) {
-        changePasswordUseCase.execute(
-            ChangePasswordRequest(
+    fun changePassword(@Valid @RequestBody request: WebResetPasswordRequest) {
+        resetPasswordUseCase.execute(
+            ResetPasswordRequest(
                 email = request.email,
                 employeeNumber = request.employeeNumber,
                 newPassword = request.newPassword

@@ -46,7 +46,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/users").permitAll()
             .antMatchers(HttpMethod.POST, "/users/tokens").permitAll()
             .antMatchers(HttpMethod.GET, "/users/information").hasAnyRole(Authority.ROLE_COMMON.name)
-            .antMatchers(HttpMethod.PUT, "/users/password").hasRole(Authority.ROLE_COMMON.name)
+            .antMatchers(HttpMethod.PUT, "/users/password/initialization").hasRole(Authority.ROLE_COMMON.name)
 
             // commons
             .antMatchers(HttpMethod.GET, "/commons/employee-number").permitAll()

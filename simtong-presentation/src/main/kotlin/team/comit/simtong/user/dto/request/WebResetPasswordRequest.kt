@@ -10,13 +10,13 @@ import javax.validation.constraints.Pattern
 
 /**
  *
- * 비밀번호 변경을 요청하는 WebChangePasswordRequest
+ * 비밀번호 초기화를 요청하는 WebResetPasswordRequest
  *
  * @author Chokyunghyeon
  * @date 2022/10/03
  * @version 1.0.0
  **/
-data class WebChangePasswordRequest(
+data class WebResetPasswordRequest(
     @field:NotBlank
     @field:Email
     val email: String,
