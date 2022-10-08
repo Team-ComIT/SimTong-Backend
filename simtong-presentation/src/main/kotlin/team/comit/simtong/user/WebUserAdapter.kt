@@ -72,7 +72,7 @@ class WebUserAdapter(
 
     @PutMapping("/password/initialization")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun changePassword(@Valid @RequestBody request: WebResetPasswordRequest) {
+    fun resetPassword(@Valid @RequestBody request: WebResetPasswordRequest) {
         resetPasswordUseCase.execute(
             ResetPasswordRequest(
                 email = request.email,
