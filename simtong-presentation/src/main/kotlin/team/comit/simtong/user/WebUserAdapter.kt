@@ -73,7 +73,7 @@ class WebUserAdapter(
     @PutMapping("/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changePassword(@Valid @RequestBody request: WebChangePasswordRequest) {
-        return changePasswordUseCase.execute(
+        changePasswordUseCase.execute(
             ChangePasswordRequest(
                 email = request.email,
                 employeeNumber = request.employeeNumber,
