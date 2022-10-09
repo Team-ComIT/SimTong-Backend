@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.user.usecase
 
+import team.comit.simtong.domain.auth.exception.RequiredNewEmailAuthenticationException
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.user.dto.ResetPasswordRequest
 import team.comit.simtong.domain.user.exception.UserNotFoundException
@@ -27,8 +28,9 @@ class ResetPasswordUseCase(
 
     fun execute(request: ResetPasswordRequest) {
         val authCodeLimit = userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email)
+            ?: throw RequiredNewEmailAuthenticationException.EXCEPTION
 
-        if (authCodeLimit?.isVerified != true) {
+        if (!authCodeLimit.isVerified) {
             throw UncertifiedEmailException.EXCEPTION
         }
 
