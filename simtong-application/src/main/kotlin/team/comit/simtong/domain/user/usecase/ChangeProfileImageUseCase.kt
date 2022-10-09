@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.user.usecase
 
-import team.comit.simtong.domain.user.dto.ChangeProfileRequest
+import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
@@ -9,20 +9,20 @@ import team.comit.simtong.global.annotation.UseCase
 
 /**
  *
- * 프로필 사진 변경을 담당하는 ChangeProfileUseCase
+ * 프로필 사진 변경을 담당하는 ChangeProfileImageUseCase
  *
  * @author Chokyunghyeon
  * @date 2022/10/03
  * @version 1.0.0
  **/
 @UseCase
-class ChangeProfileUseCase(
+class ChangeProfileImageUseCase(
     private val queryUserPort: QueryUserPort,
     private val userSecurityPort: UserSecurityPort,
     private val commandUserPort: CommandUserPort
 ) {
 
-    fun execute(request: ChangeProfileRequest) {
+    fun execute(request: ChangeProfileImageRequest) {
         val currentUserId = userSecurityPort.getCurrentUserId()
         val user = queryUserPort.queryUserById(currentUserId) ?: throw UserNotFoundException.EXCEPTION
 
