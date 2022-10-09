@@ -5,7 +5,7 @@ import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.UserPort
 import team.comit.simtong.persistence.user.mapper.UserMapper
 import team.comit.simtong.persistence.user.repository.UserJpaRepository
-import java.util.*
+import java.util.UUID
 
 /**
  *
@@ -43,6 +43,8 @@ class UserPersistenceAdapter(
     )
 
     override fun existsUserByEmail(email: String) = userJpaRepository.existsUserJpaEntitiesByEmail(email)
+
+    override fun existsUserByNickname(nickname: String) = userJpaRepository.existsUserJpaEntitiesByNickname(nickname)
 
     override fun save(user: User) = userMapper.toDomain(
         userJpaRepository.save(
