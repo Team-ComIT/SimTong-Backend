@@ -48,6 +48,8 @@ class UserPersistenceAdapter(
 
     override fun existsUserByEmail(email: String) = userJpaRepository.existsUserJpaEntitiesByEmail(email)
 
+    override fun existsUserByNickname(nickname: String) = userJpaRepository.existsUserJpaEntitiesByNickname(nickname)
+
     override fun save(user: User) = userMapper.toDomain(
         userJpaRepository.save(
             userMapper.toEntity(user)

@@ -9,14 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.auth.dto.TokenResponse
+import team.comit.simtong.domain.user.dto.ChangeNicknameRequest
 import team.comit.simtong.domain.user.dto.ResetPasswordRequest
 import team.comit.simtong.domain.user.dto.SignInRequest
 import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.domain.user.dto.UserInfoResponse
+import team.comit.simtong.domain.user.usecase.ChangeNicknameUseCase
 import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
 import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
 import team.comit.simtong.domain.user.usecase.UserInfoUseCase
+import team.comit.simtong.user.dto.request.WebChangeNicknameRequest
 import team.comit.simtong.user.dto.request.WebResetPasswordRequest
 import team.comit.simtong.user.dto.request.WebSignInRequest
 import team.comit.simtong.user.dto.request.WebSignUpRequest
@@ -37,6 +40,7 @@ class WebUserAdapter(
     private val signUpUseCase: SignUpUseCase,
     private val signInUseCase: SignInUseCase,
     private val getInfoUseCase: UserInfoUseCase,
+    private val changeNicknameUseCase: ChangeNicknameUseCase,
     private val resetPasswordUseCase: ResetPasswordUseCase
 ) {
 
@@ -69,7 +73,15 @@ class WebUserAdapter(
     fun getMyInfo(): UserInfoResponse {
         return getInfoUseCase.execute()
     }
-
+    
+    @PutMapping("/nickname")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun changeNickname(@Valid @RequestBody request: WebChangeNicknameRequest) {
+        changeNicknameUseCase.execute(ChangeNicknameRequest(
+            nickname = request.nickname
+        ))
+    }
+    
     @PutMapping("/password/initialization")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun resetPassword(@Valid @RequestBody request: WebResetPasswordRequest) {
