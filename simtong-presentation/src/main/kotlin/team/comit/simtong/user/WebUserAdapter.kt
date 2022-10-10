@@ -43,7 +43,7 @@ class WebUserAdapter(
     private val signUpUseCase: SignUpUseCase,
     private val signInUseCase: SignInUseCase,
     private val getInfoUseCase: UserInfoUseCase,
-    private val changeEmailUseCase: ChangeEmailUseCase
+    private val changeEmailUseCase: ChangeEmailUseCase,
     private val changeNicknameUseCase: ChangeNicknameUseCase,
     private val resetPasswordUseCase: ResetPasswordUseCase
 ) {
