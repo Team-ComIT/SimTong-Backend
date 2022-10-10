@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.user.dto.ChangeEmailRequest
 import team.comit.simtong.domain.user.dto.ChangeNicknameRequest
 import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
