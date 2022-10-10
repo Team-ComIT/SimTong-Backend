@@ -19,9 +19,11 @@ enum class AuthErrorCode(
     AUTHCODE_MISMATCH(401, "인증 코드 불일치"),
     UNCERTIFIED_EMAIL(401, "인증되지 않은 이메일"),
     REFRESH_TOKEN_NOT_FOUND(401, "토큰을 찾을 수 없음"),
+    REQUIRED_NEW_EMAIL_AUTHENTICATION(401, "새로운 이메일 인증 필요"),
 
     // 409
     ALREADY_USED_EMAIL(409, "이미 사용된 이메일"),
+    ALREADY_USED_NICKNAME(409, "이미 사용된 닉네임"),
     ALREADY_CERTIFIED_EMAIL(409, "이미 인증된 이메일"),
 
     // 429
