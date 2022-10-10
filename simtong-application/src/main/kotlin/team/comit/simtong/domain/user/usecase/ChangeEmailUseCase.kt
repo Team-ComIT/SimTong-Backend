@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.user.usecase
 
+import team.comit.simtong.domain.auth.exception.RequiredNewEmailAuthenticationException
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.auth.exception.UsedEmailException
 import team.comit.simtong.domain.auth.spi.QueryAuthCodeLimitPort
@@ -32,8 +33,9 @@ class ChangeEmailUseCase(
         }
 
         val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email)
+            ?: throw RequiredNewEmailAuthenticationException.EXCEPTION
 
-        if (authCodeLimit?.isVerified != true) {
+        if (!authCodeLimit.isVerified) {
             throw UncertifiedEmailException.EXCEPTION
         }
 
