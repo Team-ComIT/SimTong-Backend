@@ -28,4 +28,6 @@ interface QueryUserPort {
 
     fun queryUserByNameAndSpotAndEmail(name: String, spotId: UUID, email: String): User?
 
+    fun queryUserByEmailAndEmployeeNumber(email: String, employeeNumber: Int): User?
+
 }
