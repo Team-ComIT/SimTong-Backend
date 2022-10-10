@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import team.comit.simtong.domain.auth.exception.RequiredNewEmailAuthenticationException
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.auth.exception.UsedEmailException
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
@@ -126,7 +127,7 @@ class ChangeEmailUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<UncertifiedEmailException> {
+        assertThrows<RequiredNewEmailAuthenticationException> {
             changeEmailUseCase.execute(requestStub)
         }
     }
