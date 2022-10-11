@@ -9,14 +9,14 @@ import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
-import team.comit.simtong.domain.file.spi.ManageFilePort
+import team.comit.simtong.domain.file.spi.UploadFilePort
 import java.io.File
 
 @ExtendWith(SpringExtension::class)
 class UploadImageUseCaseTests {
 
     @MockBean
-    private lateinit var managerFilePort: ManageFilePort
+    private lateinit var managerFilePort: UploadFilePort
 
     private lateinit var uploadImageUseCase: UploadImageUseCase
 

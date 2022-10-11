@@ -7,7 +7,8 @@ import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.file.exception.FileIOInterruptedException
-import team.comit.simtong.domain.file.spi.ManageFilePort
+import team.comit.simtong.domain.file.spi.CheckFilePort
+import team.comit.simtong.domain.file.spi.UploadFilePort
 import java.io.File
 import java.io.IOException
 
@@ -23,7 +24,7 @@ import java.io.IOException
 class AwsS3Adapter(
     private val awsProperties: AwsS3Properties,
     private val amazonS3Client: AmazonS3Client
-): ManageFilePort {
+): UploadFilePort, CheckFilePort {
 
     override fun upload(file: File): String {
         inputS3(file, file.name)
@@ -55,6 +56,10 @@ class AwsS3Adapter(
 
     private fun getResource(fileName: String): String {
         return amazonS3Client.getResourceUrl(awsProperties.bucket, fileName)
+    }
+
+    override fun existsPath(path: String): Boolean {
+        return amazonS3Client.doesObjectExist(awsProperties.bucket, path.substringAfterLast('/', ""))
     }
 
 }

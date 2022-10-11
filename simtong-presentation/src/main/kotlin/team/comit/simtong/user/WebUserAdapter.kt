@@ -11,18 +11,21 @@ import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.user.dto.ChangeEmailRequest
 import team.comit.simtong.domain.user.dto.ChangeNicknameRequest
+import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
 import team.comit.simtong.domain.user.dto.ResetPasswordRequest
 import team.comit.simtong.domain.user.dto.SignInRequest
 import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.domain.user.dto.UserInfoResponse
 import team.comit.simtong.domain.user.usecase.ChangeEmailUseCase
 import team.comit.simtong.domain.user.usecase.ChangeNicknameUseCase
+import team.comit.simtong.domain.user.usecase.ChangeProfileImageUseCase
 import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
 import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
 import team.comit.simtong.domain.user.usecase.UserInfoUseCase
 import team.comit.simtong.user.dto.request.WebChangeEmailRequest
 import team.comit.simtong.user.dto.request.WebChangeNicknameRequest
+import team.comit.simtong.user.dto.request.WebChangeProfileImageRequest
 import team.comit.simtong.user.dto.request.WebResetPasswordRequest
 import team.comit.simtong.user.dto.request.WebSignInRequest
 import team.comit.simtong.user.dto.request.WebSignUpRequest
@@ -45,6 +48,7 @@ class WebUserAdapter(
     private val getInfoUseCase: UserInfoUseCase,
     private val changeEmailUseCase: ChangeEmailUseCase,
     private val changeNicknameUseCase: ChangeNicknameUseCase,
+    private val changeProfileImageUseCase: ChangeProfileImageUseCase,
     private val resetPasswordUseCase: ResetPasswordUseCase
 ) {
 
@@ -103,6 +107,13 @@ class WebUserAdapter(
     fun changeEmail(@Valid @RequestBody request: WebChangeEmailRequest) {
         changeEmailUseCase.execute(ChangeEmailRequest(
             email = request.email
+        ))
+    }
+
+    @PutMapping("/profile-image")
+    fun changeProfileImage(@Valid @RequestBody request: WebChangeProfileImageRequest) {
+        changeProfileImageUseCase.execute(ChangeProfileImageRequest(
+            profileImagePath = request.profileImagePath
         ))
     }
 
