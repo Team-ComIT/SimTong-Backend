@@ -13,6 +13,8 @@ import java.util.*
  **/
 interface QueryMenuPort {
 
-    fun queryMenuByMonth(year: Int, month: Int, spotId: UUID): List<Menu>
+    fun queryMenuBySpotId(year: Int, month: Int, spotId: UUID): List<Menu>
+
+    fun queryMenuBySpotName(year: Int, month: Int, spotName: String): List<Menu>
 
 }
