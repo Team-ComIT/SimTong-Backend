@@ -9,7 +9,7 @@ import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.file.exception.NotFoundFilePathException
-import team.comit.simtong.domain.file.spi.IdentifyFilePort
+import team.comit.simtong.domain.file.spi.CheckFilePort
 import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.model.Authority
@@ -32,7 +32,7 @@ class ChangeProfileImageUseCaseTests {
     private lateinit var commandUserPort: CommandUserPort
 
     @MockBean
-    private lateinit var identifyFilePort: IdentifyFilePort
+    private lateinit var checkFilePort: CheckFilePort
 
     private lateinit var changeProfileImageUseCase: ChangeProfileImageUseCase
 
@@ -65,14 +65,14 @@ class ChangeProfileImageUseCaseTests {
             queryUserPort,
             userSecurityPort,
             commandUserPort,
-            identifyFilePort
+            checkFilePort
         )
     }
 
     @Test
     fun `프로필 사진 변경 성공`() {
         // given
-        given(identifyFilePort.existsPath(requestStub.profileImagePath))
+        given(checkFilePort.existsPath(requestStub.profileImagePath))
             .willReturn(true)
 
         given(userSecurityPort.getCurrentUserId())
@@ -88,9 +88,9 @@ class ChangeProfileImageUseCaseTests {
     }
 
     @Test
-    fun `알려지지 않은 사진 경로`() {
+    fun `업로드되지 않은 사진 경로`() {
         // given
-        given(identifyFilePort.existsPath(requestStub.profileImagePath))
+        given(checkFilePort.existsPath(requestStub.profileImagePath))
             .willReturn(false)
 
         // when & then
@@ -102,7 +102,7 @@ class ChangeProfileImageUseCaseTests {
     @Test
     fun `유저를 찾을 수 없음`() {
         // given
-        given(identifyFilePort.existsPath(requestStub.profileImagePath))
+        given(checkFilePort.existsPath(requestStub.profileImagePath))
             .willReturn(true)
 
         given(userSecurityPort.getCurrentUserId())

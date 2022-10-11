@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.file.exception.NotFoundFilePathException
-import team.comit.simtong.domain.file.spi.IdentifyFilePort
+import team.comit.simtong.domain.file.spi.CheckFilePort
 import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.spi.CommandUserPort
@@ -22,11 +22,11 @@ class ChangeProfileImageUseCase(
     private val queryUserPort: QueryUserPort,
     private val userSecurityPort: UserSecurityPort,
     private val commandUserPort: CommandUserPort,
-    private val identifyFilePort: IdentifyFilePort
+    private val checkFilePort: CheckFilePort
 ) {
 
     fun execute(request: ChangeProfileImageRequest) {
-        if (!identifyFilePort.existsPath(request.profileImagePath)) {
+        if (!checkFilePort.existsPath(request.profileImagePath)) {
             throw NotFoundFilePathException.EXCEPTION
         }
 
