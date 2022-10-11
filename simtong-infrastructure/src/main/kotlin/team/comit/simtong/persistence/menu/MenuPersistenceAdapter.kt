@@ -38,6 +38,21 @@ class MenuPersistenceAdapter(
             }
     }
 
+    override fun queryMenuBySpot(year: Int, month: Int, spotName: String): List<Menu> {
+        return queryFactory
+            .selectFrom(menuJpaEntity)
+            .leftJoin(menuJpaEntity.spot, spotJpaEntity)
+            .where(
+                yearEq(year),
+                monthEq(month),
+                spotJpaEntity.name.eq(spotName)
+            )
+            .fetch()
+            .map {
+                menuMapper.toDomain(it)!!
+            }
+    }
+
     private fun yearEq(year: Int) = menuJpaEntity.date.year().eq(year)
 
     private fun monthEq(month: Int) = menuJpaEntity.date.month().eq(month)

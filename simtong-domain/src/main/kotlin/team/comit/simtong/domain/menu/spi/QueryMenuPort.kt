@@ -15,4 +15,6 @@ interface QueryMenuPort {
 
     fun queryMenuByMonth(year: Int, month: Int, spotId: UUID): List<Menu>
 
+    fun queryMenuBySpot(year: Int, month: Int, spotName: String): List<Menu>
+
 }
