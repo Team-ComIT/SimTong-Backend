@@ -17,6 +17,8 @@ enum class FileErrorCode(
 
     INVALID_EXTENSION(400, "제한된 확장자(jpg, jpeg, png)"),
 
+    NOT_FOUND_FILE_PATH(404, "알려지지 않은 파일 경로"),
+
     IO_INTERRUPTED(500, "파일 입출력 처리 중단");
 
     override fun status(): Int = status
