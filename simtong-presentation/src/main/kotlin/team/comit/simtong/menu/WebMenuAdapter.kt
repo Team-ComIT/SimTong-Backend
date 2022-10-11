@@ -31,4 +31,11 @@ class WebMenuAdapter(
         return queryMenuByMonthUseCase.execute(date)
     }
 
+    @GetMapping("/public")
+    fun getPublicMenu(
+        @RequestParam @DateTimeFormat(iso = ISO.DATE) date: LocalDate
+    ): MenuResponse {
+        return queryMenuByMonthUseCase.execute(date)
+    }
+
 }
