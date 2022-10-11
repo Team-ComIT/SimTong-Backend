@@ -17,7 +17,7 @@ enum class FileErrorCode(
 
     INVALID_EXTENSION(400, "제한된 확장자(jpg, jpeg, png)"),
 
-    NOT_FOUND_FILE_PATH(404, "업로드되지않은 파일 경로"),
+    NOT_FOUND_FILE_PATH(404, "업로드되지 않은 파일 경로"),
 
     IO_INTERRUPTED(500, "파일 입출력 처리 중단");
 
