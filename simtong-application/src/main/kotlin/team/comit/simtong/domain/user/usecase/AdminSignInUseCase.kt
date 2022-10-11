@@ -3,9 +3,12 @@ package team.comit.simtong.domain.user.usecase
 import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.user.dto.SignInRequest
 import team.comit.simtong.domain.user.exception.DifferentPasswordException
+import team.comit.simtong.domain.user.exception.NotAdminAccountException
 import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserJwtPort
+import team.comit.simtong.domain.user.spi.UserSecurityPort
 import team.comit.simtong.global.annotation.UseCase
 
 /**
@@ -19,14 +22,19 @@ import team.comit.simtong.global.annotation.UseCase
 @UseCase
 class AdminSignInUseCase(
     private val queryUserPort: QueryUserPort,
-    private val userJwtPort: UserJwtPort
+    private val userJwtPort: UserJwtPort,
+    private val userSecurityPort: UserSecurityPort
 ) {
 
     fun execute(request: SignInRequest): TokenResponse {
         val admin = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber)
             ?: throw UserNotFoundException.EXCEPTION
 
-        if (admin.password != request.password) {
+        if(admin.authority != Authority.ROLE_ADMIN) {
+            throw NotAdminAccountException.EXCEPTION
+        }
+
+        if (!userSecurityPort.compare(request.password, admin.password)) {
             throw DifferentPasswordException.EXCEPTION
         }
 
