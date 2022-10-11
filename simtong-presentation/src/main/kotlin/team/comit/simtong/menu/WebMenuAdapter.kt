@@ -1,5 +1,7 @@
 package team.comit.simtong.menu
 
+import org.springframework.format.annotation.DateTimeFormat
+import org.springframework.format.annotation.DateTimeFormat.ISO
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -24,7 +26,7 @@ class WebMenuAdapter(
 
     @GetMapping
     fun getMenu(
-        @RequestParam date: LocalDate
+        @RequestParam @DateTimeFormat(iso = ISO.DATE) date: LocalDate
     ): MenuResponse {
         return queryMenuByMonthUseCase.execute(date)
     }
