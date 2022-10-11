@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.user.model
 
 import team.comit.simtong.global.annotation.Aggregate
-import java.util.*
+import java.util.UUID
 
 /**
  *
@@ -31,8 +31,6 @@ data class User(
     val spotId: UUID,
 
     val teamId: UUID,
-
-    val adminCode: String? = null,
 
     val profileImagePath: String
 ) {

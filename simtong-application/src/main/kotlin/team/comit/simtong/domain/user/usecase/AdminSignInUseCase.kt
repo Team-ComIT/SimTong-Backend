@@ -26,7 +26,7 @@ class AdminSignInUseCase(
         val admin = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber)
             ?: throw UserNotFoundException.EXCEPTION
 
-        if (admin.adminCode != request.password) {
+        if (admin.password != request.password) {
             throw DifferentPasswordException.EXCEPTION
         }
 
