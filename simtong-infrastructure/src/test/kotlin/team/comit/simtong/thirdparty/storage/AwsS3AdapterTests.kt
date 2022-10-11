@@ -98,7 +98,7 @@ class AwsS3AdapterTests {
         awsS3Adapter.upload(file)
 
         val correct = awsS3Adapter.existsPath("/test.png")
-        val wrong = awsS3Adapter.existsPath("/test.jpg")
+        val wrong = awsS3Adapter.existsPath("/test.svg")
 
         // then
         assertTrue(correct)
