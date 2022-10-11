@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.file.usecase
 
 import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
-import team.comit.simtong.domain.file.spi.ManageFilePort
+import team.comit.simtong.domain.file.spi.UploadFilePort
 import team.comit.simtong.global.annotation.UseCase
 import java.io.File
 
@@ -15,7 +15,7 @@ import java.io.File
  **/
 @UseCase
 class UploadImageUseCase(
-    private val manageFilePort: ManageFilePort
+    private val uploadFilePort: UploadFilePort
 ) {
 
     fun execute(file: File): String {
@@ -24,7 +24,7 @@ class UploadImageUseCase(
             throw FileInvalidExtensionException.EXCEPTION
         }
 
-        return manageFilePort.upload(file)
+        return uploadFilePort.upload(file)
     }
 
     fun execute(files: List<File>): List<String> {
@@ -35,7 +35,7 @@ class UploadImageUseCase(
             }
         }
 
-        return manageFilePort.upload(files)
+        return uploadFilePort.upload(files)
     }
 
     private fun isCorrectExtension(file: File) = when (file.extension) { // TODO Coverage 경고 해결
