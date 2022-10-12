@@ -9,14 +9,15 @@ import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.dto.TokenResponse
+import team.comit.simtong.domain.user.dto.SignInRequest
 import team.comit.simtong.domain.user.exception.DifferentPasswordException
+import team.comit.simtong.domain.user.exception.NotUserAccountException
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserJwtPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
-import team.comit.simtong.domain.user.dto.SignInRequest
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
@@ -44,6 +45,21 @@ class SignInUseCaseTests {
             password = "test password",
             employeeNumber = employeeNumber,
             authority = Authority.ROLE_COMMON,
+            spotId = UUID.randomUUID(),
+            teamId = UUID.randomUUID(),
+            profileImagePath = "test path"
+        )
+    }
+
+    private val adminStub: User by lazy {
+        User(
+            id = UUID.randomUUID(),
+            nickname = "test nickname",
+            name = "test name",
+            email = "test@test.com",
+            password = "test password",
+            employeeNumber = employeeNumber,
+            authority = Authority.ROLE_ADMIN,
             spotId = UUID.randomUUID(),
             teamId = UUID.randomUUID(),
             profileImagePath = "test path"
@@ -112,6 +128,18 @@ class SignInUseCaseTests {
 
         // when & then
         assertThrows<UserNotFoundException> {
+            signInUseCase.execute(requestStub)
+        }
+    }
+
+    @Test
+    fun `관리자 계정`() {
+        // given
+        given(queryUserPort.queryUserByEmployeeNumber(employeeNumber))
+            .willReturn(adminStub)
+
+        // when & then
+        assertThrows<NotUserAccountException> {
             signInUseCase.execute(requestStub)
         }
     }
