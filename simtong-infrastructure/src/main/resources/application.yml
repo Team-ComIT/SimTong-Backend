@@ -6,48 +6,13 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: "60s"
 
-  datasource:
-    url: jdbc:mysql://${DB_URL:localhost}:3306/${DB_NAME}?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: ${DDL:validate}
-    properties:
-      hibernate:
-        format_sql: ${FORMAT_SQL:true}
-        show_sql: ${SHOW_SQL:true}
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    open-in-view: false
-
   jackson:
     property-naming-strategy: SNAKE_CASE
-
-  redis:
-    port: ${REDIS_PORT:6379}
-    host: ${REDIS_HOST:localhost}
 
   security:
     secret-key: ${SECRET_KEY:asdfasfdasfadsf}
     access-exp: ${ACCESS_EXP:180}
     refresh-exp: ${REFRESH_EXP:180}
-
-cloud:
-  aws:
-    credentials:
-      access-key: ${AWS_ACCESS}
-      secret-key: ${AWS_SECRET}
-    region:
-      static: ${AWS_REGION:ap-northeast-2}
-      auto: false
-    stack:
-      auto: false
-    s3:
-      bucket: ${BUCKET_NAME:simtong}
-    ses:
-      source: ${SES_SENDER}
 
 logging:
   level:
@@ -55,3 +20,17 @@ logging:
       amazonaws:
         util:
           EC2MetadataUtils: error
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
