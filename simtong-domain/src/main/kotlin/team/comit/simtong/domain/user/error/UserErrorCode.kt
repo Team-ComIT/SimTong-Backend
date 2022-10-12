@@ -18,6 +18,7 @@ enum class UserErrorCode(
 
     // 401
     DIFFERENT_PASSWORD(401, "비밀번호가 일치하지 않음"),
+    DIFFERENT_PERMISSION_ACCOUNT(401, "다른 권한의 계정"),
 
     // 404
     USER_NOT_FOUND(404, "유저를 찾을 수 없음");

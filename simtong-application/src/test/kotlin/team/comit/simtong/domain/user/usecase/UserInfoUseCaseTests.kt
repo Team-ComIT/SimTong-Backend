@@ -53,7 +53,6 @@ class UserInfoUseCaseTests {
             authority = Authority.ROLE_COMMON,
             spotId = id,
             teamId = id,
-            adminCode = null,
             profileImagePath = profileImagePath
         )
     }
