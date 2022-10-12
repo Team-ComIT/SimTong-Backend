@@ -9,7 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
-import team.comit.simtong.domain.user.model.Authority
+import team.comit.simtong.domain.user.model.Authority.ROLE_COMMON
 import team.comit.simtong.global.filter.FilterConfig
 import team.comit.simtong.global.security.token.JwtParser
 
@@ -45,11 +45,11 @@ class SecurityConfig(
             // users
             .antMatchers(HttpMethod.POST, "/users").permitAll()
             .antMatchers(HttpMethod.POST, "/users/tokens").permitAll()
-            .antMatchers(HttpMethod.GET, "/users/information").hasRole(Authority.ROLE_COMMON.role)
-            .antMatchers(HttpMethod.PUT, "/users/password/initialization").hasRole(Authority.ROLE_COMMON.role)
-            .antMatchers(HttpMethod.PUT, "/users/profile-image").hasRole(Authority.ROLE_COMMON.role)
-            .antMatchers(HttpMethod.PUT, "/users/nickname").hasRole(Authority.ROLE_COMMON.role)
-            .antMatchers(HttpMethod.PUT, "/users/email").hasRole(Authority.ROLE_COMMON.role)
+            .antMatchers(HttpMethod.GET, "/users/information").hasRole(ROLE_COMMON.role)
+            .antMatchers(HttpMethod.PUT, "/users/password/initialization").hasRole(ROLE_COMMON.role)
+            .antMatchers(HttpMethod.PUT, "/users/profile-image").hasRole(ROLE_COMMON.role)
+            .antMatchers(HttpMethod.PUT, "/users/nickname").hasRole(ROLE_COMMON.role)
+            .antMatchers(HttpMethod.PUT, "/users/email").hasRole(ROLE_COMMON.role)
 
             // commons
             .antMatchers(HttpMethod.GET, "/commons/employee-number").permitAll()
