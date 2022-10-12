@@ -27,7 +27,6 @@ class WebAdminAdapter(
 ) {
 
     @PostMapping("/tokens")
-    @ResponseStatus(HttpStatus.OK)
     fun signIn(@Valid @RequestBody request: WebSignInRequest): TokenResponse {
         return adminSignInUseCase.execute(
             SignInRequest(
