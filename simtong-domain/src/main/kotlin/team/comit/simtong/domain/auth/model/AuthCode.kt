@@ -13,7 +13,7 @@ import team.comit.simtong.global.annotation.Default
  * @version 1.0.0
  **/
 @Aggregate
-class AuthCode @Default constructor(
+data class AuthCode @Default constructor(
     val key: String,
 
     val code: String,

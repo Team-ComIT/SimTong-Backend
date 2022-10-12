@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.spot.model
 
 import team.comit.simtong.global.annotation.Aggregate
-import java.util.*
+import java.util.UUID
 
 /**
  *
@@ -12,7 +12,7 @@ import java.util.*
  * @version 1.0.0
  **/
 @Aggregate
-class Spot(
+data class Spot(
     val id: UUID = UUID(0, 0),
 
     val name: String,
