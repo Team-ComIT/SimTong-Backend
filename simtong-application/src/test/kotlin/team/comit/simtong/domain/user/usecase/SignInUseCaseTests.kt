@@ -11,7 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.user.dto.SignInRequest
 import team.comit.simtong.domain.user.exception.DifferentPasswordException
-import team.comit.simtong.domain.user.exception.NotUserAccountException
+import team.comit.simtong.domain.user.exception.DifferentPermissionAccountException
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -139,7 +139,7 @@ class SignInUseCaseTests {
             .willReturn(adminStub)
 
         // when & then
-        assertThrows<NotUserAccountException> {
+        assertThrows<DifferentPermissionAccountException> {
             signInUseCase.execute(requestStub)
         }
     }
