@@ -23,7 +23,7 @@ class MenuPersistenceAdapter(
     private val queryFactory: JPAQueryFactory
 ) : MenuPort {
 
-    override fun queryMenuByMonth(year: Int, month: Int, spotId: UUID): List<Menu> {
+    override fun queryMenuBySpotId(year: Int, month: Int, spotId: UUID): List<Menu> {
         return queryFactory
             .selectFrom(menuJpaEntity)
             .leftJoin(menuJpaEntity.spot, spotJpaEntity)
@@ -31,6 +31,21 @@ class MenuPersistenceAdapter(
             .where(
                 yearEq(year),
                 monthEq(month)
+            )
+            .fetch()
+            .map {
+                menuMapper.toDomain(it)!!
+            }
+    }
+
+    override fun queryMenuBySpotName(year: Int, month: Int, spotName: String): List<Menu> {
+        return queryFactory
+            .selectFrom(menuJpaEntity)
+            .leftJoin(menuJpaEntity.spot, spotJpaEntity)
+            .where(
+                yearEq(year),
+                monthEq(month),
+                spotJpaEntity.name.eq(spotName)
             )
             .fetch()
             .map {

@@ -60,7 +60,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/emails/code").permitAll()
 
             // menu
-            .antMatchers(HttpMethod.GET, "/menu").permitAll()
+            .antMatchers(HttpMethod.GET, "/menu/public").permitAll()
 
             // files
             .antMatchers(HttpMethod.POST, "/files").permitAll()
