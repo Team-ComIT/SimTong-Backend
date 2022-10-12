@@ -58,9 +58,6 @@ class UserJpaEntity(
     @Column(columnDefinition = "CHAR(60)")
     val password: String,
 
-    @Column(columnDefinition = "CHAR(60)")
-    val adminCode: String?,
-
     @field:NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id", columnDefinition = "BINARY(16)")

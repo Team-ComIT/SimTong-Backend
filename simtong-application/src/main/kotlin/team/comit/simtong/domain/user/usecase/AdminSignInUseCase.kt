@@ -13,34 +13,34 @@ import team.comit.simtong.global.annotation.UseCase
 
 /**
  *
- * 사용자의 로그인 기능을 담당하는 SignInUseCase
+ * Admin의 로그인 기능을 담당하는 AdminSignInUseCase
  *
- * @author kimbeomjin
- * @date 2022/09/08
+ * @author Chokyunghyeon
+ * @date 2022/10/04
  * @version 1.0.0
  **/
 @UseCase
-class SignInUseCase(
+class AdminSignInUseCase(
     private val queryUserPort: QueryUserPort,
-    private val userSecurityPort: UserSecurityPort,
-    private val userJwtPort: UserJwtPort
+    private val userJwtPort: UserJwtPort,
+    private val userSecurityPort: UserSecurityPort
 ) {
 
     fun execute(request: SignInRequest): TokenResponse {
-        val user = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber)
+        val admin = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber)
             ?: throw UserNotFoundException.EXCEPTION
 
-        if (Authority.ROLE_COMMON != user.authority) {
+        if (Authority.ROLE_ADMIN != admin.authority) {
             throw DifferentPermissionAccountException.EXCEPTION
         }
 
-        if (!userSecurityPort.compare(request.password, user.password)) {
+        if (!userSecurityPort.compare(request.password, admin.password)) {
             throw DifferentPasswordException.EXCEPTION
         }
 
         return userJwtPort.receiveToken(
-            userId = user.id,
-            authority = Authority.ROLE_COMMON
+            userId = admin.id,
+            authority = admin.authority
         )
     }
 

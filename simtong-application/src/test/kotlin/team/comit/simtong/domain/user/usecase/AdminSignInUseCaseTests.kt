@@ -21,7 +21,7 @@ import team.comit.simtong.domain.user.spi.UserSecurityPort
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
-class SignInUseCaseTests {
+class AdminSignInUseCaseTests {
 
     @MockBean
     private lateinit var queryUserPort: QueryUserPort
@@ -32,24 +32,9 @@ class SignInUseCaseTests {
     @MockBean
     private lateinit var userJwtPort: UserJwtPort
 
-    private lateinit var signInUseCase: SignInUseCase
+    private lateinit var adminSignInUseCase: AdminSignInUseCase
 
     private val employeeNumber: Int = 1234567891
-
-    private val userStub: User by lazy {
-        User(
-            id = UUID.randomUUID(),
-            nickname = "test nickname",
-            name = "test name",
-            email = "test@test.com",
-            password = "test password",
-            employeeNumber = employeeNumber,
-            authority = Authority.ROLE_COMMON,
-            spotId = UUID.randomUUID(),
-            teamId = UUID.randomUUID(),
-            profileImagePath = "test path"
-        )
-    }
 
     private val adminStub: User by lazy {
         User(
@@ -60,6 +45,21 @@ class SignInUseCaseTests {
             password = "test password",
             employeeNumber = employeeNumber,
             authority = Authority.ROLE_ADMIN,
+            spotId = UUID.randomUUID(),
+            teamId = UUID.randomUUID(),
+            profileImagePath = "test path"
+        )
+    }
+
+    private val userStub: User by lazy {
+        User(
+            id = UUID.randomUUID(),
+            nickname = "test nickname",
+            name = "test name",
+            email = "test@test.com",
+            password = "test password",
+            employeeNumber = employeeNumber,
+            authority = Authority.ROLE_COMMON,
             spotId = UUID.randomUUID(),
             teamId = UUID.randomUUID(),
             profileImagePath = "test path"
@@ -83,23 +83,27 @@ class SignInUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        signInUseCase = SignInUseCase(queryUserPort, userSecurityPort, userJwtPort)
+        adminSignInUseCase = AdminSignInUseCase(
+            queryUserPort,
+            userJwtPort,
+            userSecurityPort
+        )
     }
 
     @Test
     fun `로그인 성공`() {
         // given
         given(queryUserPort.queryUserByEmployeeNumber(employeeNumber))
-            .willReturn(userStub)
+            .willReturn(adminStub)
 
-        given(userSecurityPort.compare(requestStub.password, userStub.password))
+        given(userSecurityPort.compare(requestStub.password, adminStub.password))
             .willReturn(true)
 
-        given(userJwtPort.receiveToken(userStub.id, userStub.authority))
+        given(userJwtPort.receiveToken(adminStub.id, adminStub.authority))
             .willReturn(responseStub)
 
         // when
-        val response = signInUseCase.execute(requestStub)
+        val response = adminSignInUseCase.execute(requestStub)
 
         // then
         assertThat(response).isEqualTo(responseStub)
@@ -109,38 +113,38 @@ class SignInUseCaseTests {
     fun `비밀번호 불일치`() {
         // given
         given(queryUserPort.queryUserByEmployeeNumber(employeeNumber))
-            .willReturn(userStub)
+            .willReturn(adminStub)
 
-        given(userSecurityPort.compare(requestStub.password, userStub.password))
+        given(userSecurityPort.compare(requestStub.password, adminStub.password))
             .willReturn(false)
 
         // when & then
         assertThrows<DifferentPasswordException> {
-            signInUseCase.execute(requestStub)
+            adminSignInUseCase.execute(requestStub)
         }
     }
 
     @Test
-    fun `유저 찾기 실패`() {
+    fun `계정 찾기 실패`() {
         // given
         given(queryUserPort.queryUserByEmployeeNumber(employeeNumber))
             .willReturn(null)
 
         // when & then
         assertThrows<UserNotFoundException> {
-            signInUseCase.execute(requestStub)
+            adminSignInUseCase.execute(requestStub)
         }
     }
 
     @Test
-    fun `관리자 계정`() {
+    fun `유저 계정`() {
         // given
         given(queryUserPort.queryUserByEmployeeNumber(employeeNumber))
-            .willReturn(adminStub)
+            .willReturn(userStub)
 
         // when & then
         assertThrows<DifferentPermissionAccountException> {
-            signInUseCase.execute(requestStub)
+            adminSignInUseCase.execute(requestStub)
         }
     }
 
