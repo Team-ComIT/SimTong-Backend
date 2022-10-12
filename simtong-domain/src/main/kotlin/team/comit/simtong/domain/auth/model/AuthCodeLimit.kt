@@ -14,7 +14,7 @@ import team.comit.simtong.global.annotation.Default
  * @version 1.0.0
  **/
 @Aggregate
-class AuthCodeLimit @Default constructor(
+data class AuthCodeLimit @Default constructor(
     val key: String,
 
     val expirationTime: Int,

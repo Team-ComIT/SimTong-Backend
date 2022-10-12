@@ -2,7 +2,7 @@ package team.comit.simtong.domain.auth.model
 
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.global.annotation.Aggregate
-import java.util.*
+import java.util.UUID
 
 /**
  *
@@ -13,7 +13,7 @@ import java.util.*
  * @version 1.0.0
  **/
 @Aggregate
-class RefreshToken(
+data class RefreshToken(
     val token: String,
 
     val userId: UUID,

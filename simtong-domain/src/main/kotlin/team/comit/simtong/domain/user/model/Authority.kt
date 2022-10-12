@@ -8,6 +8,9 @@ package team.comit.simtong.domain.user.model
  * @date 2022/08/21
  * @version 1.0.0
  **/
-enum class Authority {
-    ROLE_COMMON, ROLE_ADMIN
+enum class Authority(
+    val role: String
+) {
+    ROLE_COMMON("COMMON"),
+    ROLE_ADMIN("ADMIN")
 }

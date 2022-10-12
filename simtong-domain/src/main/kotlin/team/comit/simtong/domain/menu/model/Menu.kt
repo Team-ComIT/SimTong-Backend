@@ -2,7 +2,7 @@ package team.comit.simtong.domain.menu.model
 
 import team.comit.simtong.global.annotation.Aggregate
 import java.time.LocalDate
-import java.util.*
+import java.util.UUID
 
 /**
  *
@@ -13,7 +13,7 @@ import java.util.*
  * @version 1.0.0
  **/
 @Aggregate
-class Menu(
+data class Menu(
     val date: LocalDate,
 
     val meal: String,
