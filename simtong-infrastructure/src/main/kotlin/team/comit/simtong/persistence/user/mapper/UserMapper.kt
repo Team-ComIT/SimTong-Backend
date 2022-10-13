@@ -28,8 +28,8 @@ abstract class UserMapper : GenericMapper<UserJpaEntity, User> {
     protected lateinit var teamJpaRepository: TeamJpaRepository
 
     @Mappings(
-        Mapping(target = "spot", expression = "java(spotJpaRepository.querySpotJpaEntityById(model.getSpotId()))"),
-        Mapping(target = "team", expression = "java(teamJpaRepository.queryTeamJpaEntityById(model.getTeamId()))")
+        Mapping(target = "spot", expression = "java(spotJpaRepository.findByIdOrNull(model.getSpotId()))"),
+        Mapping(target = "team", expression = "java(teamJpaRepository.findByIdOrNull(model.getTeamId()))")
     )
     abstract override fun toEntity(model: User): UserJpaEntity
 

@@ -17,8 +17,6 @@ import java.util.*
 @Repository
 interface TeamJpaRepository : CrudRepository<TeamJpaEntity, UUID> {
 
-    fun queryTeamJpaEntityById(id: UUID): TeamJpaEntity?
-
     fun queryTeamJpaEntityByName(name: String): TeamJpaEntity?
 
 }
