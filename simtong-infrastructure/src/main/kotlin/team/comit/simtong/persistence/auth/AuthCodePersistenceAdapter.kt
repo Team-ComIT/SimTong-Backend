@@ -1,5 +1,6 @@
 package team.comit.simtong.persistence.auth
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.auth.model.AuthCode
 import team.comit.simtong.domain.auth.spi.AuthCodePort
@@ -21,7 +22,7 @@ class AuthCodePersistenceAdapter(
 ): AuthCodePort {
 
     override fun queryAuthCodeByEmail(email: String) = authCodeMapper.toDomain(
-        authCodeRepository.queryAuthCodeEntityByKey(email)
+        authCodeRepository.findByIdOrNull(email)
     )
 
     override fun save(authCode: AuthCode) = authCodeMapper.toDomain(

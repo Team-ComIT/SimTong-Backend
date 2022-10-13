@@ -15,6 +15,4 @@ import team.comit.simtong.persistence.auth.entity.AuthCodeLimitEntity
  **/
 @Repository
 interface AuthCodeLimitRepository : CrudRepository<AuthCodeLimitEntity, String> {
-
-    fun queryAuthCodeLimitEntityByKey(email: String): AuthCodeLimitEntity?
 }
