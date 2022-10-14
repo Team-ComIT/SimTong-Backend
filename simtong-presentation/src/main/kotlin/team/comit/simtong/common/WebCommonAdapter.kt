@@ -2,12 +2,15 @@ package team.comit.simtong.common
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import team.comit.simtong.common.dto.request.WebCheckEmailOverlapException
 import team.comit.simtong.common.dto.request.WebFindEmployeeNumberRequest
 import team.comit.simtong.common.dto.response.WebFindEmployeeNumberResponse
 import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.auth.usecase.ReissueTokenUseCase
+import team.comit.simtong.domain.user.dto.CheckEmailOverlapRequest
 import team.comit.simtong.domain.user.dto.FindEmployeeNumberRequest
 import team.comit.simtong.domain.user.dto.ResetPasswordRequest
+import team.comit.simtong.domain.user.usecase.CheckEmailOverlapUseCase
 import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
 import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
 import team.comit.simtong.user.dto.request.WebResetPasswordRequest
@@ -26,7 +29,8 @@ import javax.validation.Valid
 class WebCommonAdapter(
     private val reissueTokenUseCase: ReissueTokenUseCase,
     private val findEmployeeNumberUseCase: FindEmployeeNumberUseCase,
-    private val resetPasswordUseCase: ResetPasswordUseCase
+    private val resetPasswordUseCase: ResetPasswordUseCase,
+    private val checkEmailOverlapUseCase: CheckEmailOverlapUseCase
 ) {
 
     @GetMapping("/employee-number")
@@ -55,6 +59,13 @@ class WebCommonAdapter(
                 newPassword = request.newPassword
             )
         )
+    }
+
+    @GetMapping("/email/overlap")
+    fun checkEmailOverlap(@Valid request: WebCheckEmailOverlapException) {
+        checkEmailOverlapUseCase.execute(CheckEmailOverlapRequest(
+            email = request.email
+        ))
     }
 
 }

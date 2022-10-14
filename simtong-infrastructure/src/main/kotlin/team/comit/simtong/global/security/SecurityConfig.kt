@@ -51,6 +51,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.PUT, "/users/email").hasRole(ROLE_COMMON.role)
 
             // commons
+            .antMatchers(HttpMethod.PUT, "/commons/email/overlap").permitAll()
             .antMatchers(HttpMethod.GET, "/commons/employee-number").permitAll()
             .antMatchers(HttpMethod.PUT, "/commons/token/reissue").permitAll()
             .antMatchers(HttpMethod.PUT, "/commons/password").permitAll()
