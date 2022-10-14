@@ -22,7 +22,7 @@ abstract class MenuMapper : GenericMapper<MenuJpaEntity, Menu> {
     @Autowired
     protected lateinit var spotJpaRepository: SpotJpaRepository
 
-    @Mapping(target = "spot", expression = "java(spotJpaRepository.querySpotJpaEntityById(model.getSpotId()))")
+    @Mapping(target = "spot", expression = "java(spotJpaRepository.findById(model.getSpotId()).orElse(null))")
     abstract override fun toEntity(model: Menu): MenuJpaEntity
 
     @Mapping(target = "spotId", expression = "java(entity.getSpot().getId())")

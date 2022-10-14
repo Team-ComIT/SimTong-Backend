@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull
  * @version 1.0.0
  **/
 @RedisHash("tbl_authcode_limit")
-class AuthCodeLimitEntity(
+data class AuthCodeLimitEntity(
     @Id
     val key: String,
 

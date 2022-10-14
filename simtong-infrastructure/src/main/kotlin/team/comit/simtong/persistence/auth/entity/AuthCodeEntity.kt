@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull
  * @version 1.0.0
  **/
 @RedisHash("tbl_authcode")
-class AuthCodeEntity(
+data class AuthCodeEntity(
     @Id
     val key: String,
 

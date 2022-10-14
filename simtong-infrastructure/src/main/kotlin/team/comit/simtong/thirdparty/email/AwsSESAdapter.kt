@@ -10,7 +10,7 @@ import team.comit.simtong.thirdparty.email.template.MailTemplate
 
 /**
  *
- * AWS SES를 이용해 메일 전송을 처리하는 SesAdapter
+ * AWS SES를 이용해 메일 전송을 처리하는 AwsSESAdapter
  *
  * @author Chokyunghyeon
  * @date 2022/09/08

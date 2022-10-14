@@ -1,11 +1,12 @@
 package team.comit.simtong.persistence.user
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.UserPort
 import team.comit.simtong.persistence.user.mapper.UserMapper
 import team.comit.simtong.persistence.user.repository.UserJpaRepository
-import java.util.UUID
+import java.util.*
 
 /**
  *
@@ -23,7 +24,7 @@ class UserPersistenceAdapter(
 ) : UserPort {
 
     override fun queryUserById(id: UUID) = userMapper.toDomain(
-        userJpaRepository.queryUserJpaEntityById(id)
+        userJpaRepository.findByIdOrNull(id)
     )
 
     override fun queryUserByEmployeeNumber(employeeNumber: Int) = userMapper.toDomain(

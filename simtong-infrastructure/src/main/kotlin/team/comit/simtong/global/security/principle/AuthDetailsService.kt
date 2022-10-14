@@ -1,5 +1,6 @@
 package team.comit.simtong.global.security.principle
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component
@@ -22,7 +23,7 @@ class AuthDetailsService(
 
     override fun loadUserByUsername(userId: String): UserDetails {
         val id = UUID.fromString(userId)
-        val user = userRepository.queryUserJpaEntityById(id) ?: throw InvalidTokenException.EXCEPTION
+        val user = userRepository.findByIdOrNull(id) ?: throw InvalidTokenException.EXCEPTION
 
         return AuthDetails(id, user.authority)
     }
