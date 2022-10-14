@@ -100,35 +100,12 @@ class SignUpUseCaseTests {
         )
     }
 
-    private val userStub: User by lazy {
-        User(
-            nickname = nickname,
-            name = name,
-            email = email,
-            password = "encode test password",
-            employeeNumber = employeeNumber,
-            authority = Authority.ROLE_COMMON,
-            spotId = spotStub.id,
-            teamId = teamStub.id,
-            profileImagePath = profileImagePath
-        )
-    }
-
     private val authCodeLimitStub: AuthCodeLimit by lazy {
         AuthCodeLimit(
             key = email,
             expirationTime = 12345,
             attemptCount = 1,
             isVerified = true
-        )
-    }
-
-    private val unVerifiedAuthCodeLimitStub: AuthCodeLimit by lazy {
-        AuthCodeLimit(
-            key = email,
-            expirationTime = 12345,
-            attemptCount = 5,
-            isVerified = false
         )
     }
 
@@ -167,6 +144,70 @@ class SignUpUseCaseTests {
     @Test
     fun `회원가입 성공`() {
         // given
+        val userStub = User(
+            nickname = nickname,
+            name = name,
+            email = email,
+            password = "encode test password",
+            employeeNumber = employeeNumber,
+            authority = Authority.ROLE_COMMON,
+            spotId = spotStub.id,
+            teamId = teamStub.id,
+            profileImagePath = profileImagePath
+        )
+
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
+
+        given(queryUserPort.existsUserByEmail(requestStub.email))
+            .willReturn(false)
+
+        given(userSecurityPort.encode(requestStub.password))
+            .willReturn(userStub.password)
+
+        given(userQuerySpotPort.querySpotByName(spotName))
+            .willReturn(spotStub)
+
+        given(userQueryTeamPort.queryTeamByName(teamName))
+            .willReturn(teamStub)
+
+        given(commandUserPort.save(userStub))
+            .willReturn(saveUserStub)
+
+        given(userJwtPort.receiveToken(saveUserStub.id, saveUserStub.authority))
+            .willReturn(responseStub)
+
+        // when
+        val result = signUpUseCase.execute(requestStub)
+
+        // then
+        assertThat(result).isEqualTo(responseStub)
+    }
+
+    @Test
+    fun `회원가입 성공 OPTINAL`() {
+        // given
+        val requestStub = SignUpRequest(
+            nickname = null,
+            name = name,
+            email = email,
+            password = "test password",
+            employeeNumber = employeeNumber,
+            profileImagePath = null
+        )
+
+        val userStub = User(
+            nickname = "",
+            name = name,
+            email = email,
+            password = "encode test password",
+            employeeNumber = employeeNumber,
+            authority = Authority.ROLE_COMMON,
+            spotId = spotStub.id,
+            teamId = teamStub.id,
+            profileImagePath = User.defaultImage
+        )
+
         given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(authCodeLimitStub)
 
@@ -198,6 +239,13 @@ class SignUpUseCaseTests {
     @Test
     fun `인증되지 않은 이메일`() {
         // given
+        val unVerifiedAuthCodeLimitStub = AuthCodeLimit(
+            key = email,
+            expirationTime = 12345,
+            attemptCount = 5,
+            isVerified = false
+        )
+
         given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(unVerifiedAuthCodeLimitStub)
 
