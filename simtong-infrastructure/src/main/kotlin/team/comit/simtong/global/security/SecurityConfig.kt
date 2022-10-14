@@ -46,7 +46,6 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/users").permitAll()
             .antMatchers(HttpMethod.POST, "/users/tokens").permitAll()
             .antMatchers(HttpMethod.GET, "/users/information").hasRole(ROLE_COMMON.role)
-            .antMatchers(HttpMethod.PUT, "/users/password/initialization").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.PUT, "/users/profile-image").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.PUT, "/users/nickname").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.PUT, "/users/email").hasRole(ROLE_COMMON.role)
@@ -54,6 +53,7 @@ class SecurityConfig(
             // commons
             .antMatchers(HttpMethod.GET, "/commons/employee-number").permitAll()
             .antMatchers(HttpMethod.PUT, "/commons/token/reissue").permitAll()
+            .antMatchers(HttpMethod.PUT, "/commons/password").permitAll()
 
             // emails
             .antMatchers(HttpMethod.GET, "/emails").permitAll()

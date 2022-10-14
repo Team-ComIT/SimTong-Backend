@@ -1,12 +1,16 @@
 package team.comit.simtong.common
 
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import team.comit.simtong.domain.auth.usecase.ReissueTokenUseCase
-import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.common.dto.request.WebFindEmployeeNumberRequest
 import team.comit.simtong.common.dto.response.WebFindEmployeeNumberResponse
-import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
+import team.comit.simtong.domain.auth.dto.TokenResponse
+import team.comit.simtong.domain.auth.usecase.ReissueTokenUseCase
 import team.comit.simtong.domain.user.dto.FindEmployeeNumberRequest
+import team.comit.simtong.domain.user.dto.ResetPasswordRequest
+import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
+import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
+import team.comit.simtong.user.dto.request.WebResetPasswordRequest
 import javax.validation.Valid
 
 /**
@@ -21,7 +25,8 @@ import javax.validation.Valid
 @RequestMapping("/commons")
 class WebCommonAdapter(
     private val reissueTokenUseCase: ReissueTokenUseCase,
-    private val findEmployeeNumberUseCase: FindEmployeeNumberUseCase
+    private val findEmployeeNumberUseCase: FindEmployeeNumberUseCase,
+    private val resetPasswordUseCase: ResetPasswordUseCase
 ) {
 
     @GetMapping("/employee-number")
@@ -38,6 +43,18 @@ class WebCommonAdapter(
     @PutMapping("/token/reissue")
     fun reissueJsonWebToken(@RequestHeader("Refresh-Token") request: String): TokenResponse {
         return reissueTokenUseCase.execute(request)
+    }
+
+    @PutMapping("/password")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun resetPassword(@Valid @RequestBody request: WebResetPasswordRequest) {
+        resetPasswordUseCase.execute(
+            ResetPasswordRequest(
+                email = request.email,
+                employeeNumber = request.employeeNumber,
+                newPassword = request.newPassword
+            )
+        )
     }
 
 }
