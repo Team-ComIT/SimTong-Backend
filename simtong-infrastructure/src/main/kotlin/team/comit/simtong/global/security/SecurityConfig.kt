@@ -9,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import team.comit.simtong.domain.user.model.Authority.ROLE_ADMIN
 import team.comit.simtong.domain.user.model.Authority.ROLE_COMMON
 import team.comit.simtong.global.filter.FilterConfig
 import team.comit.simtong.global.security.token.JwtParser
@@ -53,7 +54,8 @@ class SecurityConfig(
             // commons
             .antMatchers(HttpMethod.GET, "/commons/employee-number").permitAll()
             .antMatchers(HttpMethod.PUT, "/commons/token/reissue").permitAll()
-            .antMatchers(HttpMethod.PUT, "/commons/password").permitAll()
+            .antMatchers(HttpMethod.PUT, "/commons/password/initialization").permitAll()
+            .antMatchers(HttpMethod.PUT, "/commons/password").hasAnyRole(ROLE_COMMON.role, ROLE_ADMIN.role)
 
             // emails
             .antMatchers(HttpMethod.GET, "/emails").permitAll()
