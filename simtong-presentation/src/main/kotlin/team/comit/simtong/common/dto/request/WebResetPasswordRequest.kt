@@ -1,4 +1,4 @@
-package team.comit.simtong.user.dto.request
+package team.comit.simtong.common.dto.request
 
 import org.hibernate.validator.constraints.Length
 import javax.validation.constraints.Email
