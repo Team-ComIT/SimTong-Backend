@@ -8,17 +8,18 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import team.comit.simtong.domain.auth.dto.TokenResponse
+import team.comit.simtong.domain.auth.exception.RequiredNewEmailAuthenticationException
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.auth.exception.UsedEmailException
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
-import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.spot.exception.SpotNotFoundException
 import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.team.exception.TeamNotFoundException
 import team.comit.simtong.domain.team.model.Team
+import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
-import team.comit.simtong.domain.user.policy.SignUpPolicy
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserJwtPort
@@ -26,7 +27,6 @@ import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.UserQuerySpotPort
 import team.comit.simtong.domain.user.spi.UserQueryTeamPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
-import team.comit.simtong.domain.user.dto.SignUpRequest
 import java.util.*
 
 @ExtendWith(SpringExtension::class)
@@ -52,8 +52,6 @@ class SignUpUseCaseTests {
 
     @MockBean
     private lateinit var userQueryAuthCodeLimitPort: UserQueryAuthCodeLimitPort
-
-    private lateinit var signUpPolicy: SignUpPolicy
 
     private lateinit var signUpUseCase: SignUpUseCase
 
@@ -155,14 +153,15 @@ class SignUpUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        signUpPolicy = SignUpPolicy(
-            userQueryTeamPort,
-            userQuerySpotPort,
-            userQueryAuthCodeLimitPort,
+        signUpUseCase = SignUpUseCase(
+            userJwtPort,
+            commandUserPort,
             queryUserPort,
+            userQueryAuthCodeLimitPort,
+            userQuerySpotPort,
+            userQueryTeamPort,
             userSecurityPort
         )
-        signUpUseCase = SignUpUseCase(userJwtPort, commandUserPort, signUpPolicy)
     }
 
     @Test
@@ -209,13 +208,13 @@ class SignUpUseCaseTests {
     }
 
     @Test
-    fun `이메일 인증 객체 찾기 실패`() {
+    fun `인증되지 못한 이메일`() {
         // given
         given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(null)
 
         // when & then
-        assertThrows<UncertifiedEmailException> {
+        assertThrows<RequiredNewEmailAuthenticationException> {
             signUpUseCase.execute(requestStub)
         }
     }
