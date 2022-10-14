@@ -46,10 +46,10 @@ class SignUpUseCase(
             throw UsedEmailException.EXCEPTION
         }
 
-        val authCOdeLimit = userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
+        val authCodeLimit = userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
             ?: throw RequiredNewEmailAuthenticationException.EXCEPTION
 
-        if (!authCOdeLimit.isVerified) {
+        if (!authCodeLimit.isVerified) {
             throw UncertifiedEmailException.EXCEPTION
         }
 
