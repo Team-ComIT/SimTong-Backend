@@ -28,7 +28,7 @@ data class WebResetPasswordRequest(
     val employeeNumber: Int,
 
     @field:NotBlank
-    @field:Pattern(regexp = RegexUtil.PASSWORD_PATTERN)
+    @field:Pattern(regexp = RegexUtil.SECRET_PATTERN)
     @field:Length(min = 8, max = 20)
     val newPassword: String
 )

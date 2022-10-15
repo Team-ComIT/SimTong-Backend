@@ -12,6 +12,6 @@ object RegexUtil {
 
     const val NICKNAME_PATTERN = """^[가-힣][\s_.가-힣]*"""
 
-    const val PASSWORD_PATTERN = """[+\-_$\w]*"""
+    const val SECRET_PATTERN = """[+\-_$\w]*"""
 
 }

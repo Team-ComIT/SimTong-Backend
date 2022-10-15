@@ -22,7 +22,7 @@ data class WebChangePasswordRequest(
      * $ , + , - , _ , a ~ z , A ~ Z , 0 ~ 9
      **/
     @field:NotBlank
-    @field:Pattern(regexp = RegexUtil.PASSWORD_PATTERN)
+    @field:Pattern(regexp = RegexUtil.SECRET_PATTERN)
     @field:Length(min = 8, max = 20)
     val newPassword: String
 )
