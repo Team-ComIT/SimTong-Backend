@@ -9,6 +9,14 @@ import team.comit.simtong.domain.user.spi.UserSecurityPort
 import team.comit.simtong.global.annotation.UseCase
 import java.util.*
 
+/**
+ *
+ * 자신의 지점 변경을 담당하는 ChangeSpotUseCase
+ *
+ * @author kimbeomjin
+ * @date 2022/10/15
+ * @version 1.0.0
+ **/
 @UseCase
 class ChangeSpotUseCase(
     private val queryUserPort: QueryUserPort,
