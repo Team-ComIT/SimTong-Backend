@@ -2,10 +2,10 @@ package team.comit.simtong.common
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import team.comit.simtong.common.dto.request.WebChangePasswordRequest
-import team.comit.simtong.common.dto.request.WebFindEmployeeNumberRequest
-import team.comit.simtong.common.dto.request.WebResetPasswordRequest
-import team.comit.simtong.common.dto.response.WebFindEmployeeNumberResponse
+import team.comit.simtong.common.dto.request.ChangePasswordWebRequest
+import team.comit.simtong.common.dto.request.FindEmployeeNumberWebRequest
+import team.comit.simtong.common.dto.request.ResetPasswordWebRequest
+import team.comit.simtong.common.dto.response.FindEmployeeNumberWebResponse
 import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.auth.usecase.ReissueTokenUseCase
 import team.comit.simtong.domain.user.dto.ChangePasswordRequest
@@ -38,14 +38,14 @@ class WebCommonAdapter(
 ) {
 
     @GetMapping("/employee-number")
-    fun findEmployeeNumber(@Valid request: WebFindEmployeeNumberRequest): WebFindEmployeeNumberResponse {
+    fun findEmployeeNumber(@Valid request: FindEmployeeNumberWebRequest): FindEmployeeNumberWebResponse {
         val result = findEmployeeNumberUseCase.execute(
             FindEmployeeNumberRequest(
                 name = request.name, spotId = request.spotId, email = request.email
             )
         )
 
-        return WebFindEmployeeNumberResponse(result)
+        return FindEmployeeNumberWebResponse(result)
     }
 
     @PutMapping("/token/reissue")
@@ -55,7 +55,7 @@ class WebCommonAdapter(
 
     @PutMapping("/password/initialization")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun resetPassword(@Valid @RequestBody request: WebResetPasswordRequest) {
+    fun resetPassword(@Valid @RequestBody request: ResetPasswordWebRequest) {
         resetPasswordUseCase.execute(
             ResetPasswordRequest(
                 email = request.email,
@@ -72,7 +72,7 @@ class WebCommonAdapter(
     
     @PutMapping("/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun changePassword(@Valid @RequestBody request: WebChangePasswordRequest) {
+    fun changePassword(@Valid @RequestBody request: ChangePasswordWebRequest) {
         changePasswordUseCase.execute(
             ChangePasswordRequest(
                 password = request.password,

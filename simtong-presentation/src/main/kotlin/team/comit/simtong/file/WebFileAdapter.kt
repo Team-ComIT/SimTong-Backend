@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 import team.comit.simtong.domain.file.usecase.UploadImageUseCase
-import team.comit.simtong.file.dto.response.WebUploadImageListResponse
-import team.comit.simtong.file.dto.response.WebUploadImageResponse
+import team.comit.simtong.file.dto.response.UploadImageListWebResponse
+import team.comit.simtong.file.dto.response.UploadImageWebResponse
 import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID
@@ -29,16 +29,16 @@ class WebFileAdapter(
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    fun uploadSingleImage(file: MultipartFile): WebUploadImageResponse {
-        return WebUploadImageResponse(
+    fun uploadSingleImage(file: MultipartFile): UploadImageWebResponse {
+        return UploadImageWebResponse(
             uploadImageUseCase.execute(file.let(transferFile))
         )
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/list")
-    fun uploadMultipleImage(files: List<MultipartFile>): WebUploadImageListResponse {
-        return WebUploadImageListResponse(
+    fun uploadMultipleImage(files: List<MultipartFile>): UploadImageListWebResponse {
+        return UploadImageListWebResponse(
             uploadImageUseCase.execute(files.map(transferFile))
         )
     }
