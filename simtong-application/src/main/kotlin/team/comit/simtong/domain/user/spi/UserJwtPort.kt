@@ -6,7 +6,7 @@ import java.util.UUID
 
 /**
  *
- * User에서 Jwt에 관한 요청하는 UserJwtPort
+ * User Domain에서 Jwt에 관한 요청하는 UserJwtPort
  *
  * @author kimbeomjin
  * @date 2022/09/18

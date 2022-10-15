@@ -4,7 +4,7 @@ import team.comit.simtong.domain.menu.spi.MenuQueryUserPort
 
 /**
  *
- * User에 관한 요청하는 UserPort
+ * User Domain에 관한 요청하는 UserPort
  *
  * @author kimbeomjin
  * @date 2022/09/18

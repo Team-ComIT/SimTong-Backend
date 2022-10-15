@@ -5,7 +5,7 @@ import java.util.*
 
 /**
  *
- * Menu에서 User에 관한 Query를 요청하는 MenuQueryUserPort
+ * Menu Domain에서 User Domain에 관한 Query를 요청하는 MenuQueryUserPort
  *
  * @author kimbeomjin
  * @date 2022/09/26

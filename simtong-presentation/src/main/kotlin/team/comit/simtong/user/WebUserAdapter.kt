@@ -18,12 +18,14 @@ import team.comit.simtong.domain.user.dto.UserInfoResponse
 import team.comit.simtong.domain.user.usecase.ChangeEmailUseCase
 import team.comit.simtong.domain.user.usecase.ChangeNicknameUseCase
 import team.comit.simtong.domain.user.usecase.ChangeProfileImageUseCase
+import team.comit.simtong.domain.user.usecase.ChangeSpotUseCase
 import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
 import team.comit.simtong.domain.user.usecase.UserInfoUseCase
 import team.comit.simtong.user.dto.request.WebChangeEmailRequest
 import team.comit.simtong.user.dto.request.WebChangeNicknameRequest
 import team.comit.simtong.user.dto.request.WebChangeProfileImageRequest
+import team.comit.simtong.user.dto.request.WebChangeSpotRequest
 import team.comit.simtong.user.dto.request.WebSignInRequest
 import team.comit.simtong.user.dto.request.WebSignUpRequest
 import javax.validation.Valid
@@ -45,7 +47,8 @@ class WebUserAdapter(
     private val getInfoUseCase: UserInfoUseCase,
     private val changeEmailUseCase: ChangeEmailUseCase,
     private val changeNicknameUseCase: ChangeNicknameUseCase,
-    private val changeProfileImageUseCase: ChangeProfileImageUseCase
+    private val changeProfileImageUseCase: ChangeProfileImageUseCase,
+    private val changeSpotUseCase: ChangeSpotUseCase
 ) {
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -77,28 +80,35 @@ class WebUserAdapter(
     fun getMyInfo(): UserInfoResponse {
         return getInfoUseCase.execute()
     }
-    
+
     @PutMapping("/nickname")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeNickname(@Valid @RequestBody request: WebChangeNicknameRequest) {
-        changeNicknameUseCase.execute(ChangeNicknameRequest(
-            nickname = request.nickname
-        ))
+        changeNicknameUseCase.execute(
+            ChangeNicknameRequest(request.nickname)
+        )
     }
 
     @PutMapping("/email")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeEmail(@Valid @RequestBody request: WebChangeEmailRequest) {
-        changeEmailUseCase.execute(ChangeEmailRequest(
-            email = request.email
-        ))
+        changeEmailUseCase.execute(
+            ChangeEmailRequest(request.email)
+        )
     }
 
     @PutMapping("/profile-image")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeProfileImage(@Valid @RequestBody request: WebChangeProfileImageRequest) {
-        changeProfileImageUseCase.execute(ChangeProfileImageRequest(
-            profileImagePath = request.profileImagePath
-        ))
+        changeProfileImageUseCase.execute(
+            ChangeProfileImageRequest(request.profileImagePath)
+        )
+    }
+
+    @PutMapping("/spot")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun changeSpot(@Valid @RequestBody request: WebChangeSpotRequest) {
+        changeSpotUseCase.execute(request.spotId)
     }
 
 }
