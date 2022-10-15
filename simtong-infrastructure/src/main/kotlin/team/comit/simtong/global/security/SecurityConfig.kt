@@ -53,7 +53,7 @@ class SecurityConfig(
             // commons
             .antMatchers(HttpMethod.GET, "/commons/employee-number").permitAll()
             .antMatchers(HttpMethod.PUT, "/commons/token/reissue").permitAll()
-            .antMatchers(HttpMethod.PUT, "/commons/password").permitAll()
+            .antMatchers(HttpMethod.PUT, "/commons/password/initialization").permitAll()
 
             // emails
             .antMatchers(HttpMethod.GET, "/emails").permitAll()
