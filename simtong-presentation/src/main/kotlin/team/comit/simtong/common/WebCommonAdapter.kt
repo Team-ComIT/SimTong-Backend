@@ -2,16 +2,22 @@ package team.comit.simtong.common
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import team.comit.simtong.common.dto.request.WebChangePasswordRequest
 import team.comit.simtong.common.dto.request.WebFindEmployeeNumberRequest
+import team.comit.simtong.common.dto.request.WebResetPasswordRequest
 import team.comit.simtong.common.dto.response.WebFindEmployeeNumberResponse
 import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.auth.usecase.ReissueTokenUseCase
+import team.comit.simtong.domain.user.dto.ChangePasswordRequest
 import team.comit.simtong.domain.user.dto.FindEmployeeNumberRequest
 import team.comit.simtong.domain.user.dto.ResetPasswordRequest
+import team.comit.simtong.domain.user.usecase.ChangePasswordUseCase
+import team.comit.simtong.domain.user.usecase.CheckEmailDuplicationUseCase
 import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
 import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
-import team.comit.simtong.user.dto.request.WebResetPasswordRequest
 import javax.validation.Valid
+import javax.validation.constraints.Email
+import javax.validation.constraints.NotBlank
 
 /**
  *
@@ -26,7 +32,9 @@ import javax.validation.Valid
 class WebCommonAdapter(
     private val reissueTokenUseCase: ReissueTokenUseCase,
     private val findEmployeeNumberUseCase: FindEmployeeNumberUseCase,
-    private val resetPasswordUseCase: ResetPasswordUseCase
+    private val resetPasswordUseCase: ResetPasswordUseCase,
+    private val checkEmailDuplicationUseCase: CheckEmailDuplicationUseCase,
+    private val changePasswordUseCase: ChangePasswordUseCase
 ) {
 
     @GetMapping("/employee-number")
@@ -45,13 +53,29 @@ class WebCommonAdapter(
         return reissueTokenUseCase.execute(request)
     }
 
-    @PutMapping("/password")
+    @PutMapping("/password/initialization")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun resetPassword(@Valid @RequestBody request: WebResetPasswordRequest) {
         resetPasswordUseCase.execute(
             ResetPasswordRequest(
                 email = request.email,
                 employeeNumber = request.employeeNumber,
+                newPassword = request.newPassword
+            )
+        )
+    }
+
+    @GetMapping("/email/duplication")
+    fun checkEmailDuplication(@Email @NotBlank @RequestParam email: String) {
+        checkEmailDuplicationUseCase.execute(email)
+    }
+    
+    @PutMapping("/password")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun changePassword(@Valid @RequestBody request: WebChangePasswordRequest) {
+        changePasswordUseCase.execute(
+            ChangePasswordRequest(
+                password = request.password,
                 newPassword = request.newPassword
             )
         )

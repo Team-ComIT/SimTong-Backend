@@ -52,9 +52,10 @@ class SecurityConfig(
             .antMatchers(HttpMethod.PUT, "/users/spot").hasRole(ROLE_COMMON.role)
 
             // commons
+            .antMatchers(HttpMethod.PUT, "/commons/email/duplication").permitAll()
             .antMatchers(HttpMethod.GET, "/commons/employee-number").permitAll()
             .antMatchers(HttpMethod.PUT, "/commons/token/reissue").permitAll()
-            .antMatchers(HttpMethod.PUT, "/commons/password").permitAll()
+            .antMatchers(HttpMethod.PUT, "/commons/password/initialization").permitAll()
 
             // emails
             .antMatchers(HttpMethod.GET, "/emails").permitAll()
