@@ -1,6 +1,7 @@
 package team.comit.simtong.user.dto.request
 
 import org.hibernate.validator.constraints.Length
+import team.comit.simtong.RegexUtil
 import javax.validation.constraints.*
 
 /**
@@ -11,7 +12,7 @@ import javax.validation.constraints.*
  * @date 2022/09/04
  * @version 1.0.0
  **/
-data class WebSignUpRequest (
+data class WebSignUpRequest(
 
     @field:NotBlank
     val name: String,
@@ -29,7 +30,7 @@ data class WebSignUpRequest (
      * $ , + , - , _ , a ~ z , A ~ Z , 0 ~ 9
      **/
     @field:NotBlank
-    @field:Pattern(regexp = """[+\-_$\w]*""")
+    @field:Pattern(regexp = RegexUtil.PASSWORD_PATTERN)
     @field:Length(min = 8, max = 20)
     val password: String,
 
@@ -38,7 +39,7 @@ data class WebSignUpRequest (
      *
      * white space , _ , . , 가 ~ 힣
      **/
-    @field:Pattern(regexp = """^[가-힣][\s_.가-힣]*""")
+    @field:Pattern(regexp = RegexUtil.NICKNAME_PATTERN)
     @field:Length(max = 20)
     val nickname: String?,
 

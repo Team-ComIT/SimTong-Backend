@@ -32,6 +32,7 @@ import team.comit.simtong.user.dto.request.WebChangeProfileImageRequest
 import team.comit.simtong.user.dto.request.WebChangeSpotRequest
 import team.comit.simtong.user.dto.request.WebSignInRequest
 import team.comit.simtong.user.dto.request.WebSignUpRequest
+import team.comit.simtong.RegexUtil
 import javax.validation.Valid
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern
@@ -121,7 +122,7 @@ class WebUserAdapter(
 
     @GetMapping("/nickname/duplication")
     fun checkNicknameDuplication(
-        @Pattern(regexp = """^[가-힣][\s_.가-힣]*""") @Length(max = 20) @NotBlank
+        @Pattern(regexp = RegexUtil.NICKNAME_PATTERN) @Length(max = 20) @NotBlank
         @RequestParam nickname: String
     ) {
         checkNicknameDuplicationUseCase.execute(nickname)
