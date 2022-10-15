@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.user.spi
 
 import team.comit.simtong.domain.spot.model.Spot
-import java.util.UUID
+import java.util.*
 
 /**
  *
@@ -17,5 +17,7 @@ interface UserQuerySpotPort {
     fun querySpotByName(name: String): Spot?
 
     fun querySpotById(id: UUID): Spot?
+
+    fun existsSpotById(id: UUID): Boolean
 
 }
