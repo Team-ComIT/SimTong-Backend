@@ -1,4 +1,4 @@
-package team.comit.simtong.user.dto.request
+package team.comit.simtong.common.dto.request
 
 import org.hibernate.validator.constraints.Length
 import javax.validation.constraints.Email
@@ -28,6 +28,6 @@ data class WebResetPasswordRequest(
 
     @field:NotBlank
     @field:Pattern(regexp = """[+\-_$\w]*""")
-    @field:Length(max = 20, min = 8)
+    @field:Length(min = 8, max = 20)
     val newPassword: String
 )
