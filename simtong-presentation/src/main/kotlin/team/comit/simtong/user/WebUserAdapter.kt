@@ -85,9 +85,7 @@ class WebUserAdapter(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeNickname(@Valid @RequestBody request: WebChangeNicknameRequest) {
         changeNicknameUseCase.execute(
-            ChangeNicknameRequest(
-                nickname = request.nickname
-            )
+            ChangeNicknameRequest(request.nickname)
         )
     }
 
@@ -95,9 +93,7 @@ class WebUserAdapter(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeEmail(@Valid @RequestBody request: WebChangeEmailRequest) {
         changeEmailUseCase.execute(
-            ChangeEmailRequest(
-                email = request.email
-            )
+            ChangeEmailRequest(request.email)
         )
     }
 
@@ -105,18 +101,14 @@ class WebUserAdapter(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeProfileImage(@Valid @RequestBody request: WebChangeProfileImageRequest) {
         changeProfileImageUseCase.execute(
-            ChangeProfileImageRequest(
-                profileImagePath = request.profileImagePath
-            )
+            ChangeProfileImageRequest(request.profileImagePath)
         )
     }
 
     @PutMapping("/spot")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeSpot(@Valid @RequestBody request: WebChangeSpotRequest) {
-        changeSpotUseCase.execute(
-            newSpotId = request.spotId
-        )
+        changeSpotUseCase.execute(request.spotId)
     }
 
 }
