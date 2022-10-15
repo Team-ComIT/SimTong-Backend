@@ -46,6 +46,8 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/users").permitAll()
             .antMatchers(HttpMethod.POST, "/users/tokens").permitAll()
             .antMatchers(HttpMethod.GET, "/users/information").hasRole(ROLE_COMMON.role)
+            .antMatchers(HttpMethod.GET, "/users/nickname/duplication").hasRole(ROLE_COMMON.role)
+            .antMatchers(HttpMethod.PUT, "/users/profile-image").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.PUT, "/users/nickname").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.PUT, "/users/email").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.PUT, "/users/profile-image").hasRole(ROLE_COMMON.role)

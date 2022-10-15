@@ -1,11 +1,14 @@
 package team.comit.simtong.user
 
+import org.hibernate.validator.constraints.Length
 import org.springframework.http.HttpStatus
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.auth.dto.TokenResponse
@@ -18,6 +21,7 @@ import team.comit.simtong.domain.user.dto.UserInfoResponse
 import team.comit.simtong.domain.user.usecase.ChangeEmailUseCase
 import team.comit.simtong.domain.user.usecase.ChangeNicknameUseCase
 import team.comit.simtong.domain.user.usecase.ChangeProfileImageUseCase
+import team.comit.simtong.domain.user.usecase.CheckNicknameDuplicationUseCase
 import team.comit.simtong.domain.user.usecase.ChangeSpotUseCase
 import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
@@ -29,6 +33,8 @@ import team.comit.simtong.user.dto.request.WebChangeSpotRequest
 import team.comit.simtong.user.dto.request.WebSignInRequest
 import team.comit.simtong.user.dto.request.WebSignUpRequest
 import javax.validation.Valid
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.Pattern
 
 /**
  *
@@ -39,6 +45,7 @@ import javax.validation.Valid
  * @date 2022/09/04
  * @version 1.0.0
  **/
+@Validated
 @RestController
 @RequestMapping("/users")
 class WebUserAdapter(
@@ -48,6 +55,7 @@ class WebUserAdapter(
     private val changeEmailUseCase: ChangeEmailUseCase,
     private val changeNicknameUseCase: ChangeNicknameUseCase,
     private val changeProfileImageUseCase: ChangeProfileImageUseCase,
+    private val checkNicknameDuplicationUseCase: CheckNicknameDuplicationUseCase,
     private val changeSpotUseCase: ChangeSpotUseCase
 ) {
 
@@ -109,6 +117,14 @@ class WebUserAdapter(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeSpot(@Valid @RequestBody request: WebChangeSpotRequest) {
         changeSpotUseCase.execute(request.spotId)
+    }
+
+    @GetMapping("/nickname/duplication")
+    fun checkNicknameDuplication(
+        @Pattern(regexp = """^[가-힣][\s_.가-힣]*""") @Length(max = 20) @NotBlank
+        @RequestParam nickname: String
+    ) {
+        checkNicknameDuplicationUseCase.execute(nickname)
     }
 
 }
