@@ -12,9 +12,12 @@ import team.comit.simtong.domain.user.dto.ChangePasswordRequest
 import team.comit.simtong.domain.user.dto.FindEmployeeNumberRequest
 import team.comit.simtong.domain.user.dto.ResetPasswordRequest
 import team.comit.simtong.domain.user.usecase.ChangePasswordUseCase
+import team.comit.simtong.domain.user.usecase.CheckEmailDuplicationUseCase
 import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
 import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
 import javax.validation.Valid
+import javax.validation.constraints.Email
+import javax.validation.constraints.NotBlank
 
 /**
  *
@@ -30,6 +33,7 @@ class WebCommonAdapter(
     private val reissueTokenUseCase: ReissueTokenUseCase,
     private val findEmployeeNumberUseCase: FindEmployeeNumberUseCase,
     private val resetPasswordUseCase: ResetPasswordUseCase,
+    private val checkEmailDuplicationUseCase: CheckEmailDuplicationUseCase,
     private val changePasswordUseCase: ChangePasswordUseCase
 ) {
 
@@ -61,6 +65,11 @@ class WebCommonAdapter(
         )
     }
 
+    @GetMapping("/email/duplication")
+    fun checkEmailDuplication(@Email @NotBlank @RequestParam email: String) {
+        checkEmailDuplicationUseCase.execute(email)
+    }
+    
     @PutMapping("/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changePassword(@Valid @RequestBody request: WebChangePasswordRequest) {
