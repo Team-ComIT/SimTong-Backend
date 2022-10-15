@@ -95,6 +95,7 @@ class WebUserAdapter(
     }
 
     @PutMapping("/profile-image")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeProfileImage(@Valid @RequestBody request: WebChangeProfileImageRequest) {
         changeProfileImageUseCase.execute(ChangeProfileImageRequest(
             profileImagePath = request.profileImagePath
