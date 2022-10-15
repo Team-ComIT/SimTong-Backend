@@ -26,19 +26,11 @@ data class WebSignUpRequest(
     @field:Max(1299999999)
     val employeeNumber: Int,
 
-    /**
-     * $ , + , - , _ , a ~ z , A ~ Z , 0 ~ 9
-     **/
     @field:NotBlank
     @field:Pattern(regexp = RegexUtil.SECRET_PATTERN)
     @field:Length(min = 8, max = 20)
     val password: String,
 
-    /**
-     * first word - 가 ~ 힣
-     *
-     * white space , _ , . , 가 ~ 힣
-     **/
     @field:Pattern(regexp = RegexUtil.NICKNAME_PATTERN)
     @field:Length(max = 20)
     val nickname: String?,

@@ -10,8 +10,16 @@ package team.comit.simtong
  **/
 object RegexUtil {
 
+    /**
+     * first word - 가 ~ 힣
+     *
+     * white space , _ , . , 가 ~ 힣
+     **/
     const val NICKNAME_PATTERN = """^[가-힣][\s_.가-힣]*"""
 
+    /**
+     * $ , + , - , _ , a ~ z , A ~ Z , 0 ~ 9
+     **/
     const val SECRET_PATTERN = """[+\-_$\w]*"""
 
 }
