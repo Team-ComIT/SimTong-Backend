@@ -36,11 +36,8 @@ class ErrorResponse(
         fun of(exception: ConstraintViolationException): ErrorResponse {
             val fieldErrors = exception.constraintViolations.flatMap { violation ->
                 val path = violation.propertyPath
-                println(path)
                 val field = path.last().name
-                println(field)
                 val message = violation.message
-                println(message)
                 CustomFieldError.of(field, "", message)
             }
 
