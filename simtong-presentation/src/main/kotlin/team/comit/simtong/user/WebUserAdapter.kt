@@ -55,7 +55,7 @@ class WebUserAdapter(
     private val changeEmailUseCase: ChangeEmailUseCase,
     private val changeNicknameUseCase: ChangeNicknameUseCase,
     private val changeProfileImageUseCase: ChangeProfileImageUseCase,
-    private val checkNicknameDuplicationUseCase: CheckNicknameDuplicationUseCase
+    private val checkNicknameDuplicationUseCase: CheckNicknameDuplicationUseCase,
     private val changeSpotUseCase: ChangeSpotUseCase
 ) {
 
