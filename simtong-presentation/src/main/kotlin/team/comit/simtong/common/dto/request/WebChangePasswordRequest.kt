@@ -22,6 +22,6 @@ data class WebChangePasswordRequest(
      **/
     @field:NotBlank
     @field:Pattern(regexp = """[+\-_$\w]*""")
-    @field:Length(max = 20, min = 8)
+    @field:Length(min = 8, max = 20)
     val newPassword: String
 )
