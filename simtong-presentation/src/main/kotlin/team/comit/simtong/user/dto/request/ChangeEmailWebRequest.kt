@@ -1,17 +1,17 @@
-package team.comit.simtong.email.dto.request
+package team.comit.simtong.user.dto.request
 
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 
 /**
  *
- * 이메일 인증 코드 전송을 요청하는 WebSendEmailRequest
+ * 이메일 변경을 요청하는 ChangeEmailWebRequest
  *
  * @author Chokyunghyeon
- * @date 2022/09/24
+ * @date 2022/10/03
  * @version 1.0.0
  **/
-data class WebSendAuthCodeRequest(
+data class ChangeEmailWebRequest(
     @field:NotBlank
     @field:Email
     val email: String
