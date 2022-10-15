@@ -4,7 +4,7 @@ import java.util.*
 
 /**
  *
- * Menu에서 보안 처리를 요청하는 MenuSecurityPort
+ * Menu Domain에 관한 보안 처리를 요청하는 MenuSecurityPort
  *
  * @author kimbeomjin
  * @date 2022/09/26

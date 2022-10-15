@@ -2,7 +2,7 @@ package team.comit.simtong.domain.auth.spi
 
 /**
  *
- * RefreshToken에 관한 요청을 하는 RefreshTokenPort
+ * RefreshToken Domain에 관한 요청을 하는 RefreshTokenPort
  *
  * @author kimbeomjin
  * @date 2022/09/18

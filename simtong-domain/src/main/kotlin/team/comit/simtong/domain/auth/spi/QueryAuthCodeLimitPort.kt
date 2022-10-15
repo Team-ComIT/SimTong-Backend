@@ -4,7 +4,7 @@ import team.comit.simtong.domain.auth.model.AuthCodeLimit
 
 /**
  *
- * AuthCodeLimit에 관한 Query를 요청하는 QueryAuthCodeLimitPort
+ * AuthCodeLimit Domain에 관한 Query를 요청하는 QueryAuthCodeLimitPort
  *
  * @author Chokyunghyeon
  * @date 2022/09/24

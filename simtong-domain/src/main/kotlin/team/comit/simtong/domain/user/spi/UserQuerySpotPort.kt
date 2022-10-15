@@ -1,11 +1,11 @@
 package team.comit.simtong.domain.user.spi
 
 import team.comit.simtong.domain.spot.model.Spot
-import java.util.UUID
+import java.util.*
 
 /**
  *
- * User에서 Spot에 관한 Query를 요청하는 UserQuerySpotPort
+ * User Domain에서 Spot Domain에 관한 Query를 요청하는 UserQuerySpotPort
  *
  * @author kimbeomjin
  * @author Chokyunghyeon
@@ -17,5 +17,7 @@ interface UserQuerySpotPort {
     fun querySpotByName(name: String): Spot?
 
     fun querySpotById(id: UUID): Spot?
+
+    fun existsSpotById(id: UUID): Boolean
 
 }

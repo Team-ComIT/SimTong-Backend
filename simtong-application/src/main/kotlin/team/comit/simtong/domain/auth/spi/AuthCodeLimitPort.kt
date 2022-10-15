@@ -4,7 +4,7 @@ import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
 
 /**
  *
- * AuthCodeLimit에 관한 요청을 하는 AuthCodeLimitPort
+ * AuthCodeLimit Domain에 관한 요청을 하는 AuthCodeLimitPort
  *
  * @author kimbeomjin
  * @date 2022/09/18

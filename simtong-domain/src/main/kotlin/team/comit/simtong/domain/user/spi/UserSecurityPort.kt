@@ -4,7 +4,7 @@ import java.util.UUID
 
 /**
  *
- * User에 관한 보안 처리를 요청하는 UserSecurityPort
+ * User Domain에 관한 보안 처리를 요청하는 UserSecurityPort
  *
  * @author Chokyunghyeon
  * @author kimbeomjin

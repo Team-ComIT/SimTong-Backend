@@ -5,7 +5,7 @@ import java.util.*
 
 /**
  *
- * Menu에 관한 Query룰 요청하는 QueryMenuPort
+ * Menu Domain에 관한 Query룰 요청하는 QueryMenuPort
  *
  * @author kimbeomjin
  * @date 2022/09/21

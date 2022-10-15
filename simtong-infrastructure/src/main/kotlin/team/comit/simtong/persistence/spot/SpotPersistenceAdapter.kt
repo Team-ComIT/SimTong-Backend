@@ -19,6 +19,7 @@ class SpotPersistenceAdapter(
     private val spotJpaRepository: SpotJpaRepository,
     private val spotMapper: SpotMapper
 ) : SpotPort {
+    override fun existsSpotById(id: UUID) = spotJpaRepository.existsById(id)
 
     override fun querySpotByName(name: String) = spotMapper.toDomain(
         spotJpaRepository.querySpotJpaEntityByName(name)
