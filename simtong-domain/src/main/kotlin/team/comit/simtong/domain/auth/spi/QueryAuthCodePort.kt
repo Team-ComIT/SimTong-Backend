@@ -4,7 +4,7 @@ import team.comit.simtong.domain.auth.model.AuthCode
 
 /**
  *
- * AuthCode에 관한 Query를 요청하는 QueryAuthCodePort
+ * AuthCode Domain에 관한 Query를 요청하는 QueryAuthCodePort
  *
  * @author Chokyunghyeon
  * @date 2022/09/25

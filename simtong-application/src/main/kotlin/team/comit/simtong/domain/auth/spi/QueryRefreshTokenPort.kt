@@ -4,7 +4,7 @@ import team.comit.simtong.domain.auth.model.RefreshToken
 
 /**
  *
- * RefreshToken에 관한 Query를 요청하는 QueryRefreshTokenPort
+ * RefreshToken Domain에 관한 Query를 요청하는 QueryRefreshTokenPort
  *
  * @author Chokyunghyeon
  * @date 2022/09/18

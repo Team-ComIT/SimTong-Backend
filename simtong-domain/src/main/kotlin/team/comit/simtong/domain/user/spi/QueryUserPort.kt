@@ -5,7 +5,7 @@ import java.util.UUID
 
 /**
  *
- * User에 관한 Query를 요청하는 QueryUserPort
+ * User Domain에 관한 Query를 요청하는 QueryUserPort
  *
  * @author Chokyunghyeon
  * @author kimbeomjin

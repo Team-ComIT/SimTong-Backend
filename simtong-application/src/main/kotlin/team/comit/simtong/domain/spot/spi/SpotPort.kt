@@ -4,7 +4,7 @@ import team.comit.simtong.domain.user.spi.UserQuerySpotPort
 
 /**
  *
- * Spot에 관한 요청을 하는 SpotPort
+ * Spot Domain에 관한 요청을 하는 SpotPort
  *
  * @author kimbeomjin
  * @date 2022/09/18

@@ -5,7 +5,7 @@ import java.util.*
 
 /**
  *
- * User에서 Spot에 관한 Query를 요청하는 UserQuerySpotPort
+ * User Domain에서 Spot Domain에 관한 Query를 요청하는 UserQuerySpotPort
  *
  * @author kimbeomjin
  * @author Chokyunghyeon

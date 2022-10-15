@@ -4,7 +4,7 @@ import team.comit.simtong.domain.auth.model.AuthCodeLimit
 
 /**
  *
- * AuthCodeLimit의 저장을 요청하는 CommandAuthCodeLimitPort
+ * AuthCodeLimit Domain의 저장을 요청하는 CommandAuthCodeLimitPort
  *
  * @author Chokyunghyeon
  * @date 2022/09/24
