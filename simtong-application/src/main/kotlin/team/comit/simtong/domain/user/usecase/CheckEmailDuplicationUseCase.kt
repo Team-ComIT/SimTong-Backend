@@ -1,7 +1,6 @@
 package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.auth.exception.UsedEmailException
-import team.comit.simtong.domain.user.dto.CheckEmailDuplicationRequest
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
 
@@ -18,8 +17,8 @@ class CheckEmailDuplicationUseCase(
     private val queryUserPort: QueryUserPort
 ) {
 
-    fun execute(request: CheckEmailDuplicationRequest) {
-        if (queryUserPort.existsUserByEmail(request.email)) {
+    fun execute(email: String) {
+        if (queryUserPort.existsUserByEmail(email)) {
             throw UsedEmailException.EXCEPTION
         }
     }

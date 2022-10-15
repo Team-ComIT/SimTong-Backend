@@ -9,7 +9,6 @@ import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.exception.UsedEmailException
-import team.comit.simtong.domain.user.dto.CheckEmailDuplicationRequest
 import team.comit.simtong.domain.user.spi.QueryUserPort
 
 @ExtendWith(SpringExtension::class)
@@ -20,11 +19,7 @@ class CheckEmailDuplicationUseCaseTests {
 
     private lateinit var checkEmailDuplicationUseCase: CheckEmailDuplicationUseCase
 
-    private val requestStub: CheckEmailDuplicationRequest by lazy {
-        CheckEmailDuplicationRequest(
-            email = "test@test.com"
-        )
-    }
+    private val email = "test@test.com"
 
     @BeforeEach
     fun setUp() {
@@ -34,24 +29,24 @@ class CheckEmailDuplicationUseCaseTests {
     @Test
     fun `중복 없음`() {
         // given
-        given(queryUserPort.existsUserByEmail(requestStub.email))
+        given(queryUserPort.existsUserByEmail(email))
             .willReturn(false)
 
         // when & then
         assertDoesNotThrow {
-            checkEmailDuplicationUseCase.execute(requestStub)
+            checkEmailDuplicationUseCase.execute(email)
         }
     }
 
     @Test
     fun `중복 있음`() {
         // given
-        given(queryUserPort.existsUserByEmail(requestStub.email))
+        given(queryUserPort.existsUserByEmail(email))
             .willReturn(true)
 
         // when & then
         assertThrows<UsedEmailException> {
-            checkEmailDuplicationUseCase.execute(requestStub)
+            checkEmailDuplicationUseCase.execute(email)
         }
     }
 
