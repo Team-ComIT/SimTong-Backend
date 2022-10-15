@@ -12,7 +12,6 @@ import javax.validation.constraints.NotBlank
  * @version 1.0.0
  **/
 data class WebCheckEmailDuplicationRequest(
-    @field:NotBlank
-    @field:Email
+
     val email: String
 )

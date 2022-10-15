@@ -2,7 +2,6 @@ package team.comit.simtong.common
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import team.comit.simtong.common.dto.request.WebCheckEmailDuplicationRequest
 import team.comit.simtong.common.dto.request.WebFindEmployeeNumberRequest
 import team.comit.simtong.common.dto.response.WebFindEmployeeNumberResponse
 import team.comit.simtong.domain.auth.dto.TokenResponse
@@ -14,6 +13,8 @@ import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
 import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
 import team.comit.simtong.user.dto.request.WebResetPasswordRequest
 import javax.validation.Valid
+import javax.validation.constraints.Email
+import javax.validation.constraints.NotBlank
 
 /**
  *
@@ -61,8 +62,8 @@ class WebCommonAdapter(
     }
 
     @GetMapping("/email/duplication")
-    fun checkEmailDuplication(@Valid @RequestParam request: WebCheckEmailDuplicationRequest) {
-        checkEmailDuplicationUseCase.execute(request.email)
+    fun checkEmailDuplication(@Email @NotBlank @RequestParam email: String) {
+        checkEmailDuplicationUseCase.execute(email)
     }
 
 }
