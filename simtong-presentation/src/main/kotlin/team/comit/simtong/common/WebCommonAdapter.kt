@@ -7,7 +7,6 @@ import team.comit.simtong.common.dto.request.WebFindEmployeeNumberRequest
 import team.comit.simtong.common.dto.response.WebFindEmployeeNumberResponse
 import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.auth.usecase.ReissueTokenUseCase
-import team.comit.simtong.domain.user.dto.CheckEmailDuplicationRequest
 import team.comit.simtong.domain.user.dto.FindEmployeeNumberRequest
 import team.comit.simtong.domain.user.dto.ResetPasswordRequest
 import team.comit.simtong.domain.user.usecase.CheckEmailDuplicationUseCase
@@ -61,11 +60,9 @@ class WebCommonAdapter(
         )
     }
 
-    @GetMapping("/email/overlap")
-    fun checkEmailOverlap(@Valid request: WebCheckEmailDuplicationRequest) {
-        checkEmailDuplicationUseCase.execute(CheckEmailDuplicationRequest(
-            email = request.email
-        ))
+    @GetMapping("/email/duplication")
+    fun checkEmailDuplication(@Valid @RequestParam request: WebCheckEmailDuplicationRequest) {
+        checkEmailDuplicationUseCase.execute(request.email)
     }
 
 }
