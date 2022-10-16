@@ -7,13 +7,13 @@ import javax.validation.constraints.Pattern
 
 /**
  *
- * 비밀번호 변경을 요청하는 WebChangePasswordRequest
+ * 비밀번호 변경을 요청하는 ChangePasswordWebRequest
  *
  * @author Chokyunghyeon
  * @date 2022/10/14
  * @version 1.0.0
  **/
-data class WebChangePasswordRequest(
+data class ChangePasswordWebRequest(
 
     @field:NotBlank
     val password: String,

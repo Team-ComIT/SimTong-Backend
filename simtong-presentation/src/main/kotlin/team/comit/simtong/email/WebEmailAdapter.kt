@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.auth.usecase.CheckAuthCodeUseCase
 import team.comit.simtong.domain.auth.usecase.SendAuthCodeUseCase
-import team.comit.simtong.email.dto.request.WebCheckAuthCodeRequest
-import team.comit.simtong.email.dto.request.WebSendAuthCodeRequest
+import team.comit.simtong.email.dto.request.CheckAuthCodeWebRequest
+import team.comit.simtong.email.dto.request.SendAuthCodeWebRequest
 import javax.validation.Valid
 
 /**
@@ -27,12 +27,12 @@ class WebEmailAdapter(
 ) {
 
     @PostMapping("/code")
-    fun sendAuthCode(@Valid @RequestBody request: WebSendAuthCodeRequest) {
+    fun sendAuthCode(@Valid @RequestBody request: SendAuthCodeWebRequest) {
         sendAuthCodeUseCase.execute(request.email)
     }
 
     @GetMapping
-    fun checkAuthCode(@Valid request: WebCheckAuthCodeRequest) {
+    fun checkAuthCode(@Valid request: CheckAuthCodeWebRequest) {
         checkAuthCodeUseCase.execute(request.email, request.code)
     }
 

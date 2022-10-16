@@ -6,13 +6,13 @@ import javax.validation.constraints.*
 
 /**
  *
- * 회원 가입을 요청하는 WebSignUpRequest
+ * 회원 가입을 요청하는 SignUpWebRequest
  *
  * @author Chokyunghyeon
  * @date 2022/09/04
  * @version 1.0.0
  **/
-data class WebSignUpRequest(
+data class SignUpWebRequest(
 
     @field:NotBlank
     val name: String,

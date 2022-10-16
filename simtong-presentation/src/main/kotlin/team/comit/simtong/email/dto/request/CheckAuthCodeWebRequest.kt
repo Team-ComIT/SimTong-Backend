@@ -6,13 +6,13 @@ import javax.validation.constraints.NotBlank
 
 /**
  *
- * 이메일 인증 코드 확인을 요청하는 WebCheckAuthCodeRequest
+ * 이메일 인증 코드 확인을 요청하는 CheckAuthCodeWebRequest
  *
  * @author Chokyunghyeon
  * @date 2022/09/24
  * @version 1.0.0
  **/
-data class WebCheckAuthCodeRequest(
+data class CheckAuthCodeWebRequest(
     @field:NotBlank
     @field:Email
     val email: String,
