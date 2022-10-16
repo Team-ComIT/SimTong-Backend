@@ -54,6 +54,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.PUT, "/users/spot").hasRole(ROLE_COMMON.role)
 
             // commons
+            .antMatchers(HttpMethod.GET, "/commons/account/existence").permitAll()
             .antMatchers(HttpMethod.PUT, "/commons/email/duplication").permitAll()
             .antMatchers(HttpMethod.GET, "/commons/employee-number").permitAll()
             .antMatchers(HttpMethod.PUT, "/commons/token/reissue").permitAll()
