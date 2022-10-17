@@ -5,13 +5,13 @@ import javax.validation.constraints.NotBlank
 
 /**
  *
- * 해당 이름과 이메일을 가지는 계정 여부 확인을 요청하는 CheckAccountByNameAndEmailWebRequest
+ * 해당 이름과 이메일을 가지는 계정 여부 확인을 요청하는 CheckMatchedAccountWebRequest
  *
  * @author Chokyunghyeon
  * @date 2022/10/15
  * @version 1.0.0
  **/
-data class CheckAccountByNameAndEmailWebRequest(
+data class CheckMatchedAccountWebRequest(
     @field:NotBlank
     val name: String,
 
