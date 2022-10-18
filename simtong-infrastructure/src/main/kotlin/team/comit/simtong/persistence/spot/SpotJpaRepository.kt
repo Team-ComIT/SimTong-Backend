@@ -19,6 +19,4 @@ interface SpotJpaRepository : CrudRepository<SpotJpaEntity, UUID> {
 
     fun querySpotJpaEntityByName(name: String): SpotJpaEntity?
 
-    fun querySpotJpaEntities(): List<SpotJpaEntity>
-
 }

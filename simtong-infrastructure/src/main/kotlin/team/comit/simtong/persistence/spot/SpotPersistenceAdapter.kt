@@ -21,7 +21,7 @@ class SpotPersistenceAdapter(
 ) : SpotPort {
     override fun existsSpotById(id: UUID) = spotJpaRepository.existsById(id)
 
-    override fun queryAllSpot() = spotJpaRepository.querySpotJpaEntities().map {
+    override fun queryAllSpot() = spotJpaRepository.findAll().map {
         spotMapper.toDomain(it)!!
     }
 
