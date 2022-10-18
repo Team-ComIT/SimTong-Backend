@@ -3,7 +3,7 @@ package team.comit.simtong.persistence.spot
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 import team.comit.simtong.persistence.spot.entity.SpotJpaEntity
-import java.util.*
+import java.util.UUID
 
 /**
  *
@@ -18,5 +18,7 @@ import java.util.*
 interface SpotJpaRepository : CrudRepository<SpotJpaEntity, UUID> {
 
     fun querySpotJpaEntityByName(name: String): SpotJpaEntity?
+
+    fun querySpotJpaEntities(): List<SpotJpaEntity>
 
 }
