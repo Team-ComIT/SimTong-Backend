@@ -9,6 +9,8 @@ import team.comit.simtong.common.dto.request.ResetPasswordWebRequest
 import team.comit.simtong.common.dto.response.FindEmployeeNumberWebResponse
 import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.auth.usecase.ReissueTokenUseCase
+import team.comit.simtong.domain.spot.dto.SpotResponse
+import team.comit.simtong.domain.spot.usecase.ShowSpotListUseCase
 import team.comit.simtong.domain.user.dto.ChangePasswordRequest
 import team.comit.simtong.domain.user.dto.CheckMatchedAccountRequest
 import team.comit.simtong.domain.user.dto.FindEmployeeNumberRequest
@@ -38,7 +40,8 @@ class WebCommonAdapter(
     private val resetPasswordUseCase: ResetPasswordUseCase,
     private val checkEmailDuplicationUseCase: CheckEmailDuplicationUseCase,
     private val changePasswordUseCase: ChangePasswordUseCase,
-    private val checkMatchedAccountUseCase: CheckMatchedAccountUseCase
+    private val checkMatchedAccountUseCase: CheckMatchedAccountUseCase,
+    private val showSpotListUseCase: ShowSpotListUseCase
 ) {
 
     @GetMapping("/employee-number")
@@ -95,6 +98,11 @@ class WebCommonAdapter(
                 email = request.email
             )
         )
+    }
+
+    @GetMapping("/spot")
+    fun showSpotList(): SpotResponse {
+        return showSpotListUseCase.execute()
     }
 
 }
