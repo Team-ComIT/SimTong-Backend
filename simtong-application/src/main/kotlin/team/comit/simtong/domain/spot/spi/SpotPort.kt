@@ -10,4 +10,4 @@ import team.comit.simtong.domain.user.spi.UserQuerySpotPort
  * @date 2022/09/18
  * @version 1.0.0
  **/
-interface SpotPort : UserQuerySpotPort
+interface SpotPort : UserQuerySpotPort, QuerySpotPort
