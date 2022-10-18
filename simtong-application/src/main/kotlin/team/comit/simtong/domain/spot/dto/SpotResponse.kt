@@ -18,5 +18,4 @@ data class SpotResponse(
         val name: String,
         val location: String
     )
-
 }
