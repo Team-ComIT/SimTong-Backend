@@ -18,7 +18,7 @@ class ShowSpotListUseCase(
 ) {
 
     fun execute(): SpotResponse {
-        val result = querySpotPort.querySpotAll().map {
+        val result = querySpotPort.queryAllSpot().map {
             SpotResponse.SpotElement(
                 id = it.id,
                 name = it.name,

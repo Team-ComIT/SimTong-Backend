@@ -12,6 +12,6 @@ import team.comit.simtong.domain.spot.model.Spot
  **/
 interface QuerySpotPort {
 
-    fun querySpotAll(): List<Spot>
+    fun queryAllSpot(): List<Spot>
 
 }

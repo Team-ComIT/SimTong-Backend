@@ -2,7 +2,6 @@ package team.comit.simtong.persistence.spot
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
-import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.spot.spi.SpotPort
 import team.comit.simtong.persistence.spot.mapper.SpotMapper
 import java.util.UUID
@@ -22,7 +21,7 @@ class SpotPersistenceAdapter(
 ) : SpotPort {
     override fun existsSpotById(id: UUID) = spotJpaRepository.existsById(id)
 
-    override fun querySpotAll(): List<Spot> = spotJpaRepository.querySpotJpaEntities().map {
+    override fun queryAllSpot() = spotJpaRepository.querySpotJpaEntities().map {
         spotMapper.toDomain(it)!!
     }
 
