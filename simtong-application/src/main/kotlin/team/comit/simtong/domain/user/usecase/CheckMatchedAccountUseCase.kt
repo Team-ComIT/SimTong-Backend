@@ -7,7 +7,7 @@ import team.comit.simtong.global.annotation.ReadOnlyUseCase
 
 /**
  *
- * 해당 이름과 이메일을 가진 계정 여부 확인을 담당하는 CheckMatchedAccountUseCase
+ * 해당 사원번호와 이메일을 가진 계정 여부 확인을 담당하는 CheckMatchedAccountUseCase
  *
  * @author Chokyunghyeon
  * @date 2022/10/15
@@ -20,7 +20,7 @@ class CheckMatchedAccountUseCase(
 
     fun execute(request: CheckMatchedAccountRequest) {
 
-        if (!queryUserPort.existsUserByNameAndEmail(request.name, request.email)) {
+        if (!queryUserPort.existsUserByEmployeeNumberAndEmail(request.employeeNumber, request.email)) {
             throw UserNotFoundException.EXCEPTION
         }
     }

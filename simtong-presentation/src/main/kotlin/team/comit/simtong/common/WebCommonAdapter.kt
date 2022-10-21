@@ -94,7 +94,7 @@ class WebCommonAdapter(
     fun checkMatchedAccount(@Valid @ModelAttribute request: CheckMatchedAccountWebRequest) {
         checkMatchedAccountUseCase.execute(
             CheckMatchedAccountRequest(
-                name = request.name,
+                employeeNumber = request.employeeNumber,
                 email = request.email
             )
         )

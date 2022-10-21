@@ -22,7 +22,7 @@ class CheckMatchedAccountUseCaseTests {
 
     private val requestStub: CheckMatchedAccountRequest by lazy {
         CheckMatchedAccountRequest(
-            name = "test name",
+            employeeNumber = 1234567890,
             email = "test@test.com"
         )
     }
@@ -35,7 +35,7 @@ class CheckMatchedAccountUseCaseTests {
     @Test
     fun `계정 확인 성공`() {
         // given
-        given(queryUserPort.existsUserByNameAndEmail(requestStub.name, requestStub.email))
+        given(queryUserPort.existsUserByEmployeeNumberAndEmail(requestStub.employeeNumber, requestStub.email))
             .willReturn(true)
 
         // when & then
@@ -47,7 +47,7 @@ class CheckMatchedAccountUseCaseTests {
     @Test
     fun `계정 확인 실패`() {
         // given
-        given(queryUserPort.existsUserByNameAndEmail(requestStub.name, requestStub.email))
+        given(queryUserPort.existsUserByEmployeeNumberAndEmail(requestStub.employeeNumber, requestStub.email))
             .willReturn(false)
 
         // when & then
