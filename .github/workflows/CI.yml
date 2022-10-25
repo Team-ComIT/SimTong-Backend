@@ -32,6 +32,11 @@ jobs:
 
       - name: codecov gradle
         run: ./gradlew test jacocoRootReport
+        env:
+          USER_DEFAULT_IMAGE: ' '
+          AUTHCODE_EXPIRED: 180
+          AUTHCODELIMIT_EXPIRED: 1800
+          AUTHCODELIMIT_MAX_ATTEMPT_COUNT: 5
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
