@@ -40,7 +40,7 @@ data class AuthCodeLimit @Default constructor(
         val EXPIRED: Int = getenv("AUTHCODELIMIT_EXPIRED").toInt()
 
         @JvmField
-        val VERIFIED_EXPIRED: Int = getenv("AUTHCODE_EXPIRED").toInt()
+        val VERIFIED_EXPIRED: Int = getenv("AUTHCODELIMIT_VERIFIED_EXPIRED").toInt()
 
         fun certified(email: String) = AuthCodeLimit(
             key = email,

@@ -37,6 +37,7 @@ jobs:
           AUTHCODE_EXPIRED: 180
           AUTHCODELIMIT_EXPIRED: 1800
           AUTHCODELIMIT_MAX_ATTEMPT_COUNT: 5
+          AUTHCODELIMIT_VERIFIED_EXPIRED: 2700
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
