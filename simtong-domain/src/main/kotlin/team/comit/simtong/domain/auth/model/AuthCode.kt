@@ -1,9 +1,10 @@
 package team.comit.simtong.domain.auth.model
 
 import net.bytebuddy.utility.RandomString
+import team.comit.simtong.global.DomainPropertiesKey
 import team.comit.simtong.global.annotation.Aggregate
 import team.comit.simtong.global.annotation.Default
-import java.lang.System.getenv
+import java.lang.System.getProperty
 
 /**
  *
@@ -30,7 +31,7 @@ data class AuthCode @Default constructor(
 
     companion object {
         @JvmField
-        val EXPIRED: Int = getenv("AUTHCODE_EXPIRED").toInt()
+        val EXPIRED = getProperty(DomainPropertiesKey.AUTHCODE_EXPIRED).toInt()
     }
 
 }

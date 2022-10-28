@@ -1,9 +1,10 @@
 package team.comit.simtong.domain.auth.model
 
 import team.comit.simtong.domain.auth.exception.ExceededSendAuthCodeRequestException
+import team.comit.simtong.global.DomainPropertiesKey
 import team.comit.simtong.global.annotation.Aggregate
 import team.comit.simtong.global.annotation.Default
-import java.lang.System.getenv
+import java.lang.System.getProperty
 
 /**
  *
@@ -34,13 +35,13 @@ data class AuthCodeLimit @Default constructor(
 
     companion object {
         @JvmField
-        val MAX_ATTEMPT_COUNT: Short = getenv("AUTHCODELIMIT_MAX_ATTEMPT_COUNT").toShort()
+        val MAX_ATTEMPT_COUNT: Short = getProperty(DomainPropertiesKey.AUTHCODELIMIT_MAX_ATTEMPT_COUNT).toShort()
 
         @JvmField
-        val EXPIRED: Int = getenv("AUTHCODELIMIT_EXPIRED").toInt()
+        val EXPIRED: Int = getProperty(DomainPropertiesKey.AUTHCODELIMIT_EXPIRED).toInt()
 
         @JvmField
-        val VERIFIED_EXPIRED: Int = getenv("AUTHCODELIMIT_VERIFIED_EXPIRED").toInt()
+        val VERIFIED_EXPIRED: Int = getProperty(DomainPropertiesKey.AUTHCODELIMIT_VERIFIED_EXPIRED).toInt()
 
         fun certified(email: String) = AuthCodeLimit(
             key = email,
