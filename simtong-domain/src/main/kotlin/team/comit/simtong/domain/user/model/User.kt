@@ -1,8 +1,8 @@
 package team.comit.simtong.domain.user.model
 
-import team.comit.simtong.global.DomainPropertiesKey
+import team.comit.simtong.global.DomainProperties.Companion.getProperty
+import team.comit.simtong.global.DomainPropertiesPrefix
 import team.comit.simtong.global.annotation.Aggregate
-import java.lang.System.getProperty
 import java.util.UUID
 
 /**
@@ -39,7 +39,7 @@ data class User(
 
     companion object {
         @JvmField
-        val DEFAULT_IMAGE: String = getProperty(DomainPropertiesKey.USER_DEFAULT_IMAGE)
+        val DEFAULT_IMAGE = getProperty(DomainPropertiesPrefix.USER_DEFAULT_IMAGE)
     }
 
 }
