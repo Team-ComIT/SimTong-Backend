@@ -50,4 +50,7 @@ object Dependencies {
 
     // s3 test
     const val S3MOCK = "io.findify:s3mock_2.12:${DependencyVersions.S3MOCK}"
+
+    // bytebuddy
+    const val BYTEBUDDY = "net.bytebuddy:byte-buddy:${DependencyVersions.BYTE_BUDDY}"
 }
