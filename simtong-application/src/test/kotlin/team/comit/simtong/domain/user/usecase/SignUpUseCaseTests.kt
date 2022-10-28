@@ -205,7 +205,7 @@ class SignUpUseCaseTests {
             authority = Authority.ROLE_COMMON,
             spotId = spotStub.id,
             teamId = teamStub.id,
-            profileImagePath = User.defaultImage
+            profileImagePath = User.DEFAULT_IMAGE
         )
 
         given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
