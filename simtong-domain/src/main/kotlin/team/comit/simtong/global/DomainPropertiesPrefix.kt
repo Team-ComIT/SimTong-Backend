@@ -1,5 +1,13 @@
 package team.comit.simtong.global
 
+/**
+ *
+ * Domain Properties의 경로를 관리하는 DomainPropertiesPrefix
+ *
+ * @author Chokyunghyeon
+ * @date 2022/10/29
+ * @version 1.0.0
+ **/
 object DomainPropertiesPrefix {
 
     // properties file

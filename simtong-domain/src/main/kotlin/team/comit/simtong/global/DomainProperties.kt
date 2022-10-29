@@ -4,8 +4,24 @@ import java.lang.ClassLoader.getSystemResourceAsStream
 import java.lang.System.getenv
 import java.util.Properties
 
+/**
+ *
+ * Domain Aggregate의 설정 값을 받는 DomainProperties
+ *
+ * @author Chokyunghyeon
+ * @date 2022/10/29
+ * @version 1.0.0
+ **/
 internal class DomainProperties {
 
+    /**
+     * Properties 동작 과정
+     *
+     * properties file을 읽어 Properties 객체로 변환
+     *
+     * 만약, value가 환경변수라면
+     * value의 환경변수를 불러와 Properties 저장
+     */
     companion object {
         @JvmField
         val properties = Properties().also { properties ->
