@@ -1,5 +1,7 @@
 package team.comit.simtong.domain.user.model
 
+import team.comit.simtong.global.DomainProperties.Companion.getProperty
+import team.comit.simtong.global.DomainPropertiesPrefix
 import team.comit.simtong.global.annotation.Aggregate
 import java.util.UUID
 
@@ -36,7 +38,8 @@ data class User(
 ) {
 
     companion object {
-        const val defaultImage = "" // TODO 기본 프로필 이미지 설정
+        @JvmField
+        val DEFAULT_IMAGE = getProperty(DomainPropertiesPrefix.USER_DEFAULT_IMAGE)
     }
 
 }

@@ -72,7 +72,7 @@ class SignUpUseCase(
                 authority = Authority.ROLE_COMMON,
                 spotId = spot.id,
                 teamId = team.id,
-                profileImagePath = profileImagePath ?: User.defaultImage
+                profileImagePath = profileImagePath ?: User.DEFAULT_IMAGE
             )
         )
 

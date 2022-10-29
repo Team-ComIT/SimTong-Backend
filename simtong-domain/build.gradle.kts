@@ -1,2 +1,5 @@
 dependencies {
+
+    implementation(Dependencies.BYTEBUDDY)
+
 }

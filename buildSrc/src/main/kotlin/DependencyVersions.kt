@@ -8,4 +8,5 @@ object DependencyVersions {
     const val SPRING_TRANSACTION = "5.3.22"
     const val S3MOCK = "0.2.4"
     const val QUERYDSL = "5.0.0"
+    const val BYTE_BUDDY = "1.12.18"
 }
