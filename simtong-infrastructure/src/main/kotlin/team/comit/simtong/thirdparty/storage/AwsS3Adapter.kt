@@ -27,19 +27,19 @@ class AwsS3Adapter(
 ): UploadFilePort, CheckFilePort {
 
     override fun upload(file: File): String {
-        inputS3(file, file.name)
+        inputS3(file)
 
         return getResource(file.name)
     }
 
     override fun upload(files: List<File>): List<String> {
         return files.map {
-                inputS3(it, it.name)
+                inputS3(it)
                 getResource(it.name)
             }
     }
 
-    private fun inputS3(file: File, fileName: String) {
+    private fun inputS3(file: File) {
         try {
             val inputStream = file.inputStream()
             val objectMetadata = ObjectMetadata().apply {
@@ -47,7 +47,7 @@ class AwsS3Adapter(
                 this.contentType = Mimetypes.getInstance().getMimetype(file)
             }
 
-            amazonS3Client.putObject(PutObjectRequest(awsProperties.bucket, fileName, inputStream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead))
+            amazonS3Client.putObject(PutObjectRequest(awsProperties.bucket, file.name, inputStream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead))
             file.delete()
         } catch (e: IOException) {
             throw FileIOInterruptedException.EXCEPTION
