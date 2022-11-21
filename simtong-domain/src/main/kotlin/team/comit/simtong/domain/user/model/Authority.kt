@@ -11,6 +11,19 @@ package team.comit.simtong.domain.user.model
 enum class Authority(
     val role: String
 ) {
+
+    /**
+     * 일반 계정
+     */
     ROLE_COMMON("COMMON"),
-    ROLE_ADMIN("ADMIN")
+
+    /**
+     * 관리자 계정
+     */
+    ROLE_ADMIN("ADMIN"),
+
+    /**
+     * 최고 관리자 계정
+     */
+    ROLE_SUPER("SUPER")
 }
