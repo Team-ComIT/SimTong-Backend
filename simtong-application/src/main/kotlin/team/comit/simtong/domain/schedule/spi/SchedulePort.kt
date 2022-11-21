@@ -8,4 +8,4 @@ package team.comit.simtong.domain.schedule.spi
  * @date 2022/11/21
  * @version 1.0.0
  **/
-interface SchedulePort
+interface SchedulePort : CommandSchedulePort
