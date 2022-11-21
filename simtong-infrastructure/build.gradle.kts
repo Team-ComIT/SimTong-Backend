@@ -39,7 +39,7 @@ dependencies {
 
     // mapstruct
     implementation(Dependencies.MAPSTRUCT)
-    kapt(Dependencies.MAPSTRUCT_PROCESSER)
+    kapt(Dependencies.MAPSTRUCT_PROCESSOR)
 
     // configuration
     annotationProcessor(Dependencies.CONFIGURATION_PROCESSOR)
