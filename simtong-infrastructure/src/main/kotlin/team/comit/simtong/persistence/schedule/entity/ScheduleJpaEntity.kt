@@ -58,7 +58,7 @@ class ScheduleJpaEntity(
     val endAt: LocalDate,
 
     @field:NotNull
-    @ColumnDefault("08:30:00")
+    @ColumnDefault("'08:30:00'")
     val alarmTime: LocalTime
 
 ) : BaseEntity(id)
