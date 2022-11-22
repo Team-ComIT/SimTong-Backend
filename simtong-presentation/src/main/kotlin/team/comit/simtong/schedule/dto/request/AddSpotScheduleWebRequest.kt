@@ -2,6 +2,7 @@ package team.comit.simtong.schedule.dto.request
 
 import org.hibernate.validator.constraints.Length
 import java.time.LocalDate
+import javax.validation.constraints.FutureOrPresent
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
@@ -20,6 +21,7 @@ data class AddSpotScheduleWebRequest(
     val title: String,
 
     @field:NotNull
+    @field:FutureOrPresent
     val startAt : LocalDate,
 
     @field:NotNull
