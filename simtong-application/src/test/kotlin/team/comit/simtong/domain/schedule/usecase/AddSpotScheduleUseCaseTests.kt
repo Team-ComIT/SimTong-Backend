@@ -110,6 +110,34 @@ class AddSpotScheduleUseCaseTests {
     }
 
     @Test
+    fun `최고 관리자 계정`() {
+        // given
+        val userStub = User(
+            id = userId,
+            nickname = "test nickname",
+            name = "test name",
+            email = "test@test.com",
+            password = "test password",
+            employeeNumber = 1234567890,
+            authority = Authority.ROLE_SUPER,
+            spotId = UUID.randomUUID(),
+            teamId = UUID.randomUUID(),
+            profileImagePath = "test profile image"
+        )
+
+        given(scheduleSecurityPort.getCurrentUserId())
+            .willReturn(userId)
+
+        given(scheduleQueryUserPort.queryUserById(userId))
+            .willReturn(userStub)
+
+        // when & then
+        assertDoesNotThrow {
+            addSpotScheduleUseCase.execute(requestStub)
+        }
+    }
+
+    @Test
     fun `유저를 찾을 수 없음`() {
         // given
         given(scheduleSecurityPort.getCurrentUserId())
