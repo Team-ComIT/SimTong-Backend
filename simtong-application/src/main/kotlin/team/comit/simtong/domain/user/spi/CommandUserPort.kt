@@ -4,7 +4,7 @@ import team.comit.simtong.domain.user.model.User
 
 /**
  *
- * User Domain의 저장을 요청하는 CommandUserPort
+ * User Domain에 관한 명령을 하는 CommandUserPort
  *
  * @author Chokyunghyeon
  * @author kimbeomjin
