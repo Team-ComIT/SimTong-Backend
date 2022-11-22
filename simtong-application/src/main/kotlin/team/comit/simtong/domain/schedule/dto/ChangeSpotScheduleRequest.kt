@@ -5,7 +5,7 @@ import java.util.UUID
 
 /**
  *
- * 지점 일정 변경 기능 요청을 전달하는 ChangeSpotScheduleRequest
+ * 지점 일정 변경 요청 정보를 전달하는 ChangeSpotScheduleRequest
  *
  * @author Chokyunghyeon
  * @date 2022/11/22
