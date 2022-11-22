@@ -4,11 +4,11 @@ import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
 import team.comit.simtong.domain.schedule.exception.ScheduleNotFoundException
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
+import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
 import team.comit.simtong.domain.user.exception.NotEnoughPermissionException
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.model.Authority
-import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.global.annotation.UseCase
 
 /**
@@ -21,7 +21,7 @@ import team.comit.simtong.global.annotation.UseCase
  **/
 @UseCase
 class ChangeSpotScheduleUseCase(
-    private val queryUserPort: QueryUserPort,
+    private val scheduleQueryUserPort: ScheduleQueryUserPort,
     private val querySchedulePort: QuerySchedulePort,
     private val commandSchedulePort: CommandSchedulePort,
     private val scheduleSecurityPort: ScheduleSecurityPort
@@ -30,7 +30,7 @@ class ChangeSpotScheduleUseCase(
     fun execute(request: ChangeSpotScheduleRequest) {
         val currentUserId = scheduleSecurityPort.getCurrentUserId()
 
-        val user = queryUserPort.queryUserById(currentUserId)
+        val user = scheduleQueryUserPort.queryUserById(currentUserId)
             ?: throw UserNotFoundException.EXCEPTION
 
         val schedule = querySchedulePort.queryScheduleById(request.scheduleId)

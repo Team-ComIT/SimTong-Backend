@@ -14,12 +14,12 @@ import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
+import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
 import team.comit.simtong.domain.user.exception.NotEnoughPermissionException
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
-import team.comit.simtong.domain.user.spi.QueryUserPort
 import java.time.LocalDate
 import java.util.UUID
 
@@ -27,7 +27,7 @@ import java.util.UUID
 class ChangeSpotScheduleUseCaseTests {
 
     @MockBean
-    private lateinit var queryUserPort: QueryUserPort
+    private lateinit var scheduleQueryUserPort: ScheduleQueryUserPort
 
     @MockBean
     private lateinit var querySchedulePort: QuerySchedulePort
@@ -71,7 +71,7 @@ class ChangeSpotScheduleUseCaseTests {
     @BeforeEach
     fun setUp() {
         changeSpotScheduleUseCase = ChangeSpotScheduleUseCase(
-            queryUserPort = queryUserPort,
+            scheduleQueryUserPort = scheduleQueryUserPort,
             querySchedulePort = querySchedulePort,
             commandSchedulePort = commandSchedulePort,
             scheduleSecurityPort = scheduleSecurityPort
@@ -97,7 +97,7 @@ class ChangeSpotScheduleUseCaseTests {
         given(scheduleSecurityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(queryUserPort.queryUserById(userId))
+        given(scheduleQueryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
         given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
@@ -128,7 +128,7 @@ class ChangeSpotScheduleUseCaseTests {
         given(scheduleSecurityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(queryUserPort.queryUserById(userId))
+        given(scheduleQueryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
         given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
@@ -159,7 +159,7 @@ class ChangeSpotScheduleUseCaseTests {
         given(scheduleSecurityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(queryUserPort.queryUserById(userId))
+        given(scheduleQueryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
         given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
@@ -190,7 +190,7 @@ class ChangeSpotScheduleUseCaseTests {
         given(scheduleSecurityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(queryUserPort.queryUserById(userId))
+        given(scheduleQueryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
         given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
@@ -208,7 +208,7 @@ class ChangeSpotScheduleUseCaseTests {
         given(scheduleSecurityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(queryUserPort.queryUserById(userId))
+        given(scheduleQueryUserPort.queryUserById(userId))
             .willReturn(null)
 
         // when & then
