@@ -33,7 +33,7 @@ class AddSpotScheduleUseCase(
         val user = scheduleQueryUserPort.queryUserById(currentUserId)
             ?: throw UserNotFoundException.EXCEPTION
 
-        if (user.authority != Authority.ROLE_SUPER && spotId != user.spotId) {
+        if (user.spotId != spotId && user.authority != Authority.ROLE_SUPER) {
             throw NotEnoughPermissionException.EXCEPTION
         }
 
