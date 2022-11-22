@@ -15,8 +15,7 @@ enum class ScheduleErrorCode(
     private val message: String
 ) : ErrorProperty {
 
-
-    ;
+    SCHEDULE_NOT_FOUND(404, "일정을 찾을 수 없습니다.");
 
     override fun status() = status
 
