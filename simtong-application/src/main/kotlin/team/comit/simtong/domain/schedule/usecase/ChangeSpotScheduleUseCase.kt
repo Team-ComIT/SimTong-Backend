@@ -21,7 +21,7 @@ import team.comit.simtong.global.annotation.UseCase
  **/
 @UseCase
 class ChangeSpotScheduleUseCase(
-    private val scheduleQueryUserPort: ScheduleQueryUserPort,
+    private val queryUserPort: ScheduleQueryUserPort,
     private val querySchedulePort: QuerySchedulePort,
     private val commandSchedulePort: CommandSchedulePort,
     private val scheduleSecurityPort: ScheduleSecurityPort
@@ -30,7 +30,7 @@ class ChangeSpotScheduleUseCase(
     fun execute(request: ChangeSpotScheduleRequest) {
         val currentUserId = scheduleSecurityPort.getCurrentUserId()
 
-        val user = scheduleQueryUserPort.queryUserById(currentUserId)
+        val user = queryUserPort.queryUserById(currentUserId)
             ?: throw UserNotFoundException.EXCEPTION
 
         val schedule = querySchedulePort.queryScheduleById(request.scheduleId)

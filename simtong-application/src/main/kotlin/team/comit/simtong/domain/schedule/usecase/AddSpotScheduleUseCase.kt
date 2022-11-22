@@ -21,7 +21,7 @@ import team.comit.simtong.global.annotation.UseCase
  **/
 @UseCase
 class AddSpotScheduleUseCase(
-    private val scheduleQueryUserPort: ScheduleQueryUserPort,
+    private val queryUserPort: ScheduleQueryUserPort,
     private val commandSchedulePort: CommandSchedulePort,
     private val scheduleSecurityPort: ScheduleSecurityPort
 ) {
@@ -30,7 +30,7 @@ class AddSpotScheduleUseCase(
         val currentUserId = scheduleSecurityPort.getCurrentUserId()
         val (spotId, title, startAt, endAt) = request
 
-        val user = scheduleQueryUserPort.queryUserById(currentUserId)
+        val user = queryUserPort.queryUserById(currentUserId)
             ?: throw UserNotFoundException.EXCEPTION
 
         if (user.spotId != spotId && user.authority != Authority.ROLE_SUPER) {

@@ -29,7 +29,7 @@ class AddSpotScheduleUseCaseTests {
     private lateinit var commandSchedulePort: CommandSchedulePort
 
     @MockBean
-    private lateinit var scheduleQueryUserPort: ScheduleQueryUserPort
+    private lateinit var queryUserPort: ScheduleQueryUserPort
 
     private lateinit var addSpotScheduleUseCase: AddSpotScheduleUseCase
 
@@ -49,7 +49,7 @@ class AddSpotScheduleUseCaseTests {
     @BeforeEach
     fun setUp() {
         addSpotScheduleUseCase = AddSpotScheduleUseCase(
-            scheduleQueryUserPort, commandSchedulePort, scheduleSecurityPort
+            queryUserPort, commandSchedulePort, scheduleSecurityPort
         )
     }
 
@@ -72,7 +72,7 @@ class AddSpotScheduleUseCaseTests {
         given(scheduleSecurityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(scheduleQueryUserPort.queryUserById(userId))
+        given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
         // when & then
@@ -100,7 +100,7 @@ class AddSpotScheduleUseCaseTests {
         given(scheduleSecurityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(scheduleQueryUserPort.queryUserById(userId))
+        given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
         // when & then
@@ -128,7 +128,7 @@ class AddSpotScheduleUseCaseTests {
         given(scheduleSecurityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(scheduleQueryUserPort.queryUserById(userId))
+        given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
         // when & then
@@ -143,7 +143,7 @@ class AddSpotScheduleUseCaseTests {
         given(scheduleSecurityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(scheduleQueryUserPort.queryUserById(userId))
+        given(queryUserPort.queryUserById(userId))
             .willReturn(null)
 
         // when & then

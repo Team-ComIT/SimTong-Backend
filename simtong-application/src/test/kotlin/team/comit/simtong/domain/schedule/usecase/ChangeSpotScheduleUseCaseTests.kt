@@ -27,7 +27,7 @@ import java.util.UUID
 class ChangeSpotScheduleUseCaseTests {
 
     @MockBean
-    private lateinit var scheduleQueryUserPort: ScheduleQueryUserPort
+    private lateinit var queryUserPort: ScheduleQueryUserPort
 
     @MockBean
     private lateinit var querySchedulePort: QuerySchedulePort
@@ -71,7 +71,7 @@ class ChangeSpotScheduleUseCaseTests {
     @BeforeEach
     fun setUp() {
         changeSpotScheduleUseCase = ChangeSpotScheduleUseCase(
-            scheduleQueryUserPort = scheduleQueryUserPort,
+            queryUserPort = queryUserPort,
             querySchedulePort = querySchedulePort,
             commandSchedulePort = commandSchedulePort,
             scheduleSecurityPort = scheduleSecurityPort
@@ -97,7 +97,7 @@ class ChangeSpotScheduleUseCaseTests {
         given(scheduleSecurityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(scheduleQueryUserPort.queryUserById(userId))
+        given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
         given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
@@ -128,7 +128,7 @@ class ChangeSpotScheduleUseCaseTests {
         given(scheduleSecurityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(scheduleQueryUserPort.queryUserById(userId))
+        given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
         given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
@@ -159,7 +159,7 @@ class ChangeSpotScheduleUseCaseTests {
         given(scheduleSecurityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(scheduleQueryUserPort.queryUserById(userId))
+        given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
         given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
@@ -190,7 +190,7 @@ class ChangeSpotScheduleUseCaseTests {
         given(scheduleSecurityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(scheduleQueryUserPort.queryUserById(userId))
+        given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
         given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
@@ -208,7 +208,7 @@ class ChangeSpotScheduleUseCaseTests {
         given(scheduleSecurityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(scheduleQueryUserPort.queryUserById(userId))
+        given(queryUserPort.queryUserById(userId))
             .willReturn(null)
 
         // when & then
