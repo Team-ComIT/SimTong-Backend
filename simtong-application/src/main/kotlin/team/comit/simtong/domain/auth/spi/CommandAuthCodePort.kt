@@ -4,7 +4,7 @@ import team.comit.simtong.domain.auth.model.AuthCode
 
 /**
  *
- * AuthCode Domain의 저장을 요청하는 CommandAuthCodePort
+ * AuthCode에 관한 명령을 하는 CommandAuthCodePort
  *
  * @author Chokyunghyeon
  * @date 2022/09/24

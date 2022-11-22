@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.menu.spi
 
 import team.comit.simtong.domain.user.model.User
-import java.util.*
+import java.util.UUID
 
 /**
  *
@@ -13,6 +13,6 @@ import java.util.*
  **/
 interface MenuQueryUserPort {
 
-    fun queryUserById(userId: UUID): User?
+    fun queryUserById(id: UUID): User?
 
 }

@@ -9,7 +9,9 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import team.comit.simtong.domain.user.model.Authority.ROLE_ADMIN
 import team.comit.simtong.domain.user.model.Authority.ROLE_COMMON
+import team.comit.simtong.domain.user.model.Authority.ROLE_SUPER
 import team.comit.simtong.global.filter.FilterConfig
 import team.comit.simtong.global.security.token.JwtParser
 
@@ -71,6 +73,9 @@ class SecurityConfig(
             // files
             .antMatchers(HttpMethod.POST, "/files").permitAll()
             .antMatchers(HttpMethod.POST, "/files/list").permitAll()
+
+            // schedules
+            .antMatchers(HttpMethod.POST, "/schedules/spots/{spot-id}").hasAnyRole(ROLE_ADMIN.role, ROLE_SUPER.role)
 
             // admins
             .antMatchers(HttpMethod.POST, "/admins/tokens").permitAll()
