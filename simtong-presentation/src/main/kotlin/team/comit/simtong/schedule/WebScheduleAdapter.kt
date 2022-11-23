@@ -1,6 +1,7 @@
 package team.comit.simtong.schedule
 
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -12,6 +13,7 @@ import team.comit.simtong.domain.schedule.dto.AddSpotScheduleRequest
 import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
 import team.comit.simtong.domain.schedule.usecase.AddSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.ChangeSpotScheduleUseCase
+import team.comit.simtong.domain.schedule.usecase.RemoveSpotScheduleUseCase
 import team.comit.simtong.schedule.dto.request.AddSpotScheduleWebRequest
 import team.comit.simtong.schedule.dto.request.ChangeSpotScheduleWebRequest
 import java.util.UUID
@@ -29,7 +31,8 @@ import javax.validation.Valid
 @RequestMapping("/schedules")
 class WebScheduleAdapter(
     private val addSpotScheduleUseCase: AddSpotScheduleUseCase,
-    private val changeSpotScheduleUseCase: ChangeSpotScheduleUseCase
+    private val changeSpotScheduleUseCase: ChangeSpotScheduleUseCase,
+    private val removeSpotScheduleUseCase: RemoveSpotScheduleUseCase
 ) {
 
     @PostMapping("/spots/{spot-id}")
@@ -58,5 +61,11 @@ class WebScheduleAdapter(
                 endAt = request.endAt
             )
         )
+    }
+
+    @DeleteMapping("/spots/{schedule-id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun removeSpotSchedule(@PathVariable("schedule-id") scheduleId: UUID) {
+        removeSpotScheduleUseCase.execute(scheduleId)
     }
 }
