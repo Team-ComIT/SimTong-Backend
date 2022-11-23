@@ -51,7 +51,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd dms-server
+            cd simtong-server
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.DOCKER_IMAGE }}
             docker pull ${{ secrets.DOCKER_IMAGE }}
             docker rm -f simtong-server || true
