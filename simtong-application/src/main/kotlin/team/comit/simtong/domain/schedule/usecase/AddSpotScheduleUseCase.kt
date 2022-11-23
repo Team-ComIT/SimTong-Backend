@@ -23,11 +23,11 @@ import team.comit.simtong.global.annotation.UseCase
 class AddSpotScheduleUseCase(
     private val queryUserPort: ScheduleQueryUserPort,
     private val commandSchedulePort: CommandSchedulePort,
-    private val scheduleSecurityPort: ScheduleSecurityPort
+    private val securityPort: ScheduleSecurityPort
 ) {
 
     fun execute(request: AddSpotScheduleRequest) {
-        val currentUserId = scheduleSecurityPort.getCurrentUserId()
+        val currentUserId = securityPort.getCurrentUserId()
         val (spotId, title, startAt, endAt) = request
 
         val user = queryUserPort.queryUserById(currentUserId)

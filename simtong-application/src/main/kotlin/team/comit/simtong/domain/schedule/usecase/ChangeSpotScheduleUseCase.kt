@@ -24,11 +24,11 @@ class ChangeSpotScheduleUseCase(
     private val queryUserPort: ScheduleQueryUserPort,
     private val querySchedulePort: QuerySchedulePort,
     private val commandSchedulePort: CommandSchedulePort,
-    private val scheduleSecurityPort: ScheduleSecurityPort
+    private val securityPort: ScheduleSecurityPort
 ) {
 
     fun execute(request: ChangeSpotScheduleRequest) {
-        val currentUserId = scheduleSecurityPort.getCurrentUserId()
+        val currentUserId = securityPort.getCurrentUserId()
 
         val user = queryUserPort.queryUserById(currentUserId)
             ?: throw UserNotFoundException.EXCEPTION

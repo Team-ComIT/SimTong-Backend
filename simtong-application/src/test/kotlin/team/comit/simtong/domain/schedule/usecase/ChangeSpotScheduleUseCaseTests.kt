@@ -36,7 +36,7 @@ class ChangeSpotScheduleUseCaseTests {
     private lateinit var commandSchedulePort: CommandSchedulePort
 
     @MockBean
-    private lateinit var scheduleSecurityPort: ScheduleSecurityPort
+    private lateinit var securityPort: ScheduleSecurityPort
 
     private lateinit var changeSpotScheduleUseCase: ChangeSpotScheduleUseCase
 
@@ -74,7 +74,7 @@ class ChangeSpotScheduleUseCaseTests {
             queryUserPort = queryUserPort,
             querySchedulePort = querySchedulePort,
             commandSchedulePort = commandSchedulePort,
-            scheduleSecurityPort = scheduleSecurityPort
+            securityPort = securityPort
         )
     }
 
@@ -94,7 +94,7 @@ class ChangeSpotScheduleUseCaseTests {
             profileImagePath = "test profile image"
         )
 
-        given(scheduleSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
         given(queryUserPort.queryUserById(userId))
@@ -125,7 +125,7 @@ class ChangeSpotScheduleUseCaseTests {
             profileImagePath = "test profile image"
         )
 
-        given(scheduleSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
         given(queryUserPort.queryUserById(userId))
@@ -156,7 +156,7 @@ class ChangeSpotScheduleUseCaseTests {
             profileImagePath = "test profile image"
         )
 
-        given(scheduleSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
         given(queryUserPort.queryUserById(userId))
@@ -187,7 +187,7 @@ class ChangeSpotScheduleUseCaseTests {
             profileImagePath = "test profile image"
         )
 
-        given(scheduleSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
         given(queryUserPort.queryUserById(userId))
@@ -205,7 +205,7 @@ class ChangeSpotScheduleUseCaseTests {
     @Test
     fun `유저를 찾을 수 없음`() {
         // given
-        given(scheduleSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
         given(queryUserPort.queryUserById(userId))

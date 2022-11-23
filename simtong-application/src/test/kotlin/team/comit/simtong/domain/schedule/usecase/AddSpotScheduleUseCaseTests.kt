@@ -23,7 +23,7 @@ import java.util.UUID
 class AddSpotScheduleUseCaseTests {
 
     @MockBean
-    private lateinit var scheduleSecurityPort: ScheduleSecurityPort
+    private lateinit var securityPort: ScheduleSecurityPort
 
     @MockBean
     private lateinit var commandSchedulePort: CommandSchedulePort
@@ -49,7 +49,7 @@ class AddSpotScheduleUseCaseTests {
     @BeforeEach
     fun setUp() {
         addSpotScheduleUseCase = AddSpotScheduleUseCase(
-            queryUserPort, commandSchedulePort, scheduleSecurityPort
+            queryUserPort, commandSchedulePort, securityPort
         )
     }
 
@@ -69,7 +69,7 @@ class AddSpotScheduleUseCaseTests {
             profileImagePath = "test profile image"
         )
 
-        given(scheduleSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
         given(queryUserPort.queryUserById(userId))
@@ -97,7 +97,7 @@ class AddSpotScheduleUseCaseTests {
             profileImagePath = "test profile image"
         )
 
-        given(scheduleSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
         given(queryUserPort.queryUserById(userId))
@@ -125,7 +125,7 @@ class AddSpotScheduleUseCaseTests {
             profileImagePath = "test profile image"
         )
 
-        given(scheduleSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
         given(queryUserPort.queryUserById(userId))
@@ -140,7 +140,7 @@ class AddSpotScheduleUseCaseTests {
     @Test
     fun `유저를 찾을 수 없음`() {
         // given
-        given(scheduleSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
         given(queryUserPort.queryUserById(userId))
