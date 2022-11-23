@@ -1,9 +1,9 @@
 package team.comit.simtong.domain.schedule.usecase
 
-import team.comit.simtong.domain.schedule.dto.AddSpotScheduleRequest
-import team.comit.simtong.domain.schedule.model.Schedule
-import team.comit.simtong.domain.schedule.model.Scope
+import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
+import team.comit.simtong.domain.schedule.exception.ScheduleNotFoundException
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
+import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
 import team.comit.simtong.domain.user.exception.NotEnoughPermissionException
@@ -13,40 +13,39 @@ import team.comit.simtong.global.annotation.UseCase
 
 /**
  *
- * 지점 일정 추가를 담당하는 AddSpotScheduleUseCase
+ * 지점 일정 변경 기능을 담당하는 ChangeSpotScheduleUseCase
  *
  * @author Chokyunghyeon
- * @date 2022/11/21
+ * @date 2022/11/22
  * @version 1.0.0
  **/
 @UseCase
-class AddSpotScheduleUseCase(
+class ChangeSpotScheduleUseCase(
     private val queryUserPort: ScheduleQueryUserPort,
+    private val querySchedulePort: QuerySchedulePort,
     private val commandSchedulePort: CommandSchedulePort,
     private val securityPort: ScheduleSecurityPort
 ) {
 
-    fun execute(request: AddSpotScheduleRequest) {
+    fun execute(request: ChangeSpotScheduleRequest) {
         val currentUserId = securityPort.getCurrentUserId()
-        val (spotId, title, startAt, endAt) = request
 
         val user = queryUserPort.queryUserById(currentUserId)
             ?: throw UserNotFoundException.EXCEPTION
 
-        if (user.spotId != spotId && user.authority != Authority.ROLE_SUPER) {
+        val schedule = querySchedulePort.queryScheduleById(request.scheduleId)
+            ?: throw ScheduleNotFoundException.EXCEPTION
+
+        if (user.spotId != schedule.spotId && user.authority != Authority.ROLE_SUPER) {
             throw NotEnoughPermissionException.EXCEPTION
         }
 
         commandSchedulePort.save(
-            Schedule(
-                userId = currentUserId,
-                spotId = spotId,
-                title = title,
-                scope = Scope.ENTIRE,
-                startAt = startAt,
-                endAt = endAt
+            schedule.copy(
+                title = request.title,
+                startAt = request.startAt,
+                endAt = request.endAt
             )
         )
     }
-
 }

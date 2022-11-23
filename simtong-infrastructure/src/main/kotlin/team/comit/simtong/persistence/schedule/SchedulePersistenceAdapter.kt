@@ -1,9 +1,11 @@
 package team.comit.simtong.persistence.schedule
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.spi.SchedulePort
 import team.comit.simtong.persistence.schedule.mapper.ScheduleMapper
+import java.util.UUID
 
 /**
  *
@@ -24,5 +26,11 @@ class SchedulePersistenceAdapter(
            scheduleMapper.toEntity(schedule)
        )
     )!!
+
+    override fun queryScheduleById(id: UUID): Schedule? {
+        return scheduleMapper.toDomain(
+            scheduleJpaRepository.findByIdOrNull(id)
+        )
+    }
 
 }
