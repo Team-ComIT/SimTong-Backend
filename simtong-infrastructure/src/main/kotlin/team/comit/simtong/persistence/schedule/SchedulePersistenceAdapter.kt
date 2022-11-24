@@ -27,6 +27,12 @@ class SchedulePersistenceAdapter(
        )
     )!!
 
+    override fun delete(schedule: Schedule) {
+        scheduleJpaRepository.delete(
+            scheduleMapper.toEntity(schedule)
+        )
+    }
+
     override fun queryScheduleById(id: UUID): Schedule? {
         return scheduleMapper.toDomain(
             scheduleJpaRepository.findByIdOrNull(id)

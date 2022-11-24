@@ -14,4 +14,6 @@ interface CommandSchedulePort {
 
     fun save(schedule: Schedule): Schedule
 
+    fun delete(schedule: Schedule)
+
 }
