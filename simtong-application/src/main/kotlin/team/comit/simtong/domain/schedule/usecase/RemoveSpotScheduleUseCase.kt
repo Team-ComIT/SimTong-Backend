@@ -21,16 +21,16 @@ import java.util.UUID
  **/
 @UseCase
 class RemoveSpotScheduleUseCase(
-    private val scheduleQueryUserPort: ScheduleQueryUserPort,
+    private val queryUserPort: ScheduleQueryUserPort,
     private val querySchedulePort: QuerySchedulePort,
     private val commandSchedulePort: CommandSchedulePort,
-    private val scheduleSecurityPort: ScheduleSecurityPort
+    private val securityPort: ScheduleSecurityPort
 ) {
 
     fun execute(scheduleId: UUID) {
-        val currentUserId = scheduleSecurityPort.getCurrentUserId()
+        val currentUserId = securityPort.getCurrentUserId()
 
-        val user = scheduleQueryUserPort.queryUserById(currentUserId)
+        val user = queryUserPort.queryUserById(currentUserId)
             ?: throw UserNotFoundException.EXCEPTION
 
         val schedule = querySchedulePort.queryScheduleById(scheduleId)
