@@ -1,4 +1,4 @@
-FROM openjdk:17-jre-alpine
+FROM eclipse-temurin:17.0.3_7-jre-focal
 
 EXPOSE 8080
 ENV TZ=Asia/Seoul
