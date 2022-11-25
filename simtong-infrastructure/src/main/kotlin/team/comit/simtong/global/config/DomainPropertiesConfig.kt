@@ -17,6 +17,10 @@ import team.comit.simtong.global.DomainProperties
 class DomainPropertiesConfig(
     model: Map<String, String>
 ) {
+
+    /**
+     * Domain 설정 변수를 Domain Properties에 매핑
+     */
     init {
         DomainProperties.putAll(model)
     }
