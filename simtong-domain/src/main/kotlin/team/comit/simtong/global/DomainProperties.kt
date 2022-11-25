@@ -14,7 +14,7 @@ import java.util.Properties
 object DomainProperties : Properties() {
 
     override fun getProperty(key: String): String {
-        return super.getProperty(key) ?: throw NotInitializationPropertiesException
+        return super.getProperty(key) ?: throw NotInitializationPropertiesException.EXCEPTION
     }
 
 }
