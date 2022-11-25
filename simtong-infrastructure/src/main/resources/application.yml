@@ -14,6 +14,19 @@ spring:
     access-exp: ${ACCESS_EXP:180}
     refresh-exp: ${REFRESH_EXP:180}
 
+
+domain:
+  model:
+    user:
+      default-image: ${USER_DEFAULT_IMAGE:TODO}
+    authcode:
+      expired: ${AUTHCODE_EXPIRED:1234567890}
+    authcodelimit:
+      expired: ${AUTHCODELIMIT_EXPIRED:1234567890}
+      verified-expired: ${AUTHCODELIMIT_VERIFIED_EXPIRED:1234567890}
+      max-attempt-count: ${AUTHCODELIMIT_MAX_ATTEMPT_COUNT:12345}
+
+
 logging:
   level:
     com:
