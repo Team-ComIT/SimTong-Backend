@@ -11,4 +11,11 @@ import team.comit.simtong.global.error.DomainErrorCode
  * @date 2022/11/26
  * @version 1.0.0
  **/
-object NotInitializationPropertiesException : BusinessException(DomainErrorCode.NOT_INITIALIZATION_PROPERTIES)
+class NotInitializationPropertiesException private constructor() : BusinessException(DomainErrorCode.NOT_INITIALIZATION_PROPERTIES) {
+
+    companion object {
+        @JvmField
+        val EXCEPTION = NotInitializationPropertiesException()
+    }
+
+}
