@@ -2,7 +2,7 @@ package team.comit.simtong.global
 
 /**
  *
- * Domain Properties의 경로를 관리하는 DomainPropertiesPrefix
+ * Domain Properties의 Key를 관리하는 DomainPropertiesPrefix
  *
  * @author Chokyunghyeon
  * @date 2022/10/29
@@ -10,18 +10,15 @@ package team.comit.simtong.global
  **/
 object DomainPropertiesPrefix {
 
-    // properties file
-    const val PROPERTIES_FILE = "domain.properties"
-
     // User
-    const val USER_DEFAULT_IMAGE = "domain.user.default-image"
+    const val USER_DEFAULT_IMAGE = "user.default-image"
 
     // AuthCode
-    const val AUTHCODE_EXPIRED = "domain.authcode.expired"
+    const val AUTHCODE_EXPIRED = "authcode.expired"
 
     // AuthCodeLimit
-    const val AUTHCODELIMIT_EXPIRED = "domain.authcodelimit.expired"
-    const val AUTHCODELIMIT_VERIFIED_EXPIRED = "domain.authcodelimit.verified-expired"
-    const val AUTHCODELIMIT_MAX_ATTEMPT_COUNT = "domain.authcodelimit.max-attempt-count"
+    const val AUTHCODELIMIT_EXPIRED = "authcodelimit.expired"
+    const val AUTHCODELIMIT_VERIFIED_EXPIRED = "authcodelimit.verified-expired"
+    const val AUTHCODELIMIT_MAX_ATTEMPT_COUNT = "authcodelimit.max-attempt-count"
 
 }

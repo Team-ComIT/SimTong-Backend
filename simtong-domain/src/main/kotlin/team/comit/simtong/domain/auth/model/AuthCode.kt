@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.auth.model
 
 import net.bytebuddy.utility.RandomString
-import team.comit.simtong.global.DomainProperties.Companion.getProperty
+import team.comit.simtong.global.DomainProperties.getProperty
 import team.comit.simtong.global.DomainPropertiesPrefix
 import team.comit.simtong.global.annotation.Aggregate
 import team.comit.simtong.global.annotation.Default
