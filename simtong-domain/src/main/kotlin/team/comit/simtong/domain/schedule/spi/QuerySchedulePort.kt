@@ -15,4 +15,6 @@ interface QuerySchedulePort {
 
     fun queryScheduleById(id: UUID): Schedule?
 
+    fun querySchedulesByMonth(year: Int, month: Int): List<Schedule>
+
 }

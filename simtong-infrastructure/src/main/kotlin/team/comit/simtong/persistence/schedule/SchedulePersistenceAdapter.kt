@@ -1,10 +1,14 @@
 package team.comit.simtong.persistence.schedule
 
+import com.querydsl.core.types.dsl.DatePath
+import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.spi.SchedulePort
+import team.comit.simtong.persistence.schedule.entity.QScheduleJpaEntity.scheduleJpaEntity
 import team.comit.simtong.persistence.schedule.mapper.ScheduleMapper
+import java.time.LocalDate
 import java.util.UUID
 
 /**
@@ -18,7 +22,8 @@ import java.util.UUID
 @Component
 class SchedulePersistenceAdapter(
     private val scheduleJpaRepository: ScheduleJpaRepository,
-    private val scheduleMapper: ScheduleMapper
+    private val scheduleMapper: ScheduleMapper,
+    private val jpaQueryFactory: JPAQueryFactory
 ) : SchedulePort {
 
     override fun save(schedule: Schedule) = scheduleMapper.toDomain(
@@ -38,5 +43,25 @@ class SchedulePersistenceAdapter(
             scheduleJpaRepository.findByIdOrNull(id)
         )
     }
+
+    override fun querySchedulesByMonth(year: Int, month: Int): List<Schedule> {
+        return jpaQueryFactory
+            .selectFrom(scheduleJpaEntity)
+            .where(
+                scheduleJpaEntity.startAt.monthEq(month)
+                    .and(scheduleJpaEntity.startAt.yearEq(year))
+                    .or(scheduleJpaEntity.endAt.monthEq(month)
+                        .and(scheduleJpaEntity.endAt.yearEq(year)))
+            )
+            .orderBy(scheduleJpaEntity.startAt.asc())
+            .fetch()
+            .map {
+                scheduleMapper.toDomain(it)!!
+            }
+    }
+
+    private fun DatePath<LocalDate>.yearEq(year: Int) = year().eq(year)
+
+    private fun DatePath<LocalDate>.monthEq(month: Int) = month().eq(month)
 
 }
