@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull
 
 /**
  *
- * 개인 일정 추가를 요청하는 AddScheduleRequest
+ * 개인 일정 추가를 요청하는 AddIndividualScheduleWebRequest
  *
  * @author Chokyunghyeon
  * @date 2022/11/26
