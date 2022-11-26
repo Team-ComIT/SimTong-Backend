@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import team.comit.simtong.domain.schedule.dto.AddScheduleRequest
 import team.comit.simtong.domain.schedule.dto.AddSpotScheduleRequest
 import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
+import team.comit.simtong.domain.schedule.usecase.AddScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.AddSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.ChangeSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.RemoveSpotScheduleUseCase
+import team.comit.simtong.schedule.dto.request.AddScheduleWebRequest
 import team.comit.simtong.schedule.dto.request.AddSpotScheduleWebRequest
 import team.comit.simtong.schedule.dto.request.ChangeSpotScheduleWebRequest
 import java.util.UUID
@@ -30,10 +33,24 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/schedules")
 class WebScheduleAdapter(
+    private val addScheduleUseCase: AddScheduleUseCase,
     private val addSpotScheduleUseCase: AddSpotScheduleUseCase,
     private val changeSpotScheduleUseCase: ChangeSpotScheduleUseCase,
     private val removeSpotScheduleUseCase: RemoveSpotScheduleUseCase
 ) {
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    fun addSchedule(@Valid @RequestBody request: AddScheduleWebRequest) {
+        addScheduleUseCase.execute(
+            AddScheduleRequest(
+                title = request.title,
+                startAt = request.startAt,
+                endAt = request.endAt,
+                alarm = request.alarm
+            )
+        )
+    }
 
     @PostMapping("/spots/{spot-id}")
     @ResponseStatus(HttpStatus.CREATED)

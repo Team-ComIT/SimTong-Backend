@@ -75,6 +75,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/files/list").permitAll()
 
             // schedules
+            .antMatchers(HttpMethod.POST, "/schedules").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.POST, "/schedules/spots/{spot-id}").hasAnyRole(ROLE_ADMIN.role, ROLE_SUPER.role)
             .antMatchers(HttpMethod.PUT, "/schedules/spots/{schedule-id}").hasAnyRole(ROLE_ADMIN.role, ROLE_SUPER.role)
             .antMatchers(HttpMethod.DELETE, "/schedules/spots/{schedule-id}").hasAnyRole(ROLE_ADMIN.role, ROLE_SUPER.role)
