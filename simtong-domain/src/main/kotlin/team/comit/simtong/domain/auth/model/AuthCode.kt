@@ -31,7 +31,7 @@ data class AuthCode @Default constructor(
 
     companion object {
         @JvmField
-        val EXPIRED = getProperty(DomainPropertiesPrefix.AUTHCODE_EXPIRED).toInt()
+        val EXPIRED = getProperty(DomainPropertiesPrefix.AUTHCODE_EXP).toInt()
     }
 
 }

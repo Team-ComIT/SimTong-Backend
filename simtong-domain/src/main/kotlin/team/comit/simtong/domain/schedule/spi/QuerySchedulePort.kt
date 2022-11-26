@@ -1,6 +1,8 @@
 package team.comit.simtong.domain.schedule.spi
 
 import team.comit.simtong.domain.schedule.model.Schedule
+import team.comit.simtong.domain.schedule.vo.SpotSchedule
+import java.time.LocalDate
 import java.util.UUID
 
 /**
@@ -14,5 +16,7 @@ import java.util.UUID
 interface QuerySchedulePort {
 
     fun queryScheduleById(id: UUID): Schedule?
+
+    fun querySchedulesByDateContains(date: LocalDate): List<SpotSchedule>
 
 }

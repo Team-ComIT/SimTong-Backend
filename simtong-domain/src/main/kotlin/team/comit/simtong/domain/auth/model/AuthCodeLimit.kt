@@ -38,10 +38,10 @@ data class AuthCodeLimit @Default constructor(
         val MAX_ATTEMPT_COUNT: Short = getProperty(DomainPropertiesPrefix.AUTHCODELIMIT_MAX_ATTEMPT_COUNT).toShort()
 
         @JvmField
-        val EXPIRED: Int = getProperty(DomainPropertiesPrefix.AUTHCODELIMIT_EXPIRED).toInt()
+        val EXPIRED: Int = getProperty(DomainPropertiesPrefix.AUTHCODELIMIT_EXP).toInt()
 
         @JvmField
-        val VERIFIED_EXPIRED: Int = getProperty(DomainPropertiesPrefix.AUTHCODELIMIT_VERIFIED_EXPIRED).toInt()
+        val VERIFIED_EXPIRED: Int = getProperty(DomainPropertiesPrefix.AUTHCODELIMIT_VERIFIED_EXP).toInt()
 
         fun certified(email: String) = AuthCodeLimit(
             key = email,

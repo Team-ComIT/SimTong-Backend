@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.spot.spi
 
+import team.comit.simtong.domain.schedule.spi.ScheduleQuerySpotPort
 import team.comit.simtong.domain.user.spi.UserQuerySpotPort
 
 /**
@@ -10,4 +11,4 @@ import team.comit.simtong.domain.user.spi.UserQuerySpotPort
  * @date 2022/09/18
  * @version 1.0.0
  **/
-interface SpotPort : UserQuerySpotPort, QuerySpotPort
+interface SpotPort : UserQuerySpotPort, QuerySpotPort, ScheduleQuerySpotPort
