@@ -22,7 +22,7 @@ import team.comit.simtong.domain.schedule.usecase.AddSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.ChangeSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.EntireSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.RemoveSpotScheduleUseCase
-import team.comit.simtong.schedule.dto.request.AddIndividualScheduleWebRequest
+import team.comit.simtong.domain.schedule.dto.request.AddIndividualScheduleWebRequest
 import java.time.LocalDate
 import java.util.UUID
 import javax.validation.Valid

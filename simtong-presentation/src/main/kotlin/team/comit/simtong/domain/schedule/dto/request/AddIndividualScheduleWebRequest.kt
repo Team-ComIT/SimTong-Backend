@@ -1,4 +1,4 @@
-package team.comit.simtong.schedule.dto.request
+package team.comit.simtong.domain.schedule.dto.request
 
 import org.hibernate.validator.constraints.Length
 import java.time.LocalDate
