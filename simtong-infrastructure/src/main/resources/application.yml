@@ -20,10 +20,10 @@ domain:
     user:
       default-image: ${USER_DEFAULT_IMAGE:TODO}
     authcode:
-      expired: ${AUTHCODE_EXPIRED:1234567890}
+      exp: ${AUTHCODE_EXP:1234567890}
     authcodelimit:
-      expired: ${AUTHCODELIMIT_EXPIRED:1234567890}
-      verified-expired: ${AUTHCODELIMIT_VERIFIED_EXPIRED:1234567890}
+      exp: ${AUTHCODELIMIT_EXP:1234567890}
+      verified-exp: ${AUTHCODELIMIT_VERIFIED_EXP:1234567890}
       max-attempt-count: ${AUTHCODELIMIT_MAX_ATTEMPT_COUNT:12345}
 
 

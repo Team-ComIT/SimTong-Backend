@@ -14,11 +14,11 @@ object DomainPropertiesPrefix {
     const val USER_DEFAULT_IMAGE = "user.default-image"
 
     // AuthCode
-    const val AUTHCODE_EXPIRED = "authcode.expired"
+    const val AUTHCODE_EXP = "authcode.exp"
 
     // AuthCodeLimit
-    const val AUTHCODELIMIT_EXPIRED = "authcodelimit.expired"
-    const val AUTHCODELIMIT_VERIFIED_EXPIRED = "authcodelimit.verified-expired"
+    const val AUTHCODELIMIT_EXP = "authcodelimit.exp"
+    const val AUTHCODELIMIT_VERIFIED_EXP = "authcodelimit.verified-exp"
     const val AUTHCODELIMIT_MAX_ATTEMPT_COUNT = "authcodelimit.max-attempt-count"
 
 }
