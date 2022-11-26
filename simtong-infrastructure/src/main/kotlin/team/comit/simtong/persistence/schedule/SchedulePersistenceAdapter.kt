@@ -51,14 +51,22 @@ class SchedulePersistenceAdapter(
         val endDate = date.withDayOfMonth(date.lengthOfMonth())
 
         return queryFactory
-            .select(QSpotScheduleVo(schedule.id, schedule.title, schedule.startAt, schedule.endAt, spot.id, spot.name))
+            .select(
+                QSpotScheduleVo(
+                    schedule.id,
+                    schedule.title,
+                    schedule.startAt,
+                    schedule.endAt,
+                    spot.id,
+                    spot.name
+                ))
             .from(schedule)
+            .join(spot)
+            .on(schedule.spot.eq(spot))
             .where(
                 schedule.startAt.between(startDate, endDate)
                     .or(schedule.endAt.between(startDate, endDate))
             )
-            .join(spot)
-            .on(schedule.spot.eq(spot))
             .orderBy(schedule.startAt.asc())
             .fetch()
     }
