@@ -3,8 +3,6 @@ package team.comit.simtong.domain.schedule.usecase
 import team.comit.simtong.domain.schedule.dto.EntireSpotScheduleResponse
 import team.comit.simtong.domain.schedule.dto.SpotScheduleResponse
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
-import team.comit.simtong.domain.schedule.spi.ScheduleQuerySpotPort
-import team.comit.simtong.domain.spot.exception.SpotNotFoundException
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
 import java.time.LocalDate
 
@@ -18,27 +16,24 @@ import java.time.LocalDate
  **/
 @ReadOnlyUseCase
 class EntireSpotScheduleUseCase(
-    private val querySchedulePort: QuerySchedulePort,
-    private val querySpotPort: ScheduleQuerySpotPort
+    private val querySchedulePort: QuerySchedulePort
 ) {
 
     fun execute(date: LocalDate): EntireSpotScheduleResponse {
-        val list = querySchedulePort.querySchedulesByMonth(date.year, date.monthValue)
+        val list = querySchedulePort.querySchedulesByDateContains(date)
 
         val response = list.map {
-                SpotScheduleResponse(
-                    id = it.id,
-                    startAt = it.startAt,
-                    endAt = it.endAt,
-                    title = it.title,
-                    spot = querySpotPort.querySpotById(it.spotId)?.let { spot ->
-                        SpotScheduleResponse.SpotElement(
-                            id = spot.id,
-                            name = spot.name
-                        )
-                    } ?: throw SpotNotFoundException.EXCEPTION
+            SpotScheduleResponse(
+                id = it.id,
+                startAt = it.startAt,
+                endAt = it.endAt,
+                title = it.title,
+                spot = SpotScheduleResponse.SpotElement(
+                    id = it.spotId,
+                    name = it.spotName
                 )
-            }
+            )
+        }
 
         return EntireSpotScheduleResponse(response)
     }
