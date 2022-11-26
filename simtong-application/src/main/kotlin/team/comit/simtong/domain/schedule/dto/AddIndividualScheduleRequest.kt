@@ -5,13 +5,13 @@ import java.time.LocalTime
 
 /**
  *
- * 개인 일정 추가 요청의 정보를 전달하는 AddScheduleRequest
+ * 개인 일정 추가 요청의 정보를 전달하는 AddIndividualScheduleRequest
  *
  * @author Chokyunghyeon
  * @date 2022/11/26
  * @version 1.0.0
  **/
-data class AddScheduleRequest(
+data class AddIndividualScheduleRequest(
     val title: String,
 
     val startAt: LocalDate,

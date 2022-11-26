@@ -8,7 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import team.comit.simtong.domain.schedule.dto.AddScheduleRequest
+import team.comit.simtong.domain.schedule.dto.AddIndividualScheduleRequest
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
@@ -19,7 +19,7 @@ import java.time.LocalDate
 import java.util.UUID
 
 @ExtendWith(SpringExtension::class)
-class AddScheduleUseCaseTests {
+class AddIndividualScheduleUseCaseTests {
 
     @MockBean
     private lateinit var commandSchedulePort: CommandSchedulePort
@@ -30,7 +30,7 @@ class AddScheduleUseCaseTests {
     @MockBean
     private lateinit var securityPort: ScheduleSecurityPort
 
-    private lateinit var addScheduleUseCase: AddScheduleUseCase
+    private lateinit var addIndividualScheduleUseCase: AddIndividualScheduleUseCase
 
     private val id: UUID = UUID.randomUUID()
 
@@ -49,7 +49,7 @@ class AddScheduleUseCaseTests {
         )
     }
 
-    private val requestStub = AddScheduleRequest(
+    private val requestStub = AddIndividualScheduleRequest(
         title = "test title",
         startAt = LocalDate.now(),
         endAt = LocalDate.now(),
@@ -58,7 +58,7 @@ class AddScheduleUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        addScheduleUseCase = AddScheduleUseCase(
+        addIndividualScheduleUseCase = AddIndividualScheduleUseCase(
             commandSchedulePort = commandSchedulePort,
             queryUserPort = queryUserPort,
             securityPort = securityPort
@@ -76,7 +76,7 @@ class AddScheduleUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            addScheduleUseCase.execute(requestStub)
+            addIndividualScheduleUseCase.execute(requestStub)
         }
     }
 
@@ -91,7 +91,7 @@ class AddScheduleUseCaseTests {
 
         // when & then
         assertThrows<UserNotFoundException> {
-            addScheduleUseCase.execute(requestStub)
+            addIndividualScheduleUseCase.execute(requestStub)
         }
     }
 

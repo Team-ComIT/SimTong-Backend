@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull
  * @date 2022/11/26
  * @version 1.0.0
  **/
-data class AddScheduleWebRequest(
+data class AddIndividualScheduleWebRequest(
 
     @field:NotBlank
     @field:Length(max = 20)

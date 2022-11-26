@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.schedule.usecase
 
-import team.comit.simtong.domain.schedule.dto.AddScheduleRequest
+import team.comit.simtong.domain.schedule.dto.AddIndividualScheduleRequest
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
@@ -11,20 +11,20 @@ import team.comit.simtong.global.annotation.UseCase
 
 /**
  *
- * 개인 일정 추가 요청을 담당하는 AddScheduleUseCase
+ * 개인 일정 추가 요청을 담당하는 AddIndividualScheduleUseCase
  *
  * @author Chokyunghyeon
  * @date 2022/11/26
  * @version 1.0.0
  **/
 @UseCase
-class AddScheduleUseCase(
+class AddIndividualScheduleUseCase(
     private val commandSchedulePort: CommandSchedulePort,
     private val queryUserPort: ScheduleQueryUserPort,
     private val securityPort: ScheduleSecurityPort
 ) {
 
-    fun execute(request: AddScheduleRequest) {
+    fun execute(request: AddIndividualScheduleRequest) {
         val currentUserId = securityPort.getCurrentUserId()
         val (title, startAt, endAt, alarm) = request
 
