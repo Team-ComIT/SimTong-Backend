@@ -13,7 +13,7 @@ import team.comit.simtong.global.annotation.UseCase
 
 /**
  *
- * Admin의 로그인 기능을 담당하는 AdminSignInUseCase
+ * 관리자의 로그인 기능을 담당하는 AdminSignInUseCase
  *
  * @author Chokyunghyeon
  * @date 2022/10/04
@@ -30,7 +30,7 @@ class AdminSignInUseCase(
         val admin = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber)
             ?: throw UserNotFoundException.EXCEPTION
 
-        if (Authority.ROLE_ADMIN != admin.authority) {
+        if (admin.authority == Authority.ROLE_COMMON) {
             throw DifferentPermissionAccountException.EXCEPTION
         }
 
