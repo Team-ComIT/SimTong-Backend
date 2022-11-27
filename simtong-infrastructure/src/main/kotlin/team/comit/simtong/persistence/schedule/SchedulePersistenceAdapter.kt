@@ -4,6 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.schedule.model.Schedule
+import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.SchedulePort
 import team.comit.simtong.domain.schedule.vo.SpotSchedule
 import team.comit.simtong.persistence.schedule.mapper.ScheduleMapper
@@ -46,7 +47,7 @@ class SchedulePersistenceAdapter(
         )
     }
 
-    override fun querySchedulesByDateContains(date: LocalDate): List<SpotSchedule> {
+    override fun querySchedulesByMonthAndScope(date: LocalDate, scope: Scope): List<SpotSchedule> {
         val startDate = date.withDayOfMonth(1)
         val endDate = date.withDayOfMonth(date.lengthOfMonth())
 
@@ -64,8 +65,9 @@ class SchedulePersistenceAdapter(
             .join(spot)
             .on(schedule.spot.eq(spot))
             .where(
-                schedule.startAt.between(startDate, endDate)
-                    .or(schedule.endAt.between(startDate, endDate))
+                schedule.scope.eq(scope)
+                    .and(schedule.startAt.between(startDate, endDate)
+                        .or(schedule.endAt.between(startDate, endDate)))
             )
             .orderBy(schedule.startAt.asc())
             .fetch()
