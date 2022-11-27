@@ -9,7 +9,9 @@ import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.willDoNothing
 import org.mockito.kotlin.any
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.context.annotation.Import
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import team.comit.simtong.domain.DomainPropertiesInitialization
 import team.comit.simtong.domain.auth.exception.CertifiedEmailException
 import team.comit.simtong.domain.auth.exception.ExceededSendAuthCodeRequestException
 import team.comit.simtong.domain.auth.model.AuthCode
@@ -19,6 +21,7 @@ import team.comit.simtong.domain.auth.spi.CommandAuthCodePort
 import team.comit.simtong.domain.auth.spi.QueryAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.SendEmailPort
 
+@Import(DomainPropertiesInitialization::class)
 @ExtendWith(SpringExtension::class)
 class SendAuthCodeUseCaseTests {
 

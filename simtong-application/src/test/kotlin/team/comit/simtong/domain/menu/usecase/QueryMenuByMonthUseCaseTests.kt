@@ -7,7 +7,9 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.context.annotation.Import
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import team.comit.simtong.domain.DomainPropertiesInitialization
 import team.comit.simtong.domain.menu.model.Menu
 import team.comit.simtong.domain.menu.spi.MenuQueryUserPort
 import team.comit.simtong.domain.menu.spi.MenuSecurityPort
@@ -18,6 +20,7 @@ import team.comit.simtong.domain.user.model.User
 import java.time.LocalDate
 import java.util.*
 
+@Import(DomainPropertiesInitialization::class)
 @ExtendWith(SpringExtension::class)
 class QueryMenuByMonthUseCaseTests {
 

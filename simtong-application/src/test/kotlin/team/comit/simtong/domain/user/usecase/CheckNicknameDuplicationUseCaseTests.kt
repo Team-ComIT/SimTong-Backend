@@ -7,11 +7,13 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.context.annotation.Import
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import team.comit.simtong.domain.auth.exception.UsedEmailException
+import team.comit.simtong.domain.DomainPropertiesInitialization
 import team.comit.simtong.domain.auth.exception.UsedNicknameException
 import team.comit.simtong.domain.user.spi.QueryUserPort
 
+@Import(DomainPropertiesInitialization::class)
 @ExtendWith(SpringExtension::class)
 class CheckNicknameDuplicationUseCaseTests {
 

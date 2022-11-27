@@ -3,11 +3,7 @@ package team.comit.simtong.domain
 import team.comit.simtong.global.DomainProperties
 import team.comit.simtong.global.DomainPropertiesPrefix
 
-/**
- * 가장 처음 테스트되는 클래스에 Import
- * Domain Properties 초기화
- */
-class DomainPropertiesInitialization {
+object DomainPropertiesInitialization {
     init {
         DomainProperties.putAll(
             mapOf(

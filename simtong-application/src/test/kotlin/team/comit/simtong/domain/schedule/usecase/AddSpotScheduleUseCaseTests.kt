@@ -7,7 +7,9 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.context.annotation.Import
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import team.comit.simtong.domain.DomainPropertiesInitialization
 import team.comit.simtong.domain.schedule.dto.AddSpotScheduleRequest
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
@@ -19,6 +21,7 @@ import team.comit.simtong.domain.user.model.User
 import java.time.LocalDate
 import java.util.UUID
 
+@Import(DomainPropertiesInitialization::class)
 @ExtendWith(SpringExtension::class)
 class AddSpotScheduleUseCaseTests {
 

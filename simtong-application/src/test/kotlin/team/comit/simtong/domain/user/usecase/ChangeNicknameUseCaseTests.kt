@@ -7,7 +7,9 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.context.annotation.Import
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import team.comit.simtong.domain.DomainPropertiesInitialization
 import team.comit.simtong.domain.auth.exception.UsedNicknameException
 import team.comit.simtong.domain.user.dto.ChangeNicknameRequest
 import team.comit.simtong.domain.user.exception.UserNotFoundException
@@ -18,6 +20,7 @@ import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
 import java.util.UUID
 
+@Import(DomainPropertiesInitialization::class)
 @ExtendWith(SpringExtension::class)
 class ChangeNicknameUseCaseTests {
 
