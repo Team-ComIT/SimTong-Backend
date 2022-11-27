@@ -1,12 +1,12 @@
 package team.comit.simtong.domain.schedule.usecase
 
 import team.comit.simtong.domain.schedule.dto.ChangeIndividualScheduleRequest
+import team.comit.simtong.domain.schedule.exception.NotScheduleOwnerException
 import team.comit.simtong.domain.schedule.exception.ScheduleNotFoundException
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
-import team.comit.simtong.domain.spot.exception.DifferentSpotException
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.global.annotation.UseCase
 
@@ -36,8 +36,8 @@ class ChangeIndividualScheduleUseCase(
         val user = queryUserPort.queryUserById(currentUserId)
             ?: throw UserNotFoundException.EXCEPTION
 
-        if (user.spotId != schedule.spotId) {
-            throw DifferentSpotException.EXCEPTION
+        if (user.id != schedule.userId) {
+            throw NotScheduleOwnerException.EXCEPTION
         }
 
         commandSchedulePort.save(
