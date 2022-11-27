@@ -1,7 +1,9 @@
 package team.comit.simtong.domain.schedule.usecase
 
 import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
+import team.comit.simtong.domain.schedule.exception.NotScheduleOwnerException
 import team.comit.simtong.domain.schedule.exception.ScheduleNotFoundException
+import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
@@ -35,6 +37,10 @@ class ChangeSpotScheduleUseCase(
 
         val schedule = querySchedulePort.queryScheduleById(request.scheduleId)
             ?: throw ScheduleNotFoundException.EXCEPTION
+
+        if (schedule.scope != Scope.ENTIRE) {
+            throw NotScheduleOwnerException.EXCEPTION
+        }
 
         if (user.spotId != schedule.spotId && user.authority != Authority.ROLE_SUPER) {
             throw NotEnoughPermissionException.EXCEPTION

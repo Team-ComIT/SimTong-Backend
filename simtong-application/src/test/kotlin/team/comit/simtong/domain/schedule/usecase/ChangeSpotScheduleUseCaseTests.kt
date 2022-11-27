@@ -9,6 +9,7 @@ import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
+import team.comit.simtong.domain.schedule.exception.NotScheduleOwnerException
 import team.comit.simtong.domain.schedule.exception.ScheduleNotFoundException
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
@@ -88,7 +89,7 @@ class ChangeSpotScheduleUseCaseTests {
             email = "test@test.com",
             password = "test password",
             employeeNumber = 1234567890,
-            Authority.ROLE_ADMIN,
+            authority = Authority.ROLE_ADMIN,
             spotId = spotId,
             teamId = UUID.randomUUID(),
             profileImagePath = "test profile image"
@@ -110,6 +111,48 @@ class ChangeSpotScheduleUseCaseTests {
     }
 
     @Test
+    fun `지점 일정이 아님`() {
+        // given
+        val userStub = User(
+            id = userId,
+            nickname = "test nickname",
+            name = "test name",
+            email = "test@test.com",
+            password = "test password",
+            employeeNumber = 1234567890,
+            authority = Authority.ROLE_ADMIN,
+            spotId = spotId,
+            teamId = UUID.randomUUID(),
+            profileImagePath = "test profile image"
+        )
+
+        val individualScheduleStub = Schedule(
+            id = scheduleId,
+            userId = userId,
+            spotId = spotId,
+            title = "test title",
+            scope = Scope.INDIVIDUAL,
+            startAt = LocalDate.now(),
+            endAt = LocalDate.now(),
+            alarmTime = Schedule.DEFAULT_ALARM_TIME
+        )
+
+        given(securityPort.getCurrentUserId())
+            .willReturn(userId)
+
+        given(queryUserPort.queryUserById(userId))
+            .willReturn(userStub)
+
+        given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
+            .willReturn(individualScheduleStub)
+
+        // when & then
+        assertThrows<NotScheduleOwnerException> {
+            changeSpotScheduleUseCase.execute(requestStub)
+        }
+    }
+
+    @Test
     fun `권한이 부족함`() {
         // given
         val userStub = User(
@@ -119,7 +162,7 @@ class ChangeSpotScheduleUseCaseTests {
             email = "test@test.com",
             password = "test password",
             employeeNumber = 1234567890,
-            Authority.ROLE_ADMIN,
+            authority = Authority.ROLE_ADMIN,
             spotId = UUID.randomUUID(),
             teamId = UUID.randomUUID(),
             profileImagePath = "test profile image"
@@ -150,7 +193,7 @@ class ChangeSpotScheduleUseCaseTests {
             email = "test@test.com",
             password = "test password",
             employeeNumber = 1234567890,
-            Authority.ROLE_SUPER,
+            authority = Authority.ROLE_SUPER,
             spotId = UUID.randomUUID(),
             teamId = UUID.randomUUID(),
             profileImagePath = "test profile image"
@@ -181,7 +224,7 @@ class ChangeSpotScheduleUseCaseTests {
             email = "test@test.com",
             password = "test password",
             employeeNumber = 1234567890,
-            Authority.ROLE_ADMIN,
+            authority = Authority.ROLE_ADMIN,
             spotId = UUID.randomUUID(),
             teamId = UUID.randomUUID(),
             profileImagePath = "test profile image"
