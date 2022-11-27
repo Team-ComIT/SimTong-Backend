@@ -13,16 +13,19 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.schedule.dto.AddIndividualScheduleRequest
 import team.comit.simtong.domain.schedule.dto.AddSpotScheduleRequest
+import team.comit.simtong.domain.schedule.dto.ChangeIndividualScheduleRequest
 import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
 import team.comit.simtong.domain.schedule.dto.EntireSpotScheduleResponse
+import team.comit.simtong.domain.schedule.dto.request.AddIndividualScheduleWebRequest
 import team.comit.simtong.domain.schedule.dto.request.AddSpotScheduleWebRequest
+import team.comit.simtong.domain.schedule.dto.request.ChangeIndividualScheduleWebRequest
 import team.comit.simtong.domain.schedule.dto.request.ChangeSpotScheduleWebRequest
 import team.comit.simtong.domain.schedule.usecase.AddIndividualScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.AddSpotScheduleUseCase
+import team.comit.simtong.domain.schedule.usecase.ChangeIndividualScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.ChangeSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.EntireSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.RemoveSpotScheduleUseCase
-import team.comit.simtong.domain.schedule.dto.request.AddIndividualScheduleWebRequest
 import java.time.LocalDate
 import java.util.UUID
 import javax.validation.Valid
@@ -39,17 +42,34 @@ import javax.validation.Valid
 @RequestMapping("/schedules")
 class WebScheduleAdapter(
     private val addIndividualScheduleUseCase: AddIndividualScheduleUseCase,
+    private val changeIndividualScheduleUseCase: ChangeIndividualScheduleUseCase,
     private val entireSpotScheduleUseCase: EntireSpotScheduleUseCase,
     private val addSpotScheduleUseCase: AddSpotScheduleUseCase,
     private val changeSpotScheduleUseCase: ChangeSpotScheduleUseCase,
     private val removeSpotScheduleUseCase: RemoveSpotScheduleUseCase
 ) {
 
-    @GetMapping
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun addIndividualSchedule(@Valid @RequestBody request: AddIndividualScheduleWebRequest) {
         addIndividualScheduleUseCase.execute(
             AddIndividualScheduleRequest(
+                title = request.title,
+                startAt = request.startAt,
+                endAt = request.endAt,
+                alarm = request.alarm
+            )
+        )
+    }
+
+    @PutMapping("/{schedule-id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun changeIndividualSchedule(@PathVariable("schedule-id") scheduleId: UUID,
+                                 @Valid @RequestBody request: ChangeIndividualScheduleWebRequest
+    ) {
+        changeIndividualScheduleUseCase.execute(
+            ChangeIndividualScheduleRequest(
+                scheduleId = scheduleId,
                 title = request.title,
                 startAt = request.startAt,
                 endAt = request.endAt,
