@@ -2,6 +2,7 @@ package team.comit.simtong.domain.schedule.usecase
 
 import team.comit.simtong.domain.schedule.dto.EntireSpotScheduleResponse
 import team.comit.simtong.domain.schedule.dto.SpotScheduleResponse
+import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
 import java.time.LocalDate
@@ -20,7 +21,7 @@ class EntireSpotScheduleUseCase(
 ) {
 
     fun execute(date: LocalDate): EntireSpotScheduleResponse {
-        val list = querySchedulePort.querySchedulesByDateContains(date)
+        val list = querySchedulePort.querySchedulesByMonthAndScope(date, Scope.ENTIRE)
 
         val response = list.map {
             SpotScheduleResponse(

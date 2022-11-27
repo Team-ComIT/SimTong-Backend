@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.schedule.dto.EntireSpotScheduleResponse
 import team.comit.simtong.domain.schedule.dto.SpotScheduleResponse
+import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.vo.SpotSchedule
 import java.time.LocalDate
@@ -62,7 +63,7 @@ class EntireSpotScheduleUseCaseTests {
     @Test
     fun `전체 지점 일정 조회 성공`() {
         // given
-        given(querySchedulePort.querySchedulesByDateContains(date))
+        given(querySchedulePort.querySchedulesByMonthAndScope(date, Scope.ENTIRE))
             .willReturn(spotScheduleListStub)
 
         // when
