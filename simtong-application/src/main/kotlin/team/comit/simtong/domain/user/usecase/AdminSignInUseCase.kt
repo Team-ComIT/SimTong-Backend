@@ -30,7 +30,7 @@ class AdminSignInUseCase(
         val admin = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber)
             ?: throw UserNotFoundException.EXCEPTION
 
-        if (admin.authority == Authority.ROLE_COMMON) {
+        if (Authority.ROLE_COMMON == admin.authority) {
             throw DifferentPermissionAccountException.EXCEPTION
         }
 
