@@ -15,6 +15,9 @@ enum class SpotErrorCode(
     private val message: String
 ) : ErrorProperty {
 
+    // 403
+    DIFFERENT_SPOT(403, "서로 지점이 다름"),
+
     // 404
     SPOT_NOT_FOUND(404, "지점을 찾을 수 없음");
 
