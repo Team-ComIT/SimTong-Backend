@@ -38,12 +38,11 @@ class ChangeSpotScheduleUseCase(
         val schedule = querySchedulePort.queryScheduleById(request.scheduleId)
             ?: throw ScheduleNotFoundException.EXCEPTION
 
-        if (schedule.scope != Scope.ENTIRE) {
-            throw NotScheduleOwnerException.EXCEPTION
-        }
+        when {
+            Scope.ENTIRE != schedule.scope -> throw NotScheduleOwnerException.EXCEPTION
 
-        if (user.spotId != schedule.spotId && user.authority != Authority.ROLE_SUPER) {
-            throw NotEnoughPermissionException.EXCEPTION
+            user.spotId != schedule.spotId &&
+                Authority.ROLE_SUPER != user.authority -> throw NotEnoughPermissionException.EXCEPTION
         }
 
         commandSchedulePort.save(
