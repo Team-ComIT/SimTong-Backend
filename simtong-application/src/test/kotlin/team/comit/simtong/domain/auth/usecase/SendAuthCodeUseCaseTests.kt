@@ -4,12 +4,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.willDoNothing
 import org.mockito.kotlin.any
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.exception.CertifiedEmailException
 import team.comit.simtong.domain.auth.exception.ExceededSendAuthCodeRequestException
 import team.comit.simtong.domain.auth.model.AuthCode
@@ -18,8 +16,9 @@ import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.CommandAuthCodePort
 import team.comit.simtong.domain.auth.spi.QueryAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.SendEmailPort
+import team.comit.simtong.global.annotation.SimtongTest
 
-@ExtendWith(SpringExtension::class)
+@SimtongTest
 class SendAuthCodeUseCaseTests {
 
     @MockBean

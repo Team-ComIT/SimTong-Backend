@@ -4,19 +4,19 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.test.context.junit.jupiter.SpringExtension
+import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.auth.exception.RefreshTokenNotFoundException
 import team.comit.simtong.domain.auth.model.RefreshToken
-import team.comit.simtong.domain.auth.spi.QueryRefreshTokenPort
 import team.comit.simtong.domain.auth.spi.JwtPort
-import team.comit.simtong.domain.auth.dto.TokenResponse
+import team.comit.simtong.domain.auth.spi.QueryRefreshTokenPort
 import team.comit.simtong.domain.user.model.Authority
-import java.util.*
+import team.comit.simtong.global.annotation.SimtongTest
+import java.util.Date
+import java.util.UUID
 
-@ExtendWith(SpringExtension::class)
+@SimtongTest
 class ReissueTokenUseCaseTests {
 
     @MockBean

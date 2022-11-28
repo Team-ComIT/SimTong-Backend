@@ -4,11 +4,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.schedule.dto.ChangeIndividualScheduleRequest
 import team.comit.simtong.domain.schedule.exception.NotScheduleOwnerException
 import team.comit.simtong.domain.schedule.exception.ScheduleNotFoundException
@@ -21,11 +19,12 @@ import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
+import team.comit.simtong.global.annotation.SimtongTest
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.UUID
 
-@ExtendWith(SpringExtension::class)
+@SimtongTest
 class ChangeIndividualScheduleUseCaseTest {
 
     @MockBean

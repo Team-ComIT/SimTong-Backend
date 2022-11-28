@@ -4,10 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.auth.exception.RequiredNewEmailAuthenticationException
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
@@ -27,9 +25,10 @@ import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.UserQuerySpotPort
 import team.comit.simtong.domain.user.spi.UserQueryTeamPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
+import team.comit.simtong.global.annotation.SimtongTest
 import java.util.*
 
-@ExtendWith(SpringExtension::class)
+@SimtongTest
 class SignUpUseCaseTests {
 
     @MockBean

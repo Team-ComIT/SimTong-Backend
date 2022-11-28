@@ -4,18 +4,17 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.test.context.junit.jupiter.SpringExtension
+import team.comit.simtong.domain.user.dto.FindEmployeeNumberRequest
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.QueryUserPort
-import team.comit.simtong.domain.user.dto.FindEmployeeNumberRequest
-import java.util.*
+import team.comit.simtong.global.annotation.SimtongTest
+import java.util.UUID
 
-@ExtendWith(SpringExtension::class)
+@SimtongTest
 class FindEmployeeNumberUseCaseTests {
 
     @MockBean

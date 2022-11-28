@@ -4,15 +4,14 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.user.dto.CheckMatchedAccountRequest
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.spi.QueryUserPort
+import team.comit.simtong.global.annotation.SimtongTest
 
-@ExtendWith(SpringExtension::class)
+@SimtongTest
 class CheckMatchedAccountUseCaseTests {
 
     @MockBean

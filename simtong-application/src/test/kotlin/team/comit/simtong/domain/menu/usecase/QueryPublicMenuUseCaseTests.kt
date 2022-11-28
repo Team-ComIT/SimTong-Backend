@@ -3,16 +3,15 @@ package team.comit.simtong.domain.menu.usecase
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.menu.model.Menu
 import team.comit.simtong.domain.menu.spi.QueryMenuPort
+import team.comit.simtong.global.annotation.SimtongTest
 import java.time.LocalDate
-import java.util.*
+import java.util.UUID
 
-@ExtendWith(SpringExtension::class)
+@SimtongTest
 class QueryPublicMenuUseCaseTests {
 
     @MockBean
