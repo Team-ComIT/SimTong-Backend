@@ -1,4 +1,4 @@
-package team.comit.simtong.domain
+package team.comit.simtong.global
 
 import team.comit.simtong.global.DomainProperties
 import team.comit.simtong.global.DomainPropertiesPrefix

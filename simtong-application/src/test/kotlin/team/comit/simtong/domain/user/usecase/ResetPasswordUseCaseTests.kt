@@ -4,12 +4,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.context.annotation.Import
-import org.springframework.test.context.junit.jupiter.SpringExtension
-import team.comit.simtong.domain.DomainPropertiesInitialization
 import team.comit.simtong.domain.auth.exception.RequiredNewEmailAuthenticationException
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
@@ -21,10 +17,10 @@ import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
+import team.comit.simtong.global.annotation.SimtongTest
 import java.util.UUID
 
-@Import(DomainPropertiesInitialization::class)
-@ExtendWith(SpringExtension::class)
+@SimtongTest
 class ResetPasswordUseCaseTests {
 
     @MockBean

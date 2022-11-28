@@ -4,18 +4,14 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.context.annotation.Import
-import org.springframework.test.context.junit.jupiter.SpringExtension
-import team.comit.simtong.domain.DomainPropertiesInitialization
 import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
 import team.comit.simtong.domain.file.spi.UploadFilePort
+import team.comit.simtong.global.annotation.SimtongTest
 import java.io.File
 
-@Import(DomainPropertiesInitialization::class)
-@ExtendWith(SpringExtension::class)
+@SimtongTest
 class UploadImageUseCaseTests {
 
     @MockBean

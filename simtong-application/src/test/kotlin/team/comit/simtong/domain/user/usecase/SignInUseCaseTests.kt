@@ -4,12 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.context.annotation.Import
-import org.springframework.test.context.junit.jupiter.SpringExtension
-import team.comit.simtong.domain.DomainPropertiesInitialization
 import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.user.dto.SignInRequest
 import team.comit.simtong.domain.user.exception.DifferentPasswordException
@@ -20,10 +16,10 @@ import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserJwtPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
+import team.comit.simtong.global.annotation.SimtongTest
 import java.util.*
 
-@Import(DomainPropertiesInitialization::class)
-@ExtendWith(SpringExtension::class)
+@SimtongTest
 class SignInUseCaseTests {
 
     @MockBean
