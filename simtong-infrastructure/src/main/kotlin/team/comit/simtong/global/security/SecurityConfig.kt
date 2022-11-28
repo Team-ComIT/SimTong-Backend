@@ -108,7 +108,7 @@ class SecurityConfig(
                     allowCredentials = true
                     allowedOriginPatterns = listOf("*")
                     allowedHeaders = listOf("*")
-                    allowedOrigins = listOf("*")
+                    allowedMethods = listOf("*")
                 }
             )
         }
