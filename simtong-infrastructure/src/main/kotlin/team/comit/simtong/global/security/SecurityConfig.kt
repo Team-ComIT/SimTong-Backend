@@ -36,7 +36,7 @@ class SecurityConfig(
     @Bean
     protected fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
-            .cors().and()
+            .cors().configurationSource(corsConfiguration()).and()
             .csrf().disable()
             .formLogin().disable()
 
