@@ -1,5 +1,7 @@
 package team.comit.simtong.domain.spot.model
 
+import team.comit.simtong.global.DomainProperties
+import team.comit.simtong.global.DomainPropertiesPrefix
 import team.comit.simtong.global.annotation.Aggregate
 import java.util.UUID
 
@@ -18,4 +20,9 @@ data class Spot(
     val name: String,
 
     val location: String
-)
+) {
+    companion object {
+        @JvmField
+        val HEAD_SHOP = DomainProperties.getProperty(DomainPropertiesPrefix.HEAD_SHOP)
+    }
+}
