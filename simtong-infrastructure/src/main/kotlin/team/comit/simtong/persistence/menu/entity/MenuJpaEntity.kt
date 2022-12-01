@@ -4,6 +4,7 @@ import team.comit.simtong.persistence.spot.entity.SpotJpaEntity
 import javax.persistence.EmbeddedId
 import javax.persistence.Entity
 import javax.persistence.FetchType
+import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.MapsId
 import javax.persistence.Table
@@ -27,8 +28,8 @@ class MenuJpaEntity(
     @field:NotNull
     val meal: String,
 
-    @field:NotNull
     @MapsId("spotId")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "spot_id", columnDefinition = "BINARY(16)", nullable = false)
     val spot: SpotJpaEntity
 )
