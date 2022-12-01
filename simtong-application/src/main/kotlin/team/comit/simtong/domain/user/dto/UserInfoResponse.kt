@@ -13,7 +13,7 @@ data class UserInfoResponse (
 
     val email: String,
 
-    val nickName: String,
+    val nickname: String,
 
     val spot: String,
 
