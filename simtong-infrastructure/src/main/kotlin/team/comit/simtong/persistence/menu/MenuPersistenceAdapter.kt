@@ -27,7 +27,7 @@ class MenuPersistenceAdapter(
     override fun queryMenuBySpotId(year: Int, month: Int, spotId: UUID): List<Menu> {
         return queryFactory
             .selectFrom(menuJpaEntity)
-            .leftJoin(menuJpaEntity.spot, spotJpaEntity)
+            .join(menuJpaEntity.spot, spotJpaEntity)
             .on(spotJpaEntity.id.eq(spotId))
             .where(
                 yearEq(year),
@@ -42,7 +42,7 @@ class MenuPersistenceAdapter(
     override fun queryMenuBySpotName(year: Int, month: Int, spotName: String): List<Menu> {
         return queryFactory
             .selectFrom(menuJpaEntity)
-            .leftJoin(menuJpaEntity.spot, spotJpaEntity)
+            .join(menuJpaEntity.spot, spotJpaEntity)
             .on(spotJpaEntity.name.eq(spotName))
             .where(
                 yearEq(year),
