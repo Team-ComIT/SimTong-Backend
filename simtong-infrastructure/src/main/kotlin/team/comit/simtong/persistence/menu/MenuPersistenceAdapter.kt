@@ -43,7 +43,7 @@ class MenuPersistenceAdapter(
         return queryFactory
             .selectFrom(menuJpaEntity)
             .leftJoin(menuJpaEntity.spot, spotJpaEntity)
-            .on(spotJpaEntity.name.contains(spotName))
+            .on(spotJpaEntity.name.eq(spotName))
             .where(
                 yearEq(year),
                 monthEq(month)
