@@ -12,7 +12,6 @@ data class MenuId(
     @Column(name = "spot_id", columnDefinition = "BINARY(16)")
     val spotId: UUID,
 
-    @Column(name = "")
     val date: LocalDate
 
 ) : Serializable
