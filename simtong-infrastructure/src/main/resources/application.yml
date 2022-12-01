@@ -25,6 +25,8 @@ domain:
       exp: ${AUTHCODELIMIT_EXP:1234567890}
       verified-exp: ${AUTHCODELIMIT_VERIFIED_EXP:1234567890}
       max-attempt-count: ${AUTHCODELIMIT_MAX_ATTEMPT_COUNT:12345}
+    spot:
+      head: ${HEAD_SPOT:본점}
 
 
 logging:

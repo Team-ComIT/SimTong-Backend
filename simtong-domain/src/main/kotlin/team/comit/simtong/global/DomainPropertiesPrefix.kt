@@ -21,4 +21,7 @@ object DomainPropertiesPrefix {
     const val AUTHCODELIMIT_VERIFIED_EXP = "authcodelimit.verified-exp"
     const val AUTHCODELIMIT_MAX_ATTEMPT_COUNT = "authcodelimit.max-attempt-count"
 
+    // spot
+    const val HEAD_SHOP = "spot.head"
+
 }

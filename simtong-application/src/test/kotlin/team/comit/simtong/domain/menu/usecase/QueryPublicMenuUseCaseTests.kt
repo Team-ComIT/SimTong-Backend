@@ -7,6 +7,7 @@ import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.menu.model.Menu
 import team.comit.simtong.domain.menu.spi.QueryMenuPort
+import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.global.annotation.SimtongTest
 import java.time.LocalDate
 import java.util.UUID
@@ -44,7 +45,7 @@ class QueryPublicMenuUseCaseTests {
     fun `메뉴 조회 성공`() {
         // given
         val now = LocalDate.now()
-        given(queryMenuPort.queryMenuBySpotName(now.year, now.monthValue, "은행동 본점"))
+        given(queryMenuPort.queryMenuBySpotName(now.year, now.monthValue, Spot.HEAD_SHOP))
             .willReturn(
                 listOf(menuStub, menuStub2)
             )

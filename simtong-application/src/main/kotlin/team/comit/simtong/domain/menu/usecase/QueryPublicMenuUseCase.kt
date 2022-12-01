@@ -2,6 +2,7 @@ package team.comit.simtong.domain.menu.usecase
 
 import team.comit.simtong.domain.menu.dto.MenuResponse
 import team.comit.simtong.domain.menu.spi.QueryMenuPort
+import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
 import java.time.LocalDate
 
@@ -19,14 +20,10 @@ class QueryPublicMenuUseCase(
 ) {
 
     fun execute(today: LocalDate): MenuResponse {
-        val menu = queryMenuPort.queryMenuBySpotName(today.year, today.monthValue, HEAD_SHOP)
+        val menu = queryMenuPort.queryMenuBySpotName(today.year, today.monthValue, Spot.HEAD_SHOP)
         val result = menu.map { MenuResponse.MenuElement(it.date, it.meal) }
 
         return MenuResponse(result)
-    }
-
-    companion object {
-        private const val HEAD_SHOP = "은행동 본점"
     }
 
 }
