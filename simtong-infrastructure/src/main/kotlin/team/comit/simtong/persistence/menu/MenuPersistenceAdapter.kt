@@ -7,13 +7,14 @@ import team.comit.simtong.domain.menu.spi.MenuPort
 import team.comit.simtong.persistence.menu.entity.QMenuJpaEntity.menuJpaEntity
 import team.comit.simtong.persistence.menu.mapper.MenuMapper
 import team.comit.simtong.persistence.spot.entity.QSpotJpaEntity.spotJpaEntity
-import java.util.*
+import java.util.UUID
 
 /**
  *
  * Menu의 영속성을 관리하는 MenuPersistenceAdapter
  *
  * @author kimbeomjin
+ * @author Chokyunghyeon
  * @date 2022/09/20
  * @version 1.0.0
  **/
@@ -42,10 +43,10 @@ class MenuPersistenceAdapter(
         return queryFactory
             .selectFrom(menuJpaEntity)
             .leftJoin(menuJpaEntity.spot, spotJpaEntity)
+            .on(spotJpaEntity.name.eq(spotName))
             .where(
                 yearEq(year),
-                monthEq(month),
-                spotJpaEntity.name.eq(spotName)
+                monthEq(month)
             )
             .fetch()
             .map {
@@ -53,8 +54,8 @@ class MenuPersistenceAdapter(
             }
     }
 
-    private fun yearEq(year: Int) = menuJpaEntity.date.year().eq(year)
+    private fun yearEq(year: Int) = menuJpaEntity.id.date.year().eq(year)
 
-    private fun monthEq(month: Int) = menuJpaEntity.date.month().eq(month)
+    private fun monthEq(month: Int) = menuJpaEntity.id.date.month().eq(month)
 
 }

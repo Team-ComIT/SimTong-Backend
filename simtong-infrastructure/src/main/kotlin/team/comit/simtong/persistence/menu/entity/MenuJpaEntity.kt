@@ -1,12 +1,11 @@
 package team.comit.simtong.persistence.menu.entity
 
 import team.comit.simtong.persistence.spot.entity.SpotJpaEntity
-import java.time.LocalDate
+import javax.persistence.EmbeddedId
 import javax.persistence.Entity
 import javax.persistence.FetchType
-import javax.persistence.Id
-import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import javax.persistence.MapsId
 import javax.persistence.Table
 import javax.validation.constraints.NotNull
 
@@ -22,14 +21,14 @@ import javax.validation.constraints.NotNull
 @Table(name = "tbl_menu")
 class MenuJpaEntity(
 
-    @Id
-    val date: LocalDate,
+    @EmbeddedId
+    val id: MenuId,
 
     @field:NotNull
     val meal: String,
 
     @field:NotNull
+    @MapsId("spotId")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "spot_id", columnDefinition = "BINARY(16)")
     val spot: SpotJpaEntity
 )
