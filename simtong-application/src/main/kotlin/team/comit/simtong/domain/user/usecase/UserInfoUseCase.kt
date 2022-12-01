@@ -32,7 +32,7 @@ class UserInfoUseCase(
         return UserInfoResponse(
             name = user.name,
             email = user.email,
-            nickName = user.nickname,
+            nickname = user.nickname,
             spot = spot.name,
             profileImagePath = user.profileImagePath
         )

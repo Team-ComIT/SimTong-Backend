@@ -8,6 +8,7 @@ import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.spot.exception.SpotNotFoundException
 import team.comit.simtong.domain.spot.model.Spot
+import team.comit.simtong.domain.user.dto.UserInfoResponse
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -64,6 +65,16 @@ class UserInfoUseCaseTests {
         )
     }
 
+    private val responseStub: UserInfoResponse by lazy {
+        UserInfoResponse(
+            name = name,
+            email = email,
+            nickname = nickname,
+            spot = spotStub.name,
+            profileImagePath = profileImagePath
+        )
+    }
+
     @BeforeEach
     fun setUp() {
         userInfoUseCase = UserInfoUseCase(
@@ -86,14 +97,10 @@ class UserInfoUseCaseTests {
             .willReturn(spotStub)
 
         // when
-        val result = userInfoUseCase.execute()
+        val response = userInfoUseCase.execute()
 
         // then
-        assertEquals(result.name, name)
-        assertEquals(result.email, email)
-        assertEquals(result.nickName, nickname)
-        assertEquals(result.spot, name)
-        assertEquals(result.profileImagePath, profileImagePath)
+        assertEquals(responseStub, response)
     }
 
     @Test
