@@ -1,5 +1,6 @@
 package team.comit.simtong.persistence.schedule
 
+import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
@@ -30,9 +31,9 @@ class SchedulePersistenceAdapter(
 ) : SchedulePort {
 
     override fun save(schedule: Schedule) = scheduleMapper.toDomain(
-       scheduleJpaRepository.save(
-           scheduleMapper.toEntity(schedule)
-       )
+        scheduleJpaRepository.save(
+            scheduleMapper.toEntity(schedule)
+        )
     )!!
 
     override fun delete(schedule: Schedule) {
@@ -48,9 +49,6 @@ class SchedulePersistenceAdapter(
     }
 
     override fun querySchedulesByMonthAndScope(date: LocalDate, scope: Scope): List<SpotSchedule> {
-        val startDate = date.withDayOfMonth(1)
-        val endDate = date.withDayOfMonth(date.lengthOfMonth())
-
         return queryFactory
             .select(
                 QSpotScheduleVo(
@@ -60,17 +58,49 @@ class SchedulePersistenceAdapter(
                     schedule.endAt,
                     spot.id,
                     spot.name
-                ))
+                )
+            )
             .from(schedule)
             .join(spot)
             .on(schedule.spot.eq(spot))
             .where(
-                schedule.scope.eq(scope)
-                    .and(schedule.startAt.between(startDate, endDate)
-                        .or(schedule.endAt.between(startDate, endDate)))
+                schedule.scope.eq(scope),
+                dateFilter(date)
             )
             .orderBy(schedule.startAt.asc())
             .fetch()
     }
 
+    override fun querySchedulesByMonthAndSpotId(date: LocalDate, spotId: UUID): List<Schedule> {
+        return queryFactory
+            .selectFrom(schedule)
+            .join(spot)
+            .on(schedule.spot.id.eq(spotId))
+            .where(
+                dateFilter(date)
+            )
+            .orderBy(schedule.startAt.asc())
+            .fetch()
+            .map { scheduleMapper.toDomain(it)!! }
+    }
+
+    override fun querySchedulesByMonthAndUserId(date: LocalDate, userId: UUID): List<Schedule> {
+        return queryFactory
+            .selectFrom(schedule)
+            .where(
+                schedule.user.id.eq(userId),
+                dateFilter(date)
+            )
+            .orderBy(schedule.startAt.asc())
+            .fetch()
+            .map { scheduleMapper.toDomain(it)!! }
+    }
+
+    private fun dateFilter(date: LocalDate): BooleanExpression {
+        val startDate = date.withDayOfMonth(1)
+        val endDate = date.withDayOfMonth(date.lengthOfMonth())
+
+        return schedule.startAt.between(startDate, endDate)
+            .or(schedule.endAt.between(startDate, endDate))
+    }
 }
