@@ -79,6 +79,7 @@ class SecurityConfig(
 
             // schedules
             .antMatchers(HttpMethod.POST, "/schedules").hasRole(ROLE_COMMON.role)
+            .antMatchers(HttpMethod.GET, "/schedules").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.PUT, "/schedules/{schedule-id}").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.GET, "/schedules/spots").hasAnyRole(ROLE_ADMIN.role, ROLE_SUPER.role)
             .antMatchers(HttpMethod.POST, "/schedules/spots/{spot-id}").hasAnyRole(ROLE_ADMIN.role, ROLE_SUPER.role)

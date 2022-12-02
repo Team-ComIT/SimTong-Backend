@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.schedule.dto.EntireSpotScheduleResponse
+import team.comit.simtong.domain.schedule.dto.QueryEntireSpotScheduleResponse
 import team.comit.simtong.domain.schedule.dto.SpotScheduleResponse
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
@@ -15,12 +15,12 @@ import java.time.LocalDate
 import java.util.UUID
 
 @SimtongTest
-class EntireSpotScheduleUseCaseTests {
+class QueryEntireSpotScheduleUseCaseTests {
 
     @MockBean
     private lateinit var querySchedulePort: QuerySchedulePort
 
-    private lateinit var entireSpotScheduleUseCase: EntireSpotScheduleUseCase
+    private lateinit var queryEntireSpotScheduleUseCase: QueryEntireSpotScheduleUseCase
 
     private val date: LocalDate = LocalDate.now()
 
@@ -37,8 +37,8 @@ class EntireSpotScheduleUseCaseTests {
         )
     )
 
-    private val responseStub: EntireSpotScheduleResponse by lazy {
-        EntireSpotScheduleResponse(
+    private val responseStub: QueryEntireSpotScheduleResponse by lazy {
+        QueryEntireSpotScheduleResponse(
             listOf(
                 SpotScheduleResponse(
                     id = uuid,
@@ -56,7 +56,7 @@ class EntireSpotScheduleUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        entireSpotScheduleUseCase = EntireSpotScheduleUseCase(querySchedulePort)
+        queryEntireSpotScheduleUseCase = QueryEntireSpotScheduleUseCase(querySchedulePort)
     }
 
     @Test
@@ -66,7 +66,7 @@ class EntireSpotScheduleUseCaseTests {
             .willReturn(spotScheduleListStub)
 
         // when
-        val response = entireSpotScheduleUseCase.execute(date)
+        val response = queryEntireSpotScheduleUseCase.execute(date)
 
         // then
         assertEquals(response, responseStub)

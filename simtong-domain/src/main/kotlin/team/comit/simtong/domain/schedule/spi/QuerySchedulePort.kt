@@ -20,4 +20,8 @@ interface QuerySchedulePort {
 
     fun querySchedulesByMonthAndScope(date: LocalDate, scope: Scope): List<SpotSchedule>
 
+    fun querySchedulesByMonthAndSpotIdAndScope(date: LocalDate, spotId: UUID, scope: Scope): List<Schedule>
+
+    fun querySchedulesByMonthAndUserIdAndScope(date: LocalDate, userId: UUID, scope: Scope): List<Schedule>
+
 }
