@@ -16,6 +16,7 @@ import team.comit.simtong.domain.schedule.dto.AddSpotScheduleRequest
 import team.comit.simtong.domain.schedule.dto.ChangeIndividualScheduleRequest
 import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
 import team.comit.simtong.domain.schedule.dto.QueryEntireSpotScheduleResponse
+import team.comit.simtong.domain.schedule.dto.QueryIndividualSpotScheduleResponse
 import team.comit.simtong.domain.schedule.dto.request.AddIndividualScheduleWebRequest
 import team.comit.simtong.domain.schedule.dto.request.AddSpotScheduleWebRequest
 import team.comit.simtong.domain.schedule.dto.request.ChangeIndividualScheduleWebRequest
@@ -25,10 +26,12 @@ import team.comit.simtong.domain.schedule.usecase.AddSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.ChangeIndividualScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.ChangeSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.QueryEntireSpotScheduleUseCase
+import team.comit.simtong.domain.schedule.usecase.QueryIndividualSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.RemoveSpotScheduleUseCase
 import java.time.LocalDate
 import java.util.UUID
 import javax.validation.Valid
+import javax.validation.constraints.NotNull
 
 /**
  *
@@ -46,7 +49,8 @@ class WebScheduleAdapter(
     private val queryEntireSpotScheduleUseCase: QueryEntireSpotScheduleUseCase,
     private val addSpotScheduleUseCase: AddSpotScheduleUseCase,
     private val changeSpotScheduleUseCase: ChangeSpotScheduleUseCase,
-    private val removeSpotScheduleUseCase: RemoveSpotScheduleUseCase
+    private val removeSpotScheduleUseCase: RemoveSpotScheduleUseCase,
+    private val queryIndividualSpotScheduleUseCase: QueryIndividualSpotScheduleUseCase
 ) {
 
     @PostMapping
@@ -64,8 +68,9 @@ class WebScheduleAdapter(
 
     @PutMapping("/{schedule-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun changeIndividualSchedule(@PathVariable("schedule-id") scheduleId: UUID,
-                                 @Valid @RequestBody request: ChangeIndividualScheduleWebRequest
+    fun changeIndividualSchedule(
+        @PathVariable("schedule-id") scheduleId: UUID,
+        @Valid @RequestBody request: ChangeIndividualScheduleWebRequest
     ) {
         changeIndividualScheduleUseCase.execute(
             ChangeIndividualScheduleRequest(
@@ -78,15 +83,21 @@ class WebScheduleAdapter(
         )
     }
 
+    @GetMapping
+    fun queryIndividualSpotSchedule(@RequestParam @NotNull date: LocalDate): QueryIndividualSpotScheduleResponse {
+        return queryIndividualSpotScheduleUseCase.execute(date)
+    }
+
     @GetMapping("/spots")
-    fun entireSpotSchedule(@RequestParam date: LocalDate) : QueryEntireSpotScheduleResponse {
+    fun entireSpotSchedule(@RequestParam @NotNull date: LocalDate): QueryEntireSpotScheduleResponse {
         return queryEntireSpotScheduleUseCase.execute(date)
     }
 
     @PostMapping("/spots/{spot-id}")
     @ResponseStatus(HttpStatus.CREATED)
-    fun addSpotSchedule(@PathVariable("spot-id") spotId: UUID,
-                        @Valid @RequestBody request: AddSpotScheduleWebRequest
+    fun addSpotSchedule(
+        @PathVariable("spot-id") spotId: UUID,
+        @Valid @RequestBody request: AddSpotScheduleWebRequest
     ) {
         addSpotScheduleUseCase.execute(
             AddSpotScheduleRequest(
@@ -100,8 +111,9 @@ class WebScheduleAdapter(
 
     @PutMapping("/spots/{schedule-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun changeSpotSchedule(@PathVariable("schedule-id") scheduleId: UUID,
-                           @Valid @RequestBody request: ChangeSpotScheduleWebRequest
+    fun changeSpotSchedule(
+        @PathVariable("schedule-id") scheduleId: UUID,
+        @Valid @RequestBody request: ChangeSpotScheduleWebRequest
     ) {
         changeSpotScheduleUseCase.execute(
             ChangeSpotScheduleRequest(
