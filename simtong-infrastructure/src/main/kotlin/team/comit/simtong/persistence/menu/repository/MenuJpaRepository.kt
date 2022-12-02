@@ -2,8 +2,8 @@ package team.comit.simtong.persistence.menu.repository
 
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
+import team.comit.simtong.persistence.menu.entity.MenuId
 import team.comit.simtong.persistence.menu.entity.MenuJpaEntity
-import java.time.LocalDate
 
 /**
  *
@@ -14,5 +14,5 @@ import java.time.LocalDate
  * @version 1.0.0
  **/
 @Repository
-interface MenuJpaRepository : CrudRepository<MenuJpaEntity, LocalDate> {
+interface MenuJpaRepository : CrudRepository<MenuJpaEntity, MenuId> {
 }
