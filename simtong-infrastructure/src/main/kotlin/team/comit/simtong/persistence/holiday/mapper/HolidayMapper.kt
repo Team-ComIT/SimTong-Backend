@@ -10,6 +10,14 @@ import team.comit.simtong.persistence.holiday.entity.HolidayJpaEntity
 import team.comit.simtong.persistence.spot.SpotJpaRepository
 import team.comit.simtong.persistence.user.repository.UserJpaRepository
 
+/**
+ *
+ * 휴무일 엔티티와 도메인 휴무일 변환을 담당하는 HolidayMapper
+ *
+ * @author Chokyunghyeon
+ * @date 2022/12/02
+ * @version 1.0.0
+ **/
 @Mapper
 abstract class HolidayMapper : GenericMapper<HolidayJpaEntity, Holiday> {
 
