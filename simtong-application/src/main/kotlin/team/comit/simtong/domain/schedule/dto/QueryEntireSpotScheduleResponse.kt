@@ -5,13 +5,13 @@ import java.util.UUID
 
 /**
  *
- * 모든 지점 일정 조회 정보를 전송하는 EntireSpotScheduleResponse
+ * 모든 지점 일정 조회 정보를 전송하는 QueryEntireSpotScheduleResponse
  *
  * @author Chokyunghyeon
  * @date 2022/11/26
  * @version 1.0.0
  **/
-data class EntireSpotScheduleResponse(
+data class QueryEntireSpotScheduleResponse(
     val schedules: List<SpotScheduleResponse>
 )
 

@@ -15,7 +15,7 @@ import team.comit.simtong.domain.schedule.dto.AddIndividualScheduleRequest
 import team.comit.simtong.domain.schedule.dto.AddSpotScheduleRequest
 import team.comit.simtong.domain.schedule.dto.ChangeIndividualScheduleRequest
 import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
-import team.comit.simtong.domain.schedule.dto.EntireSpotScheduleResponse
+import team.comit.simtong.domain.schedule.dto.QueryEntireSpotScheduleResponse
 import team.comit.simtong.domain.schedule.dto.request.AddIndividualScheduleWebRequest
 import team.comit.simtong.domain.schedule.dto.request.AddSpotScheduleWebRequest
 import team.comit.simtong.domain.schedule.dto.request.ChangeIndividualScheduleWebRequest
@@ -24,7 +24,7 @@ import team.comit.simtong.domain.schedule.usecase.AddIndividualScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.AddSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.ChangeIndividualScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.ChangeSpotScheduleUseCase
-import team.comit.simtong.domain.schedule.usecase.EntireSpotScheduleUseCase
+import team.comit.simtong.domain.schedule.usecase.QueryEntireSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.RemoveSpotScheduleUseCase
 import java.time.LocalDate
 import java.util.UUID
@@ -43,7 +43,7 @@ import javax.validation.Valid
 class WebScheduleAdapter(
     private val addIndividualScheduleUseCase: AddIndividualScheduleUseCase,
     private val changeIndividualScheduleUseCase: ChangeIndividualScheduleUseCase,
-    private val entireSpotScheduleUseCase: EntireSpotScheduleUseCase,
+    private val queryEntireSpotScheduleUseCase: QueryEntireSpotScheduleUseCase,
     private val addSpotScheduleUseCase: AddSpotScheduleUseCase,
     private val changeSpotScheduleUseCase: ChangeSpotScheduleUseCase,
     private val removeSpotScheduleUseCase: RemoveSpotScheduleUseCase
@@ -79,8 +79,8 @@ class WebScheduleAdapter(
     }
 
     @GetMapping("/spots")
-    fun entireSpotSchedule(@RequestParam date: LocalDate) : EntireSpotScheduleResponse {
-        return entireSpotScheduleUseCase.execute(date)
+    fun entireSpotSchedule(@RequestParam date: LocalDate) : QueryEntireSpotScheduleResponse {
+        return queryEntireSpotScheduleUseCase.execute(date)
     }
 
     @PostMapping("/spots/{spot-id}")

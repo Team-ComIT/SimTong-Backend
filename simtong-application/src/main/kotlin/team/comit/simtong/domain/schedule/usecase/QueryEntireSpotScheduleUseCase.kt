@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.schedule.usecase
 
-import team.comit.simtong.domain.schedule.dto.EntireSpotScheduleResponse
+import team.comit.simtong.domain.schedule.dto.QueryEntireSpotScheduleResponse
 import team.comit.simtong.domain.schedule.dto.SpotScheduleResponse
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
@@ -9,18 +9,18 @@ import java.time.LocalDate
 
 /**
  *
- * 모든 지점 일정 조회 요청을 담당하는 QuerySpotScheduleUseCase
+ * 모든 지점 일정 조회 요청을 담당하는 QueryEntireSpotScheduleUseCase
  *
  * @author Chokyunghyeon
  * @date 2022/11/26
  * @version 1.0.0
  **/
 @ReadOnlyUseCase
-class EntireSpotScheduleUseCase(
+class QueryEntireSpotScheduleUseCase(
     private val querySchedulePort: QuerySchedulePort
 ) {
 
-    fun execute(date: LocalDate): EntireSpotScheduleResponse {
+    fun execute(date: LocalDate): QueryEntireSpotScheduleResponse {
         val list = querySchedulePort.querySchedulesByMonthAndScope(date, Scope.ENTIRE)
 
         val response = list.map {
@@ -36,7 +36,7 @@ class EntireSpotScheduleUseCase(
             )
         }
 
-        return EntireSpotScheduleResponse(response)
+        return QueryEntireSpotScheduleResponse(response)
     }
 
 }
