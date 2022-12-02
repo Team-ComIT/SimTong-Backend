@@ -5,6 +5,8 @@ import team.comit.simtong.persistence.spot.entity.SpotJpaEntity
 import team.comit.simtong.persistence.user.entity.UserJpaEntity
 import javax.persistence.EmbeddedId
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.FetchType
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
@@ -28,6 +30,7 @@ class HolidayJpaEntity(
     val id: HolidayId,
 
     @field:NotNull
+    @Enumerated(EnumType.STRING)
     val type: HolidayType,
 
     @MapsId("userId")
