@@ -71,12 +71,13 @@ class SchedulePersistenceAdapter(
             .fetch()
     }
 
-    override fun querySchedulesByMonthAndSpotId(date: LocalDate, spotId: UUID): List<Schedule> {
+    override fun querySchedulesByMonthAndSpotIdAndScope(date: LocalDate, spotId: UUID, scope: Scope): List<Schedule> {
         return queryFactory
             .selectFrom(schedule)
             .join(spot)
             .on(schedule.spot.id.eq(spotId))
             .where(
+                schedule.scope.eq(scope),
                 dateFilter(date)
             )
             .orderBy(schedule.startAt.asc())
@@ -84,11 +85,12 @@ class SchedulePersistenceAdapter(
             .map { scheduleMapper.toDomain(it)!! }
     }
 
-    override fun querySchedulesByMonthAndUserId(date: LocalDate, userId: UUID): List<Schedule> {
+    override fun querySchedulesByMonthAndUserIdAndScope(date: LocalDate, userId: UUID, scope: Scope): List<Schedule> {
         return queryFactory
             .selectFrom(schedule)
             .where(
                 schedule.user.id.eq(userId),
+                schedule.scope.eq(scope),
                 dateFilter(date)
             )
             .orderBy(schedule.startAt.asc())

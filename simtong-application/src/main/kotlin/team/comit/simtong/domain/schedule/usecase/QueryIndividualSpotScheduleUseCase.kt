@@ -2,6 +2,7 @@ package team.comit.simtong.domain.schedule.usecase
 
 import team.comit.simtong.domain.schedule.dto.QueryIndividualSpotScheduleResponse
 import team.comit.simtong.domain.schedule.dto.ScheduleResponse
+import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
@@ -28,9 +29,13 @@ class QueryIndividualSpotScheduleUseCase(
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
             ?: throw UserNotFoundException.EXCEPTION
 
-        val individualSchedules = querySchedulePort.querySchedulesByMonthAndUserId(date, user.id)
+        val individualSchedules = querySchedulePort.querySchedulesByMonthAndUserIdAndScope(
+            date, user.id, Scope.INDIVIDUAL
+        )
 
-        val ownSpotSchedules = querySchedulePort.querySchedulesByMonthAndSpotId(date, user.spotId)
+        val ownSpotSchedules = querySchedulePort.querySchedulesByMonthAndSpotIdAndScope(
+            date, user.spotId, Scope.INDIVIDUAL
+        )
             .plus(individualSchedules) // 개인 일정과 소속 지점 일정 합치기
             .sortedBy { it.startAt } // 시작일 기준 오름차순으로 정렬
 
