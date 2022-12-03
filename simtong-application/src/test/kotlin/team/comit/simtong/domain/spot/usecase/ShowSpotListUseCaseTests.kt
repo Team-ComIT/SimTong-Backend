@@ -21,7 +21,7 @@ class ShowSpotListUseCaseTests {
 
     private val id = UUID.randomUUID()
 
-    private val name = "test name";
+    private val name = "test name"
 
     private val location = "test location"
 
