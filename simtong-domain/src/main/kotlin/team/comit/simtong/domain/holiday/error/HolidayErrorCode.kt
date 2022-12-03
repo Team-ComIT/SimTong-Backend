@@ -15,7 +15,7 @@ enum class HolidayErrorCode(
     private val message: String
 ) : ErrorProperty {
 
-    ;
+    WEEK_HOLIDAY_LIMIT_EXCESS(409, "주 휴무일 지정 한도 초과");
 
     override fun status(): Int = status
 

@@ -22,4 +22,10 @@ data class Holiday(
 
     val spotId: UUID
 
-)
+) {
+    companion object {
+
+        const val WEEK_HOLIDAY_LIMIT: Long = 2
+
+    }
+}
