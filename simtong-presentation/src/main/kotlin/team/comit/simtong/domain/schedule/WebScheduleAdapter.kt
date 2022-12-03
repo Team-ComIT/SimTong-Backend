@@ -28,6 +28,7 @@ import team.comit.simtong.domain.schedule.usecase.ChangeIndividualScheduleUseCas
 import team.comit.simtong.domain.schedule.usecase.ChangeSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.QueryEntireSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.QueryIndividualSpotScheduleUseCase
+import team.comit.simtong.domain.schedule.usecase.RemoveIndividualScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.RemoveSpotScheduleUseCase
 import java.time.LocalDate
 import java.util.UUID
@@ -52,7 +53,8 @@ class WebScheduleAdapter(
     private val addSpotScheduleUseCase: AddSpotScheduleUseCase,
     private val changeSpotScheduleUseCase: ChangeSpotScheduleUseCase,
     private val removeSpotScheduleUseCase: RemoveSpotScheduleUseCase,
-    private val queryIndividualSpotScheduleUseCase: QueryIndividualSpotScheduleUseCase
+    private val queryIndividualSpotScheduleUseCase: QueryIndividualSpotScheduleUseCase,
+    private val removeIndividualScheduleUseCase: RemoveIndividualScheduleUseCase
 ) {
 
     @PostMapping
@@ -125,6 +127,12 @@ class WebScheduleAdapter(
                 endAt = request.endAt
             )
         )
+    }
+
+    @DeleteMapping("/{schedule-id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun removeIndividualSchedule(@PathVariable("schedule-id") scheduleId: UUID) {
+        removeIndividualScheduleUseCase.execute(scheduleId)
     }
 
     @DeleteMapping("/spots/{schedule-id}")
