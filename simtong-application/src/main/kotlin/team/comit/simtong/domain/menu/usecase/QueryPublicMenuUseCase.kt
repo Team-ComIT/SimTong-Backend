@@ -19,8 +19,8 @@ class QueryPublicMenuUseCase(
     private val queryMenuPort: QueryMenuPort,
 ) {
 
-    fun execute(today: LocalDate): MenuResponse {
-        val menu = queryMenuPort.queryMenuBySpotName(today.year, today.monthValue, Spot.HEAD_SHOP)
+    fun execute(date: LocalDate): MenuResponse {
+        val menu = queryMenuPort.queryMenuByMonthAndSpotName(date, Spot.HEAD_SHOP)
         val result = menu.map { MenuResponse.MenuElement(it.date, it.meal) }
 
         return MenuResponse(result)

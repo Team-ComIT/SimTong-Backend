@@ -23,11 +23,11 @@ class QueryMenuByMonthUseCase(
     private val menuSecurityPort: MenuSecurityPort
 ) {
 
-    fun execute(today: LocalDate): MenuResponse {
+    fun execute(date: LocalDate): MenuResponse {
         val currentUserId = menuSecurityPort.getCurrentUserId()
         val user = queryUserPort.queryUserById(currentUserId) ?: throw UserNotFoundException.EXCEPTION
 
-        val menu = queryMenuPort.queryMenuBySpotId(today.year, today.monthValue, user.spotId)
+        val menu = queryMenuPort.queryMenuByMonthAndSpotId(date, user.spotId)
         val result = menu.map { MenuResponse.MenuElement(it.date, it.meal) }
 
         return MenuResponse(result)

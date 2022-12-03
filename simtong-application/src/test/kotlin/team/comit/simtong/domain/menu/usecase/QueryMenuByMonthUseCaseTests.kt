@@ -80,7 +80,7 @@ class QueryMenuByMonthUseCaseTests {
         given(queryUserPort.queryUserById(currentUserId))
             .willReturn(userStub)
 
-        given(queryMenuPort.queryMenuBySpotId(now.year, now.monthValue, userStub.spotId))
+        given(queryMenuPort.queryMenuByMonthAndSpotId(now, userStub.spotId))
             .willReturn(
                 listOf(menuStub, menuStub2)
             )

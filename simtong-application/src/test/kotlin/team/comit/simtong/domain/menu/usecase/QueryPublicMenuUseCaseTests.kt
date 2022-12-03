@@ -45,7 +45,7 @@ class QueryPublicMenuUseCaseTests {
     fun `메뉴 조회 성공`() {
         // given
         val now = LocalDate.now()
-        given(queryMenuPort.queryMenuBySpotName(now.year, now.monthValue, Spot.HEAD_SHOP))
+        given(queryMenuPort.queryMenuByMonthAndSpotName(now, Spot.HEAD_SHOP))
             .willReturn(
                 listOf(menuStub, menuStub2)
             )
