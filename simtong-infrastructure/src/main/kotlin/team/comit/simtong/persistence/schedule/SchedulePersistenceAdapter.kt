@@ -66,7 +66,7 @@ class SchedulePersistenceAdapter(
             .on(schedule.spot.eq(spot))
             .where(
                 schedule.scope.eq(scope),
-                scheduleFilter(date)
+                sameMonthScheduleFilter(date)
             )
             .orderBy(schedule.startAt.asc())
             .fetch()
@@ -79,7 +79,7 @@ class SchedulePersistenceAdapter(
             .on(schedule.spot.id.eq(spotId))
             .where(
                 schedule.scope.eq(scope),
-                scheduleFilter(date)
+                sameMonthScheduleFilter(date)
             )
             .orderBy(schedule.startAt.asc())
             .fetch()
@@ -92,14 +92,14 @@ class SchedulePersistenceAdapter(
             .where(
                 schedule.user.id.eq(userId),
                 schedule.scope.eq(scope),
-                scheduleFilter(date)
+                sameMonthScheduleFilter(date)
             )
             .orderBy(schedule.startAt.asc())
             .fetch()
             .map { scheduleMapper.toDomain(it)!! }
     }
 
-    private fun scheduleFilter(date: LocalDate) : BooleanExpression {
+    private fun sameMonthScheduleFilter(date: LocalDate) : BooleanExpression {
         return schedule.startAt.sameMonthFilter(date)
             .or(schedule.endAt.sameMonthFilter(date))
     }

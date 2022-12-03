@@ -33,7 +33,7 @@ class MenuPersistenceAdapter(
             .join(menuJpaEntity.spot, spotJpaEntity)
             .on(spotJpaEntity.id.eq(spotId))
             .where(
-                menuFilter(date)
+                sameMonthMenuFilter(date)
             )
             .fetch()
             .map {
@@ -47,7 +47,7 @@ class MenuPersistenceAdapter(
             .join(menuJpaEntity.spot, spotJpaEntity)
             .on(spotJpaEntity.name.eq(spotName))
             .where(
-                menuFilter(date)
+                sameMonthMenuFilter(date)
             )
             .fetch()
             .map {
@@ -55,7 +55,7 @@ class MenuPersistenceAdapter(
             }
     }
 
-    private fun menuFilter(date: LocalDate) : BooleanExpression {
+    private fun sameMonthMenuFilter(date: LocalDate) : BooleanExpression {
         return menuJpaEntity.id.date.sameMonthFilter(date)
     }
 
