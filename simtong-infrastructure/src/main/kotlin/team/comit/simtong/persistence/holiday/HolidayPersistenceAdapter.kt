@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component
 import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidayPort
-import team.comit.simtong.persistence.QuerydslExtensionUtils.weekFilter
+import team.comit.simtong.persistence.QuerydslExtensionUtils.sameWeekFilter
 import team.comit.simtong.persistence.holiday.mapper.HolidayMapper
 import java.time.LocalDate
 import java.util.UUID
@@ -32,7 +32,7 @@ class HolidayPersistenceAdapter(
             .where(
                 holiday.user.id.eq(userId),
                 holiday.type.eq(type),
-                holiday.id.date.weekFilter(date)
+                holiday.id.date.sameWeekFilter(date)
             )
             .fetchFirst()
     }
