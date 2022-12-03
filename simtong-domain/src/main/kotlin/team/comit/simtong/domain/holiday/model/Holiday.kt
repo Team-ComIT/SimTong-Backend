@@ -1,5 +1,7 @@
 package team.comit.simtong.domain.holiday.model
 
+import team.comit.simtong.global.DomainProperties.getProperty
+import team.comit.simtong.global.DomainPropertiesPrefix
 import team.comit.simtong.global.annotation.Aggregate
 import java.time.LocalDate
 import java.util.UUID
@@ -22,4 +24,10 @@ data class Holiday(
 
     val spotId: UUID
 
-)
+) {
+    companion object {
+
+        val WEEK_HOLIDAY_LIMIT: Long = getProperty(DomainPropertiesPrefix.WEEK_HOLIDAY_LIMIT).toLong()
+
+    }
+}

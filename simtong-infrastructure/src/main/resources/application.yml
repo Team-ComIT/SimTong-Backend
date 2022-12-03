@@ -27,6 +27,8 @@ domain:
       max-attempt-count: ${AUTHCODELIMIT_MAX_ATTEMPT_COUNT:12345}
     spot:
       head: ${HEAD_SPOT:본점}
+    holiday:
+      week-holiday-limit: ${WEEK_HOLIDAY_LIMIT:2}
 
 
 logging:

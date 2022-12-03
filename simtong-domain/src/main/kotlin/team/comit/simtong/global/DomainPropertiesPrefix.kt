@@ -24,4 +24,7 @@ object DomainPropertiesPrefix {
     // spot
     const val HEAD_SHOP = "spot.head"
 
+    // holiday
+    const val WEEK_HOLIDAY_LIMIT = "holiday.week-holiday-limit"
+
 }

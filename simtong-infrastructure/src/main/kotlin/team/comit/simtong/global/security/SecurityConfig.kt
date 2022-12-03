@@ -87,6 +87,9 @@ class SecurityConfig(
             .antMatchers(HttpMethod.DELETE, "/schedules/spots/{schedule-id}").hasAnyRole(ROLE_ADMIN.role, ROLE_SUPER.role)
             .antMatchers(HttpMethod.DELETE, "/schedules/{schedule-id}").hasRole(ROLE_COMMON.role)
 
+            // holiday
+            .antMatchers(HttpMethod.PUT, "/holidays/dayoff").hasRole(ROLE_COMMON.role)
+
             // admins
             .antMatchers(HttpMethod.POST, "/admins/tokens").permitAll()
 
