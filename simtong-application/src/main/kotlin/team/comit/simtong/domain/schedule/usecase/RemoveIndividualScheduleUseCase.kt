@@ -11,6 +11,14 @@ import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.global.annotation.UseCase
 import java.util.UUID
 
+/**
+ *
+ * 개인 일정 삭제를 담당하는 RemoveIndividualScheduleUseCase
+ *
+ * @author kimbeomjin
+ * @date 2022/12/03
+ * @version 1.0.0
+ **/
 @UseCase
 class RemoveIndividualScheduleUseCase(
     private val querySchedulePort: QuerySchedulePort,
