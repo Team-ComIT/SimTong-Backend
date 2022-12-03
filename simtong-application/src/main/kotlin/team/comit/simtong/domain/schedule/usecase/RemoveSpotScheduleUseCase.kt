@@ -1,6 +1,8 @@
 package team.comit.simtong.domain.schedule.usecase
 
+import team.comit.simtong.domain.schedule.exception.DifferentScopeException
 import team.comit.simtong.domain.schedule.exception.ScheduleNotFoundException
+import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
@@ -38,6 +40,10 @@ class RemoveSpotScheduleUseCase(
 
         if (user.spotId != schedule.spotId && user.authority != Authority.ROLE_SUPER) {
             throw NotEnoughPermissionException.EXCEPTION
+        }
+
+        if (Scope.ENTIRE != schedule.scope) {
+            throw DifferentScopeException.EXCEPTION
         }
 
         commandSchedulePort.delete(schedule)

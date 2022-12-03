@@ -6,6 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
+import team.comit.simtong.domain.schedule.exception.DifferentScopeException
 import team.comit.simtong.domain.schedule.exception.ScheduleNotFoundException
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
@@ -156,6 +157,48 @@ class RemoveSpotScheduleUseCaseTests {
 
         // when & then
         assertThrows<NotEnoughPermissionException> {
+            removeSpotScheduleUseCase.execute(scheduleId)
+        }
+    }
+
+    @Test
+    fun `일정 범위가 다름`() {
+        // given
+        val userStub = User(
+            id = userId,
+            nickname = "test nickname",
+            name = "test name",
+            email = "test@test.com",
+            password = "test password",
+            employeeNumber = 1234567890,
+            authority = Authority.ROLE_SUPER,
+            spotId = UUID.randomUUID(),
+            teamId = UUID.randomUUID(),
+            profileImagePath = "test profile image"
+        )
+
+        val scheduleStub = Schedule(
+            id = scheduleId,
+            userId = userId,
+            spotId = spotId,
+            title = "test title",
+            scope = Scope.INDIVIDUAL,
+            startAt = LocalDate.now(),
+            endAt = LocalDate.now(),
+            alarmTime = Schedule.DEFAULT_ALARM_TIME
+        )
+
+        given(securityPort.getCurrentUserId())
+            .willReturn(userId)
+
+        given(queryUserPort.queryUserById(userId))
+            .willReturn(userStub)
+
+        given(querySchedulePort.queryScheduleById(scheduleId))
+            .willReturn(scheduleStub)
+
+        // when & then
+        assertThrows<DifferentScopeException> {
             removeSpotScheduleUseCase.execute(scheduleId)
         }
     }

@@ -15,6 +15,9 @@ enum class ScheduleErrorCode(
     private val message: String
 ) : ErrorProperty {
 
+    // 401
+    DIFFERENT_SCHEDULE_SCOPE(401, "일정의 범위가 다름"),
+
     // 403
     NOT_SCHEDULE_OWNER(403, "일정의 소유자가 아님"),
 
