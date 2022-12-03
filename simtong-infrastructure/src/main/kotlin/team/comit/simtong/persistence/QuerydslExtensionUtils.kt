@@ -18,7 +18,7 @@ object QuerydslExtensionUtils {
     /**
      * 입력된 날짜가 포함된 달
      */
-    fun DatePath<LocalDate>.monthFilter(date: LocalDate): BooleanExpression {
+    fun DatePath<LocalDate>.sameMonthFilter(date: LocalDate): BooleanExpression {
         val startOfMonth = date.withDayOfMonth(1)
         val endOfMonth = date.withDayOfMonth(date.lengthOfMonth())
 
@@ -28,7 +28,7 @@ object QuerydslExtensionUtils {
     /**
      * 입력된 날짜가 포함된 주
      */
-    fun DatePath<LocalDate>.weekFilter(date: LocalDate) : BooleanExpression {
+    fun DatePath<LocalDate>.sameWeekFilter(date: LocalDate) : BooleanExpression {
         val startOfWeek = date.with(DayOfWeek.MONDAY)
         val endOfWeek = date.with(DayOfWeek.SUNDAY)
 
