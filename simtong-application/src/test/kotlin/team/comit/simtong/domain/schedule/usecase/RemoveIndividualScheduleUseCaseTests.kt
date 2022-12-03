@@ -7,6 +7,7 @@ import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.schedule.exception.DifferentScopeException
+import team.comit.simtong.domain.schedule.exception.NotScheduleOwnerException
 import team.comit.simtong.domain.schedule.exception.ScheduleNotFoundException
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
@@ -14,7 +15,6 @@ import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
-import team.comit.simtong.domain.user.exception.NotEnoughPermissionException
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -23,7 +23,7 @@ import java.time.LocalDate
 import java.util.UUID
 
 @SimtongTest
-class RemoveSpotScheduleUseCaseTests {
+class RemoveIndividualScheduleUseCaseTests {
 
     @MockBean
     private lateinit var queryUserPort: ScheduleQueryUserPort
@@ -37,7 +37,7 @@ class RemoveSpotScheduleUseCaseTests {
     @MockBean
     private lateinit var securityPort: ScheduleSecurityPort
 
-    private lateinit var removeSpotScheduleUseCase: RemoveSpotScheduleUseCase
+    private lateinit var removeIndividualScheduleUseCase: RemoveIndividualScheduleUseCase
 
     private val userId = UUID.randomUUID()
 
@@ -51,19 +51,34 @@ class RemoveSpotScheduleUseCaseTests {
             userId = userId,
             spotId = spotId,
             title = "test title",
-            scope = Scope.ENTIRE,
+            scope = Scope.INDIVIDUAL,
             startAt = LocalDate.now(),
             endAt = LocalDate.now(),
             alarmTime = Schedule.DEFAULT_ALARM_TIME
         )
     }
 
+    private val userStub by lazy {
+        User(
+            id = userId,
+            nickname = "test nickname",
+            name = "test name",
+            email = "test@test.com",
+            password = "test password",
+            employeeNumber = 1234567890,
+            authority = Authority.ROLE_ADMIN,
+            spotId = spotId,
+            teamId = UUID.randomUUID(),
+            profileImagePath = "test profile image"
+        )
+    }
+
     @BeforeEach
     fun setUp() {
-        removeSpotScheduleUseCase = RemoveSpotScheduleUseCase(
-            queryUserPort = queryUserPort,
+        removeIndividualScheduleUseCase = RemoveIndividualScheduleUseCase(
             querySchedulePort = querySchedulePort,
             commandSchedulePort = commandSchedulePort,
+            queryUserPort = queryUserPort,
             securityPort = securityPort
         )
     }
@@ -95,26 +110,28 @@ class RemoveSpotScheduleUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            removeSpotScheduleUseCase.execute(scheduleId)
+            removeIndividualScheduleUseCase.execute(scheduleId)
         }
     }
 
     @Test
-    fun `최고 관리자 계정`() {
+    fun `유저를 찾을 수 없음`() {
         // given
-        val userStub = User(
-            id = userId,
-            nickname = "test nickname",
-            name = "test name",
-            email = "test@test.com",
-            password = "test password",
-            employeeNumber = 1234567890,
-            authority = Authority.ROLE_SUPER,
-            spotId = UUID.randomUUID(),
-            teamId = UUID.randomUUID(),
-            profileImagePath = "test profile image"
-        )
+        given(securityPort.getCurrentUserId())
+            .willReturn(userId)
 
+        given(queryUserPort.queryUserById(userId))
+            .willReturn(null)
+
+        // when & then
+        assertThrows<UserNotFoundException> {
+            removeIndividualScheduleUseCase.execute(scheduleId)
+        }
+    }
+
+    @Test
+    fun `일정을 찾을 수 없음`() {
+        // given
         given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
@@ -122,64 +139,20 @@ class RemoveSpotScheduleUseCaseTests {
             .willReturn(userStub)
 
         given(querySchedulePort.queryScheduleById(scheduleId))
-            .willReturn(scheduleStub)
+            .willReturn(null)
 
         // when & then
-        assertDoesNotThrow {
-            removeSpotScheduleUseCase.execute(scheduleId)
+        assertThrows<ScheduleNotFoundException> {
+            removeIndividualScheduleUseCase.execute(scheduleId)
         }
     }
 
     @Test
-    fun `권한이 부족함`() {
+    fun `자신의 일정이 아님`() {
         // given
-        val userStub = User(
-            id = userId,
-            nickname = "test nickname",
-            name = "test name",
-            email = "test@test.com",
-            password = "test password",
-            employeeNumber = 1234567890,
-            authority = Authority.ROLE_ADMIN,
-            spotId = UUID.randomUUID(),
-            teamId = UUID.randomUUID(),
-            profileImagePath = "test profile image"
-        )
-
-        given(securityPort.getCurrentUserId())
-            .willReturn(userId)
-
-        given(queryUserPort.queryUserById(userId))
-            .willReturn(userStub)
-
-        given(querySchedulePort.queryScheduleById(scheduleId))
-            .willReturn(scheduleStub)
-
-        // when & then
-        assertThrows<NotEnoughPermissionException> {
-            removeSpotScheduleUseCase.execute(scheduleId)
-        }
-    }
-
-    @Test
-    fun `일정 범위가 다름`() {
-        // given
-        val userStub = User(
-            id = userId,
-            nickname = "test nickname",
-            name = "test name",
-            email = "test@test.com",
-            password = "test password",
-            employeeNumber = 1234567890,
-            authority = Authority.ROLE_SUPER,
-            spotId = UUID.randomUUID(),
-            teamId = UUID.randomUUID(),
-            profileImagePath = "test profile image"
-        )
-
         val scheduleStub = Schedule(
             id = scheduleId,
-            userId = userId,
+            userId = UUID.randomUUID(),
             spotId = spotId,
             title = "test title",
             scope = Scope.INDIVIDUAL,
@@ -198,25 +171,23 @@ class RemoveSpotScheduleUseCaseTests {
             .willReturn(scheduleStub)
 
         // when & then
-        assertThrows<DifferentScopeException> {
-            removeSpotScheduleUseCase.execute(scheduleId)
+        assertThrows<NotScheduleOwnerException> {
+            removeIndividualScheduleUseCase.execute(scheduleId)
         }
     }
 
     @Test
-    fun `일정을 찾을 수 없음`() {
+    fun `일정 범위가 다름`() {
         // given
-        val userStub = User(
-            id = userId,
-            nickname = "test nickname",
-            name = "test name",
-            email = "test@test.com",
-            password = "test password",
-            employeeNumber = 1234567890,
-            authority = Authority.ROLE_ADMIN,
+        val scheduleStub = Schedule(
+            id = scheduleId,
+            userId = userId,
             spotId = spotId,
-            teamId = UUID.randomUUID(),
-            profileImagePath = "test profile image"
+            title = "test title",
+            scope = Scope.ENTIRE,
+            startAt = LocalDate.now(),
+            endAt = LocalDate.now(),
+            alarmTime = Schedule.DEFAULT_ALARM_TIME
         )
 
         given(securityPort.getCurrentUserId())
@@ -226,26 +197,11 @@ class RemoveSpotScheduleUseCaseTests {
             .willReturn(userStub)
 
         given(querySchedulePort.queryScheduleById(scheduleId))
-            .willReturn(null)
+            .willReturn(scheduleStub)
 
         // when & then
-        assertThrows<ScheduleNotFoundException> {
-            removeSpotScheduleUseCase.execute(scheduleId)
-        }
-    }
-
-    @Test
-    fun `유저를 찾을 수 없음`() {
-        // given
-        given(securityPort.getCurrentUserId())
-            .willReturn(userId)
-
-        given(queryUserPort.queryUserById(userId))
-            .willReturn(null)
-
-        // when & then
-        assertThrows<UserNotFoundException> {
-            removeSpotScheduleUseCase.execute(scheduleId)
+        assertThrows<DifferentScopeException> {
+            removeIndividualScheduleUseCase.execute(scheduleId)
         }
     }
 }
