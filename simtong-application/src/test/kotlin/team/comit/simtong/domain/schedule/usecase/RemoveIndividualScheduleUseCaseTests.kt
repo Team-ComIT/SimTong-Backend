@@ -147,11 +147,40 @@ class RemoveIndividualScheduleUseCaseTests {
     }
 
     @Test
-    fun `권한이 부족함`() {
+    fun `권한이 부족함 - 다른 사용자`() {
         // given
         val scheduleStub = Schedule(
             id = scheduleId,
             userId = UUID.randomUUID(),
+            spotId = spotId,
+            title = "test title",
+            scope = Scope.INDIVIDUAL,
+            startAt = LocalDate.now(),
+            endAt = LocalDate.now(),
+            alarmTime = Schedule.DEFAULT_ALARM_TIME
+        )
+
+        given(securityPort.getCurrentUserId())
+            .willReturn(userId)
+
+        given(queryUserPort.queryUserById(userId))
+            .willReturn(userStub)
+
+        given(querySchedulePort.queryScheduleById(scheduleId))
+            .willReturn(scheduleStub)
+
+        // when & then
+        assertThrows<NotEnoughPermissionException> {
+            removeIndividualScheduleUseCase.execute(scheduleId)
+        }
+    }
+
+    @Test
+    fun `권한이 부족함 - 지점 일정`() {
+        // given
+        val scheduleStub = Schedule(
+            id = scheduleId,
+            userId = userId,
             spotId = spotId,
             title = "test title",
             scope = Scope.ENTIRE,
