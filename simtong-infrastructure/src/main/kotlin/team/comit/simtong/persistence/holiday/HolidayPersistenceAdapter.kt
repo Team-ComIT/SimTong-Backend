@@ -1,7 +1,15 @@
 package team.comit.simtong.persistence.holiday
 
+import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
+import team.comit.simtong.domain.holiday.model.Holiday
+import team.comit.simtong.domain.holiday.model.HolidayType
+import team.comit.simtong.domain.holiday.spi.HolidayPort
+import team.comit.simtong.persistence.QuerydslExtensionUtils.weekFilter
 import team.comit.simtong.persistence.holiday.mapper.HolidayMapper
+import java.time.LocalDate
+import java.util.UUID
+import team.comit.simtong.persistence.holiday.entity.QHolidayJpaEntity.holidayJpaEntity as holiday
 
 /**
  *
@@ -14,8 +22,25 @@ import team.comit.simtong.persistence.holiday.mapper.HolidayMapper
 @Component
 class HolidayPersistenceAdapter(
     private val holidayMapper: HolidayMapper,
-    private val holidayJpaRepository: HolidayJpaRepository
-) {
+    private val holidayJpaRepository: HolidayJpaRepository,
+    private val queryFactory: JPAQueryFactory
+) : HolidayPort {
 
+    override fun countHolidayByWeekAndUserIdAndType(date: LocalDate, userId: UUID, type: HolidayType): Long {
+        return queryFactory.select(holiday.count())
+            .from(holiday)
+            .where(
+                holiday.user.id.eq(userId),
+                holiday.type.eq(type),
+                holiday.id.date.weekFilter(date)
+            )
+            .fetchFirst()
+    }
+
+    override fun save(holiday: Holiday): Holiday = holidayMapper.toDomain(
+        holidayJpaRepository.save(
+            holidayMapper.toEntity(holiday)
+        )
+    )!!
 
 }
