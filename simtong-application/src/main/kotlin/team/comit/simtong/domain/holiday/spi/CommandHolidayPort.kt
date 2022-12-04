@@ -13,4 +13,7 @@ import team.comit.simtong.domain.holiday.model.Holiday
 interface CommandHolidayPort {
 
     fun save(holiday: Holiday): Holiday
+
+    fun delete(holiday: Holiday)
+
 }
