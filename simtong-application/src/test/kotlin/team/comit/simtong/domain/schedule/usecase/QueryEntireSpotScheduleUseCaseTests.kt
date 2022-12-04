@@ -62,7 +62,7 @@ class QueryEntireSpotScheduleUseCaseTests {
     @Test
     fun `전체 지점 일정 조회 성공`() {
         // given
-        given(querySchedulePort.querySchedulesByMonthAndScope(date, Scope.ENTIRE))
+        given(querySchedulePort.querySpotSchedulesByMonthAndScope(date, Scope.ENTIRE))
             .willReturn(spotScheduleListStub)
 
         // when

@@ -4,7 +4,7 @@ import java.util.UUID
 
 /**
  *
- * Schedule Domain에서 Security에 관한 Query를 요청하는 ScheduleSecurityPort
+ * Schedule Domain에서 보안에 관해 요청하는 ScheduleSecurityPort
  *
  * @author Chokyunghyeon
  * @date 2022/11/21

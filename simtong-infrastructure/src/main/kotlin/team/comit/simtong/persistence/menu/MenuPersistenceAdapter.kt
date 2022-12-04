@@ -1,12 +1,15 @@
 package team.comit.simtong.persistence.menu
 
+import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.menu.model.Menu
 import team.comit.simtong.domain.menu.spi.MenuPort
+import team.comit.simtong.persistence.QuerydslExtensionUtils.sameMonthFilter
 import team.comit.simtong.persistence.menu.entity.QMenuJpaEntity.menuJpaEntity
 import team.comit.simtong.persistence.menu.mapper.MenuMapper
 import team.comit.simtong.persistence.spot.entity.QSpotJpaEntity.spotJpaEntity
+import java.time.LocalDate
 import java.util.UUID
 
 /**
@@ -24,14 +27,13 @@ class MenuPersistenceAdapter(
     private val queryFactory: JPAQueryFactory
 ) : MenuPort {
 
-    override fun queryMenuBySpotId(year: Int, month: Int, spotId: UUID): List<Menu> {
+    override fun queryMenuByMonthAndSpotId(date: LocalDate, spotId: UUID): List<Menu> {
         return queryFactory
             .selectFrom(menuJpaEntity)
             .join(menuJpaEntity.spot, spotJpaEntity)
             .on(spotJpaEntity.id.eq(spotId))
             .where(
-                yearEq(year),
-                monthEq(month)
+                sameMonthMenuFilter(date)
             )
             .fetch()
             .map {
@@ -39,14 +41,13 @@ class MenuPersistenceAdapter(
             }
     }
 
-    override fun queryMenuBySpotName(year: Int, month: Int, spotName: String): List<Menu> {
+    override fun queryMenuByMonthAndSpotName(date: LocalDate, spotName: String): List<Menu> {
         return queryFactory
             .selectFrom(menuJpaEntity)
             .join(menuJpaEntity.spot, spotJpaEntity)
             .on(spotJpaEntity.name.eq(spotName))
             .where(
-                yearEq(year),
-                monthEq(month)
+                sameMonthMenuFilter(date)
             )
             .fetch()
             .map {
@@ -54,8 +55,8 @@ class MenuPersistenceAdapter(
             }
     }
 
-    private fun yearEq(year: Int) = menuJpaEntity.id.date.year().eq(year)
-
-    private fun monthEq(month: Int) = menuJpaEntity.id.date.month().eq(month)
+    private fun sameMonthMenuFilter(date: LocalDate) : BooleanExpression {
+        return menuJpaEntity.id.date.sameMonthFilter(date)
+    }
 
 }

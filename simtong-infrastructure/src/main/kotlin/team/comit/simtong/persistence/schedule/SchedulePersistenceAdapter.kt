@@ -8,6 +8,7 @@ import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.SchedulePort
 import team.comit.simtong.domain.schedule.vo.SpotSchedule
+import team.comit.simtong.persistence.QuerydslExtensionUtils.sameMonthFilter
 import team.comit.simtong.persistence.schedule.mapper.ScheduleMapper
 import team.comit.simtong.persistence.schedule.vo.QSpotScheduleVo
 import java.time.LocalDate
@@ -48,7 +49,7 @@ class SchedulePersistenceAdapter(
         )
     }
 
-    override fun querySchedulesByMonthAndScope(date: LocalDate, scope: Scope): List<SpotSchedule> {
+    override fun querySpotSchedulesByMonthAndScope(date: LocalDate, scope: Scope): List<SpotSchedule> {
         return queryFactory
             .select(
                 QSpotScheduleVo(
@@ -65,7 +66,7 @@ class SchedulePersistenceAdapter(
             .on(schedule.spot.eq(spot))
             .where(
                 schedule.scope.eq(scope),
-                dateFilter(date)
+                sameMonthScheduleFilter(date)
             )
             .orderBy(schedule.startAt.asc())
             .fetch()
@@ -78,7 +79,7 @@ class SchedulePersistenceAdapter(
             .on(schedule.spot.id.eq(spotId))
             .where(
                 schedule.scope.eq(scope),
-                dateFilter(date)
+                sameMonthScheduleFilter(date)
             )
             .orderBy(schedule.startAt.asc())
             .fetch()
@@ -91,18 +92,15 @@ class SchedulePersistenceAdapter(
             .where(
                 schedule.user.id.eq(userId),
                 schedule.scope.eq(scope),
-                dateFilter(date)
+                sameMonthScheduleFilter(date)
             )
             .orderBy(schedule.startAt.asc())
             .fetch()
             .map { scheduleMapper.toDomain(it)!! }
     }
 
-    private fun dateFilter(date: LocalDate): BooleanExpression {
-        val startDate = date.withDayOfMonth(1)
-        val endDate = date.withDayOfMonth(date.lengthOfMonth())
-
-        return schedule.startAt.between(startDate, endDate)
-            .or(schedule.endAt.between(startDate, endDate))
+    private fun sameMonthScheduleFilter(date: LocalDate) : BooleanExpression {
+        return schedule.startAt.sameMonthFilter(date)
+            .or(schedule.endAt.sameMonthFilter(date))
     }
 }
