@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.holiday.spi
 
+import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayType
 import java.time.LocalDate
 import java.util.UUID
@@ -15,5 +16,7 @@ import java.util.UUID
 interface QueryHolidayPort {
 
     fun countHolidayByWeekAndUserIdAndType(date: LocalDate, userId: UUID, type: HolidayType): Long
+
+    fun queryHolidayByDateAndUserId(date: LocalDate, userId: UUID) : Holiday?
 
 }

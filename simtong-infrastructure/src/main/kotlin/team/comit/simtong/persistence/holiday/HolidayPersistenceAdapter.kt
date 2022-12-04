@@ -1,11 +1,13 @@
 package team.comit.simtong.persistence.holiday
 
 import com.querydsl.jpa.impl.JPAQueryFactory
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidayPort
 import team.comit.simtong.persistence.QuerydslExtensionUtils.sameWeekFilter
+import team.comit.simtong.persistence.holiday.entity.HolidayId
 import team.comit.simtong.persistence.holiday.mapper.HolidayMapper
 import java.time.LocalDate
 import java.util.UUID
@@ -37,10 +39,25 @@ class HolidayPersistenceAdapter(
             .fetchFirst()
     }
 
+    override fun queryHolidayByDateAndUserId(date: LocalDate, userId: UUID): Holiday? = holidayMapper.toDomain(
+        holidayJpaRepository.findByIdOrNull(
+            HolidayId(
+                date = date,
+                userId = userId
+            )
+        )
+    )
+
     override fun save(holiday: Holiday): Holiday = holidayMapper.toDomain(
         holidayJpaRepository.save(
             holidayMapper.toEntity(holiday)
         )
     )!!
+
+    override fun delete(holiday: Holiday) {
+        holidayJpaRepository.delete(
+            holidayMapper.toEntity(holiday)
+        )
+    }
 
 }
