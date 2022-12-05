@@ -3,6 +3,7 @@ package team.comit.simtong.persistence.holiday.entity
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.persistence.spot.entity.SpotJpaEntity
 import team.comit.simtong.persistence.user.entity.UserJpaEntity
+import javax.persistence.Column
 import javax.persistence.EmbeddedId
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -12,7 +13,6 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.MapsId
 import javax.persistence.Table
-import javax.validation.constraints.NotNull
 
 /**
  *
@@ -29,8 +29,8 @@ class HolidayJpaEntity(
     @EmbeddedId
     val id: HolidayId,
 
-    @field:NotNull
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(7)", nullable = false)
     val type: HolidayType,
 
     @MapsId("userId")
@@ -38,7 +38,6 @@ class HolidayJpaEntity(
     @JoinColumn(name = "user_id", columnDefinition = "BINARY(16)", nullable = false)
     val user: UserJpaEntity,
 
-    @field:NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id", columnDefinition = "BINARY(16)", nullable = false)
     val spot: SpotJpaEntity
