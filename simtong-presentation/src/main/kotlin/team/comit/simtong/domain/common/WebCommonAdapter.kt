@@ -19,6 +19,7 @@ import team.comit.simtong.domain.user.dto.ResetPasswordRequest
 import team.comit.simtong.domain.user.usecase.ChangePasswordUseCase
 import team.comit.simtong.domain.user.usecase.CheckEmailDuplicationUseCase
 import team.comit.simtong.domain.user.usecase.CheckMatchedAccountUseCase
+import team.comit.simtong.domain.user.usecase.ComparePasswordUseCase
 import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
 import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
 import javax.validation.Valid
@@ -43,7 +44,8 @@ class WebCommonAdapter(
     private val checkEmailDuplicationUseCase: CheckEmailDuplicationUseCase,
     private val changePasswordUseCase: ChangePasswordUseCase,
     private val checkMatchedAccountUseCase: CheckMatchedAccountUseCase,
-    private val showSpotListUseCase: ShowSpotListUseCase
+    private val showSpotListUseCase: ShowSpotListUseCase,
+    private val comparePasswordUseCase: ComparePasswordUseCase
 ) {
 
     @GetMapping("/employee-number")
@@ -105,6 +107,11 @@ class WebCommonAdapter(
     @GetMapping("/spot")
     fun showSpotList(): SpotResponse {
         return showSpotListUseCase.execute()
+    }
+
+    @GetMapping("/password/compare")
+    fun comparePassword(@NotBlank @RequestParam password: String) {
+        comparePasswordUseCase.execute(password)
     }
 
 }
