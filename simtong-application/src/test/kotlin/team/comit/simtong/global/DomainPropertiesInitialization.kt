@@ -12,13 +12,13 @@ object DomainPropertiesInitialization {
     init {
         DomainProperties.putAll(
             mapOf(
-                Pair(USER_DEFAULT_IMAGE, "test"),
-                Pair(AUTHCODE_EXP, "12345"),
-                Pair(AUTHCODELIMIT_EXP, "12345"),
-                Pair(AUTHCODELIMIT_VERIFIED_EXP, "12345"),
-                Pair(AUTHCODELIMIT_MAX_ATTEMPT_COUNT, "12345"),
-                Pair(HEAD_SHOP, "test"),
-                Pair(WEEK_HOLIDAY_LIMIT, "12345")
+                USER_DEFAULT_IMAGE to "test",
+                AUTHCODE_EXP to "12345",
+                AUTHCODELIMIT_EXP to "12345",
+                AUTHCODELIMIT_VERIFIED_EXP to "12345",
+                AUTHCODELIMIT_MAX_ATTEMPT_COUNT to "12345",
+                HEAD_SHOP to "test",
+                WEEK_HOLIDAY_LIMIT to "12345"
             )
         )
     }

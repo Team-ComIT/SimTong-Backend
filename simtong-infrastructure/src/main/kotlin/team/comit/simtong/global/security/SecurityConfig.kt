@@ -88,6 +88,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.DELETE, "/schedules/{schedule-id}").hasRole(ROLE_COMMON.role)
 
             // holiday
+            .antMatchers(HttpMethod.GET, "/holidays").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.POST, "/holidays/dayoff").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.DELETE, "/holidays/work").hasRole(ROLE_COMMON.role)
 

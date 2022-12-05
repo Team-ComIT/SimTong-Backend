@@ -1,7 +1,6 @@
 package team.comit.simtong.domain.schedule
 
 import org.springframework.http.HttpStatus
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -33,7 +32,6 @@ import team.comit.simtong.domain.schedule.usecase.RemoveSpotScheduleUseCase
 import java.time.LocalDate
 import java.util.UUID
 import javax.validation.Valid
-import javax.validation.constraints.NotNull
 
 /**
  *
@@ -43,7 +41,6 @@ import javax.validation.constraints.NotNull
  * @date 2022/11/21
  * @version 1.0.0
  **/
-@Validated
 @RestController
 @RequestMapping("/schedules")
 class WebScheduleAdapter(
@@ -88,12 +85,12 @@ class WebScheduleAdapter(
     }
 
     @GetMapping
-    fun queryIndividualSpotSchedule(@RequestParam @NotNull date: LocalDate): QueryIndividualSpotScheduleResponse {
+    fun queryIndividualSpotSchedule(@RequestParam date: LocalDate): QueryIndividualSpotScheduleResponse {
         return queryIndividualSpotScheduleUseCase.execute(date)
     }
 
     @GetMapping("/spots")
-    fun entireSpotSchedule(@RequestParam @NotNull date: LocalDate): QueryEntireSpotScheduleResponse {
+    fun entireSpotSchedule(@RequestParam date: LocalDate): QueryEntireSpotScheduleResponse {
         return queryEntireSpotScheduleUseCase.execute(date)
     }
 
