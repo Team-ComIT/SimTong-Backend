@@ -59,6 +59,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.PUT, "/users/spot").hasRole(ROLE_COMMON.role)
 
             // commons
+            .antMatchers(HttpMethod.GET, "/commons/password/compare").permitAll()
             .antMatchers(HttpMethod.GET, "/commons/account/existence").permitAll()
             .antMatchers(HttpMethod.GET, "/commons/email/duplication").permitAll()
             .antMatchers(HttpMethod.GET, "/commons/employee-number").permitAll()
