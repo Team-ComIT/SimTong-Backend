@@ -39,7 +39,7 @@ class AwsSESAdapter(
     private fun sendEmail(mailTemplate: MailTemplate, data: Map<String, String>, vararg emails: String) {
         val emailRequest = SendTemplatedEmailRequest().apply {
             destination = Destination(emails.toList())
-            template = mailTemplate.name
+            template = mailTemplate.templateName
             source = awsSESProperties.source
             templateData = objectMapper.writeValueAsString(data)
         }
