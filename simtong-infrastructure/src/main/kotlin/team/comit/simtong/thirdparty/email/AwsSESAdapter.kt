@@ -1,6 +1,6 @@
 package team.comit.simtong.thirdparty.email
 
-import com.amazonaws.services.simpleemail.AmazonSimpleEmailService
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceAsync
 import com.amazonaws.services.simpleemail.model.Destination
 import com.amazonaws.services.simpleemail.model.SendTemplatedEmailRequest
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -13,35 +13,37 @@ import team.comit.simtong.thirdparty.email.template.MailTemplate
  * AWS SES를 이용해 메일 전송을 처리하는 AwsSESAdapter
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/09/08
  * @version 1.0.0
  **/
 @Component
 class AwsSESAdapter(
-    private val amazonSimpleEmailService: AmazonSimpleEmailService,
+    private val amazonSimpleEmailServiceAsync: AmazonSimpleEmailServiceAsync,
     private val awsSESProperties: AwsSESProperties,
     private val objectMapper: ObjectMapper
-): SendEmailPort {
+) : SendEmailPort {
 
     override fun sendAuthCode(code: String, email: String) {
-        val templateData = HashMap<String, String>()
-        templateData["code"] = code
+        val templateData = mapOf(
+            "code" to code
+        )
 
         sendEmail(
-            template = MailTemplate.AuthCode,
-            templateData = templateData,
+            mailTemplate = MailTemplate.AuthCode,
+            data = templateData,
             email
         )
     }
 
-    private fun sendEmail(template: MailTemplate, templateData: Map<String, String>, vararg emails: String) {
-        val emailRequest = SendTemplatedEmailRequest().also {
-            it.destination = Destination(emails.toList())
-            it.template = template.name
-            it.source = awsSESProperties.source
-            it.templateData = objectMapper.writeValueAsString(templateData)
+    private fun sendEmail(mailTemplate: MailTemplate, data: Map<String, String>, vararg emails: String) {
+        val emailRequest = SendTemplatedEmailRequest().apply {
+            destination = Destination(emails.toList())
+            template = mailTemplate.name
+            source = awsSESProperties.source
+            templateData = objectMapper.writeValueAsString(data)
         }
 
-        amazonSimpleEmailService.sendTemplatedEmail(emailRequest)
+        amazonSimpleEmailServiceAsync.sendTemplatedEmailAsync(emailRequest)
     }
 }
