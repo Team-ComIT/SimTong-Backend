@@ -23,14 +23,14 @@ data class AuthCodeLimit @Default constructor(
 
     val attemptCount: Short,
 
-    val isVerified: Boolean
+    val verified: Boolean
 ) {
 
     constructor(email: String) : this(
         key = email,
         expirationTime = EXPIRED,
         attemptCount = 0,
-        isVerified = false
+        verified = false
     )
 
     companion object {
@@ -47,7 +47,7 @@ data class AuthCodeLimit @Default constructor(
             key = email,
             expirationTime = VERIFIED_EXPIRED,
             attemptCount = MAX_ATTEMPT_COUNT,
-            isVerified = true
+            verified = true
         )
     }
 
@@ -60,7 +60,7 @@ data class AuthCodeLimit @Default constructor(
             key = key,
             expirationTime = expirationTime,
             attemptCount = attemptCount.inc(),
-            isVerified = false
+            verified = false
         )
     }
 

@@ -44,7 +44,7 @@ class SendAuthCodeUseCaseTests {
             key = email,
             expirationTime = AuthCodeLimit.EXPIRED,
             attemptCount = 1,
-            isVerified = true
+            verified = true
         )
     }
 
@@ -53,7 +53,7 @@ class SendAuthCodeUseCaseTests {
             key = email,
             expirationTime = AuthCodeLimit.EXPIRED,
             attemptCount = AuthCodeLimit.MAX_ATTEMPT_COUNT,
-            isVerified = false
+            verified = false
         )
     }
 

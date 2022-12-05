@@ -29,7 +29,7 @@ class SendAuthCodeUseCase(
         val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
             ?: AuthCodeLimit(email)
 
-        if(authCodeLimit.isVerified) {
+        if(authCodeLimit.verified) {
             throw CertifiedEmailException.EXCEPTION
         }
 

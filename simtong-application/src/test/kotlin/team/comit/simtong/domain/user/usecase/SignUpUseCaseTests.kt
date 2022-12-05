@@ -104,7 +104,7 @@ class SignUpUseCaseTests {
             key = email,
             expirationTime = 12345,
             attemptCount = 1,
-            isVerified = true
+            verified = true
         )
     }
 
@@ -242,7 +242,7 @@ class SignUpUseCaseTests {
             key = email,
             expirationTime = 12345,
             attemptCount = 5,
-            isVerified = false
+            verified = false
         )
 
         given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
