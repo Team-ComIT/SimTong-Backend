@@ -27,7 +27,7 @@ class MenuPersistenceAdapter(
     private val queryFactory: JPAQueryFactory
 ) : MenuPort {
 
-    override fun queryMenuByMonthAndSpotId(date: LocalDate, spotId: UUID): List<Menu> {
+    override fun queryMenusByMonthAndSpotId(date: LocalDate, spotId: UUID): List<Menu> {
         return queryFactory
             .selectFrom(menuJpaEntity)
             .join(menuJpaEntity.spot, spotJpaEntity)
@@ -35,13 +35,12 @@ class MenuPersistenceAdapter(
             .where(
                 sameMonthMenuFilter(date)
             )
+            .orderBy(menuJpaEntity.id.date.asc())
             .fetch()
-            .map {
-                menuMapper.toDomain(it)!!
-            }
+            .map { menuMapper.toDomain(it)!! }
     }
 
-    override fun queryMenuByMonthAndSpotName(date: LocalDate, spotName: String): List<Menu> {
+    override fun queryMenusByMonthAndSpotName(date: LocalDate, spotName: String): List<Menu> {
         return queryFactory
             .selectFrom(menuJpaEntity)
             .join(menuJpaEntity.spot, spotJpaEntity)
@@ -49,10 +48,9 @@ class MenuPersistenceAdapter(
             .where(
                 sameMonthMenuFilter(date)
             )
+            .orderBy(menuJpaEntity.id.date.asc())
             .fetch()
-            .map {
-                menuMapper.toDomain(it)!!
-            }
+            .map { menuMapper.toDomain(it)!! }
     }
 
     private fun sameMonthMenuFilter(date: LocalDate) : BooleanExpression {

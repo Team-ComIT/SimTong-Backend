@@ -1,17 +1,18 @@
 package team.comit.simtong.persistence.holiday
 
+import team.comit.simtong.persistence.holiday.entity.QHolidayJpaEntity.holidayJpaEntity as holiday
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidayPort
+import team.comit.simtong.persistence.QuerydslExtensionUtils.sameMonthFilter
 import team.comit.simtong.persistence.QuerydslExtensionUtils.sameWeekFilter
 import team.comit.simtong.persistence.holiday.entity.HolidayId
 import team.comit.simtong.persistence.holiday.mapper.HolidayMapper
 import java.time.LocalDate
 import java.util.UUID
-import team.comit.simtong.persistence.holiday.entity.QHolidayJpaEntity.holidayJpaEntity as holiday
 
 /**
  *
@@ -32,7 +33,7 @@ class HolidayPersistenceAdapter(
         return queryFactory.select(holiday.count())
             .from(holiday)
             .where(
-                holiday.user.id.eq(userId),
+                holiday.id.userId.eq(userId),
                 holiday.type.eq(type),
                 holiday.id.date.sameWeekFilter(date)
             )
@@ -47,6 +48,17 @@ class HolidayPersistenceAdapter(
             )
         )
     )
+
+    override fun queryHolidaysByMonthAndUserId(date: LocalDate, userId: UUID): List<Holiday> {
+        return queryFactory.selectFrom(holiday)
+            .where(
+                holiday.id.userId.eq(userId),
+                holiday.id.date.sameMonthFilter(date)
+            )
+            .orderBy(holiday.id.date.asc())
+            .fetch()
+            .map { holidayMapper.toDomain(it)!! }
+    }
 
     override fun save(holiday: Holiday): Holiday = holidayMapper.toDomain(
         holidayJpaRepository.save(
