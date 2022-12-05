@@ -2,6 +2,7 @@ package team.comit.simtong.global.error.dto
 
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.validation.BindingResult
+import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import team.comit.simtong.global.error.ErrorProperty
 import team.comit.simtong.global.error.GlobalErrorCode
@@ -50,6 +51,15 @@ class ErrorResponse(
         fun of(exception: MethodArgumentTypeMismatchException): ErrorResponse {
             val value = exception.value
             val fieldErrors = CustomFieldError.of(exception.name, value.toString(), exception.errorCode)
+
+            return of(
+                exception = GlobalErrorCode.BAD_REQUEST,
+                fieldErrors = fieldErrors
+            )
+        }
+
+        fun of(exception: MissingServletRequestParameterException): ErrorResponse {
+            val fieldErrors = CustomFieldError.of(exception.parameterName, "", exception.message)
 
             return of(
                 exception = GlobalErrorCode.BAD_REQUEST,

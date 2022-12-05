@@ -5,6 +5,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.validation.BindException
 import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.MethodArgumentNotValidException
+import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -109,5 +110,14 @@ class WebErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected fun handleNestedServletException(exception: NullPointerException): ErrorResponse? {
         return ErrorResponse.of(GlobalErrorCode.BAD_REQUEST)
+    }
+
+    /**
+     * 필수 파라미터가 포함되지 않았을 때 발생
+     */
+    @ExceptionHandler(MissingServletRequestParameterException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected fun missingServletRequestParameterException(exception: MissingServletRequestParameterException): ErrorResponse? {
+        return ErrorResponse.of(exception)
     }
 }
