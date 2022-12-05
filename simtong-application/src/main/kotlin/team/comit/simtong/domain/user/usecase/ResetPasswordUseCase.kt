@@ -30,7 +30,7 @@ class ResetPasswordUseCase(
         val authCodeLimit = userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email)
             ?: throw RequiredNewEmailAuthenticationException.EXCEPTION
 
-        if (!authCodeLimit.isVerified) {
+        if (!authCodeLimit.verified) {
             throw UncertifiedEmailException.EXCEPTION
         }
 

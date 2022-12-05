@@ -30,5 +30,5 @@ data class AuthCodeLimitEntity(
 
     @field:NotNull
     @ColumnDefault("false")
-    val isVerified: Boolean
+    val verified: Boolean
 )

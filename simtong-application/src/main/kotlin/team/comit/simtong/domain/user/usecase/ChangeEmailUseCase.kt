@@ -35,7 +35,7 @@ class ChangeEmailUseCase(
         val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email)
             ?: throw RequiredNewEmailAuthenticationException.EXCEPTION
 
-        if (!authCodeLimit.isVerified) {
+        if (!authCodeLimit.verified) {
             throw UncertifiedEmailException.EXCEPTION
         }
 
