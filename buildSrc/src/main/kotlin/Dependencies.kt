@@ -53,4 +53,11 @@ object Dependencies {
 
     // bytebuddy
     const val BYTEBUDDY = "net.bytebuddy:byte-buddy:${DependencyVersions.BYTE_BUDDY}"
+
+    // commons io
+    const val COMMONS_IO = "commons-io:commons-io:${DependencyVersions.COMMONS_IO}"
+
+    // poi
+    const val POI = "org.apache.poi:poi:${DependencyVersions.POI_VERSION}"
+    const val POI_OOXML = "org.apache.poi:poi-ooxml:${DependencyVersions.POI_VERSION}"
 }
