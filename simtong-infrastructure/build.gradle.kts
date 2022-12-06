@@ -41,6 +41,11 @@ dependencies {
     implementation(Dependencies.MAPSTRUCT)
     kapt(Dependencies.MAPSTRUCT_PROCESSOR)
 
+    // read-file
+    implementation(Dependencies.COMMONS_IO)
+    implementation(Dependencies.POI)
+    implementation(Dependencies.POI_OOXML)
+
     // configuration
     annotationProcessor(Dependencies.CONFIGURATION_PROCESSOR)
 
