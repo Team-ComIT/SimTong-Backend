@@ -18,5 +18,5 @@ data class EmployeeCertificateJpaEntity(
     val spotName: String,
 
     @Column(columnDefinition = "VARCHAR(8)", nullable = false)
-    val teamName: String,
+    val teamName: String
 )
