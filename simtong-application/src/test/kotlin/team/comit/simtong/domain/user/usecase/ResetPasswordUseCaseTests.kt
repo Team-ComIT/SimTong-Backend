@@ -15,6 +15,7 @@ import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
+import team.comit.simtong.domain.user.spi.UserCommandAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
 import team.comit.simtong.global.annotation.SimtongTest
@@ -28,6 +29,9 @@ class ResetPasswordUseCaseTests {
 
     @MockBean
     private lateinit var userQueryAuthCodeLimitPort: UserQueryAuthCodeLimitPort
+
+    @MockBean
+    private lateinit var commandAuthCodeLimitPort: UserCommandAuthCodeLimitPort
 
     @MockBean
     private lateinit var commandUserPort: CommandUserPort
@@ -79,6 +83,7 @@ class ResetPasswordUseCaseTests {
         resetPasswordUseCase = ResetPasswordUseCase(
             queryUserPort,
             userQueryAuthCodeLimitPort,
+            commandAuthCodeLimitPort,
             commandUserPort,
             userSecurityPort
         )

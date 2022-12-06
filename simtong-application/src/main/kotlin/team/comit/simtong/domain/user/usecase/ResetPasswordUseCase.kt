@@ -6,6 +6,7 @@ import team.comit.simtong.domain.user.dto.ResetPasswordRequest
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
+import team.comit.simtong.domain.user.spi.UserCommandAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
 import team.comit.simtong.global.annotation.UseCase
@@ -21,13 +22,14 @@ import team.comit.simtong.global.annotation.UseCase
 @UseCase
 class ResetPasswordUseCase(
     private val queryUserPort: QueryUserPort,
-    private val userQueryAuthCodeLimitPort: UserQueryAuthCodeLimitPort,
+    private val queryAuthCodeLimitPort: UserQueryAuthCodeLimitPort,
+    private val commandAuthCodeLimitPort: UserCommandAuthCodeLimitPort,
     private val commandUserPort: CommandUserPort,
-    private val userSecurityPort: UserSecurityPort
+    private val securityPort: UserSecurityPort
 ) {
 
     fun execute(request: ResetPasswordRequest) {
-        val authCodeLimit = userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email)
+        val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email)
             ?: throw RequiredNewEmailAuthenticationException.EXCEPTION
 
         if (!authCodeLimit.verified) {
@@ -39,8 +41,10 @@ class ResetPasswordUseCase(
 
         commandUserPort.save(
             user.copy(
-                password = userSecurityPort.encode(request.newPassword)
+                password = securityPort.encode(request.newPassword)
             )
         )
+
+        commandAuthCodeLimitPort.delete(authCodeLimit)
     }
 }

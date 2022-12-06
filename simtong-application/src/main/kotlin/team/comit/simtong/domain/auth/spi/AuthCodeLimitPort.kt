@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.auth.spi
 
+import team.comit.simtong.domain.user.spi.UserCommandAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
 
 /**
@@ -10,4 +11,4 @@ import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
  * @date 2022/09/18
  * @version 1.0.0
  **/
-interface AuthCodeLimitPort : UserQueryAuthCodeLimitPort, QueryAuthCodeLimitPort, CommandAuthCodeLimitPort
+interface AuthCodeLimitPort : UserQueryAuthCodeLimitPort, QueryAuthCodeLimitPort, CommandAuthCodeLimitPort, UserCommandAuthCodeLimitPort

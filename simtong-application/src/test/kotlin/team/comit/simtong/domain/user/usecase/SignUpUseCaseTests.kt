@@ -20,6 +20,7 @@ import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
+import team.comit.simtong.domain.user.spi.UserCommandAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.UserJwtPort
 import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.UserQuerySpotPort
@@ -51,6 +52,9 @@ class SignUpUseCaseTests {
 
     @MockBean
     private lateinit var userQueryAuthCodeLimitPort: UserQueryAuthCodeLimitPort
+
+    @MockBean
+    private lateinit var commandAuthCodeLimitPort: UserCommandAuthCodeLimitPort
 
     private lateinit var signUpUseCase: SignUpUseCase
 
@@ -134,6 +138,7 @@ class SignUpUseCaseTests {
             commandUserPort,
             queryUserPort,
             userQueryAuthCodeLimitPort,
+            commandAuthCodeLimitPort,
             userQuerySpotPort,
             userQueryTeamPort,
             userSecurityPort

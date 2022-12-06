@@ -11,6 +11,7 @@ import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
+import team.comit.simtong.domain.user.spi.UserCommandAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.UserJwtPort
 import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.UserQuerySpotPort
@@ -29,14 +30,15 @@ import team.comit.simtong.global.annotation.UseCase
  **/
 @UseCase
 class SignUpUseCase(
-    private val userJwtPort: UserJwtPort,
+    private val jwtPort: UserJwtPort,
     private val commandUserPort: CommandUserPort,
     private val queryUserPort: QueryUserPort,
-    private val userQueryAuthCodeLimitPort: UserQueryAuthCodeLimitPort,
-    private val userQuerySpotPort: UserQuerySpotPort,
-    private val userQueryTeamPort: UserQueryTeamPort,
+    private val queryAuthCodeLimitPort: UserQueryAuthCodeLimitPort,
+    private val commandAuthCodeLimitPort: UserCommandAuthCodeLimitPort,
+    private val querySpotPort: UserQuerySpotPort,
+    private val queryTeamPort: UserQueryTeamPort,
     //    private val nickNamePort: NickNamePort,
-    private val userSecurityPort: UserSecurityPort
+    private val securityPort: UserSecurityPort
 ) {
 
     fun execute(request: SignUpRequest): TokenResponse {
@@ -46,7 +48,7 @@ class SignUpUseCase(
             throw UsedEmailException.EXCEPTION
         }
 
-        val authCodeLimit = userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
+        val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
             ?: throw RequiredNewEmailAuthenticationException.EXCEPTION
 
         if (!authCodeLimit.verified) {
@@ -56,10 +58,10 @@ class SignUpUseCase(
         // TODO 비즈니스 로직 직접 구현
         // 임직원 확인
 
-        val spot = userQuerySpotPort.querySpotByName("test spotName")
+        val spot = querySpotPort.querySpotByName("test spotName")
             ?: throw SpotNotFoundException.EXCEPTION
 
-        val team = userQueryTeamPort.queryTeamByName("test teamName")
+        val team = queryTeamPort.queryTeamByName("test teamName")
             ?: throw TeamNotFoundException.EXCEPTION
 
         val user = commandUserPort.save(
@@ -67,7 +69,7 @@ class SignUpUseCase(
                 nickname = nickname ?: "", // nickNamePort.random()
                 name = name,
                 email = email,
-                password = userSecurityPort.encode(password),
+                password = securityPort.encode(password),
                 employeeNumber = employeeNumber,
                 authority = Authority.ROLE_COMMON,
                 spotId = spot.id,
@@ -76,7 +78,9 @@ class SignUpUseCase(
             )
         )
 
-        return userJwtPort.receiveToken(
+        commandAuthCodeLimitPort.delete(authCodeLimit)
+
+        return jwtPort.receiveToken(
             userId = user.id,
             authority = user.authority
         )

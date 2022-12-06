@@ -32,4 +32,10 @@ class AuthCodeLimitPersistenceAdapter(
         )
     )!!
 
+    override fun delete(authCodeLimit: AuthCodeLimit) {
+        authCodeLimitRepository.delete(
+            authCodeLimitMapper.toEntity(authCodeLimit)
+        )
+    }
+
 }
