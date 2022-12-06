@@ -4,7 +4,7 @@ import team.comit.simtong.domain.auth.model.AuthCodeLimit
 
 /**
  *
- * User Domain에서 AuthCodeLimit Domain에 관한 Command를 요청하는UserCommandAuthCodeLimitPort
+ * User Domain에서 AuthCodeLimit Domain에 관한 명령을 하는 UserCommandAuthCodeLimitPort
  *
  * @author kimbeomjin
  * @date 2022/12/06
