@@ -9,4 +9,6 @@ object DependencyVersions {
     const val S3MOCK = "0.2.4"
     const val QUERYDSL = "5.0.0"
     const val BYTE_BUDDY = "1.12.18"
+    const val COMMONS_IO = "2.11.0"
+    const val POI_VERSION = "5.2.3"
 }
