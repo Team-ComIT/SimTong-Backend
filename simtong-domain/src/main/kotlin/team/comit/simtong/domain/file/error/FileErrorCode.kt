@@ -19,6 +19,8 @@ enum class FileErrorCode(
 
     NOT_VALID_CONTENT(400, "파일의 내용이 올바르지 않음"),
 
+    INVALID_EMPLOYEE(401, "일치하는 사원 정보가 존재하지 않음"),
+
     NOT_FOUND_FILE_PATH(404, "업로드되지 않은 파일 경로"),
 
     IO_INTERRUPTED(500, "파일 입출력 처리 중단");

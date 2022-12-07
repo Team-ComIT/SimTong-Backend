@@ -18,6 +18,10 @@ class EmployeeCertificatePersistenceAdapter(
     private val employeeCertificateJpaRepository: EmployeeCertificateJpaRepository,
     private val employeeCertificateMapper: EmployeeCertificateMapper
 ) : EmployeeCertificatePort {
+    override fun existsEmployeeCertificateByNameAndEmployeeNumber(
+        name: String,
+        employeeNumber: Int
+    ) = employeeCertificateJpaRepository.existsByNameAndEmployeeNumber(name, employeeNumber)
 
     override fun saveAll(employeeCertificates: List<EmployeeCertificate>) {
         employeeCertificateJpaRepository.saveAll(

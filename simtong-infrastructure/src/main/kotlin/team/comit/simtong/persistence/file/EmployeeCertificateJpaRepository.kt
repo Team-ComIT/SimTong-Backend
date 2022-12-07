@@ -14,4 +14,7 @@ import team.comit.simtong.persistence.file.entity.EmployeeCertificateJpaEntity
  **/
 @Repository
 interface EmployeeCertificateJpaRepository : CrudRepository<EmployeeCertificateJpaEntity, Int> {
+
+    fun existsByNameAndEmployeeNumber(name: String, employeeNumber: Int): Boolean
+
 }
