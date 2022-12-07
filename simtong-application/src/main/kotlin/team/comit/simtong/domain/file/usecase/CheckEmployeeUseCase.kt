@@ -23,7 +23,7 @@ class CheckEmployeeUseCase(
         )
 
         if (!isEmployee) {
-            throw InvalidEmployeeException
+            throw InvalidEmployeeException.EXCEPTION
         }
     }
 }

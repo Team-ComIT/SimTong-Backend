@@ -11,6 +11,11 @@ import team.comit.simtong.global.error.BusinessException
  * @date 2022/12/07
  * @version 1.0.0
  **/
-object InvalidEmployeeException : BusinessException(
-    FileErrorCode.INVALID_EMPLOYEE
-)
+class InvalidEmployeeException private constructor() : BusinessException(FileErrorCode.INVALID_EMPLOYEE) {
+
+    companion object {
+        @JvmField
+        val EXCEPTION = InvalidEmployeeException()
+    }
+
+}
