@@ -1,6 +1,7 @@
 package team.comit.simtong.persistence.file
 
 import org.springframework.stereotype.Component
+import team.comit.simtong.domain.file.model.EmployeeCertificate
 import team.comit.simtong.domain.file.spi.EmployeeCertificatePort
 import team.comit.simtong.persistence.file.mapper.EmployeeCertificateMapper
 
@@ -17,5 +18,11 @@ class EmployeeCertificatePersistenceAdapter(
     private val employeeCertificateJpaRepository: EmployeeCertificateJpaRepository,
     private val employeeCertificateMapper: EmployeeCertificateMapper
 ) : EmployeeCertificatePort {
+
+    override fun saveAll(employeeCertificates: List<EmployeeCertificate>) {
+        employeeCertificateJpaRepository.saveAll(
+            employeeCertificates.map(employeeCertificateMapper::toEntity)
+        )
+    }
 
 }

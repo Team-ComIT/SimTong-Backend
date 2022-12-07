@@ -1,5 +1,7 @@
 package team.comit.simtong.domain.file.spi
 
+import team.comit.simtong.domain.file.model.EmployeeCertificate
+
 /**
  *
  * Employee Certificate Domain에 관한 명령을 요청하는 CommandEmployeeCertificatePort
@@ -10,4 +12,5 @@ package team.comit.simtong.domain.file.spi
  **/
 interface CommandEmployeeCertificatePort {
 
+    fun saveAll(employeeCertificates: List<EmployeeCertificate>)
 }
