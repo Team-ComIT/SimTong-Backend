@@ -1,12 +1,13 @@
 package team.comit.simtong.persistence.file
 
 import org.springframework.stereotype.Component
+import team.comit.simtong.domain.file.model.EmployeeCertificate
 import team.comit.simtong.domain.file.spi.EmployeeCertificatePort
 import team.comit.simtong.persistence.file.mapper.EmployeeCertificateMapper
 
 /**
  *
- * 직원 명부의 영속성을 관리하는 EmployeeProofPersistenceAdapter
+ * 직원 명부의 영속성을 관리하는 EmployeeCertificatePersistenceAdapter
  *
  * @author Chokyunghyeon
  * @date 2022/12/06
@@ -17,9 +18,19 @@ class EmployeeCertificatePersistenceAdapter(
     private val employeeCertificateJpaRepository: EmployeeCertificateJpaRepository,
     private val employeeCertificateMapper: EmployeeCertificateMapper
 ) : EmployeeCertificatePort {
+
     override fun existsEmployeeCertificateByNameAndEmployeeNumber(
         name: String,
         employeeNumber: Int
     ) = employeeCertificateJpaRepository.existsByNameAndEmployeeNumber(name, employeeNumber)
+
+    override fun queryEmployeeCertificateByNameAndEmployeeNumber(
+        name: String,
+        employeeNumber: Int
+    ): EmployeeCertificate? {
+        return employeeCertificateMapper.toDomain(
+            employeeCertificateJpaRepository.queryEmployeeCertificateJpaEntityByNameAndEmployeeNumber(name, employeeNumber)
+        )
+    }
 
 }
