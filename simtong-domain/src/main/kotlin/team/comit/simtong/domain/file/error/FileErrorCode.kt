@@ -17,6 +17,8 @@ enum class FileErrorCode(
 
     INVALID_EXTENSION(400, "제한된 확장자(jpg, jpeg, png)"),
 
+    INVALID_EMPLOYEE(401, "일치하는 사원 정보가 존재하지 않음"),
+
     NOT_FOUND_FILE_PATH(404, "업로드되지 않은 파일 경로"),
 
     IO_INTERRUPTED(500, "파일 입출력 처리 중단");

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.auth.dto.TokenResponse
+import team.comit.simtong.domain.file.usecase.CheckEmployeeUseCase
 import team.comit.simtong.domain.user.dto.ChangeEmailRequest
 import team.comit.simtong.domain.user.dto.ChangeNicknameRequest
 import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
@@ -57,7 +58,8 @@ class WebUserAdapter(
     private val changeNicknameUseCase: ChangeNicknameUseCase,
     private val changeProfileImageUseCase: ChangeProfileImageUseCase,
     private val checkNicknameDuplicationUseCase: CheckNicknameDuplicationUseCase,
-    private val changeSpotUseCase: ChangeSpotUseCase
+    private val changeSpotUseCase: ChangeSpotUseCase,
+    private val checkEmployeeUseCase: CheckEmployeeUseCase
 ) {
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -126,6 +128,14 @@ class WebUserAdapter(
         @RequestParam nickname: String
     ) {
         checkNicknameDuplicationUseCase.execute(nickname)
+    }
+
+    @GetMapping("/verification-employee")
+    fun checkEmployee(
+        @RequestParam name: String,
+        @RequestParam("employee_number") employeeNumber: Int
+    ) {
+        checkEmployeeUseCase.execute(name, employeeNumber)
     }
 
 }
