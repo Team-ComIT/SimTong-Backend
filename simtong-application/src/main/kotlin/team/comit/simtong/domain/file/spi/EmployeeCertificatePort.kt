@@ -8,4 +8,4 @@ package team.comit.simtong.domain.file.spi
  * @date 2022/12/06
  * @version 1.0.0
  **/
-interface EmployeeCertificatePort : CommandEmployeeCertificatePort
+interface EmployeeCertificatePort : CommandEmployeeCertificatePort, QueryEmployeeCertificatePort
