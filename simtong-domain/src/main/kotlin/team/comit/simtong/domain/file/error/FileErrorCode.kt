@@ -17,6 +17,8 @@ enum class FileErrorCode(
 
     INVALID_EXTENSION(400, "제한된 확장자"),
 
+    NOT_VALID_CONTENT(400, "파일의 내용이 올바르지 않음"),
+
     NOT_FOUND_FILE_PATH(404, "업로드되지 않은 파일 경로"),
 
     IO_INTERRUPTED(500, "파일 입출력 처리 중단");

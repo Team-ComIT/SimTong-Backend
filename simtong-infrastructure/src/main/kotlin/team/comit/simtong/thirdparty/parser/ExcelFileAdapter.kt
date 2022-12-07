@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component
 import team.comit.simtong.domain.file.FileExtensionUtils.XLS
 import team.comit.simtong.domain.file.FileExtensionUtils.XLSX
 import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
+import team.comit.simtong.domain.file.exception.FileNotValidContentException
 import team.comit.simtong.domain.file.model.EmployeeCertificate
 import team.comit.simtong.domain.file.spi.ParseFilePort
 import java.io.File
@@ -55,7 +56,7 @@ class ExcelFileAdapter : ParseFilePort {
         }.also {
             file.delete()
             if (it.isFailure) {
-                throw it.exceptionOrNull()!! // TODO Exception Handling
+                throw FileNotValidContentException.EXCEPTION
             }
         }
 
