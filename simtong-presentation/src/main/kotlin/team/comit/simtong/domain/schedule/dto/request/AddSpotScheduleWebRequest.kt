@@ -21,7 +21,6 @@ data class AddSpotScheduleWebRequest(
     val title: String,
 
     @field:NotNull
-    @field:FutureOrPresent
     val startAt: LocalDate,
 
     // TODO 시작일, 종료일 검증 Resolver 구현
