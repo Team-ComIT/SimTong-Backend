@@ -12,21 +12,21 @@ import java.io.File
  **/
 object FileExtensionUtils {
 
-    const val JPG = "jpg"
-    const val JPEG = "jpeg"
-    const val PNG = "png"
+    const val JPG = "JPG"
+    const val JPEG = "JPEG"
+    const val PNG = "PNG"
 
     /**
      * Excel 2003 이전 형식 확장자
      */
-    const val XLS = "xls"
+    const val XLS = "XLS"
 
     /**
      * Excel 2007 이후 형식 확장자
      */
-    const val XLSX = "xlsx"
+    const val XLSX = "XLSX"
 
-    fun isImageExtension(file: File) = when (file.extension) {
+    fun isImageExtension(file: File) = when (file.extension.uppercase()) {
         JPG, JPEG, PNG -> true
         else -> false
     }
