@@ -1,5 +1,7 @@
 package team.comit.simtong.persistence.schedule
 
+import team.comit.simtong.persistence.schedule.entity.QScheduleJpaEntity.scheduleJpaEntity as schedule
+import team.comit.simtong.persistence.spot.entity.QSpotJpaEntity.spotJpaEntity as spot
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
@@ -13,8 +15,6 @@ import team.comit.simtong.persistence.schedule.mapper.ScheduleMapper
 import team.comit.simtong.persistence.schedule.vo.QSpotScheduleVo
 import java.time.LocalDate
 import java.util.UUID
-import team.comit.simtong.persistence.schedule.entity.QScheduleJpaEntity.scheduleJpaEntity as schedule
-import team.comit.simtong.persistence.spot.entity.QSpotJpaEntity.spotJpaEntity as spot
 
 /**
  *
@@ -31,11 +31,13 @@ class SchedulePersistenceAdapter(
     private val queryFactory: JPAQueryFactory
 ) : SchedulePort {
 
-    override fun save(schedule: Schedule) = scheduleMapper.toDomain(
-        scheduleJpaRepository.save(
-            scheduleMapper.toEntity(schedule)
-        )
-    )!!
+    override fun save(schedule: Schedule): Schedule {
+        return scheduleMapper.toDomain(
+            scheduleJpaRepository.save(
+                scheduleMapper.toEntity(schedule)
+            )
+        )!!
+    }
 
     override fun delete(schedule: Schedule) {
         scheduleJpaRepository.delete(
@@ -44,9 +46,8 @@ class SchedulePersistenceAdapter(
     }
 
     override fun queryScheduleById(id: UUID): Schedule? {
-        return scheduleMapper.toDomain(
-            scheduleJpaRepository.findByIdOrNull(id)
-        )
+        return scheduleJpaRepository.findByIdOrNull(id)
+            .let(scheduleMapper::toDomain)
     }
 
     override fun querySpotSchedulesByMonthAndScope(date: LocalDate, scope: Scope): List<SpotSchedule> {

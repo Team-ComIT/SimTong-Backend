@@ -21,14 +21,17 @@ class AuthCodePersistenceAdapter(
     private val authCodeRepository: AuthCodeRepository
 ): AuthCodePort {
 
-    override fun queryAuthCodeByEmail(email: String) = authCodeMapper.toDomain(
-        authCodeRepository.findByIdOrNull(email)
-    )
+    override fun queryAuthCodeByEmail(email: String): AuthCode? {
+        return authCodeRepository.findByIdOrNull(email)
+            .let(authCodeMapper::toDomain)
+    }
 
-    override fun save(authCode: AuthCode) = authCodeMapper.toDomain(
-        authCodeRepository.save(
-            authCodeMapper.toEntity(authCode)
-        )
-    )!!
+    override fun save(authCode: AuthCode): AuthCode {
+        return authCodeMapper.toDomain(
+            authCodeRepository.save(
+                authCodeMapper.toEntity(authCode)
+            )
+        )!!
+    }
 
 }

@@ -23,43 +23,54 @@ class UserPersistenceAdapter(
     private val userMapper: UserMapper
 ) : UserPort {
 
-    override fun queryUserById(id: UUID) = userMapper.toDomain(
-        userJpaRepository.findByIdOrNull(id)
-    )
+    override fun queryUserById(id: UUID): User? {
+        return userJpaRepository.findByIdOrNull(id)
+            .let(userMapper::toDomain)
+    }
 
-    override fun queryUserByEmployeeNumber(employeeNumber: Int) = userMapper.toDomain(
-        userJpaRepository.queryUserJpaEntityByEmployeeNumber(employeeNumber)
-    )
+    override fun queryUserByEmployeeNumber(employeeNumber: Int): User? {
+        return userJpaRepository.queryUserJpaEntityByEmployeeNumber(employeeNumber)
+            .let(userMapper::toDomain)
+    }
 
-    override fun queryUserByEmail(email: String) = userMapper.toDomain(
-        userJpaRepository.queryUserJpaEntityByEmail(email)
-    )
+    override fun queryUserByEmail(email: String): User? {
+        return userJpaRepository.queryUserJpaEntityByEmail(email)
+            .let(userMapper::toDomain)
+    }
 
-    override fun queryUserByNickName(nickName: String) = userMapper.toDomain(
-        userJpaRepository.queryUserJpaEntityByNickname(nickName)
-    )
+    override fun queryUserByNickName(nickName: String): User? {
+        return userJpaRepository.queryUserJpaEntityByNickname(nickName)
+            .let(userMapper::toDomain)
+    }
 
-    override fun queryUserByNameAndSpotAndEmail(name: String, spotId: UUID, email: String) = userMapper.toDomain(
-        userJpaRepository.queryUserJpaEntityByNameAndSpotIdAndEmail(name, spotId, email)
-    )
+    override fun queryUserByNameAndSpotAndEmail(name: String, spotId: UUID, email: String): User? {
+        return userJpaRepository.queryUserJpaEntityByNameAndSpotIdAndEmail(name, spotId, email)
+            .let(userMapper::toDomain)
+    }
 
-    override fun queryUserByEmailAndEmployeeNumber(email: String, employeeNumber: Int) = userMapper.toDomain(
-        userJpaRepository.queryUserJpaEntityByEmailAndEmployeeNumber(email, employeeNumber)
-    )
+    override fun queryUserByEmailAndEmployeeNumber(email: String, employeeNumber: Int): User? {
+        return userJpaRepository.queryUserJpaEntityByEmailAndEmployeeNumber(email, employeeNumber)
+            .let(userMapper::toDomain)
+    }
 
-    override fun existsUserByEmail(email: String) = userJpaRepository
-        .existsUserJpaEntitiesByEmail(email)
+    override fun existsUserByEmail(email: String): Boolean {
+        return userJpaRepository.existsUserJpaEntitiesByEmail(email)
+    }
 
-    override fun existsUserByNickname(nickname: String) = userJpaRepository
-        .existsUserJpaEntitiesByNickname(nickname)
+    override fun existsUserByNickname(nickname: String): Boolean {
+        return userJpaRepository.existsUserJpaEntitiesByNickname(nickname)
+    }
 
-    override fun existsUserByEmployeeNumberAndEmail(employeeNumber: Int, email: String) = userJpaRepository
-        .existsUserJpaEntityByEmployeeNumberAndEmail(employeeNumber, email)
+    override fun existsUserByEmployeeNumberAndEmail(employeeNumber: Int, email: String): Boolean {
+        return userJpaRepository.existsUserJpaEntityByEmployeeNumberAndEmail(employeeNumber, email)
+    }
 
-    override fun save(user: User) = userMapper.toDomain(
-        userJpaRepository.save(
-            userMapper.toEntity(user)
-        )
-    )!!
+    override fun save(user: User): User {
+        return userMapper.toDomain(
+            userJpaRepository.save(
+                userMapper.toEntity(user)
+            )
+        )!!
+    }
 
 }
