@@ -74,6 +74,7 @@ class SecurityConfig(
             // files
             .antMatchers(HttpMethod.POST, "/files").permitAll()
             .antMatchers(HttpMethod.POST, "/files/list").permitAll()
+            .antMatchers(HttpMethod.POST, "/files/employee").permitAll()
 
             // schedules
             .antMatchers(HttpMethod.POST, "/schedules").hasRole(ROLE_COMMON.role)

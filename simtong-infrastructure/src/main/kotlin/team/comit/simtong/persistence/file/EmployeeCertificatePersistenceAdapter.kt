@@ -24,6 +24,13 @@ class EmployeeCertificatePersistenceAdapter(
         employeeNumber: Int
     ) = employeeCertificateJpaRepository.existsByNameAndEmployeeNumber(name, employeeNumber)
 
+
+    override fun saveAll(employeeCertificates: List<EmployeeCertificate>) {
+        employeeCertificateJpaRepository.saveAll(
+            employeeCertificates.map(employeeCertificateMapper::toEntity)
+        )
+    }
+
     override fun queryEmployeeCertificateByNameAndEmployeeNumber(
         name: String,
         employeeNumber: Int
