@@ -45,8 +45,8 @@ class HolidayPersistenceAdapter(
             HolidayId(
                 date = date,
                 userId = userId
-            ))
-            .let(holidayMapper::toDomain)
+            )
+        ).let(holidayMapper::toDomain)
     }
 
     override fun queryHolidaysByMonthAndUserId(date: LocalDate, userId: UUID): List<Holiday> {
@@ -61,11 +61,9 @@ class HolidayPersistenceAdapter(
     }
 
     override fun save(holiday: Holiday): Holiday {
-        return holidayMapper.toDomain(
-            holidayJpaRepository.save(
-                holidayMapper.toEntity(holiday)
-            )
-        )!!
+        return holidayJpaRepository.save(
+            holidayMapper.toEntity(holiday)
+        ).let { holidayMapper.toDomain(it)!! }
     }
 
     override fun delete(holiday: Holiday) {

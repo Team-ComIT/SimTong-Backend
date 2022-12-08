@@ -32,11 +32,9 @@ class SchedulePersistenceAdapter(
 ) : SchedulePort {
 
     override fun save(schedule: Schedule): Schedule {
-        return scheduleMapper.toDomain(
-            scheduleJpaRepository.save(
-                scheduleMapper.toEntity(schedule)
-            )
-        )!!
+        return scheduleJpaRepository.save(
+            scheduleMapper.toEntity(schedule)
+        ).let { scheduleMapper.toDomain(it)!! }
     }
 
     override fun delete(schedule: Schedule) {

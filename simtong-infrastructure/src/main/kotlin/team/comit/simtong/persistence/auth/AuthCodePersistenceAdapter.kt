@@ -27,11 +27,9 @@ class AuthCodePersistenceAdapter(
     }
 
     override fun save(authCode: AuthCode): AuthCode {
-        return authCodeMapper.toDomain(
-            authCodeRepository.save(
-                authCodeMapper.toEntity(authCode)
-            )
-        )!!
+        return authCodeRepository.save(
+            authCodeMapper.toEntity(authCode)
+        ).let { authCodeMapper.toDomain(it)!! }
     }
 
 }

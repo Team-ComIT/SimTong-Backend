@@ -66,11 +66,9 @@ class UserPersistenceAdapter(
     }
 
     override fun save(user: User): User {
-        return userMapper.toDomain(
-            userJpaRepository.save(
-                userMapper.toEntity(user)
-            )
-        )!!
+        return userJpaRepository.save(
+            userMapper.toEntity(user)
+        ).let { userMapper.toDomain(it)!! }
     }
 
 }
