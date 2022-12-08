@@ -11,6 +11,8 @@ import team.comit.simtong.domain.auth.exception.RequiredNewEmailAuthenticationEx
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.auth.exception.UsedEmailException
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
+import team.comit.simtong.domain.file.exception.InvalidEmployeeException
+import team.comit.simtong.domain.file.model.EmployeeCertificate
 import team.comit.simtong.domain.spot.exception.SpotNotFoundException
 import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.team.exception.TeamNotFoundException
@@ -23,11 +25,13 @@ import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserCommandAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.UserJwtPort
 import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
+import team.comit.simtong.domain.user.spi.UserQueryEmployeeCertificatePort
 import team.comit.simtong.domain.user.spi.UserQuerySpotPort
 import team.comit.simtong.domain.user.spi.UserQueryTeamPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
 import team.comit.simtong.global.annotation.SimtongTest
-import java.util.*
+import java.util.Date
+import java.util.UUID
 
 @SimtongTest
 class SignUpUseCaseTests {
@@ -55,6 +59,9 @@ class SignUpUseCaseTests {
 
     @MockBean
     private lateinit var commandAuthCodeLimitPort: UserCommandAuthCodeLimitPort
+
+    @MockBean
+    private lateinit var queryEmployeeCertificatePort: UserQueryEmployeeCertificatePort
 
     private lateinit var signUpUseCase: SignUpUseCase
 
@@ -112,6 +119,15 @@ class SignUpUseCaseTests {
         )
     }
 
+    private val employeeCertificateStub: EmployeeCertificate by lazy {
+        EmployeeCertificate(
+            employeeNumber = employeeNumber,
+            name = name,
+            spotName = spotName,
+            teamName = teamName
+        )
+    }
+
     private val requestStub: SignUpRequest by lazy {
         SignUpRequest(
             nickname = nickname,
@@ -141,7 +157,8 @@ class SignUpUseCaseTests {
             commandAuthCodeLimitPort,
             userQuerySpotPort,
             userQueryTeamPort,
-            userSecurityPort
+            userSecurityPort,
+            queryEmployeeCertificatePort
         )
     }
 
@@ -160,20 +177,23 @@ class SignUpUseCaseTests {
             profileImagePath = profileImagePath
         )
 
-        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
-            .willReturn(authCodeLimitStub)
-
         given(queryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(false)
 
-        given(userSecurityPort.encode(requestStub.password))
-            .willReturn(userStub.password)
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
 
-        given(userQuerySpotPort.querySpotByName(spotName))
+        given(queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(requestStub.name, requestStub.employeeNumber))
+            .willReturn(employeeCertificateStub)
+
+        given(userQuerySpotPort.querySpotByName(employeeCertificateStub.spotName))
             .willReturn(spotStub)
 
-        given(userQueryTeamPort.queryTeamByName(teamName))
+        given(userQueryTeamPort.queryTeamByName(employeeCertificateStub.teamName))
             .willReturn(teamStub)
+
+        given(userSecurityPort.encode(requestStub.password))
+            .willReturn(userStub.password)
 
         given(commandUserPort.save(userStub))
             .willReturn(saveUserStub)
@@ -212,20 +232,23 @@ class SignUpUseCaseTests {
             profileImagePath = User.DEFAULT_IMAGE
         )
 
-        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
-            .willReturn(authCodeLimitStub)
-
         given(queryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(false)
 
-        given(userSecurityPort.encode(requestStub.password))
-            .willReturn(userStub.password)
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
 
-        given(userQuerySpotPort.querySpotByName(spotName))
+        given(queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(requestStub.name, requestStub.employeeNumber))
+            .willReturn(employeeCertificateStub)
+
+        given(userQuerySpotPort.querySpotByName(employeeCertificateStub.spotName))
             .willReturn(spotStub)
 
-        given(userQueryTeamPort.queryTeamByName(teamName))
+        given(userQueryTeamPort.queryTeamByName(employeeCertificateStub.teamName))
             .willReturn(teamStub)
+
+        given(userSecurityPort.encode(requestStub.password))
+            .willReturn(userStub.password)
 
         given(commandUserPort.save(userStub))
             .willReturn(saveUserStub)
@@ -287,6 +310,24 @@ class SignUpUseCaseTests {
     }
 
     @Test
+    fun `사원 정보 찾기 실패`() {
+        // given
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
+
+        given(queryUserPort.existsUserByEmail(requestStub.email))
+            .willReturn(false)
+
+        given(queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(requestStub.name, requestStub.employeeNumber))
+            .willReturn(null)
+
+        // when & then
+        assertThrows<InvalidEmployeeException> {
+            signUpUseCase.execute(requestStub)
+        }
+    }
+
+    @Test
     fun `지점 찾기 실패`() {
         // given
         given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
@@ -295,7 +336,10 @@ class SignUpUseCaseTests {
         given(queryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(false)
 
-        given(userQuerySpotPort.querySpotByName(spotName))
+        given(queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(requestStub.name, requestStub.employeeNumber))
+            .willReturn(employeeCertificateStub)
+
+        given(userQuerySpotPort.querySpotByName(employeeCertificateStub.spotName))
             .willReturn(null)
 
         // when & then
@@ -313,10 +357,13 @@ class SignUpUseCaseTests {
         given(queryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(false)
 
-        given(userQuerySpotPort.querySpotByName(spotName))
+        given(queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(requestStub.name, requestStub.employeeNumber))
+            .willReturn(employeeCertificateStub)
+
+        given(userQuerySpotPort.querySpotByName(employeeCertificateStub.spotName))
             .willReturn(spotStub)
 
-        given(userQueryTeamPort.queryTeamByName(teamName))
+        given(userQueryTeamPort.queryTeamByName(employeeCertificateStub.teamName))
             .willReturn(null)
 
         // when & then

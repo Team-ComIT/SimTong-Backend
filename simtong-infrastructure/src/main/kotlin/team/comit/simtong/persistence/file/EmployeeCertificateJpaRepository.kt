@@ -6,7 +6,7 @@ import team.comit.simtong.persistence.file.entity.EmployeeCertificateJpaEntity
 
 /**
  *
- * Spring Repository 기능을 이용하는 EmployeeProofJpaRepository
+ * Spring Repository 기능을 이용하는 EmployeeCertificateJpaRepository
  *
  * @author Chokyunghyeon
  * @date 2022/12/06
@@ -16,5 +16,7 @@ import team.comit.simtong.persistence.file.entity.EmployeeCertificateJpaEntity
 interface EmployeeCertificateJpaRepository : CrudRepository<EmployeeCertificateJpaEntity, Int> {
 
     fun existsByNameAndEmployeeNumber(name: String, employeeNumber: Int): Boolean
+
+    fun queryEmployeeCertificateJpaEntityByNameAndEmployeeNumber(name: String, employeeNumber: Int): EmployeeCertificateJpaEntity?
 
 }

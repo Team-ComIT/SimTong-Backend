@@ -7,7 +7,7 @@ import team.comit.simtong.persistence.file.entity.EmployeeCertificateJpaEntity
 
 /**
  *
- * 직원 명부  EmployeeProofMapper
+ * EmployeeCertificate Entity와 Employee Certificate Aggregate를 변환하는 EmployeeCertificateMapper
  *
  * @author Chokyunghyeon
  * @date 2022/12/06

@@ -4,6 +4,7 @@ import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.auth.exception.RequiredNewEmailAuthenticationException
 import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
 import team.comit.simtong.domain.auth.exception.UsedEmailException
+import team.comit.simtong.domain.file.exception.InvalidEmployeeException
 import team.comit.simtong.domain.spot.exception.SpotNotFoundException
 import team.comit.simtong.domain.team.exception.TeamNotFoundException
 import team.comit.simtong.domain.user.dto.SignUpRequest
@@ -14,6 +15,7 @@ import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserCommandAuthCodeLimitPort
 import team.comit.simtong.domain.user.spi.UserJwtPort
 import team.comit.simtong.domain.user.spi.UserQueryAuthCodeLimitPort
+import team.comit.simtong.domain.user.spi.UserQueryEmployeeCertificatePort
 import team.comit.simtong.domain.user.spi.UserQuerySpotPort
 import team.comit.simtong.domain.user.spi.UserQueryTeamPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
@@ -37,8 +39,8 @@ class SignUpUseCase(
     private val commandAuthCodeLimitPort: UserCommandAuthCodeLimitPort,
     private val querySpotPort: UserQuerySpotPort,
     private val queryTeamPort: UserQueryTeamPort,
-    //    private val nickNamePort: NickNamePort,
-    private val securityPort: UserSecurityPort
+    private val securityPort: UserSecurityPort,
+    private val queryEmployeeCertificatePort: UserQueryEmployeeCertificatePort
 ) {
 
     fun execute(request: SignUpRequest): TokenResponse {
@@ -55,18 +57,18 @@ class SignUpUseCase(
             throw UncertifiedEmailException.EXCEPTION
         }
 
-        // TODO 비즈니스 로직 직접 구현
-        // 임직원 확인
+        val employeeCertificate = queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(name, employeeNumber)
+            ?: throw InvalidEmployeeException.EXCEPTION
 
-        val spot = querySpotPort.querySpotByName("test spotName")
+        val spot = querySpotPort.querySpotByName(employeeCertificate.spotName)
             ?: throw SpotNotFoundException.EXCEPTION
 
-        val team = queryTeamPort.queryTeamByName("test teamName")
+        val team = queryTeamPort.queryTeamByName(employeeCertificate.teamName)
             ?: throw TeamNotFoundException.EXCEPTION
 
         val user = commandUserPort.save(
             User(
-                nickname = nickname ?: "", // nickNamePort.random()
+                nickname = nickname ?: "", // TODO 랜덤 닉네임
                 name = name,
                 email = email,
                 password = securityPort.encode(password),
