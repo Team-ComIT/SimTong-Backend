@@ -25,7 +25,7 @@ class ExcelFileAdapter : ParseFilePort {
 
     override fun importEmployeeCertificate(file: File): List<EmployeeCertificate> {
         val inputStream = file.inputStream()
-        val excel = when (file.extension) {
+        val excel = when (file.extension.uppercase()) {
             XLS -> HSSFWorkbook(inputStream)
             XLSX -> XSSFWorkbook(inputStream)
             else -> {
