@@ -32,7 +32,7 @@ class ExcelFileAdapter : ParseFilePort {
         runCatching {
             val workSheet = workbook.getSheetAt(0)
 
-            for (i in 1 until workSheet.lastRowNum) {
+            for (i in 1..workSheet.lastRowNum) {
                 val employeeData = workSheet.getRow(i).run {
                     EmployeeCertificate(
                         employeeNumber = getCell(1, RETURN_NULL_AND_BLANK).numericCellValue.toInt(),
