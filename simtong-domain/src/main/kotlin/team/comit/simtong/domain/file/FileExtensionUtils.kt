@@ -15,6 +15,7 @@ object FileExtensionUtils {
     const val JPG = "JPG"
     const val JPEG = "JPEG"
     const val PNG = "PNG"
+    const val HEIC = "HEIC"
 
     /**
      * Excel 2003 이전 형식 확장자
@@ -27,7 +28,7 @@ object FileExtensionUtils {
     const val XLSX = "XLSX"
 
     fun isImageExtension(file: File) = when (file.extension.uppercase()) {
-        JPG, JPEG, PNG -> true
+        JPG, JPEG, PNG, HEIC -> true
         else -> false
     }
 
