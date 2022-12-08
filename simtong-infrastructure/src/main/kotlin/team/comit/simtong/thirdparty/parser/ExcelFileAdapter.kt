@@ -26,7 +26,7 @@ import java.io.File
 class ExcelFileAdapter : ParseFilePort {
 
     override fun importEmployeeCertificate(file: File): List<EmployeeCertificate> {
-        val workbook = asExcelFile(file)
+        val workbook = transferToExcel(file)
 
         val employeeCertificateList = mutableListOf<EmployeeCertificate>()
         runCatching {
@@ -51,7 +51,7 @@ class ExcelFileAdapter : ParseFilePort {
         return employeeCertificateList
     }
 
-    private fun asExcelFile(file: File) : Workbook {
+    private fun transferToExcel(file: File) : Workbook {
         val inputStream = file.inputStream()
 
         return runCatching {
