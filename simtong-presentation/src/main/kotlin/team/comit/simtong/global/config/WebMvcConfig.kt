@@ -21,8 +21,9 @@ class WebMvcConfig : WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
+            .allowedHeaders("*")
             .allowedMethods("*")
-            .allowedOriginPatterns("*")
+            .allowedOrigins("*")
     }
 
     override fun addFormatters(registry: FormatterRegistry) {
