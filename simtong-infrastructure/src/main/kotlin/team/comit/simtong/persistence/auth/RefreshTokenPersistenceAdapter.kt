@@ -2,6 +2,7 @@ package team.comit.simtong.persistence.auth
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
+import team.comit.simtong.domain.auth.model.RefreshToken
 import team.comit.simtong.domain.auth.spi.RefreshTokenPort
 import team.comit.simtong.persistence.auth.mapper.RefreshTokenMapper
 import team.comit.simtong.persistence.auth.repository.RefreshTokenRepository
@@ -21,8 +22,9 @@ class RefreshTokenPersistenceAdapter(
     private val refreshTokenMapper: RefreshTokenMapper
 ) : RefreshTokenPort {
 
-    override fun queryRefreshTokenByToken(token: String) = refreshTokenMapper.toDomain(
-        refreshTokenRepository.findByIdOrNull(token)
-    )
+    override fun queryRefreshTokenByToken(token: String): RefreshToken? {
+        return refreshTokenRepository.findByIdOrNull(token)
+            .let(refreshTokenMapper::toDomain)
+    }
 
 }

@@ -22,8 +22,9 @@ class EmployeeCertificatePersistenceAdapter(
     override fun existsEmployeeCertificateByNameAndEmployeeNumber(
         name: String,
         employeeNumber: Int
-    ) = employeeCertificateJpaRepository.existsByNameAndEmployeeNumber(name, employeeNumber)
-
+    ): Boolean {
+        return employeeCertificateJpaRepository.existsByNameAndEmployeeNumber(name, employeeNumber)
+    }
 
     override fun saveAll(employeeCertificates: List<EmployeeCertificate>) {
         employeeCertificateJpaRepository.saveAll(
@@ -35,9 +36,8 @@ class EmployeeCertificatePersistenceAdapter(
         name: String,
         employeeNumber: Int
     ): EmployeeCertificate? {
-        return employeeCertificateMapper.toDomain(
-            employeeCertificateJpaRepository.queryEmployeeCertificateJpaEntityByNameAndEmployeeNumber(name, employeeNumber)
-        )
+        return employeeCertificateJpaRepository.queryEmployeeCertificateJpaEntityByNameAndEmployeeNumber(name, employeeNumber)
+            .let(employeeCertificateMapper::toDomain)
     }
 
 }

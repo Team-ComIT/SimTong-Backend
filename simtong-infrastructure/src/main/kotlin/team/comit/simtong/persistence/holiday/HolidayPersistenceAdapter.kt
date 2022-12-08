@@ -40,14 +40,14 @@ class HolidayPersistenceAdapter(
             .fetchFirst()
     }
 
-    override fun queryHolidayByDateAndUserId(date: LocalDate, userId: UUID): Holiday? = holidayMapper.toDomain(
-        holidayJpaRepository.findByIdOrNull(
+    override fun queryHolidayByDateAndUserId(date: LocalDate, userId: UUID): Holiday? {
+        return holidayJpaRepository.findByIdOrNull(
             HolidayId(
                 date = date,
                 userId = userId
             )
-        )
-    )
+        ).let(holidayMapper::toDomain)
+    }
 
     override fun queryHolidaysByMonthAndUserId(date: LocalDate, userId: UUID): List<Holiday> {
         return queryFactory.selectFrom(holiday)
@@ -60,11 +60,11 @@ class HolidayPersistenceAdapter(
             .map { holidayMapper.toDomain(it)!! }
     }
 
-    override fun save(holiday: Holiday): Holiday = holidayMapper.toDomain(
-        holidayJpaRepository.save(
+    override fun save(holiday: Holiday): Holiday {
+        return holidayJpaRepository.save(
             holidayMapper.toEntity(holiday)
-        )
-    )!!
+        ).let { holidayMapper.toDomain(it)!! }
+    }
 
     override fun delete(holiday: Holiday) {
         holidayJpaRepository.delete(

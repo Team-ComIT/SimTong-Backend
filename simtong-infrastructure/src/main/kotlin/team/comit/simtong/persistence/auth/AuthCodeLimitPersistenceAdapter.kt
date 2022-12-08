@@ -22,15 +22,16 @@ class AuthCodeLimitPersistenceAdapter(
     private val authCodeLimitRepository: AuthCodeLimitRepository
 ) : AuthCodeLimitPort {
 
-    override fun queryAuthCodeLimitByEmail(email: String) = authCodeLimitMapper.toDomain(
-        authCodeLimitRepository.findByIdOrNull(email)
-    )
+    override fun queryAuthCodeLimitByEmail(email: String): AuthCodeLimit? {
+        return authCodeLimitRepository.findByIdOrNull(email)
+            .let(authCodeLimitMapper::toDomain)
+    }
 
-    override fun save(authCodeLimit: AuthCodeLimit) = authCodeLimitMapper.toDomain(
-        authCodeLimitRepository.save(
+    override fun save(authCodeLimit: AuthCodeLimit): AuthCodeLimit {
+        return authCodeLimitRepository.save(
             authCodeLimitMapper.toEntity(authCodeLimit)
-        )
-    )!!
+        ).let { authCodeLimitMapper.toDomain(it)!! }
+    }
 
     override fun delete(authCodeLimit: AuthCodeLimit) {
         authCodeLimitRepository.delete(
