@@ -9,9 +9,6 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.web.cors.CorsConfiguration
-import org.springframework.web.cors.CorsConfigurationSource
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import team.comit.simtong.domain.user.model.Authority.ROLE_ADMIN
 import team.comit.simtong.domain.user.model.Authority.ROLE_COMMON
 import team.comit.simtong.domain.user.model.Authority.ROLE_SUPER
@@ -36,7 +33,7 @@ class SecurityConfig(
     @Bean
     protected fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
-            .cors().configurationSource(corsConfiguration()).and()
+            .cors().and()
             .csrf().disable()
             .formLogin().disable()
 
@@ -108,18 +105,4 @@ class SecurityConfig(
     @Bean
     protected fun PasswordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
-    @Bean
-    protected fun corsConfiguration() : CorsConfigurationSource {
-        return UrlBasedCorsConfigurationSource().apply {
-            registerCorsConfiguration(
-                "/**",
-                CorsConfiguration().apply {
-                    allowCredentials = true
-                    allowedOriginPatterns = listOf("*")
-                    allowedHeaders = listOf("*")
-                    allowedMethods = listOf("*")
-                }
-            )
-        }
-    }
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.holiday.dto.QueryIndividualHolidaysResponse
 import team.comit.simtong.domain.holiday.dto.request.AppointHolidayWebRequest
-import team.comit.simtong.domain.holiday.dto.request.CancelHolidayWebRequest
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.CancelHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryIndividualHolidayUseCase
@@ -42,8 +41,8 @@ class WebHolidayAdapter(
 
     @DeleteMapping("/work")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun cancelHoliday(@Valid @RequestBody request: CancelHolidayWebRequest) {
-        cancelHolidayUseCase.execute(request.date)
+    fun cancelHoliday(@RequestParam date: LocalDate) {
+        cancelHolidayUseCase.execute(date)
     }
 
     @GetMapping
