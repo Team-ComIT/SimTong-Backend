@@ -51,12 +51,8 @@ class WebFileAdapter(
         registerEmployeeCertificateUseCase.execute(file.let(transferFile))
     }
 
-    private fun MultipartFile.extension(): String {
-        return originalFilename?.substringAfterLast(".", "") ?: ""
-    }
-
     private val transferFile = { multipartFile: MultipartFile ->
-        File("${UUID.randomUUID()}.${multipartFile.extension()}").apply {
+        File("${UUID.randomUUID()}_${multipartFile.originalFilename}").apply {
             FileOutputStream(this).run {
                 write(multipartFile.bytes)
                 close()
