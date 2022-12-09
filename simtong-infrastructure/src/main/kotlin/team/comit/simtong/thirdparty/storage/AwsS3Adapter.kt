@@ -11,7 +11,7 @@ import team.comit.simtong.domain.file.spi.CheckFilePort
 import team.comit.simtong.domain.file.spi.UploadFilePort
 import java.io.File
 import java.io.IOException
-import java.net.URLDecoder
+import java.net.URLDecoder.decode
 
 /**
  *
@@ -70,9 +70,7 @@ class AwsS3Adapter(
     }
 
     override fun existsPath(path: String): Boolean {
-        val key = path.substringAfterLast('/', "")
-
-        URLDecoder.decode(key, Charsets.UTF_8)
+        val key = decode(path.substringAfterLast('/', ""), Charsets.UTF_8)
 
         return amazonS3Client.doesObjectExist(awsProperties.bucket, key)
     }
