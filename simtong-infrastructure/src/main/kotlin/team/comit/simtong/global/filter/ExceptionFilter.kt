@@ -5,6 +5,8 @@ import org.springframework.http.MediaType
 import org.springframework.web.filter.OncePerRequestFilter
 import team.comit.simtong.global.error.BusinessException
 import team.comit.simtong.global.error.ErrorProperty
+import team.comit.simtong.global.error.WebErrorProperty
+import team.comit.simtong.global.error.WebException
 import team.comit.simtong.global.error.dto.ErrorResponse
 import team.comit.simtong.global.exception.InternalServerErrorException
 import java.nio.charset.StandardCharsets
@@ -36,6 +38,7 @@ class ExceptionFilter(
         } catch (e: Exception) {
             when (e.cause) {
                 is BusinessException -> writeErrorCode((e.cause as BusinessException).exceptionProperty, response)
+                is WebException -> writeErrorCode((e.cause as WebException).exceptionProperty, response)
                 else -> {
                     e.printStackTrace()
                     writeErrorCode(InternalServerErrorException.EXCEPTION.exceptionProperty, response)
@@ -45,13 +48,28 @@ class ExceptionFilter(
     }
 
     private fun writeErrorCode(exception: ErrorProperty, response: HttpServletResponse) {
-        response.characterEncoding = StandardCharsets.UTF_8.name()
-        response.status = exception.status()
-        response.contentType = MediaType.APPLICATION_JSON_VALUE
-        response.writer.write(
-            objectMapper.writeValueAsString(
-                ErrorResponse.of(exception)
+        response.run {
+            characterEncoding = StandardCharsets.UTF_8.name()
+            status = exception.status()
+            contentType = MediaType.APPLICATION_JSON_VALUE
+            writer.write(
+                objectMapper.writeValueAsString(
+                    ErrorResponse.of(exception)
+                )
             )
-        )
+        }
+    }
+
+    private fun writeErrorCode(exception: WebErrorProperty, response: HttpServletResponse) {
+        response.run {
+            characterEncoding = StandardCharsets.UTF_8.name()
+            status = exception.status()
+            contentType = MediaType.APPLICATION_JSON_VALUE
+            writer.write(
+                objectMapper.writeValueAsString(
+                    ErrorResponse.of(exception)
+                )
+            )
+        }
     }
 }
