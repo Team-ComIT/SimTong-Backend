@@ -11,6 +11,7 @@ import team.comit.simtong.domain.file.spi.CheckFilePort
 import team.comit.simtong.domain.file.spi.UploadFilePort
 import java.io.File
 import java.io.IOException
+import java.net.URLDecoder
 
 /**
  *
@@ -27,28 +28,38 @@ class AwsS3Adapter(
 ): UploadFilePort, CheckFilePort {
 
     override fun upload(file: File): String {
-        inputS3(file)
+        runCatching { inputS3(file) }
+            .also { file.delete() }
+            .onFailure { throw it }
+
 
         return getResource(file.name)
     }
 
     override fun upload(files: List<File>): List<String> {
-        return files.map {
-                inputS3(it)
-                getResource(it.name)
-            }
+        runCatching { files.forEach(::inputS3) }
+            .also { files.forEach(File::delete) }
+            .onFailure { throw it }
+
+        return files.map { getResource(it.name) }
     }
 
     private fun inputS3(file: File) {
         try {
             val inputStream = file.inputStream()
             val objectMetadata = ObjectMetadata().apply {
-                this.contentLength = file.length()
-                this.contentType = Mimetypes.getInstance().getMimetype(file)
+                contentLength = file.length()
+                contentType = Mimetypes.getInstance().getMimetype(file)
             }
 
-            amazonS3Client.putObject(PutObjectRequest(awsProperties.bucket, file.name, inputStream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead))
-            file.delete()
+            amazonS3Client.putObject(
+                PutObjectRequest(
+                    awsProperties.bucket,
+                    file.name,
+                    inputStream,
+                    objectMetadata
+                ).withCannedAcl(CannedAccessControlList.PublicRead)
+            )
         } catch (e: IOException) {
             throw FileIOInterruptedException.EXCEPTION
         }
@@ -59,7 +70,11 @@ class AwsS3Adapter(
     }
 
     override fun existsPath(path: String): Boolean {
-        return amazonS3Client.doesObjectExist(awsProperties.bucket, path.substringAfterLast('/', ""))
+        val key = path.substringAfterLast('/', "").apply {
+            URLDecoder.decode(this, Charsets.UTF_8)
+        }
+
+        return amazonS3Client.doesObjectExist(awsProperties.bucket, key)
     }
 
 }

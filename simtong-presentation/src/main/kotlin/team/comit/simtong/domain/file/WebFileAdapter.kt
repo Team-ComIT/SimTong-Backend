@@ -52,7 +52,7 @@ class WebFileAdapter(
     }
 
     private val transferFile = { multipartFile: MultipartFile ->
-        File("${UUID.randomUUID()}@${multipartFile.originalFilename}").apply {
+        File("${UUID.randomUUID()}_${multipartFile.originalFilename}").apply {
             FileOutputStream(this).run {
                 write(multipartFile.bytes)
                 close()
