@@ -15,8 +15,6 @@ enum class FileErrorCode(
     private val message: String
 ) : ErrorProperty {
 
-    INVALID_EXTENSION(400, "제한된 확장자"),
-
     NOT_VALID_CONTENT(400, "파일의 내용이 올바르지 않음"),
 
     INVALID_EMPLOYEE(401, "일치하는 사원 정보가 존재하지 않음"),
