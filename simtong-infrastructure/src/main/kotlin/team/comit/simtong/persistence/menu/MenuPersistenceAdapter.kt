@@ -8,6 +8,7 @@ import team.comit.simtong.domain.menu.spi.MenuPort
 import team.comit.simtong.persistence.QuerydslExtensionUtils.sameMonthFilter
 import team.comit.simtong.persistence.menu.entity.QMenuJpaEntity.menuJpaEntity
 import team.comit.simtong.persistence.menu.mapper.MenuMapper
+import team.comit.simtong.persistence.menu.repository.MenuJpaRepository
 import team.comit.simtong.persistence.spot.entity.QSpotJpaEntity.spotJpaEntity
 import java.time.LocalDate
 import java.util.UUID
@@ -24,6 +25,7 @@ import java.util.UUID
 @Component
 class MenuPersistenceAdapter(
     private val menuMapper: MenuMapper,
+    private val menuRepository: MenuJpaRepository,
     private val queryFactory: JPAQueryFactory
 ) : MenuPort {
 
@@ -51,6 +53,12 @@ class MenuPersistenceAdapter(
             .orderBy(menuJpaEntity.id.date.asc())
             .fetch()
             .map { menuMapper.toDomain(it)!! }
+    }
+
+    override fun saveAll(menus: List<Menu>) {
+        menuRepository.saveAll(
+            menus.map(menuMapper::toEntity)
+        )
     }
 
     private fun sameMonthMenuFilter(date: LocalDate) : BooleanExpression {
