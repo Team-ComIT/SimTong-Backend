@@ -70,6 +70,7 @@ class SecurityConfig(
 
             // menu
             .antMatchers(HttpMethod.GET, "/menu/public").permitAll()
+            .antMatchers(HttpMethod.POST, "/menu").permitAll()
 
             // files
             .antMatchers(HttpMethod.POST, "/files").permitAll()
