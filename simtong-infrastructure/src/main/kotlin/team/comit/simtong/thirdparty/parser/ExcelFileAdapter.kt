@@ -6,8 +6,8 @@ import org.apache.poi.ss.usermodel.Row.MissingCellPolicy.RETURN_NULL_AND_BLANK
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.springframework.stereotype.Component
-import team.comit.simtong.domain.file.FileExtensionUtils.XLS
-import team.comit.simtong.domain.file.FileExtensionUtils.XLSX
+import team.comit.simtong.domain.file.convertor.FileExtensions.XLS
+import team.comit.simtong.domain.file.convertor.FileExtensions.XLSX
 import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
 import team.comit.simtong.domain.file.exception.FileNotValidContentException
 import team.comit.simtong.domain.file.model.EmployeeCertificate

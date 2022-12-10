@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.file.transfer
+package team.comit.simtong.domain.file.convertor
 
 import org.springframework.web.multipart.MultipartFile
 import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
@@ -8,17 +8,16 @@ import java.util.UUID
 
 /**
  *
- * MultipartFile에서 File의 변환을 담당하는 FileConvertor
+ * MultipartFile에서 File의 변환을 담당하는 FileConverter
  *
  * @author Chokyunghyeon
  * @date 2022/12/09
  * @version 1.0.0
  **/
-interface FileConvertor {
+interface FileConverter {
 
     val MultipartFile.extension: String
         get() = originalFilename?.substringAfterLast(".", "")?.uppercase() ?: ""
-
 
     fun isCorrectExtension(multipartFile: MultipartFile): Boolean
 
