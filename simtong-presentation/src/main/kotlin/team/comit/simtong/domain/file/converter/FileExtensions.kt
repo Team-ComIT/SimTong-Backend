@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.file.convertor
+package team.comit.simtong.domain.file.converter
 
 /**
  *

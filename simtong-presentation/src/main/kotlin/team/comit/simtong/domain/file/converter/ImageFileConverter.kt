@@ -1,10 +1,10 @@
-package team.comit.simtong.domain.file.convertor
+package team.comit.simtong.domain.file.converter
 
 import org.springframework.web.multipart.MultipartFile
-import team.comit.simtong.domain.file.convertor.FileExtensions.HEIC
-import team.comit.simtong.domain.file.convertor.FileExtensions.JPEG
-import team.comit.simtong.domain.file.convertor.FileExtensions.JPG
-import team.comit.simtong.domain.file.convertor.FileExtensions.PNG
+import team.comit.simtong.domain.file.converter.FileExtensions.HEIC
+import team.comit.simtong.domain.file.converter.FileExtensions.JPEG
+import team.comit.simtong.domain.file.converter.FileExtensions.JPG
+import team.comit.simtong.domain.file.converter.FileExtensions.PNG
 
 /**
  *

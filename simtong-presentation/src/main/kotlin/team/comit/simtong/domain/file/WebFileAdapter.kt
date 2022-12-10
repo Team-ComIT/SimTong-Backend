@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 import team.comit.simtong.domain.file.dto.response.UploadImageListWebResponse
 import team.comit.simtong.domain.file.dto.response.UploadImageWebResponse
-import team.comit.simtong.domain.file.convertor.ExcelFileConverter
-import team.comit.simtong.domain.file.convertor.ImageFileConverter
+import team.comit.simtong.domain.file.converter.ExcelFileConverter
+import team.comit.simtong.domain.file.converter.ImageFileConverter
 import team.comit.simtong.domain.file.usecase.RegisterEmployeeCertificateUseCase
 import team.comit.simtong.domain.file.usecase.UploadImageUseCase
 

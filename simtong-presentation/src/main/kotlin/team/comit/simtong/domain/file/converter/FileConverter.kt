@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.file.convertor
+package team.comit.simtong.domain.file.converter
 
 import org.springframework.web.multipart.MultipartFile
 import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
