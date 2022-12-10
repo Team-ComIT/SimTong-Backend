@@ -65,12 +65,17 @@ class ExcelFileAdapter : ParseEmployeeCertificateFilePort, ParseMenuFilePort {
         runCatching {
             val workSheet = workbook.getSheetAt(0)
 
-            // cell 2+3, 5+6, 8+9 .. -> 문자열 더하기
-            // cell 4, 7, 10 .. -> 무시
-            for (rowNum in 2 until workSheet.lastRowNum step 3) {
+            // cell 1, 4, 7, 10 .. -> 날짜
+            // cell 2+3, 5+6, 8+9 .. -> 메뉴
+            for (rowNum in 1 until workSheet.lastRowNum step 3) {
+
+                val dayRow = workSheet.getRow(rowNum)
+                val mealRow = workSheet.getRow(rowNum + 1)
+                val dessertRow = workSheet.getRow(rowNum + 2)
+
                 for (cellNum in 0..6) {
-                    var meal = workSheet.getRow(rowNum)
-                        .getCell(cellNum, CREATE_NULL_AS_BLANK).stringCellValue
+
+                    var meal = mealRow.getCell(cellNum, CREATE_NULL_AS_BLANK).stringCellValue
                         .replace("\n", ",") // 줄바꿈 기준으로 ,로 구분
 
                     /**
@@ -80,15 +85,13 @@ class ExcelFileAdapter : ParseEmployeeCertificateFilePort, ParseMenuFilePort {
                         continue
                     }
 
-                    val dessert = workSheet.getRow(rowNum + 1)
-                        .getCell(cellNum, CREATE_NULL_AS_BLANK).stringCellValue
+                    val dessert = dessertRow.getCell(cellNum, CREATE_NULL_AS_BLANK).stringCellValue
 
-                    if (dessert.isNotEmpty()) {
+                    if (dessert.isNotEmpty()) { // 디저트가 있다면 문자열 합치기
                         meal = "$meal,$dessert"
                     }
 
-                    val day = workSheet.getRow(rowNum - 1)
-                        .getCell(cellNum, CREATE_NULL_AS_BLANK).stringCellValue
+                    val day = dayRow.getCell(cellNum, CREATE_NULL_AS_BLANK).stringCellValue
                         .substringBeforeLast("(") // 숫자만 가져오기 ex. 1(월) -> 1
                         .toInt()
 
