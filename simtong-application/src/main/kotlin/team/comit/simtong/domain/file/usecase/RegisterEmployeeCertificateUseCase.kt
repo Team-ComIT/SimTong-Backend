@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.file.usecase
 
 import team.comit.simtong.domain.file.spi.CommandEmployeeCertificatePort
-import team.comit.simtong.domain.file.spi.ParseFilePort
+import team.comit.simtong.domain.file.spi.ParseEmployeeCertificateFilePort
 import team.comit.simtong.global.annotation.UseCase
 import java.io.File
 
@@ -16,11 +16,11 @@ import java.io.File
 @UseCase
 class RegisterEmployeeCertificateUseCase(
     private val commandEmployeeCertificatePort: CommandEmployeeCertificatePort,
-    private val parseFilePort: ParseFilePort
+    private val parseEmployeeCertificateFilePort: ParseEmployeeCertificateFilePort
 ) {
 
     fun execute(file: File) {
-        val employeeList = parseFilePort.importEmployeeCertificate(file)
+        val employeeList = parseEmployeeCertificateFilePort.importEmployeeCertificate(file)
 
         commandEmployeeCertificatePort.saveAll(employeeList)
     }

@@ -5,13 +5,13 @@ import java.io.File
 
 /**
  *
- * 파일 분석을 요청하는 ParseFilePort
+ * EmployeeCertificate 파일 파싱을 요청하는 ParseEmployeeCertificateFilePort
  *
  * @author Chokyunghyeon
  * @date 2022/12/06
  * @version 1.0.0
  **/
-interface ParseFilePort {
+interface ParseEmployeeCertificateFilePort {
 
     fun importEmployeeCertificate(file: File): List<EmployeeCertificate>
 }

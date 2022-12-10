@@ -7,7 +7,7 @@ import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.file.model.EmployeeCertificate
 import team.comit.simtong.domain.file.spi.CommandEmployeeCertificatePort
-import team.comit.simtong.domain.file.spi.ParseFilePort
+import team.comit.simtong.domain.file.spi.ParseEmployeeCertificateFilePort
 import team.comit.simtong.global.annotation.SimtongTest
 import java.io.File
 
@@ -18,7 +18,7 @@ class RegisterEmployeeCertificateUseCaseTest {
     private lateinit var commandEmployeeCertificatePort: CommandEmployeeCertificatePort
 
     @MockBean
-    private lateinit var parseFilePort: ParseFilePort
+    private lateinit var parseEmployeeCertificateFilePort: ParseEmployeeCertificateFilePort
 
     private lateinit var registerEmployeeCertificateUseCase: RegisterEmployeeCertificateUseCase
 
@@ -39,14 +39,14 @@ class RegisterEmployeeCertificateUseCaseTest {
     fun setUp() {
         registerEmployeeCertificateUseCase = RegisterEmployeeCertificateUseCase(
             commandEmployeeCertificatePort = commandEmployeeCertificatePort,
-            parseFilePort = parseFilePort
+            parseEmployeeCertificateFilePort = parseEmployeeCertificateFilePort
         )
     }
 
     @Test
     fun `사원 명부 등록 성공`() {
         // given
-        given(parseFilePort.importEmployeeCertificate(fileStub))
+        given(parseEmployeeCertificateFilePort.importEmployeeCertificate(fileStub))
             .willReturn(employeeCertificateList)
 
         // when & then
