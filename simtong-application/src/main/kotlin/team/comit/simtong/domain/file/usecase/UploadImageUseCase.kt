@@ -1,7 +1,5 @@
 package team.comit.simtong.domain.file.usecase
 
-import team.comit.simtong.domain.file.FileExtensionUtils.isImageExtension
-import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
 import team.comit.simtong.domain.file.spi.UploadFilePort
 import team.comit.simtong.global.annotation.UseCase
 import java.io.File
@@ -20,25 +18,11 @@ class UploadImageUseCase(
 ) {
 
     fun execute(file: File): String {
-        if (!isImageExtension(file)) {
-            file.delete()
-            throw FileInvalidExtensionException.EXCEPTION
-        }
-
         return uploadFilePort.upload(file)
     }
 
     fun execute(files: List<File>): List<String> {
-        files.forEach {
-            if (!isImageExtension(it)) {
-                files.deleteAll()
-                throw FileInvalidExtensionException.EXCEPTION
-            }
-        }
-
         return uploadFilePort.upload(files)
     }
-
-    private fun List<File>.deleteAll() = this.forEach(File::delete)
 
 }

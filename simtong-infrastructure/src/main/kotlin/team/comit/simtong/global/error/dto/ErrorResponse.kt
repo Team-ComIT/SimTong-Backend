@@ -6,6 +6,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import team.comit.simtong.global.error.ErrorProperty
 import team.comit.simtong.global.error.GlobalErrorCode
+import team.comit.simtong.global.error.WebErrorProperty
 import javax.validation.ConstraintViolationException
 
 /**
@@ -24,6 +25,12 @@ class ErrorResponse(
 
     companion object {
         fun of(exception: ErrorProperty) = ErrorResponse(
+            status = exception.status(),
+            message = exception.message(),
+            fieldErrors = emptyList()
+        )
+
+        fun of(exception: WebErrorProperty) = ErrorResponse(
             status = exception.status(),
             message = exception.message(),
             fieldErrors = emptyList()
