@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.schedule.dto
 
+import team.comit.simtong.domain.schedule.model.Scope
 import java.time.LocalDate
 import java.util.UUID
 
@@ -30,5 +31,7 @@ data class ScheduleResponse(
 
     val endAt: LocalDate,
 
-    val title: String
+    val title: String,
+
+    val scope: Scope
 )

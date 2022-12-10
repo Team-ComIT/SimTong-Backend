@@ -34,10 +34,10 @@ class QueryIndividualSpotScheduleUseCase(
         )
 
         val ownSpotSchedules = querySchedulePort.querySchedulesByMonthAndSpotIdAndScope(
-            date, user.spotId, Scope.INDIVIDUAL
+            date, user.spotId, Scope.ENTIRE
         )
 
-        val schedules = ownSpotSchedules.union(individualSchedules) // 개인 일정과 소속 지점 일정 합치면서 중복 제거
+        val schedules = (ownSpotSchedules + individualSchedules) // 개인 일정과 소속 지점 일정 합치기
             .sortedBy { it.startAt } // 시작일 기준 오름차순으로 정렬
 
         val response = schedules.map {
@@ -45,7 +45,8 @@ class QueryIndividualSpotScheduleUseCase(
                 id = it.id,
                 startAt = it.startAt,
                 endAt = it.endAt,
-                title = it.title
+                title = it.title,
+                scope = it.scope
             )
         }
 
