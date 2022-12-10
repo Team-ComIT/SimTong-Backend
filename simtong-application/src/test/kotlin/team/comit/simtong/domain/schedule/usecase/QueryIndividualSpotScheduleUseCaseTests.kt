@@ -18,7 +18,7 @@ import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.global.annotation.SimtongTest
 import java.time.LocalDate
-import java.util.*
+import java.util.UUID
 
 @SimtongTest
 class QueryIndividualSpotScheduleUseCaseTests {
@@ -35,6 +35,10 @@ class QueryIndividualSpotScheduleUseCaseTests {
     private lateinit var queryIndividualSpotScheduleUseCase: QueryIndividualSpotScheduleUseCase
 
     private val date: LocalDate = LocalDate.now()
+
+    private val minDate: LocalDate = LocalDate.MIN
+
+    private val maxDate: LocalDate = LocalDate.MAX
 
     private val userId: UUID = UUID.randomUUID()
 
@@ -57,15 +61,28 @@ class QueryIndividualSpotScheduleUseCaseTests {
         )
     }
 
-    private val scheduleStub: Schedule by lazy {
+    private val individualScheduleStub: Schedule by lazy {
         Schedule(
             id = scheduleId,
             userId = userId,
             spotId = spotId,
             title = "test title",
             scope = Scope.INDIVIDUAL,
-            startAt = date,
-            endAt = date,
+            startAt = minDate,
+            endAt = minDate,
+            alarmTime = Schedule.DEFAULT_ALARM_TIME
+        )
+    }
+
+    private val entireScheduleStub: Schedule by lazy {
+        Schedule(
+            id = scheduleId,
+            userId = userId,
+            spotId = spotId,
+            title = "test title",
+            scope = Scope.ENTIRE,
+            startAt = maxDate,
+            endAt = maxDate,
             alarmTime = Schedule.DEFAULT_ALARM_TIME
         )
     }
@@ -75,9 +92,17 @@ class QueryIndividualSpotScheduleUseCaseTests {
             listOf(
                 ScheduleResponse(
                     id = scheduleId,
-                    startAt = date,
-                    endAt = date,
-                    title = "test title"
+                    startAt = minDate,
+                    endAt = minDate,
+                    title = "test title",
+                    scope = Scope.INDIVIDUAL
+                ),
+                ScheduleResponse(
+                    id = scheduleId,
+                    startAt = maxDate,
+                    endAt = maxDate,
+                    title = "test title",
+                    Scope.ENTIRE
                 )
             )
         )
@@ -101,12 +126,12 @@ class QueryIndividualSpotScheduleUseCaseTests {
 
         given(querySchedulePort.querySchedulesByMonthAndUserIdAndScope(date, userStub.id, Scope.INDIVIDUAL))
             .willReturn(
-                listOf(scheduleStub)
+                listOf(individualScheduleStub)
             )
 
-        given(querySchedulePort.querySchedulesByMonthAndSpotIdAndScope(date, userStub.spotId, Scope.INDIVIDUAL))
+        given(querySchedulePort.querySchedulesByMonthAndSpotIdAndScope(date, userStub.spotId, Scope.ENTIRE))
             .willReturn(
-                listOf(scheduleStub)
+                listOf(entireScheduleStub)
             )
 
         // when
