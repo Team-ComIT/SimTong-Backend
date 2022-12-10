@@ -37,7 +37,7 @@ class MenuPersistenceAdapter(
             .where(
                 sameMonthMenuFilter(date)
             )
-            .orderBy(menuJpaEntity.id.date.asc())
+            .orderBy(menuJpaEntity.menuId.date.asc())
             .fetch()
             .map { menuMapper.toDomain(it)!! }
     }
@@ -50,7 +50,7 @@ class MenuPersistenceAdapter(
             .where(
                 sameMonthMenuFilter(date)
             )
-            .orderBy(menuJpaEntity.id.date.asc())
+            .orderBy(menuJpaEntity.menuId.date.asc())
             .fetch()
             .map { menuMapper.toDomain(it)!! }
     }
@@ -62,7 +62,7 @@ class MenuPersistenceAdapter(
     }
 
     private fun sameMonthMenuFilter(date: LocalDate) : BooleanExpression {
-        return menuJpaEntity.id.date.sameMonthFilter(date)
+        return menuJpaEntity.menuId.date.sameMonthFilter(date)
     }
 
 }
