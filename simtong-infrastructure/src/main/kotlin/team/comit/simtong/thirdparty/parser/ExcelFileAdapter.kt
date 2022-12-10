@@ -11,24 +11,30 @@ import team.comit.simtong.domain.file.converter.FileExtensions.XLSX
 import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
 import team.comit.simtong.domain.file.exception.FileNotValidContentException
 import team.comit.simtong.domain.file.model.EmployeeCertificate
-import team.comit.simtong.domain.file.spi.ParseFilePort
+import team.comit.simtong.domain.file.spi.ParseEmployeeCertificateFilePort
+import team.comit.simtong.domain.menu.model.Menu
+import team.comit.simtong.domain.menu.spi.ParseMenuFilePort
 import java.io.File
+import java.time.LocalDate
+import java.util.UUID
 
 /**
  *
- * 엑셀 파일 구문 분석을 담당하는 ExcelFileAdapter
+ * 엑셀 파일 구문 파싱을 담당하는 ExcelFileAdapter
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/12/06
  * @version 1.0.0
  **/
 @Component
-class ExcelFileAdapter : ParseFilePort {
+class ExcelFileAdapter : ParseEmployeeCertificateFilePort, ParseMenuFilePort {
 
     override fun importEmployeeCertificate(file: File): List<EmployeeCertificate> {
         val workbook = transferToExcel(file)
 
         val employeeCertificateList = mutableListOf<EmployeeCertificate>()
+
         runCatching {
             val workSheet = workbook.getSheetAt(0)
 
@@ -44,14 +50,69 @@ class ExcelFileAdapter : ParseFilePort {
 
                 employeeCertificateList.add(employeeData)
             }
-        }.onFailure {
+        }.onFailure { e ->
+            e.printStackTrace()
             throw FileNotValidContentException.EXCEPTION
         }
 
         return employeeCertificateList
     }
 
-    private fun transferToExcel(file: File) : Workbook {
+    override fun importMenu(file: File, year: Int, month: Int, spotId: UUID): List<Menu> {
+        val workbook = transferToExcel(file)
+        val menu = mutableListOf<Menu>()
+
+        runCatching {
+            val workSheet = workbook.getSheetAt(0)
+
+            // cell 1, 4, 7, 10 .. -> 날짜
+            // cell 2+3, 5+6, 8+9 .. -> 메뉴
+            for (rowNum in 1 until workSheet.lastRowNum step 3) {
+
+                val dayRow = workSheet.getRow(rowNum)
+                val mealRow = workSheet.getRow(rowNum + 1)
+                val dessertRow = workSheet.getRow(rowNum + 2)
+
+                for (cellNum in 0..6) {
+
+                    var meal = mealRow.getCell(cellNum, CREATE_NULL_AS_BLANK).stringCellValue
+                        .replace("\n", ",") // 줄바꿈 기준으로 ,로 구분
+
+                    /**
+                     * 메뉴가 없는 경우 다음 cell로 이동
+                     */
+                    if (meal.isEmpty()) {
+                        continue
+                    }
+
+                    val dessert = dessertRow.getCell(cellNum, CREATE_NULL_AS_BLANK).stringCellValue
+
+                    if (dessert.isNotEmpty()) { // 디저트가 있다면 문자열 합치기
+                        meal = "$meal,$dessert"
+                    }
+
+                    val day = dayRow.getCell(cellNum, CREATE_NULL_AS_BLANK).stringCellValue
+                        .substringBeforeLast("(") // 숫자만 가져오기 ex. 1(월) -> 1
+                        .toInt()
+
+                    val menuData = Menu(
+                        date = LocalDate.of(year, month, day),
+                        meal = meal,
+                        spotId = spotId,
+                    )
+
+                    menu.add(menuData)
+                }
+            }
+        }.onFailure { e ->
+            e.printStackTrace()
+            throw FileNotValidContentException.EXCEPTION
+        }
+
+        return menu
+    }
+
+    private fun transferToExcel(file: File): Workbook {
         val inputStream = file.inputStream()
 
         return runCatching {

@@ -8,5 +8,5 @@ package team.comit.simtong.domain.menu.spi
  * @date 2022/09/21
  * @version 1.0.0
  **/
-interface MenuPort : QueryMenuPort {
+interface MenuPort : QueryMenuPort, CommandMenuPort {
 }

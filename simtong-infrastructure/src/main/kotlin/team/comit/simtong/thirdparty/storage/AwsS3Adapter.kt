@@ -30,8 +30,10 @@ class AwsS3Adapter(
     override fun upload(file: File): String {
         runCatching { inputS3(file) }
             .also { file.delete() }
-            .onFailure { throw it }
-
+            .onFailure { e ->
+                e.printStackTrace()
+                throw e
+            }
 
         return getResource(file.name)
     }
@@ -39,7 +41,10 @@ class AwsS3Adapter(
     override fun upload(files: List<File>): List<String> {
         runCatching { files.forEach(::inputS3) }
             .also { files.forEach(File::delete) }
-            .onFailure { throw it }
+            .onFailure { e ->
+                e.printStackTrace()
+                throw e
+            }
 
         return files.map { getResource(it.name) }
     }
@@ -61,6 +66,7 @@ class AwsS3Adapter(
                 ).withCannedAcl(CannedAccessControlList.PublicRead)
             )
         } catch (e: IOException) {
+            e.printStackTrace()
             throw FileIOInterruptedException.EXCEPTION
         }
     }
