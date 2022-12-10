@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 import team.comit.simtong.domain.file.dto.response.UploadImageListWebResponse
 import team.comit.simtong.domain.file.dto.response.UploadImageWebResponse
-import team.comit.simtong.domain.file.transfer.ExcelFileConvertor
-import team.comit.simtong.domain.file.transfer.ImageFileConvertor
+import team.comit.simtong.domain.file.converter.ExcelFileConverter
+import team.comit.simtong.domain.file.converter.ImageFileConverter
 import team.comit.simtong.domain.file.usecase.RegisterEmployeeCertificateUseCase
 import team.comit.simtong.domain.file.usecase.UploadImageUseCase
 
@@ -33,7 +33,7 @@ class WebFileAdapter(
     fun uploadSingleImage(file: MultipartFile): UploadImageWebResponse {
         return UploadImageWebResponse(
             uploadImageUseCase.execute(
-                file.let(ImageFileConvertor::transferTo)
+                file.let(ImageFileConverter::transferTo)
             )
         )
     }
@@ -43,7 +43,7 @@ class WebFileAdapter(
     fun uploadMultipleImage(files: List<MultipartFile>): UploadImageListWebResponse {
         return UploadImageListWebResponse(
             uploadImageUseCase.execute(
-                files.let(ImageFileConvertor::transferToList)
+                files.let(ImageFileConverter::transferToList)
             )
         )
     }
@@ -52,7 +52,7 @@ class WebFileAdapter(
     @ResponseStatus(HttpStatus.CREATED)
     fun importEmployeeCertificate(file: MultipartFile) {
         registerEmployeeCertificateUseCase.execute(
-            file.let(ExcelFileConvertor::transferTo)
+            file.let(ExcelFileConverter::transferTo)
         )
     }
 
