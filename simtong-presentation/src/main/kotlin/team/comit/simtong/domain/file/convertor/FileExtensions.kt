@@ -1,16 +1,15 @@
-package team.comit.simtong.domain.file
-
-import java.io.File
+package team.comit.simtong.domain.file.convertor
 
 /**
  *
- * 파일 확장자를 관리하는 FileExtensionUtils
+ * 파일 확장자를 관리하는 FileExtensions
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/12/06
  * @version 1.0.0
  **/
-object FileExtensionUtils {
+object FileExtensions {
 
     const val JPG = "JPG"
     const val JPEG = "JPEG"
@@ -26,10 +25,5 @@ object FileExtensionUtils {
      * Excel 2007 이후 형식 확장자
      */
     const val XLSX = "XLSX"
-
-    fun isImageExtension(file: File) = when (file.extension.uppercase()) {
-        JPG, JPEG, PNG, HEIC -> true
-        else -> false
-    }
 
 }
