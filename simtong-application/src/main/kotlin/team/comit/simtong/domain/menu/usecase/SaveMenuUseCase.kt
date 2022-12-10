@@ -1,9 +1,12 @@
 package team.comit.simtong.domain.menu.usecase
 
+import team.comit.simtong.domain.menu.exception.MenuAlreadyExistsSameMonthException
 import team.comit.simtong.domain.menu.spi.CommandMenuPort
 import team.comit.simtong.domain.menu.spi.ParseMenuFilePort
+import team.comit.simtong.domain.menu.spi.QueryMenuPort
 import team.comit.simtong.global.annotation.UseCase
 import java.io.File
+import java.time.LocalDate
 import java.util.UUID
 
 /**
@@ -17,11 +20,16 @@ import java.util.UUID
 @UseCase
 class SaveMenuUseCase(
     private val parseMenuFilePort: ParseMenuFilePort,
+    private val queryMenuPort: QueryMenuPort,
     private val commandMenuPort: CommandMenuPort
 ) {
 
     fun execute(file: File, year: Int, month: Int, spotId: UUID) {
         val menu = parseMenuFilePort.importMenu(file, year, month, spotId)
+
+        if (queryMenuPort.queryMenusByMonthAndSpotId(LocalDate.of(year, month, 1), spotId).isNotEmpty()) {
+            throw MenuAlreadyExistsSameMonthException.EXCEPTION
+        }
 
         commandMenuPort.saveAll(menu)
     }

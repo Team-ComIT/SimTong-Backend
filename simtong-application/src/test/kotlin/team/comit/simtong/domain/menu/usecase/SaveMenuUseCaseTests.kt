@@ -3,11 +3,14 @@ package team.comit.simtong.domain.menu.usecase
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
+import team.comit.simtong.domain.menu.exception.MenuAlreadyExistsSameMonthException
 import team.comit.simtong.domain.menu.model.Menu
 import team.comit.simtong.domain.menu.spi.CommandMenuPort
 import team.comit.simtong.domain.menu.spi.ParseMenuFilePort
+import team.comit.simtong.domain.menu.spi.QueryMenuPort
 import team.comit.simtong.global.annotation.SimtongTest
 import java.io.File
 import java.time.LocalDate
@@ -18,6 +21,9 @@ class SaveMenuUseCaseTests {
 
     @MockBean
     private lateinit var parseMenuFilePort: ParseMenuFilePort
+
+    @MockBean
+    private lateinit var queryMenuPort: QueryMenuPort
 
     @MockBean
     private lateinit var commandMenuPort: CommandMenuPort
@@ -41,6 +47,7 @@ class SaveMenuUseCaseTests {
     fun setUp() {
         saveMenuUseCase = SaveMenuUseCase(
             parseMenuFilePort = parseMenuFilePort,
+            queryMenuPort = queryMenuPort,
             commandMenuPort = commandMenuPort
         )
     }
@@ -51,8 +58,26 @@ class SaveMenuUseCaseTests {
         given(parseMenuFilePort.importMenu(fileStub, year, month, spotId))
             .willReturn(listOf(menuStub))
 
+        given(queryMenuPort.queryMenusByMonthAndSpotId(LocalDate.of(year, month, 1), spotId))
+            .willReturn(emptyList())
+
         // when & then
         assertDoesNotThrow {
+            saveMenuUseCase.execute(fileStub, year, month, spotId)
+        }
+    }
+
+    @Test
+    fun `같은 달에 메뉴가 이미 존재함`() {
+        // given
+        given(parseMenuFilePort.importMenu(fileStub, year, month, spotId))
+            .willReturn(listOf(menuStub))
+
+        given(queryMenuPort.queryMenusByMonthAndSpotId(LocalDate.of(year, month, 1), spotId))
+            .willReturn(listOf(menuStub))
+
+        // when & then
+        assertThrows<MenuAlreadyExistsSameMonthException> {
             saveMenuUseCase.execute(fileStub, year, month, spotId)
         }
     }

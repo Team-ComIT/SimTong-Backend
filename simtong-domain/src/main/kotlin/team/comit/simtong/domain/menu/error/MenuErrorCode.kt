@@ -15,7 +15,7 @@ enum class MenuErrorCode(
     private val message: String
 ) : ErrorProperty {
 
-
+    ALREADY_EXISTS_SAME_MONTH(400, "같은 달에 메뉴가 이미 존재합니다.")
     ;
 
     override fun status(): Int = status
