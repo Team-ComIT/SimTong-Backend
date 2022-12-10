@@ -70,7 +70,7 @@ class AwsS3Adapter(
     }
 
     override fun existsPath(path: String): Boolean {
-        val key = path.substringAfterLast('/', "").apply {
+        val key = path.substringAfterLast('/', "").run {
             URLDecoder.decode(this, Charsets.UTF_8)
         }
 
