@@ -79,13 +79,28 @@ class AwsS3AdapterTests {
     }
 
     @Test
-    fun `파일 입출력 오류`() {
+    fun `단일 파일 입출력 오류`() {
         // given
         val file = File("test.jpg")
 
         // when & then
         assertThrows<FileIOInterruptedException> {
             awsS3Adapter.upload(file)
+        }
+    }
+
+    @Test
+    fun `다중 파일 입출력 오류`() {
+        // given
+        val files = listOf(
+            File("test.jpg"),
+            File("test.jpeg"),
+            File("test.png")
+        )
+
+        // when & then
+        assertThrows<FileIOInterruptedException> {
+            awsS3Adapter.upload(files)
         }
     }
 
