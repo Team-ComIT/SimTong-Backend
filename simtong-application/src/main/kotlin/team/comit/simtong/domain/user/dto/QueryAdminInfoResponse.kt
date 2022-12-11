@@ -4,13 +4,13 @@ import java.util.UUID
 
 /**
  *
- * 관리자의 정보를 전송하는 AdminInfoResponse
+ * 관리자의 정보를 전송하는 QueryAdminInfoResponse
  *
  * @author Chokyunghyeon
  * @date 2022/12/11
  * @version 1.0.0
  **/
-data class AdminInfoResponse(
+data class QueryAdminInfoResponse(
     val name: String,
 
     val email: String,

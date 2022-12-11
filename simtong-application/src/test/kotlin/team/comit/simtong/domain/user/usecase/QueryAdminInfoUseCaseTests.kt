@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.mockito.BDDMockito.given
+import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.spot.exception.SpotNotFoundException
 import team.comit.simtong.domain.spot.model.Spot
-import team.comit.simtong.domain.user.dto.UserInfoResponse
+import team.comit.simtong.domain.user.dto.QueryAdminInfoResponse
 import team.comit.simtong.domain.user.exception.UserNotFoundException
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -19,28 +19,32 @@ import team.comit.simtong.global.annotation.SimtongTest
 import java.util.UUID
 
 @SimtongTest
-class UserInfoUseCaseTests {
+class QueryAdminInfoUseCaseTests {
 
     @MockBean
     private lateinit var queryUserPort: QueryUserPort
 
     @MockBean
-    private lateinit var securityPort: UserSecurityPort
-
-    @MockBean
     private lateinit var querySpotPort: UserQuerySpotPort
 
-    private lateinit var userInfoUseCase: UserInfoUseCase
+    @MockBean
+    private lateinit var securityPort: UserSecurityPort
 
-    private val id = UUID.randomUUID()
+    private lateinit var queryAdminInfoUseCase: QueryAdminInfoUseCase
 
-    private val nickname = "test nickname"
+    private val id: UUID = UUID.randomUUID()
+
+    private val spotId: UUID = UUID.randomUUID()
 
     private val name = "test name"
 
-    private val email = "test email"
+    private val spotName = "test spot name"
 
-    private val profileImagePath = "test path"
+    private val nickname = "test nickname"
+
+    private val email = "test@test.com"
+
+    private val profileImagePath = "test profile image"
 
     private val userStub: User by lazy {
         User(
@@ -50,8 +54,8 @@ class UserInfoUseCaseTests {
             email = email,
             password = "test password",
             employeeNumber = 1234567891,
-            authority = Authority.ROLE_COMMON,
-            spotId = id,
+            authority = Authority.ROLE_ADMIN,
+            spotId = spotId,
             teamId = id,
             profileImagePath = profileImagePath
         )
@@ -59,33 +63,36 @@ class UserInfoUseCaseTests {
 
     private val spotStub: Spot by lazy {
         Spot(
-            id = id,
-            name = name,
+            id = spotId,
+            name = spotName,
             location = "test location"
         )
     }
 
-    private val responseStub: UserInfoResponse by lazy {
-        UserInfoResponse(
+    private val responseStub: QueryAdminInfoResponse by lazy {
+        QueryAdminInfoResponse(
             name = name,
             email = email,
             nickname = nickname,
-            spot = spotStub.name,
+            spot = QueryAdminInfoResponse.SpotResponse(
+                id = spotId,
+                name = spotName
+            ),
             profileImagePath = profileImagePath
         )
     }
 
     @BeforeEach
     fun setUp() {
-        userInfoUseCase = UserInfoUseCase(
+        queryAdminInfoUseCase = QueryAdminInfoUseCase(
             queryUserPort,
-            securityPort,
-            querySpotPort
+            querySpotPort,
+            securityPort
         )
     }
 
     @Test
-    fun `사용자 정보 보기`() {
+    fun `관리자 정보 보기`() {
         // given
         given(securityPort.getCurrentUserId())
             .willReturn(id)
@@ -93,18 +100,18 @@ class UserInfoUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(querySpotPort.querySpotById(id))
+        given(querySpotPort.querySpotById(userStub.spotId))
             .willReturn(spotStub)
 
         // when
-        val response = userInfoUseCase.execute()
+        val response = queryAdminInfoUseCase.execute()
 
         // then
-        assertEquals(responseStub, response)
+        assertEquals(response, responseStub)
     }
 
     @Test
-    fun `유저 찾기 실패`() {
+    fun `관리자 찾기 실패`() {
         // given
         given(securityPort.getCurrentUserId())
             .willReturn(id)
@@ -114,7 +121,7 @@ class UserInfoUseCaseTests {
 
         // when & then
         assertThrows<UserNotFoundException> {
-            userInfoUseCase.execute()
+            queryAdminInfoUseCase.execute()
         }
     }
 
@@ -127,13 +134,12 @@ class UserInfoUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(querySpotPort.querySpotById(id))
+        given(querySpotPort.querySpotById(userStub.spotId))
             .willReturn(null)
 
         // when & then
         assertThrows<SpotNotFoundException> {
-            userInfoUseCase.execute()
+            queryAdminInfoUseCase.execute()
         }
     }
-
 }
