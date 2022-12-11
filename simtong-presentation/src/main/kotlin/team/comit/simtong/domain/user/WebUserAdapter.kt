@@ -16,9 +16,9 @@ import team.comit.simtong.domain.file.usecase.CheckEmployeeUseCase
 import team.comit.simtong.domain.user.dto.ChangeEmailRequest
 import team.comit.simtong.domain.user.dto.ChangeNicknameRequest
 import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
+import team.comit.simtong.domain.user.dto.QueryUserInfoResponse
 import team.comit.simtong.domain.user.dto.SignInRequest
 import team.comit.simtong.domain.user.dto.SignUpRequest
-import team.comit.simtong.domain.user.dto.UserInfoResponse
 import team.comit.simtong.domain.user.dto.request.ChangeEmailWebRequest
 import team.comit.simtong.domain.user.dto.request.ChangeNicknameWebRequest
 import team.comit.simtong.domain.user.dto.request.ChangeProfileImageWebRequest
@@ -30,9 +30,9 @@ import team.comit.simtong.domain.user.usecase.ChangeNicknameUseCase
 import team.comit.simtong.domain.user.usecase.ChangeProfileImageUseCase
 import team.comit.simtong.domain.user.usecase.ChangeSpotUseCase
 import team.comit.simtong.domain.user.usecase.CheckNicknameDuplicationUseCase
+import team.comit.simtong.domain.user.usecase.QueryUserInfoUseCase
 import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
-import team.comit.simtong.domain.user.usecase.UserInfoUseCase
 import team.comit.simtong.global.RegexUtil
 import javax.validation.Valid
 import javax.validation.constraints.NotBlank
@@ -53,7 +53,7 @@ import javax.validation.constraints.Pattern
 class WebUserAdapter(
     private val signUpUseCase: SignUpUseCase,
     private val signInUseCase: SignInUseCase,
-    private val getInfoUseCase: UserInfoUseCase,
+    private val queryUserInfoUseCase: QueryUserInfoUseCase,
     private val changeEmailUseCase: ChangeEmailUseCase,
     private val changeNicknameUseCase: ChangeNicknameUseCase,
     private val changeProfileImageUseCase: ChangeProfileImageUseCase,
@@ -88,8 +88,8 @@ class WebUserAdapter(
     }
 
     @GetMapping("/information")
-    fun getMyInfo(): UserInfoResponse {
-        return getInfoUseCase.execute()
+    fun getUserInfo(): QueryUserInfoResponse {
+        return queryUserInfoUseCase.execute()
     }
 
     @PutMapping("/nickname")
