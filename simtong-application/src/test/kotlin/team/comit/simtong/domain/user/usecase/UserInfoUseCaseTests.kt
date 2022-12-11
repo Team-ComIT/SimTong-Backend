@@ -25,10 +25,10 @@ class UserInfoUseCaseTests {
     private lateinit var queryUserPort: QueryUserPort
 
     @MockBean
-    private lateinit var userSecurityPort: UserSecurityPort
+    private lateinit var securityPort: UserSecurityPort
 
     @MockBean
-    private lateinit var userQuerySpotPort: UserQuerySpotPort
+    private lateinit var querySpotPort: UserQuerySpotPort
 
     private lateinit var userInfoUseCase: UserInfoUseCase
 
@@ -79,21 +79,21 @@ class UserInfoUseCaseTests {
     fun setUp() {
         userInfoUseCase = UserInfoUseCase(
             queryUserPort,
-            userSecurityPort,
-            userQuerySpotPort
+            securityPort,
+            querySpotPort
         )
     }
 
     @Test
     fun `사용자 정보 보기`() {
         // given
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(userQuerySpotPort.querySpotById(id))
+        given(querySpotPort.querySpotById(id))
             .willReturn(spotStub)
 
         // when
@@ -106,7 +106,7 @@ class UserInfoUseCaseTests {
     @Test
     fun `유저 찾기 실패`() {
         // given
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))
@@ -121,13 +121,13 @@ class UserInfoUseCaseTests {
     @Test
     fun `지점 찾기 실패`() {
         // given
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(userQuerySpotPort.querySpotById(id))
+        given(querySpotPort.querySpotById(id))
             .willReturn(null)
 
         // when & then

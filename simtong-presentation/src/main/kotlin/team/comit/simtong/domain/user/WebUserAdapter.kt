@@ -53,7 +53,7 @@ import javax.validation.constraints.Pattern
 class WebUserAdapter(
     private val signUpUseCase: SignUpUseCase,
     private val signInUseCase: SignInUseCase,
-    private val getInfoUseCase: UserInfoUseCase,
+    private val userInfoUseCase: UserInfoUseCase,
     private val changeEmailUseCase: ChangeEmailUseCase,
     private val changeNicknameUseCase: ChangeNicknameUseCase,
     private val changeProfileImageUseCase: ChangeProfileImageUseCase,
@@ -88,8 +88,8 @@ class WebUserAdapter(
     }
 
     @GetMapping("/information")
-    fun getMyInfo(): UserInfoResponse {
-        return getInfoUseCase.execute()
+    fun getUserInfo(): UserInfoResponse {
+        return userInfoUseCase.execute()
     }
 
     @PutMapping("/nickname")

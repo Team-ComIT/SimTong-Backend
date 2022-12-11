@@ -19,15 +19,15 @@ import team.comit.simtong.global.annotation.ReadOnlyUseCase
 @ReadOnlyUseCase
 class UserInfoUseCase(
     private val queryUserPort: QueryUserPort,
-    private val userSecurityPort: UserSecurityPort,
-    private val userQuerySpotPort: UserQuerySpotPort
+    private val securityPort: UserSecurityPort,
+    private val querySpotPort: UserQuerySpotPort
 ) {
 
     fun execute(): UserInfoResponse {
-        val currentUserId = userSecurityPort.getCurrentUserId()
+        val currentUserId = securityPort.getCurrentUserId()
 
         val user = queryUserPort.queryUserById(currentUserId) ?: throw UserNotFoundException.EXCEPTION
-        val spot = userQuerySpotPort.querySpotById(user.spotId) ?: throw SpotNotFoundException.EXCEPTION
+        val spot = querySpotPort.querySpotById(user.spotId) ?: throw SpotNotFoundException.EXCEPTION
 
         return UserInfoResponse(
             name = user.name,
