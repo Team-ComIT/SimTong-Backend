@@ -74,10 +74,9 @@ class SchedulePersistenceAdapter(
     override fun querySchedulesByMonthAndSpotIdAndScope(date: LocalDate, spotId: UUID, scope: Scope): List<Schedule> {
         return queryFactory
             .selectFrom(schedule)
-            .join(spot)
-            .on(schedule.spot.id.eq(spotId))
             .where(
                 schedule.scope.eq(scope),
+                schedule.spot.id.eq(spotId),
                 sameMonthScheduleFilter(date)
             )
             .orderBy(schedule.startAt.asc())
