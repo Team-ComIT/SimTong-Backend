@@ -1,13 +1,16 @@
 package team.comit.simtong.domain.admin
 
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.auth.dto.TokenResponse
+import team.comit.simtong.domain.user.dto.QueryAdminInfoResponse
 import team.comit.simtong.domain.user.dto.SignInRequest
-import team.comit.simtong.domain.user.usecase.AdminSignInUseCase
 import team.comit.simtong.domain.user.dto.request.SignInWebRequest
+import team.comit.simtong.domain.user.usecase.AdminSignInUseCase
+import team.comit.simtong.domain.user.usecase.QueryAdminInfoUseCase
 import javax.validation.Valid
 
 /**
@@ -21,7 +24,8 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/admins")
 class WebAdminAdapter(
-    private val adminSignInUseCase: AdminSignInUseCase
+    private val adminSignInUseCase: AdminSignInUseCase,
+    private val queryAdminInfoUseCase: QueryAdminInfoUseCase
 ) {
 
     @PostMapping("/tokens")
@@ -32,6 +36,11 @@ class WebAdminAdapter(
                 password = request.password
             )
         )
+    }
+
+    @GetMapping("/information")
+    fun getAdminInfo(): QueryAdminInfoResponse {
+        return queryAdminInfoUseCase.execute()
     }
 
 }

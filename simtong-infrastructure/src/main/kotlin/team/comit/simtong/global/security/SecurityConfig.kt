@@ -94,6 +94,7 @@ class SecurityConfig(
 
             // admins
             .antMatchers(HttpMethod.POST, "/admins/tokens").permitAll()
+            .antMatchers(HttpMethod.GET, "/admins/information").hasAnyRole(ROLE_ADMIN.role, ROLE_SUPER.role)
 
             .anyRequest().authenticated()
 
