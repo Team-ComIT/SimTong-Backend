@@ -11,19 +11,19 @@ package team.comit.simtong.global
 object RegexUtils {
 
     /**
-     * first word - space X
+     * first word & Last word - space X
      *
      * space , _ , . , a ~ z , A ~ Z , 가 ~ 힣 , 0 ~ 9
      *
      * length - 1 ~ 20
      **/
-    const val NICKNAME_PATTERN = """(?=\S)(?=[a-zA-Z0-9가-힣._]{1,20}).*"""
+    const val NICKNAME_PATTERN = """(?=^\S)(?=^[\w\s가-힣.]{1,20}$).*(?=\S$).*"""
 
     /**
      * non-space, $ , + , - , _ , a ~ z , A ~ Z , 0 ~ 9
      *
      * length - 8 ~ 20
      **/
-    const val SECRET_PATTERN = """[a-zA-Z0-9_+\-$]{8,20}"""
+        const val SECRET_PATTERN = """^[\w+\-$]{8,20}$"""
 
 }
