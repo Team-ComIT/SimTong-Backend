@@ -1,6 +1,5 @@
 package team.comit.simtong.domain.common.dto.request
 
-import org.hibernate.validator.constraints.Length
 import team.comit.simtong.global.RegexUtil
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern
@@ -18,8 +17,6 @@ data class ChangePasswordWebRequest(
     @field:NotBlank
     val password: String,
 
-    @field:NotBlank
     @field:Pattern(regexp = RegexUtil.SECRET_PATTERN)
-    @field:Length(min = 8, max = 20)
     val newPassword: String
 )

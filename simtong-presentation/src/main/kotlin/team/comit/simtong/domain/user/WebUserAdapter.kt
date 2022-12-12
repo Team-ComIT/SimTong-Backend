@@ -1,6 +1,5 @@
 package team.comit.simtong.domain.user
 
-import org.hibernate.validator.constraints.Length
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
@@ -35,7 +34,6 @@ import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
 import team.comit.simtong.global.RegexUtil
 import javax.validation.Valid
-import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern
 
 /**
@@ -124,7 +122,7 @@ class WebUserAdapter(
 
     @GetMapping("/nickname/duplication")
     fun checkNicknameDuplication(
-        @Pattern(regexp = RegexUtil.NICKNAME_PATTERN) @Length(max = 20) @NotBlank
+        @Pattern(regexp = RegexUtil.NICKNAME_PATTERN)
         @RequestParam nickname: String
     ) {
         checkNicknameDuplicationUseCase.execute(nickname)
