@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.common.dto.request
 
-import team.comit.simtong.global.RegexUtil
+import team.comit.simtong.global.RegexUtils
 import javax.validation.constraints.Email
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
@@ -26,6 +26,6 @@ data class ResetPasswordWebRequest(
     @field:Max(1299999999)
     val employeeNumber: Int,
 
-    @field:Pattern(regexp = RegexUtil.SECRET_PATTERN)
+    @field:Pattern(regexp = RegexUtils.SECRET_PATTERN)
     val newPassword: String
 )

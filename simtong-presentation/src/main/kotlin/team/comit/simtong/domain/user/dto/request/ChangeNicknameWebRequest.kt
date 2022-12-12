@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.user.dto.request
 
-import team.comit.simtong.global.RegexUtil
+import team.comit.simtong.global.RegexUtils
 import javax.validation.constraints.Pattern
 
 /**
@@ -12,6 +12,6 @@ import javax.validation.constraints.Pattern
  * @version 1.0.0
  **/
 data class ChangeNicknameWebRequest(
-    @field:Pattern(regexp = RegexUtil.NICKNAME_PATTERN)
+    @field:Pattern(regexp = RegexUtils.NICKNAME_PATTERN)
     val nickname: String
 )

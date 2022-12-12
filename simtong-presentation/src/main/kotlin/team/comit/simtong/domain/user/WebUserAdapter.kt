@@ -32,7 +32,7 @@ import team.comit.simtong.domain.user.usecase.CheckNicknameDuplicationUseCase
 import team.comit.simtong.domain.user.usecase.QueryUserInfoUseCase
 import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
-import team.comit.simtong.global.RegexUtil
+import team.comit.simtong.global.RegexUtils
 import javax.validation.Valid
 import javax.validation.constraints.Pattern
 
@@ -122,7 +122,7 @@ class WebUserAdapter(
 
     @GetMapping("/nickname/duplication")
     fun checkNicknameDuplication(
-        @Pattern(regexp = RegexUtil.NICKNAME_PATTERN)
+        @Pattern(regexp = RegexUtils.NICKNAME_PATTERN)
         @RequestParam nickname: String
     ) {
         checkNicknameDuplicationUseCase.execute(nickname)

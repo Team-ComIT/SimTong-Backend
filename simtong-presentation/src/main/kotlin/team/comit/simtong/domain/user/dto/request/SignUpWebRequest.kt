@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.user.dto.request
 
-import team.comit.simtong.global.RegexUtil
+import team.comit.simtong.global.RegexUtils
 import javax.validation.constraints.*
 
 /**
@@ -25,10 +25,10 @@ data class SignUpWebRequest(
     @field:Max(1299999999)
     val employeeNumber: Int,
 
-    @field:Pattern(regexp = RegexUtil.SECRET_PATTERN)
+    @field:Pattern(regexp = RegexUtils.SECRET_PATTERN)
     val password: String,
 
-    @field:Pattern(regexp = RegexUtil.NICKNAME_PATTERN)
+    @field:Pattern(regexp = RegexUtils.NICKNAME_PATTERN)
     val nickname: String?,
 
     val profileImagePath: String?

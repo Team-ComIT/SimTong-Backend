@@ -8,7 +8,7 @@ package team.comit.simtong.global
  * @date 2022/10/16
  * @version 1.0.0
  **/
-object RegexUtil {
+object RegexUtils {
 
     /**
      * first word - space X
