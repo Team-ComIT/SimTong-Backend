@@ -58,6 +58,7 @@ jobs:
             docker run -d --name simtong-server -p ${{ secrets.APPLICATION_PORT }}:8080 --env-file .env ${{ secrets.DOCKER_IMAGE }}
             sleep 20
             is_healthy=${docker inspect --format '{{ .State.Health.Status }}' simtong-server}
+            echo $is_healthy
             if [[ $is_healthy -ne "healthy" ]]; then
                 exit 1
             fi
