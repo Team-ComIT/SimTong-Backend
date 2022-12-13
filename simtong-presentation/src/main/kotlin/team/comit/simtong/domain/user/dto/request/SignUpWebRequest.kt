@@ -31,7 +31,6 @@ data class SignUpWebRequest(
     )
     val employeeNumber: Int,
 
-    @field:NotNull
     @field:Pattern(regexp = RegexUtils.SECRET_PATTERN)
     val password: String,
 
