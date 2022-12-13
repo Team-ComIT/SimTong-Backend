@@ -56,3 +56,4 @@ jobs:
             docker pull ${{ secrets.DOCKER_IMAGE }}
             docker rm -f simtong-server || true
             docker run -d --name simtong-server -p ${{ secrets.APPLICATION_PORT }}:8080 --env-file .env ${{ secrets.DOCKER_IMAGE }}
+            docker inspect simtong-server
