@@ -44,6 +44,9 @@ class SecurityConfig(
         http
             .authorizeRequests()
 
+            // healthcheck
+            .antMatchers(HttpMethod.GET, "/").permitAll()
+
             // users
             .antMatchers(HttpMethod.POST, "/users").permitAll()
             .antMatchers(HttpMethod.POST, "/users/tokens").permitAll()
@@ -84,7 +87,8 @@ class SecurityConfig(
             .antMatchers(HttpMethod.GET, "/schedules/spots").hasAnyRole(ROLE_ADMIN.role, ROLE_SUPER.role)
             .antMatchers(HttpMethod.POST, "/schedules/spots/{spot-id}").hasAnyRole(ROLE_ADMIN.role, ROLE_SUPER.role)
             .antMatchers(HttpMethod.PUT, "/schedules/spots/{schedule-id}").hasAnyRole(ROLE_ADMIN.role, ROLE_SUPER.role)
-            .antMatchers(HttpMethod.DELETE, "/schedules/spots/{schedule-id}").hasAnyRole(ROLE_ADMIN.role, ROLE_SUPER.role)
+            .antMatchers(HttpMethod.DELETE, "/schedules/spots/{schedule-id}")
+            .hasAnyRole(ROLE_ADMIN.role, ROLE_SUPER.role)
             .antMatchers(HttpMethod.DELETE, "/schedules/{schedule-id}").hasRole(ROLE_COMMON.role)
 
             // holiday
