@@ -1,8 +1,6 @@
 package team.comit.simtong.domain.user.dto.request
 
-import org.hibernate.validator.constraints.Length
-import team.comit.simtong.global.RegexUtil
-import javax.validation.constraints.NotBlank
+import team.comit.simtong.global.RegexUtils
 import javax.validation.constraints.Pattern
 
 /**
@@ -14,8 +12,6 @@ import javax.validation.constraints.Pattern
  * @version 1.0.0
  **/
 data class ChangeNicknameWebRequest(
-    @field:NotBlank
-    @field:Pattern(regexp = RegexUtil.NICKNAME_PATTERN)
-    @field:Length(max = 20)
+    @field:Pattern(regexp = RegexUtils.NICKNAME_PATTERN)
     val nickname: String
 )

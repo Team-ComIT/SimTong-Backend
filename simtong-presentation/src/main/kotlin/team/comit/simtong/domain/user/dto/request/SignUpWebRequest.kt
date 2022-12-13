@@ -1,7 +1,6 @@
 package team.comit.simtong.domain.user.dto.request
 
-import org.hibernate.validator.constraints.Length
-import team.comit.simtong.global.RegexUtil
+import team.comit.simtong.global.RegexUtils
 import javax.validation.constraints.*
 
 /**
@@ -26,13 +25,10 @@ data class SignUpWebRequest(
     @field:Max(1299999999)
     val employeeNumber: Int,
 
-    @field:NotBlank
-    @field:Pattern(regexp = RegexUtil.SECRET_PATTERN)
-    @field:Length(min = 8, max = 20)
+    @field:Pattern(regexp = RegexUtils.SECRET_PATTERN)
     val password: String,
 
-    @field:Pattern(regexp = RegexUtil.NICKNAME_PATTERN)
-    @field:Length(max = 20)
+    @field:Pattern(regexp = RegexUtils.NICKNAME_PATTERN)
     val nickname: String?,
 
     val profileImagePath: String?
