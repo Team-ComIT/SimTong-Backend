@@ -17,7 +17,7 @@ object RegexUtils {
      *
      * length - 1 ~ 20
      **/
-    const val NICKNAME_PATTERN = """(?=^\S)(?=^[\w\s가-힣.]{1,20}$).*(?=\S$).*"""
+    const val NICKNAME_PATTERN = """(?=^\S)(?=^[\w\s가-힣.]{1,20}$).*(?=\S$)."""
 
     /**
      * a ~ z or A ~ Z & 0 ~ 9 - must more than once
@@ -26,6 +26,6 @@ object RegexUtils {
      *
      * length - 8 ~ 20
      **/
-    const val SECRET_PATTERN = """(?=(.*[a-zA-Z].*)+)(?=(.*\d.*)+)(?=^[\w+\-$]{8,20}$).*"""
+    const val SECRET_PATTERN = """(?=.*[a-zA-Z])(?=.*\d)(?=^[\w+\-$]{8,20}$).*"""
 
 }

@@ -1,7 +1,11 @@
 package team.comit.simtong.domain.user.dto.request
 
+import org.hibernate.validator.constraints.Range
 import team.comit.simtong.global.RegexUtils
-import javax.validation.constraints.*
+import javax.validation.constraints.Email
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
 
 /**
  *
@@ -21,8 +25,10 @@ data class SignUpWebRequest(
     val email: String,
 
     @field:NotNull
-    @field:Min(1200000000)
-    @field:Max(1299999999)
+    @field:Range(
+        min = 1200000000,
+        max = 1299999999
+    )
     val employeeNumber: Int,
 
     @field:Pattern(regexp = RegexUtils.SECRET_PATTERN)
