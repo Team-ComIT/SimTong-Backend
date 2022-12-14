@@ -103,7 +103,7 @@ CommitType: (#IssueNumber) Subject
 {BranchType}/{IssueNumber}-{WorkSummary}
 ```
 
-### BranchType
+### BranchTypes
 
 |BranchType|Description|
 |:--------:|:---------:|
