@@ -26,6 +26,6 @@ object RegexUtils {
      *
      * length - 8 ~ 20
      **/
-    const val SECRET_PATTERN = """(?=.*[a-zA-Z])(?=.*\d)(?=^[\w+\-$]{8,20}$).*"""
+    const val SECRET_PATTERN = """(?=.*[a-zA-Z])(?=.*\d)(?=^[\w$+-]{8,20}$).*"""
 
 }
