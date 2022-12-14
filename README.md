@@ -2,7 +2,9 @@
 
 ## 성심당과 함께하는 사내 인트라넷 애플리케이션 서버입니다!
 
-- [Entity Relation Diagram](https://www.erdcloud.com/d/6sqaXr5XgYD5zPexR)
+#### [Entity Relation Diagram](https://www.erdcloud.com/d/6sqaXr5XgYD5zPexR)
+
+#### [Application Programming Interface](https://documenter.getpostman.com/view/23766185/2s8YswQrDX)
 
 ### Contants
 
@@ -14,17 +16,17 @@
 
 ## 개발 프로세스
 
-1. Issue 생성
-2. Issue 기반 Branch 생성
-3. Issue 관련 작업 완료
-4. PullRequest 생성 및 변경사항 작성
-5. PullRequest Merge 조건
-   - 1인 이상의 Approve 필요
-   - Review Resolve 및 코드 개선
-   - CI로 인한 Build Success
-   - Test Case 작성 (예외있음)
-   - Code Coverage Passed (예외있음)
-6. PullRequest Merge 실행
+1. **Issue 생성**
+2. **Issue 기반 Branch 생성**
+3. **Issue 관련 작업 완료**
+4. **PullRequest 생성 및 변경사항 작성**
+5. **PullRequest Merge 조건**
+   - **1인 이상의 Approve 필요**
+   - **Review Resolve 및 코드 개선**
+   - **CI로 인한 Build Success**
+   - **Test Case 작성 (예외있음)**
+   - **Code Coverage Passed (예외있음)**
+6. **PullRequest Merge 실행**
 
 ### Issue 규칙
 
@@ -54,7 +56,7 @@
 
 ## Commit 규칙
 
-Commit 구성
+#### Commit 구성
 ```
 CommitType: (#IssueNumber) Subject
 ```
@@ -117,7 +119,7 @@ CommitType: (#IssueNumber) Subject
 
 ### IssueNumber
 
-해당 브랜치의 이슈 번호를 작성합니다.
+> 해당 브랜치의 이슈 번호를 작성합니다.
 
 ### WorkSummary
 
