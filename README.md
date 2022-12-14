@@ -6,11 +6,11 @@
 
 ### Contants
 
-- [개발 프로세스](https://github.com/Team-ComIT/SimTong-Backend/edit/main/README.md#개발 프로세스)
-- [Issue 규칙](https://github.com/Team-ComIT/SimTong-Backend/edit/main/README.md#Issue 규칙)
-- [Commit 규칙](https://github.com/Team-ComIT/SimTong-Backend/edit/main/README.md#Commit 규칙)
-- [Branch 규칙](https://github.com/Team-ComIT/SimTong-Backend/edit/main/README.md# Branch 규칙)
-- [Version 규칙](https://github.com/Team-ComIT/SimTong-Backend/edit/main/README.md#Version 규칙)
+- [개발 프로세스](https://github.com/Team-ComIT/SimTong-Backend/edit/main/README.md#개발-프로세스)
+- [Issue 규칙](https://github.com/Team-ComIT/SimTong-Backend/edit/main/README.md#Issue-규칙)
+- [Commit 규칙](https://github.com/Team-ComIT/SimTong-Backend/edit/main/README.md#Commit-규칙)
+- [Branch 규칙](https://github.com/Team-ComIT/SimTong-Backend/edit/main/README.md#Branch-규칙)
+- [Version 규칙](https://github.com/Team-ComIT/SimTong-Backend/edit/main/README.md#Version-규칙)
 
 ## 개발 프로세스
 
