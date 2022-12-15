@@ -15,7 +15,7 @@ enum class HolidayErrorCode(
     private val message: String
 ) : ErrorProperty {
 
-    HOLIDAY_NOT_FOUND(401, "휴무일을 찾을 수 없습니다."),
+    HOLIDAY_NOT_FOUND(404, "휴무일을 찾을 수 없습니다."),
 
     WEEK_HOLIDAY_LIMIT_EXCESS(409, "주 휴무일 지정 한도 초과");
 
