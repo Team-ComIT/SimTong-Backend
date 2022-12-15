@@ -2,9 +2,7 @@
 
 ## 성심당과 함께하는 사내 인트라넷 애플리케이션 서버입니다!
 
-#### [Entity Relation Diagram](https://www.erdcloud.com/d/6sqaXr5XgYD5zPexR)
-
-#### [Application Programming Interface](https://documenter.getpostman.com/view/23766185/2s8YswQrDX)
+#### [Application Programming Interface Spec](https://documenter.getpostman.com/view/23766185/2s8YswQrDX)
 
 ### Contants
 
