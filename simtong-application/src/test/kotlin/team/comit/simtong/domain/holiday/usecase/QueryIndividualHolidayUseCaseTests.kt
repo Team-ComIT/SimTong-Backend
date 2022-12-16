@@ -28,7 +28,7 @@ class QueryIndividualHolidayUseCaseTests {
 
     private val userId: UUID = UUID.randomUUID()
 
-    private val dateStub: LocalDate = LocalDate.now()
+    private val date: LocalDate = LocalDate.now()
 
     private val holidaysStub: List<Holiday> by lazy {
         listOf(
@@ -66,11 +66,11 @@ class QueryIndividualHolidayUseCaseTests {
         given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(queryHolidayPort.queryHolidaysByPeriodAndUserId(dateStub, dateStub, userId))
+        given(queryHolidayPort.queryHolidaysByPeriodAndUserId(date, date, userId))
             .willReturn(holidaysStub)
 
         // when
-        val response = queryIndividualHolidayUseCase.execute(dateStub, dateStub)
+        val response = queryIndividualHolidayUseCase.execute(date, date)
 
         // then
         assertEquals(response, responseStub)

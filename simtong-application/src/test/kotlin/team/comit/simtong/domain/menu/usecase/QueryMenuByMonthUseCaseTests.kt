@@ -80,13 +80,13 @@ class QueryMenuByMonthUseCaseTests {
         given(queryUserPort.queryUserById(currentUserId))
             .willReturn(userStub)
 
-        given(queryMenuPort.queryMenusByMonthAndSpotId(now, userStub.spotId))
+        given(queryMenuPort.queryMenusByPeriodAndSpotId(now, now, userStub.spotId))
             .willReturn(
                 listOf(menuStub, menuStub2)
             )
 
         // when
-        val response = queryMenuByMonthUseCase.execute(now)
+        val response = queryMenuByMonthUseCase.execute(now, now)
 
         // then
         assertThat(response).isNotNull
@@ -103,7 +103,7 @@ class QueryMenuByMonthUseCaseTests {
 
         // when & then
         assertThrows<UserNotFoundException> {
-            queryMenuByMonthUseCase.execute(now)
+            queryMenuByMonthUseCase.execute(now, now)
         }
     }
 

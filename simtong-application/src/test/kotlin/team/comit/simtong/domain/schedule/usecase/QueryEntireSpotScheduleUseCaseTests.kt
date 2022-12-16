@@ -62,11 +62,11 @@ class QueryEntireSpotScheduleUseCaseTests {
     @Test
     fun `전체 지점 일정 조회 성공`() {
         // given
-        given(querySchedulePort.querySpotSchedulesByMonthAndScope(date, Scope.ENTIRE))
+        given(querySchedulePort.querySpotSchedulesByPeriodAndScope(date, date, Scope.ENTIRE))
             .willReturn(spotScheduleListStub)
 
         // when
-        val response = queryEntireSpotScheduleUseCase.execute(date)
+        val response = queryEntireSpotScheduleUseCase.execute(date, date)
 
         // then
         assertEquals(response, responseStub)

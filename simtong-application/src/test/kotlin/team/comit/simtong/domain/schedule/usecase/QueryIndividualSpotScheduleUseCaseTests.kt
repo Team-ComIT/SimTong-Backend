@@ -124,18 +124,18 @@ class QueryIndividualSpotScheduleUseCaseTests {
         given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
-        given(querySchedulePort.querySchedulesByMonthAndUserIdAndScope(date, userStub.id, Scope.INDIVIDUAL))
+        given(querySchedulePort.querySchedulesByPeriodAndUserIdAndScope(date, date, userStub.id, Scope.INDIVIDUAL))
             .willReturn(
                 listOf(individualScheduleStub)
             )
 
-        given(querySchedulePort.querySchedulesByMonthAndSpotIdAndScope(date, userStub.spotId, Scope.ENTIRE))
+        given(querySchedulePort.querySchedulesByPeriodAndSpotIdAndScope(date, date, userStub.spotId, Scope.ENTIRE))
             .willReturn(
                 listOf(entireScheduleStub)
             )
 
         // when
-        val response = queryIndividualSpotScheduleUseCase.execute(date)
+        val response = queryIndividualSpotScheduleUseCase.execute(date, date)
 
         // then
         assertThat(response).isEqualTo(responseStub)
@@ -152,7 +152,7 @@ class QueryIndividualSpotScheduleUseCaseTests {
 
         // when & then
         assertThrows<UserNotFoundException> {
-            queryIndividualSpotScheduleUseCase.execute(date)
+            queryIndividualSpotScheduleUseCase.execute(date, date)
         }
     }
 
