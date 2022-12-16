@@ -1,15 +1,13 @@
 package team.comit.simtong.domain.schedule.usecase
 
 import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
-import team.comit.simtong.domain.schedule.exception.NotScheduleOwnerException
-import team.comit.simtong.domain.schedule.exception.ScheduleNotFoundException
+import team.comit.simtong.domain.schedule.exception.ScheduleExceptions
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
-import team.comit.simtong.domain.user.exception.NotEnoughPermissionException
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.global.annotation.UseCase
 
@@ -33,16 +31,16 @@ class ChangeSpotScheduleUseCase(
         val currentUserId = securityPort.getCurrentUserId()
 
         val user = queryUserPort.queryUserById(currentUserId)
-            ?: throw UserNotFoundException.EXCEPTION
+            ?: throw UserExceptions.NotFound()
 
         val schedule = querySchedulePort.queryScheduleById(request.scheduleId)
-            ?: throw ScheduleNotFoundException.EXCEPTION
+            ?: throw ScheduleExceptions.NotFound()
 
         when {
-            Scope.ENTIRE != schedule.scope -> throw NotScheduleOwnerException.EXCEPTION
+            Scope.ENTIRE != schedule.scope -> throw ScheduleExceptions.NotScheduleOwner()
 
-            user.spotId != schedule.spotId &&
-                Authority.ROLE_SUPER != user.authority -> throw NotEnoughPermissionException.EXCEPTION
+            user.spotId != schedule.spotId && Authority.ROLE_SUPER != user.authority ->
+                throw UserExceptions.NotEnoughPermission("같은 지점 관리자이거나 최고 관리자이어야 합니다.")
         }
 
         commandSchedulePort.save(

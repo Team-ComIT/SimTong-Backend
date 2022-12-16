@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.holiday.exception.HolidayNotFoundException
+import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
@@ -77,7 +77,7 @@ class CancelHolidayUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<HolidayNotFoundException> {
+        assertThrows<HolidayExceptions.NotFound> {
             cancelHolidayUseCase.execute(dateStub)
         }
     }

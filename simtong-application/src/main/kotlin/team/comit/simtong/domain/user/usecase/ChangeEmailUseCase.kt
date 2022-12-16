@@ -1,11 +1,9 @@
 package team.comit.simtong.domain.user.usecase
 
-import team.comit.simtong.domain.auth.exception.RequiredNewEmailAuthenticationException
-import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
-import team.comit.simtong.domain.auth.exception.UsedEmailException
+import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.spi.QueryAuthCodeLimitPort
 import team.comit.simtong.domain.user.dto.ChangeEmailRequest
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
@@ -22,25 +20,25 @@ import team.comit.simtong.global.annotation.UseCase
 @UseCase
 class ChangeEmailUseCase(
     private val queryUserPort: QueryUserPort,
-    private val userSecurityPort: UserSecurityPort,
+    private val securityPort: UserSecurityPort,
     private val queryAuthCodeLimitPort: QueryAuthCodeLimitPort,
     private val commandUserPort: CommandUserPort
 ) {
 
     fun execute(request: ChangeEmailRequest) {
         if (queryUserPort.existsUserByEmail(request.email)) {
-            throw UsedEmailException.EXCEPTION
+            throw AuthExceptions.AlreadyUsedEmail()
         }
 
         val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email)
-            ?: throw RequiredNewEmailAuthenticationException.EXCEPTION
+            ?: throw AuthExceptions.RequiredNewEmailAuthentication()
 
         if (!authCodeLimit.verified) {
-            throw UncertifiedEmailException.EXCEPTION
+            throw AuthExceptions.UncertifiedEmail()
         }
 
-        val currentUserId = userSecurityPort.getCurrentUserId()
-        val user = queryUserPort.queryUserById(currentUserId) ?: throw UserNotFoundException.EXCEPTION
+        val currentUserId = securityPort.getCurrentUserId()
+        val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
         commandUserPort.save(
             user.copy(

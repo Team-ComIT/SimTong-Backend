@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.file.usecase
 
-import team.comit.simtong.domain.file.exception.InvalidEmployeeException
+import team.comit.simtong.domain.file.exception.FileExceptions
 import team.comit.simtong.domain.file.spi.QueryEmployeeCertificatePort
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
 
@@ -23,7 +23,7 @@ class CheckEmployeeUseCase(
         )
 
         if (!isEmployee) {
-            throw InvalidEmployeeException.EXCEPTION
+            throw FileExceptions.NotExistsEmployee()
         }
     }
 }

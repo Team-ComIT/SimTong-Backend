@@ -8,9 +8,7 @@ import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.user.dto.SignInRequest
-import team.comit.simtong.domain.user.exception.DifferentPasswordException
-import team.comit.simtong.domain.user.exception.DifferentPermissionAccountException
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.QueryUserPort
@@ -119,7 +117,7 @@ class AdminSignInUseCaseTests {
             .willReturn(false)
 
         // when & then
-        assertThrows<DifferentPasswordException> {
+        assertThrows<UserExceptions.DifferentPassword> {
             adminSignInUseCase.execute(requestStub)
         }
     }
@@ -131,7 +129,7 @@ class AdminSignInUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<UserNotFoundException> {
+        assertThrows<UserExceptions.NotFound> {
             adminSignInUseCase.execute(requestStub)
         }
     }
@@ -143,7 +141,7 @@ class AdminSignInUseCaseTests {
             .willReturn(userStub)
 
         // when & then
-        assertThrows<DifferentPermissionAccountException> {
+        assertThrows<UserExceptions.DifferentPermissionAccount> {
             adminSignInUseCase.execute(requestStub)
         }
     }

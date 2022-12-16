@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import team.comit.simtong.global.error.dto.ErrorResponse
+import team.comit.simtong.global.exception.GlobalExceptions
 import javax.validation.ConstraintViolationException
 
 /**
@@ -77,7 +78,7 @@ class WebErrorHandler {
     @ExceptionHandler(IllegalArgumentException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected fun handleIllegalArgumentException(exception: IllegalArgumentException): ErrorResponse? {
-        return ErrorResponse.of(GlobalErrorCode.BAD_REQUEST)
+        return ErrorResponse.of(GlobalExceptions.BadRequest())
     }
 
     /**
@@ -88,7 +89,7 @@ class WebErrorHandler {
     protected fun handleHttpRequestMethodNotSupportedException(
         exception: HttpRequestMethodNotSupportedException
     ): ErrorResponse? {
-        return ErrorResponse.of(GlobalErrorCode.METHOD_NOT_ALLOWED)
+        return ErrorResponse.of(GlobalExceptions.MethodNotAllowed())
     }
 
     /**
@@ -100,7 +101,7 @@ class WebErrorHandler {
     protected fun handleHttpMessageNotReadableException(
         exception: HttpMessageNotReadableException
     ): ErrorResponse? {
-        return ErrorResponse.of(GlobalErrorCode.BAD_REQUEST)
+        return ErrorResponse.of(GlobalExceptions.BadRequest())
     }
 
     /**
@@ -109,7 +110,7 @@ class WebErrorHandler {
     @ExceptionHandler(NullPointerException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected fun handleNestedServletException(exception: NullPointerException): ErrorResponse? {
-        return ErrorResponse.of(GlobalErrorCode.BAD_REQUEST)
+        return ErrorResponse.of(GlobalExceptions.BadRequest())
     }
 
     /**

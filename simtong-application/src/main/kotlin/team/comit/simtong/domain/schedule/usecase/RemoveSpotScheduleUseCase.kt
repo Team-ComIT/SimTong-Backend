@@ -1,14 +1,12 @@
 package team.comit.simtong.domain.schedule.usecase
 
-import team.comit.simtong.domain.schedule.exception.DifferentScopeException
-import team.comit.simtong.domain.schedule.exception.ScheduleNotFoundException
+import team.comit.simtong.domain.schedule.exception.ScheduleExceptions
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
-import team.comit.simtong.domain.user.exception.NotEnoughPermissionException
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.global.annotation.UseCase
 import java.util.UUID
@@ -33,17 +31,17 @@ class RemoveSpotScheduleUseCase(
         val currentUserId = securityPort.getCurrentUserId()
 
         val user = queryUserPort.queryUserById(currentUserId)
-            ?: throw UserNotFoundException.EXCEPTION
+            ?: throw UserExceptions.NotFound()
 
         val schedule = querySchedulePort.queryScheduleById(scheduleId)
-            ?: throw ScheduleNotFoundException.EXCEPTION
+            ?: throw ScheduleExceptions.NotFound()
 
         if (user.spotId != schedule.spotId && user.authority != Authority.ROLE_SUPER) {
-            throw NotEnoughPermissionException.EXCEPTION
+            throw UserExceptions.NotEnoughPermission("같은 지점 관리자이거나 최고 관리자이어야 합니다.")
         }
 
         if (Scope.ENTIRE != schedule.scope) {
-            throw DifferentScopeException.EXCEPTION
+            throw ScheduleExceptions.DifferentScope("지점 일정이 아닙니다.")
         }
 
         commandSchedulePort.delete(schedule)

@@ -1,6 +1,6 @@
 package team.comit.simtong.global
 
-import team.comit.simtong.global.exception.NotInitializationPropertiesException
+import team.comit.simtong.global.exception.DomainExceptions
 import java.util.Properties
 
 /**
@@ -14,7 +14,7 @@ import java.util.Properties
 object DomainProperties : Properties() {
 
     override fun getProperty(key: String): String {
-        return super.getProperty(key) ?: throw NotInitializationPropertiesException.EXCEPTION
+        return super.getProperty(key) ?: throw DomainExceptions.NotInitializationProperties()
     }
 
 }

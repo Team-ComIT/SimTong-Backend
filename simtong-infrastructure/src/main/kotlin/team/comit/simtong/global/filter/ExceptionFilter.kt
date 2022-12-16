@@ -3,12 +3,10 @@ package team.comit.simtong.global.filter
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.http.MediaType
 import org.springframework.web.filter.OncePerRequestFilter
-import team.comit.simtong.global.error.BusinessException
-import team.comit.simtong.global.error.ErrorProperty
-import team.comit.simtong.global.error.WebErrorProperty
-import team.comit.simtong.global.error.WebException
 import team.comit.simtong.global.error.dto.ErrorResponse
-import team.comit.simtong.global.exception.InternalServerErrorException
+import team.comit.simtong.global.exception.BusinessException
+import team.comit.simtong.global.exception.GlobalExceptions
+import team.comit.simtong.global.exception.WebException
 import java.nio.charset.StandardCharsets
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
@@ -34,23 +32,23 @@ class ExceptionFilter(
         try {
             filterChain.doFilter(request, response)
         } catch (e: BusinessException) {
-            writeErrorCode(e.exceptionProperty, response)
+            writeErrorCode(e, response)
         } catch (e: Exception) {
             when (e.cause) {
-                is BusinessException -> writeErrorCode((e.cause as BusinessException).exceptionProperty, response)
-                is WebException -> writeErrorCode((e.cause as WebException).exceptionProperty, response)
+                is BusinessException -> writeErrorCode(e.cause as BusinessException, response)
+                is WebException -> writeErrorCode(e.cause as WebException, response)
                 else -> {
                     e.printStackTrace()
-                    writeErrorCode(InternalServerErrorException.EXCEPTION.exceptionProperty, response)
+                    writeErrorCode(GlobalExceptions.InternalServerError(), response)
                 }
             }
         }
     }
 
-    private fun writeErrorCode(exception: ErrorProperty, response: HttpServletResponse) {
+    private fun writeErrorCode(exception: BusinessException, response: HttpServletResponse) {
         response.run {
             characterEncoding = StandardCharsets.UTF_8.name()
-            status = exception.status()
+            status = exception.status
             contentType = MediaType.APPLICATION_JSON_VALUE
             writer.write(
                 objectMapper.writeValueAsString(
@@ -60,10 +58,10 @@ class ExceptionFilter(
         }
     }
 
-    private fun writeErrorCode(exception: WebErrorProperty, response: HttpServletResponse) {
+    private fun writeErrorCode(exception: WebException, response: HttpServletResponse) {
         response.run {
             characterEncoding = StandardCharsets.UTF_8.name()
-            status = exception.status()
+            status = exception.status
             contentType = MediaType.APPLICATION_JSON_VALUE
             writer.write(
                 objectMapper.writeValueAsString(

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.file.exception.InvalidEmployeeException
+import team.comit.simtong.domain.file.exception.FileExceptions
 import team.comit.simtong.domain.file.spi.QueryEmployeeCertificatePort
 import team.comit.simtong.global.annotation.SimtongTest
 
@@ -46,7 +46,7 @@ class CheckEmployeeUseCaseTests {
             .willReturn(false)
 
         // when & then
-        assertThrows<InvalidEmployeeException> {
+        assertThrows<FileExceptions.NotExistsEmployee> {
             checkEmployeeUseCase.execute(name, employeeNumber)
         }
     }

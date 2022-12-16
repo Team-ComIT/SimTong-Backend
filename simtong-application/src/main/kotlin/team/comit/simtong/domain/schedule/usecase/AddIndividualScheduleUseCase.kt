@@ -6,7 +6,7 @@ import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.global.annotation.UseCase
 
 /**
@@ -29,7 +29,7 @@ class AddIndividualScheduleUseCase(
         val (title, startAt, endAt, alarm) = request
 
         val user = queryUserPort.queryUserById(currentUserId)
-            ?: throw UserNotFoundException.EXCEPTION
+            ?: throw UserExceptions.NotFound()
 
         commandSchedulePort.save(
             Schedule(

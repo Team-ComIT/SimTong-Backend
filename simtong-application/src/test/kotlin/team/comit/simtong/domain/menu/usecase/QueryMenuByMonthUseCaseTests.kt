@@ -10,7 +10,7 @@ import team.comit.simtong.domain.menu.model.Menu
 import team.comit.simtong.domain.menu.spi.MenuQueryUserPort
 import team.comit.simtong.domain.menu.spi.MenuSecurityPort
 import team.comit.simtong.domain.menu.spi.QueryMenuPort
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.global.annotation.SimtongTest
@@ -102,7 +102,7 @@ class QueryMenuByMonthUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<UserNotFoundException> {
+        assertThrows<UserExceptions.NotFound> {
             queryMenuByMonthUseCase.execute(now)
         }
     }

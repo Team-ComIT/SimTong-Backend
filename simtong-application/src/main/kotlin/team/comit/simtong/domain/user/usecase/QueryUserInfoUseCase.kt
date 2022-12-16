@@ -1,8 +1,8 @@
 package team.comit.simtong.domain.user.usecase
 
-import team.comit.simtong.domain.spot.exception.SpotNotFoundException
+import team.comit.simtong.domain.spot.exception.SpotExceptions
 import team.comit.simtong.domain.user.dto.QueryUserInfoResponse
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserQuerySpotPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
@@ -26,8 +26,8 @@ class QueryUserInfoUseCase(
     fun execute(): QueryUserInfoResponse {
         val currentUserId = securityPort.getCurrentUserId()
 
-        val user = queryUserPort.queryUserById(currentUserId) ?: throw UserNotFoundException.EXCEPTION
-        val spot = querySpotPort.querySpotById(user.spotId) ?: throw SpotNotFoundException.EXCEPTION
+        val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
+        val spot = querySpotPort.querySpotById(user.spotId) ?: throw SpotExceptions.NotFound()
 
         return QueryUserInfoResponse(
             name = user.name,

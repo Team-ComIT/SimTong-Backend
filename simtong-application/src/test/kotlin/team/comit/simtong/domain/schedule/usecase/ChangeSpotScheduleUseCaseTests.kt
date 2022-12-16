@@ -7,16 +7,14 @@ import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
-import team.comit.simtong.domain.schedule.exception.NotScheduleOwnerException
-import team.comit.simtong.domain.schedule.exception.ScheduleNotFoundException
+import team.comit.simtong.domain.schedule.exception.ScheduleExceptions
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
-import team.comit.simtong.domain.user.exception.NotEnoughPermissionException
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.global.annotation.SimtongTest
@@ -146,7 +144,7 @@ class ChangeSpotScheduleUseCaseTests {
             .willReturn(individualScheduleStub)
 
         // when & then
-        assertThrows<NotScheduleOwnerException> {
+        assertThrows<ScheduleExceptions.NotScheduleOwner> {
             changeSpotScheduleUseCase.execute(requestStub)
         }
     }
@@ -177,7 +175,7 @@ class ChangeSpotScheduleUseCaseTests {
             .willReturn(scheduleStub)
 
         // when & then
-        assertThrows<NotEnoughPermissionException> {
+        assertThrows<UserExceptions.NotEnoughPermission> {
             changeSpotScheduleUseCase.execute(requestStub)
         }
     }
@@ -239,7 +237,7 @@ class ChangeSpotScheduleUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<ScheduleNotFoundException> {
+        assertThrows<ScheduleExceptions.NotFound> {
             changeSpotScheduleUseCase.execute(requestStub)
         }
     }
@@ -254,7 +252,7 @@ class ChangeSpotScheduleUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<UserNotFoundException> {
+        assertThrows<UserExceptions.NotFound> {
             changeSpotScheduleUseCase.execute(requestStub)
         }
     }

@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.spot.exception.SpotNotFoundException
+import team.comit.simtong.domain.spot.exception.SpotExceptions
 import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.user.dto.QueryAdminInfoResponse
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.QueryUserPort
@@ -120,7 +120,7 @@ class QueryAdminInfoUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<UserNotFoundException> {
+        assertThrows<UserExceptions.NotFound> {
             queryAdminInfoUseCase.execute()
         }
     }
@@ -138,7 +138,7 @@ class QueryAdminInfoUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<SpotNotFoundException> {
+        assertThrows<SpotExceptions.NotFound> {
             queryAdminInfoUseCase.execute()
         }
     }

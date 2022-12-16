@@ -1,13 +1,13 @@
 package team.comit.simtong.domain.holiday.usecase
 
-import team.comit.simtong.domain.holiday.exception.WeekHolidayLimitExcessException
+import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.global.annotation.UseCase
 import java.time.LocalDate
 
@@ -29,12 +29,12 @@ class AppointHolidayUseCase(
 
     fun execute(date: LocalDate) {
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
-            ?: throw UserNotFoundException.EXCEPTION
+            ?: throw UserExceptions.NotFound()
 
         val countHoliday = queryHolidayPort.countHolidayByWeekAndUserIdAndType(date, user.id, HolidayType.HOLIDAY)
 
         if (countHoliday >= Holiday.WEEK_HOLIDAY_LIMIT) {
-            throw WeekHolidayLimitExcessException.EXCEPTION
+            throw HolidayExceptions.WeekHolidayLimitExcess()
         }
 
         commandHolidayPort.save(

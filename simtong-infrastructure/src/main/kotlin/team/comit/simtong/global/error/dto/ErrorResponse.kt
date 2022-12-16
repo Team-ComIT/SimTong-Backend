@@ -4,9 +4,9 @@ import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
-import team.comit.simtong.global.error.ErrorProperty
-import team.comit.simtong.global.error.GlobalErrorCode
-import team.comit.simtong.global.error.WebErrorProperty
+import team.comit.simtong.global.exception.BusinessException
+import team.comit.simtong.global.exception.GlobalExceptions
+import team.comit.simtong.global.exception.WebException
 import javax.validation.ConstraintViolationException
 
 /**
@@ -24,20 +24,20 @@ class ErrorResponse(
 ) {
 
     companion object {
-        fun of(exception: ErrorProperty) = ErrorResponse(
-            status = exception.status(),
-            message = exception.message(),
+        fun of(e: BusinessException) = ErrorResponse(
+            status = e.status,
+            message = e.message,
             fieldErrors = emptyList()
         )
 
-        fun of(exception: WebErrorProperty) = ErrorResponse(
-            status = exception.status(),
-            message = exception.message(),
+        fun of(exception: WebException) = ErrorResponse(
+            status = exception.status,
+            message = exception.message,
             fieldErrors = emptyList()
         )
 
         fun of(bindingResult: BindingResult): ErrorResponse = of(
-            exception = GlobalErrorCode.BAD_REQUEST,
+            exception = GlobalExceptions.BadRequest(),
             fieldErrors = CustomFieldError.of(bindingResult)
         )
 
@@ -50,7 +50,7 @@ class ErrorResponse(
             }
 
             return of(
-                exception = GlobalErrorCode.BAD_REQUEST,
+                exception = GlobalExceptions.BadRequest(),
                 fieldErrors = fieldErrors
             )
         }
@@ -60,7 +60,7 @@ class ErrorResponse(
             val fieldErrors = CustomFieldError.of(exception.name, value.toString(), exception.errorCode)
 
             return of(
-                exception = GlobalErrorCode.BAD_REQUEST,
+                exception = GlobalExceptions.BadRequest(),
                 fieldErrors = fieldErrors
             )
         }
@@ -69,19 +69,19 @@ class ErrorResponse(
             val fieldErrors = CustomFieldError.of(exception.parameterName, "", exception.message)
 
             return of(
-                exception = GlobalErrorCode.BAD_REQUEST,
+                exception = GlobalExceptions.BadRequest(),
                 fieldErrors = fieldErrors
             )
         }
 
         fun of(exception: DataIntegrityViolationException): ErrorResponse = of(
-            exception = GlobalErrorCode.BAD_REQUEST,
+            exception = GlobalExceptions.BadRequest(),
             fieldErrors = CustomFieldError.of("", "", exception.message ?: "")
         )
 
-        private fun of(exception: ErrorProperty, fieldErrors: List<CustomFieldError>) = ErrorResponse(
-            status = exception.status(),
-            message = exception.message(),
+        private fun of(exception: BusinessException, fieldErrors: List<CustomFieldError>) = ErrorResponse(
+            status = exception.status,
+            message = exception.message,
             fieldErrors = fieldErrors
         )
     }

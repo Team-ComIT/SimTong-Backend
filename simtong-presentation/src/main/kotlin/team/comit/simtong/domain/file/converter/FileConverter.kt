@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.file.converter
 
 import org.springframework.web.multipart.MultipartFile
-import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
+import team.comit.simtong.domain.file.exception.WebFileExceptions
 import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID
@@ -23,7 +23,7 @@ interface FileConverter {
 
     fun transferTo(multipartFile: MultipartFile): File {
         if (!isCorrectExtension(multipartFile)) {
-            throw FileInvalidExtensionException.EXCEPTION
+            throw WebFileExceptions.InvalidExtension()
         }
 
         return transferFile(multipartFile)
@@ -32,7 +32,7 @@ interface FileConverter {
     fun transferToList(multipartFiles: List<MultipartFile>): List<File> {
         multipartFiles.forEach {
             if (!isCorrectExtension(it)) {
-                throw FileInvalidExtensionException.EXCEPTION
+                throw WebFileExceptions.InvalidExtension()
             }
         }
 
