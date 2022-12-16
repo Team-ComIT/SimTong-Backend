@@ -90,7 +90,7 @@ class WebScheduleAdapter(
     }
 
     @GetMapping("/spots")
-    fun entireSpotSchedule(@RequestParam date: LocalDate): QueryEntireSpotScheduleResponse {
+    fun queryEntireSpotSchedule(@RequestParam date: LocalDate): QueryEntireSpotScheduleResponse {
         return queryEntireSpotScheduleUseCase.execute(date)
     }
 
