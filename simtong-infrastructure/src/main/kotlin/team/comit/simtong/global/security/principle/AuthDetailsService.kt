@@ -4,9 +4,9 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component
-import team.comit.simtong.global.security.exception.InvalidTokenException
+import team.comit.simtong.global.security.exception.SecurityExceptions
 import team.comit.simtong.persistence.user.repository.UserJpaRepository
-import java.util.*
+import java.util.UUID
 
 /**
  *
@@ -23,7 +23,7 @@ class AuthDetailsService(
 
     override fun loadUserByUsername(userId: String): UserDetails {
         val id = UUID.fromString(userId)
-        val user = userRepository.findByIdOrNull(id) ?: throw InvalidTokenException.EXCEPTION
+        val user = userRepository.findByIdOrNull(id) ?: throw SecurityExceptions.InvalidToken("토큰 ID에 해당하는 유저를 찾을 수 없습니다.")
 
         return AuthDetails(id, user.authority)
     }

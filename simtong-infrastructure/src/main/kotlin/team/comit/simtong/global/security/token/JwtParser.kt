@@ -1,15 +1,18 @@
 package team.comit.simtong.global.security.token
 
-import io.jsonwebtoken.*
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.ExpiredJwtException
+import io.jsonwebtoken.Header
+import io.jsonwebtoken.InvalidClaimException
+import io.jsonwebtoken.Jws
+import io.jsonwebtoken.JwtException
+import io.jsonwebtoken.Jwts
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
-import team.comit.simtong.global.exception.InternalServerErrorException
+import team.comit.simtong.global.exception.GlobalExceptions
 import team.comit.simtong.global.security.SecurityProperties
-import team.comit.simtong.global.security.exception.UnexpectedTokenException
-import team.comit.simtong.global.security.exception.ExpiredTokenException
-import team.comit.simtong.global.security.exception.InvalidTokenException
-import team.comit.simtong.global.security.exception.WrongTypeTokenException
+import team.comit.simtong.global.security.exception.SecurityExceptions
 import team.comit.simtong.global.security.principle.AuthDetailsService
 
 /**
@@ -32,11 +35,11 @@ class JwtParser(
                 .setSigningKey(securityProperties.encodingSecretKey)
                 .parseClaimsJws(token)
         } catch (e: Exception) {
-            when(e) {
-                is InvalidClaimException -> throw InvalidTokenException.EXCEPTION
-                is ExpiredJwtException -> throw ExpiredTokenException.EXCEPTION
-                is JwtException -> throw UnexpectedTokenException.EXCEPTION
-                else -> throw InternalServerErrorException.EXCEPTION
+            when (e) {
+                is InvalidClaimException -> throw SecurityExceptions.InvalidToken()
+                is ExpiredJwtException -> throw SecurityExceptions.ExpiredToken()
+                is JwtException -> throw SecurityExceptions.UnexpectedToken()
+                else -> throw GlobalExceptions.InternalServerError()
             }
         }
     }
@@ -45,7 +48,7 @@ class JwtParser(
         val claims = getClaims(token)
 
         if (claims.header[Header.JWT_TYPE] != JwtComponent.ACCESS) {
-            throw WrongTypeTokenException.EXCEPTION
+            throw SecurityExceptions.WrongTypeToken("Access Token이어야 합니다.")
         }
 
         val details = authDetailsService.loadUserByUsername(claims.body.id)

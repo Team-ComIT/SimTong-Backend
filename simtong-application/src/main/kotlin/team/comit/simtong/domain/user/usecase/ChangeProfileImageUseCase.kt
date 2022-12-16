@@ -1,9 +1,9 @@
 package team.comit.simtong.domain.user.usecase
 
-import team.comit.simtong.domain.file.exception.NotFoundFilePathException
+import team.comit.simtong.domain.file.exception.FileExceptions
 import team.comit.simtong.domain.file.spi.CheckFilePort
 import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
@@ -20,18 +20,18 @@ import team.comit.simtong.global.annotation.UseCase
 @UseCase
 class ChangeProfileImageUseCase(
     private val queryUserPort: QueryUserPort,
-    private val userSecurityPort: UserSecurityPort,
+    private val securityPort: UserSecurityPort,
     private val commandUserPort: CommandUserPort,
     private val checkFilePort: CheckFilePort
 ) {
 
     fun execute(request: ChangeProfileImageRequest) {
         if (!checkFilePort.existsPath(request.profileImagePath)) {
-            throw NotFoundFilePathException.EXCEPTION
+            throw FileExceptions.PathNotFound()
         }
 
-        val currentUserId = userSecurityPort.getCurrentUserId()
-        val user = queryUserPort.queryUserById(currentUserId) ?: throw UserNotFoundException.EXCEPTION
+        val currentUserId = securityPort.getCurrentUserId()
+        val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
         commandUserPort.save(
             user.copy(

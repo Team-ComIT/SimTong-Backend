@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.auth.model
 
-import team.comit.simtong.domain.auth.exception.ExceededSendAuthCodeRequestException
+import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.global.DomainProperties.getProperty
 import team.comit.simtong.global.DomainPropertiesPrefix
 import team.comit.simtong.global.annotation.Aggregate
@@ -53,7 +53,7 @@ data class AuthCodeLimit @Default constructor(
 
     fun increaseCount(): AuthCodeLimit {
         if (attemptCount >= MAX_ATTEMPT_COUNT) {
-            throw ExceededSendAuthCodeRequestException.EXCEPTION
+            throw AuthExceptions.ExceededSendAuthCodeRequest()
         }
 
         return AuthCodeLimit(

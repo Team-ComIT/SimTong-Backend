@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.auth.exception.AuthCodeMismatchException
+import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCode
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.QueryAuthCodePort
@@ -70,7 +70,7 @@ class CheckAuthCodeUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<AuthCodeMismatchException> {
+        assertThrows<AuthExceptions.RequiredNewEmailAuthentication> {
             checkAuthCodeUseCase.execute(email, code)
         }
     }
@@ -82,7 +82,7 @@ class CheckAuthCodeUseCaseTests {
             .willReturn(differentAuthCodeStub)
 
         // when & then
-        assertThrows<AuthCodeMismatchException> {
+        assertThrows<AuthExceptions.DifferentAuthCode> {
             checkAuthCodeUseCase.execute(email, code)
         }
     }

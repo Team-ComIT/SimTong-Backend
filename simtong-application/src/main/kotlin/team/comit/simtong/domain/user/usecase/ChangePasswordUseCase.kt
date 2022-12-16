@@ -1,8 +1,7 @@
 package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.user.dto.ChangePasswordRequest
-import team.comit.simtong.domain.user.exception.DifferentPasswordException
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
@@ -25,10 +24,10 @@ class ChangePasswordUseCase(
 
     fun execute(request: ChangePasswordRequest) {
         val currentUserId = userSecurityPort.getCurrentUserId()
-        val user = queryUserPort.queryUserById(currentUserId) ?: throw UserNotFoundException.EXCEPTION
+        val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
         if (!userSecurityPort.compare(request.password, user.password)) {
-            throw DifferentPasswordException.EXCEPTION
+            throw UserExceptions.DifferentPassword()
         }
 
         commandUserPort.save(

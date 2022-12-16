@@ -6,8 +6,7 @@ import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
-import team.comit.simtong.domain.user.exception.NotEnoughPermissionException
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.global.annotation.UseCase
 
@@ -31,10 +30,10 @@ class AddSpotScheduleUseCase(
         val (spotId, title, startAt, endAt) = request
 
         val user = queryUserPort.queryUserById(currentUserId)
-            ?: throw UserNotFoundException.EXCEPTION
+            ?: throw UserExceptions.NotFound()
 
         if (user.spotId != spotId && user.authority != Authority.ROLE_SUPER) {
-            throw NotEnoughPermissionException.EXCEPTION
+            throw UserExceptions.NotEnoughPermission("같은 지점 관리자이거나 최고 관리자이어야 합니다.")
         }
 
         commandSchedulePort.save(

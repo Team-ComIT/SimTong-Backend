@@ -2,9 +2,7 @@ package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.user.dto.SignInRequest
-import team.comit.simtong.domain.user.exception.DifferentPasswordException
-import team.comit.simtong.domain.user.exception.DifferentPermissionAccountException
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserJwtPort
@@ -22,23 +20,23 @@ import team.comit.simtong.global.annotation.UseCase
 @UseCase
 class AdminSignInUseCase(
     private val queryUserPort: QueryUserPort,
-    private val userJwtPort: UserJwtPort,
-    private val userSecurityPort: UserSecurityPort
+    private val jwtPort: UserJwtPort,
+    private val securityPort: UserSecurityPort
 ) {
 
     fun execute(request: SignInRequest): TokenResponse {
         val admin = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber)
-            ?: throw UserNotFoundException.EXCEPTION
+            ?: throw UserExceptions.NotFound("관리자가 존재하지 않습니다.")
 
         if (Authority.ROLE_COMMON == admin.authority) {
-            throw DifferentPermissionAccountException.EXCEPTION
+            throw UserExceptions.DifferentPermissionAccount("관리자 계정이 아닙니다.")
         }
 
-        if (!userSecurityPort.compare(request.password, admin.password)) {
-            throw DifferentPasswordException.EXCEPTION
+        if (!securityPort.compare(request.password, admin.password)) {
+            throw UserExceptions.DifferentPassword()
         }
 
-        return userJwtPort.receiveToken(
+        return jwtPort.receiveToken(
             userId = admin.id,
             authority = admin.authority
         )

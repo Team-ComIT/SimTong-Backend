@@ -1,9 +1,9 @@
 package team.comit.simtong.domain.auth.usecase
 
-import team.comit.simtong.domain.auth.exception.RefreshTokenNotFoundException
+import team.comit.simtong.domain.auth.dto.TokenResponse
+import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.spi.JwtPort
 import team.comit.simtong.domain.auth.spi.QueryRefreshTokenPort
-import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.global.annotation.UseCase
 
 /**
@@ -23,7 +23,7 @@ class ReissueTokenUseCase(
 
     fun execute(request: String): TokenResponse {
         val token = queryRefreshTokenPort.queryRefreshTokenByToken(request)
-            ?: throw RefreshTokenNotFoundException.EXCEPTION
+            ?: throw AuthExceptions.RefreshTokenNotFound()
 
         return jwtPort.receiveToken(
             userId = token.userId,

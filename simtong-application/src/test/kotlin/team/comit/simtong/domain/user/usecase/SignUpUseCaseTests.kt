@@ -7,15 +7,13 @@ import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.auth.dto.TokenResponse
-import team.comit.simtong.domain.auth.exception.RequiredNewEmailAuthenticationException
-import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
-import team.comit.simtong.domain.auth.exception.UsedEmailException
+import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
-import team.comit.simtong.domain.file.exception.InvalidEmployeeException
+import team.comit.simtong.domain.file.exception.FileExceptions
 import team.comit.simtong.domain.file.model.EmployeeCertificate
-import team.comit.simtong.domain.spot.exception.SpotNotFoundException
+import team.comit.simtong.domain.spot.exception.SpotExceptions
 import team.comit.simtong.domain.spot.model.Spot
-import team.comit.simtong.domain.team.exception.TeamNotFoundException
+import team.comit.simtong.domain.team.exception.TeamExceptions
 import team.comit.simtong.domain.team.model.Team
 import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.domain.user.model.Authority
@@ -277,7 +275,7 @@ class SignUpUseCaseTests {
             .willReturn(unVerifiedAuthCodeLimitStub)
 
         // when & then
-        assertThrows<UncertifiedEmailException> {
+        assertThrows<AuthExceptions.UncertifiedEmail> {
             signUpUseCase.execute(requestStub)
         }
     }
@@ -289,7 +287,7 @@ class SignUpUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<RequiredNewEmailAuthenticationException> {
+        assertThrows<AuthExceptions.RequiredNewEmailAuthentication> {
             signUpUseCase.execute(requestStub)
         }
     }
@@ -304,7 +302,7 @@ class SignUpUseCaseTests {
             .willReturn(true)
 
         // when & then
-        assertThrows<UsedEmailException> {
+        assertThrows<AuthExceptions.AlreadyUsedEmail> {
             signUpUseCase.execute(requestStub)
         }
     }
@@ -322,7 +320,7 @@ class SignUpUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<InvalidEmployeeException> {
+        assertThrows<FileExceptions.NotExistsEmployee> {
             signUpUseCase.execute(requestStub)
         }
     }
@@ -343,7 +341,7 @@ class SignUpUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<SpotNotFoundException> {
+        assertThrows<SpotExceptions.NotFound> {
             signUpUseCase.execute(requestStub)
         }
     }
@@ -367,7 +365,7 @@ class SignUpUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<TeamNotFoundException> {
+        assertThrows<TeamExceptions.NotFound> {
             signUpUseCase.execute(requestStub)
         }
     }

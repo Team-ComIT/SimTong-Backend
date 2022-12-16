@@ -8,8 +8,7 @@ import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.willDoNothing
 import org.mockito.kotlin.any
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.auth.exception.CertifiedEmailException
-import team.comit.simtong.domain.auth.exception.ExceededSendAuthCodeRequestException
+import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCode
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
@@ -99,7 +98,7 @@ class SendAuthCodeUseCaseTests {
             .willReturn(verifiedAuthCodeLimitStub)
 
         // when & then
-        assertThrows<CertifiedEmailException> {
+        assertThrows<AuthExceptions.AlreadyCertifiedEmail> {
             sendAuthCodeUseCase.execute(email)
         }
     }
@@ -111,7 +110,7 @@ class SendAuthCodeUseCaseTests {
             .willReturn(exceedAuthCodeLimitStub)
 
         // when & then
-        assertThrows<ExceededSendAuthCodeRequestException> {
+        assertThrows<AuthExceptions.ExceededSendAuthCodeRequest> {
             sendAuthCodeUseCase.execute(email)
         }
     }

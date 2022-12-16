@@ -6,9 +6,8 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.auth.exception.UsedNicknameException
 import team.comit.simtong.domain.user.dto.ChangeNicknameRequest
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.CommandUserPort
@@ -88,7 +87,7 @@ class ChangeNicknameUseCaseTests {
             .willReturn(true)
 
         // when & then
-        assertThrows<UsedNicknameException> {
+        assertThrows<UserExceptions.AlreadyUsedNickname> {
             changeNicknameUseCase.execute(requestStub)
         }
     }
@@ -100,7 +99,7 @@ class ChangeNicknameUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<UserNotFoundException> {
+        assertThrows<UserExceptions.NotFound> {
             changeNicknameUseCase.execute(requestStub)
         }
     }

@@ -6,7 +6,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import org.springframework.stereotype.Component
-import team.comit.simtong.domain.file.exception.FileIOInterruptedException
+import team.comit.simtong.domain.file.exception.FileExceptions
 import team.comit.simtong.domain.file.spi.CheckFilePort
 import team.comit.simtong.domain.file.spi.UploadFilePort
 import java.io.File
@@ -25,7 +25,7 @@ import java.net.URLDecoder
 class AwsS3Adapter(
     private val awsProperties: AwsS3Properties,
     private val amazonS3Client: AmazonS3Client
-): UploadFilePort, CheckFilePort {
+) : UploadFilePort, CheckFilePort {
 
     override fun upload(file: File): String {
         runCatching { inputS3(file) }
@@ -67,7 +67,7 @@ class AwsS3Adapter(
             )
         } catch (e: IOException) {
             e.printStackTrace()
-            throw FileIOInterruptedException.EXCEPTION
+            throw FileExceptions.IOInterrupted()
         }
     }
 

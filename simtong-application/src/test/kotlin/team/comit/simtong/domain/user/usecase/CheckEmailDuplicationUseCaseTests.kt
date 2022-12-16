@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.auth.exception.UsedEmailException
+import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.global.annotation.SimtongTest
 
@@ -44,7 +44,7 @@ class CheckEmailDuplicationUseCaseTests {
             .willReturn(true)
 
         // when & then
-        assertThrows<UsedEmailException> {
+        assertThrows<AuthExceptions.AlreadyUsedEmail> {
             checkEmailDuplicationUseCase.execute(email)
         }
     }

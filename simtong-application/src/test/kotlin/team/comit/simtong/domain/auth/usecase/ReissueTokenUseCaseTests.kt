@@ -7,7 +7,7 @@ import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.auth.dto.TokenResponse
-import team.comit.simtong.domain.auth.exception.RefreshTokenNotFoundException
+import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.RefreshToken
 import team.comit.simtong.domain.auth.spi.JwtPort
 import team.comit.simtong.domain.auth.spi.QueryRefreshTokenPort
@@ -75,7 +75,7 @@ class ReissueTokenUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<RefreshTokenNotFoundException> {
+        assertThrows<AuthExceptions.RefreshTokenNotFound> {
             reissueTokenUseCase.execute(token)
         }
     }

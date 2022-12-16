@@ -6,8 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.user.exception.DifferentPasswordException
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.QueryUserPort
@@ -84,7 +83,7 @@ class ComparePasswordUseCaseTests {
             .willReturn(false)
 
         // when & then
-        assertThrows<DifferentPasswordException> {
+        assertThrows<UserExceptions.DifferentPassword> {
             comparePasswordUseCase.execute(passwordStub)
         }
     }
@@ -98,7 +97,7 @@ class ComparePasswordUseCaseTests {
         given(queryUserPort.queryUserById(userId))
             .willReturn(null)
 
-        assertThrows<UserNotFoundException> {
+        assertThrows<UserExceptions.NotFound> {
             comparePasswordUseCase.execute(passwordStub)
         }
     }
