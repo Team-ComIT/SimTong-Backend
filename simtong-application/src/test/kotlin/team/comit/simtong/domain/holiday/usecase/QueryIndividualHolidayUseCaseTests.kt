@@ -66,11 +66,11 @@ class QueryIndividualHolidayUseCaseTests {
         given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(queryHolidayPort.queryHolidaysByMonthAndUserId(dateStub, userId))
+        given(queryHolidayPort.queryHolidaysByPeriodAndUserId(dateStub, dateStub, userId))
             .willReturn(holidaysStub)
 
         // when
-        val response = queryIndividualHolidayUseCase.execute(dateStub)
+        val response = queryIndividualHolidayUseCase.execute(dateStub, dateStub)
 
         // then
         assertEquals(response, responseStub)
