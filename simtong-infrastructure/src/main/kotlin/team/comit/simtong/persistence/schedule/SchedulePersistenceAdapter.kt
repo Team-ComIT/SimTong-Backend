@@ -10,7 +10,6 @@ import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.SchedulePort
 import team.comit.simtong.domain.schedule.vo.SpotSchedule
-import team.comit.simtong.persistence.QuerydslExtensionUtils.sameMonthFilter
 import team.comit.simtong.persistence.schedule.mapper.ScheduleMapper
 import team.comit.simtong.persistence.schedule.vo.QSpotScheduleVo
 import java.time.LocalDate
@@ -48,7 +47,7 @@ class SchedulePersistenceAdapter(
             .let(scheduleMapper::toDomain)
     }
 
-    override fun querySpotSchedulesByMonthAndScope(date: LocalDate, scope: Scope): List<SpotSchedule> {
+    override fun querySpotSchedulesByPeriodAndScope(startAt: LocalDate, endAt: LocalDate, scope: Scope): List<SpotSchedule> {
         return queryFactory
             .select(
                 QSpotScheduleVo(
@@ -65,40 +64,40 @@ class SchedulePersistenceAdapter(
             .on(schedule.spot.eq(spot))
             .where(
                 schedule.scope.eq(scope),
-                sameMonthScheduleFilter(date)
+                inPeriodScheduleFilter(startAt, endAt)
             )
             .orderBy(schedule.startAt.asc())
             .fetch()
     }
 
-    override fun querySchedulesByMonthAndSpotIdAndScope(date: LocalDate, spotId: UUID, scope: Scope): List<Schedule> {
+    override fun querySchedulesByPeriodAndSpotIdAndScope(startAt: LocalDate, endAt: LocalDate, spotId: UUID, scope: Scope): List<Schedule> {
         return queryFactory
             .selectFrom(schedule)
             .where(
                 schedule.scope.eq(scope),
                 schedule.spot.id.eq(spotId),
-                sameMonthScheduleFilter(date)
+                inPeriodScheduleFilter(startAt, endAt)
             )
             .orderBy(schedule.startAt.asc())
             .fetch()
             .map { scheduleMapper.toDomain(it)!! }
     }
 
-    override fun querySchedulesByMonthAndUserIdAndScope(date: LocalDate, userId: UUID, scope: Scope): List<Schedule> {
+    override fun querySchedulesByPeriodAndUserIdAndScope(startAt: LocalDate, endAt: LocalDate, userId: UUID, scope: Scope): List<Schedule> {
         return queryFactory
             .selectFrom(schedule)
             .where(
                 schedule.user.id.eq(userId),
                 schedule.scope.eq(scope),
-                sameMonthScheduleFilter(date)
+                inPeriodScheduleFilter(startAt, endAt)
             )
             .orderBy(schedule.startAt.asc())
             .fetch()
             .map { scheduleMapper.toDomain(it)!! }
     }
 
-    private fun sameMonthScheduleFilter(date: LocalDate) : BooleanExpression {
-        return schedule.startAt.sameMonthFilter(date)
-            .or(schedule.endAt.sameMonthFilter(date))
+    private fun inPeriodScheduleFilter(startAt: LocalDate, endAt: LocalDate) : BooleanExpression {
+        return schedule.startAt.between(startAt, endAt)
+            .or(schedule.endAt.between(startAt, endAt))
     }
 }

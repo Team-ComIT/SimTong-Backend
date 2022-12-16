@@ -1,15 +1,13 @@
 package team.comit.simtong.persistence.menu
 
-import com.querydsl.core.types.dsl.BooleanExpression
+import team.comit.simtong.persistence.menu.entity.QMenuJpaEntity.menuJpaEntity as menu
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.menu.model.Menu
 import team.comit.simtong.domain.menu.spi.MenuPort
 import team.comit.simtong.persistence.QuerydslExtensionUtils.sameMonthFilter
-import team.comit.simtong.persistence.menu.entity.QMenuJpaEntity.menuJpaEntity
 import team.comit.simtong.persistence.menu.mapper.MenuMapper
 import team.comit.simtong.persistence.menu.repository.MenuJpaRepository
-import team.comit.simtong.persistence.spot.entity.QSpotJpaEntity.spotJpaEntity
 import java.time.LocalDate
 import java.util.UUID
 
@@ -29,28 +27,36 @@ class MenuPersistenceAdapter(
     private val queryFactory: JPAQueryFactory
 ) : MenuPort {
 
-    override fun queryMenusByMonthAndSpotId(date: LocalDate, spotId: UUID): List<Menu> {
+    override fun existsMenuByMonthAndSpotId(date: LocalDate, spotId: UUID): Boolean {
         return queryFactory
-            .selectFrom(menuJpaEntity)
-            .join(menuJpaEntity.spot, spotJpaEntity)
-            .on(spotJpaEntity.id.eq(spotId))
+            .selectFrom(menu)
             .where(
-                sameMonthMenuFilter(date)
+                menu.menuId.spotId.eq(spotId),
+                menu.menuId.date.sameMonthFilter(date)
             )
-            .orderBy(menuJpaEntity.menuId.date.asc())
+            .fetchOne() != null
+    }
+
+    override fun queryMenusByPeriodAndSpotId(startAt: LocalDate, endAt: LocalDate, spotId: UUID): List<Menu> {
+        return queryFactory
+            .selectFrom(menu)
+            .where(
+                menu.menuId.spotId.eq(spotId),
+                menu.menuId.date.between(startAt, endAt)
+            )
+            .orderBy(menu.menuId.date.asc())
             .fetch()
             .map { menuMapper.toDomain(it)!! }
     }
 
-    override fun queryMenusByMonthAndSpotName(date: LocalDate, spotName: String): List<Menu> {
+    override fun queryMenusByPeriodAndSpotName(startAt: LocalDate, endAt: LocalDate, spotName: String): List<Menu> {
         return queryFactory
-            .selectFrom(menuJpaEntity)
-            .join(menuJpaEntity.spot, spotJpaEntity)
-            .on(spotJpaEntity.name.eq(spotName))
+            .selectFrom(menu)
             .where(
-                sameMonthMenuFilter(date)
+                menu.spot.name.eq(spotName),
+                menu.menuId.date.between(startAt, endAt)
             )
-            .orderBy(menuJpaEntity.menuId.date.asc())
+            .orderBy(menu.menuId.date.asc())
             .fetch()
             .map { menuMapper.toDomain(it)!! }
     }
@@ -59,10 +65,6 @@ class MenuPersistenceAdapter(
         menuRepository.saveAll(
             menus.map(menuMapper::toEntity)
         )
-    }
-
-    private fun sameMonthMenuFilter(date: LocalDate) : BooleanExpression {
-        return menuJpaEntity.menuId.date.sameMonthFilter(date)
     }
 
 }
