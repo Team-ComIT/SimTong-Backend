@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.holiday.usecase
 
-import team.comit.simtong.domain.holiday.exception.HolidayNotFoundException
+import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
@@ -26,7 +26,7 @@ class CancelHolidayUseCase(
         val currentUserId = securityPort.getCurrentUserId()
 
         val holiday = queryHolidayPort.queryHolidayByDateAndUserId(date, currentUserId)
-            ?: throw HolidayNotFoundException.EXCEPTION
+            ?: throw HolidayExceptions.NotFound()
 
         commandHolidayPort.delete(holiday)
     }

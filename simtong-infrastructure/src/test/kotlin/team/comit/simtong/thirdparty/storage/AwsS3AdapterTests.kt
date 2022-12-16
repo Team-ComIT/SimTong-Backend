@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Import
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import team.comit.simtong.domain.file.exception.FileIOInterruptedException
+import team.comit.simtong.domain.file.exception.FileExceptions
 import team.comit.simtong.thirdparty.AwsMockConfig
 import java.io.File
 
@@ -84,7 +84,7 @@ class AwsS3AdapterTests {
         val file = File("test.jpg")
 
         // when & then
-        assertThrows<FileIOInterruptedException> {
+        assertThrows<FileExceptions.IOInterrupted> {
             awsS3Adapter.upload(file)
         }
     }
@@ -99,7 +99,7 @@ class AwsS3AdapterTests {
         )
 
         // when & then
-        assertThrows<FileIOInterruptedException> {
+        assertThrows<FileExceptions.IOInterrupted> {
             awsS3Adapter.upload(files)
         }
     }

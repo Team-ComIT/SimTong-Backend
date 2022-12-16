@@ -8,8 +8,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.file.converter.FileExtensions.XLS
 import team.comit.simtong.domain.file.converter.FileExtensions.XLSX
-import team.comit.simtong.domain.file.exception.FileInvalidExtensionException
-import team.comit.simtong.domain.file.exception.FileNotValidContentException
+import team.comit.simtong.domain.file.exception.FileExceptions
+import team.comit.simtong.domain.file.exception.WebFileExceptions
 import team.comit.simtong.domain.file.model.EmployeeCertificate
 import team.comit.simtong.domain.file.spi.ParseEmployeeCertificateFilePort
 import team.comit.simtong.domain.menu.model.Menu
@@ -52,7 +52,7 @@ class ExcelFileAdapter : ParseEmployeeCertificateFilePort, ParseMenuFilePort {
             }
         }.onFailure { e ->
             e.printStackTrace()
-            throw FileNotValidContentException.EXCEPTION
+            throw FileExceptions.NotValidContent()
         }
 
         return employeeCertificateList
@@ -106,7 +106,7 @@ class ExcelFileAdapter : ParseEmployeeCertificateFilePort, ParseMenuFilePort {
             }
         }.onFailure { e ->
             e.printStackTrace()
-            throw FileNotValidContentException.EXCEPTION
+            throw FileExceptions.NotValidContent()
         }
 
         return menu
@@ -119,7 +119,7 @@ class ExcelFileAdapter : ParseEmployeeCertificateFilePort, ParseMenuFilePort {
             when (file.extension.uppercase()) {
                 XLS -> HSSFWorkbook(inputStream)
                 XLSX -> XSSFWorkbook(inputStream)
-                else -> throw FileInvalidExtensionException.EXCEPTION
+                else -> throw WebFileExceptions.InvalidExtension()
             }
         }.also {
             inputStream.close()

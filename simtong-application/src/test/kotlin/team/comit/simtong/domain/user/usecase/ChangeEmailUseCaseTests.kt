@@ -6,13 +6,11 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.auth.exception.RequiredNewEmailAuthenticationException
-import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
-import team.comit.simtong.domain.auth.exception.UsedEmailException
+import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.auth.spi.QueryAuthCodeLimitPort
 import team.comit.simtong.domain.user.dto.ChangeEmailRequest
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.CommandUserPort
@@ -111,7 +109,7 @@ class ChangeEmailUseCaseTests {
             .willReturn(true)
 
         // when & then
-        assertThrows<UsedEmailException> {
+        assertThrows<AuthExceptions.AlreadyUsedEmail> {
             changeEmailUseCase.execute(requestStub)
         }
     }
@@ -126,7 +124,7 @@ class ChangeEmailUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<RequiredNewEmailAuthenticationException> {
+        assertThrows<AuthExceptions.RequiredNewEmailAuthentication> {
             changeEmailUseCase.execute(requestStub)
         }
     }
@@ -141,7 +139,7 @@ class ChangeEmailUseCaseTests {
             .willReturn(uncertifiedAuthCodeLimit)
 
         // when & then
-        assertThrows<UncertifiedEmailException> {
+        assertThrows<AuthExceptions.UncertifiedEmail> {
             changeEmailUseCase.execute(requestStub)
         }
     }
@@ -162,7 +160,7 @@ class ChangeEmailUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<UserNotFoundException> {
+        assertThrows<UserExceptions.NotFound> {
             changeEmailUseCase.execute(requestStub)
         }
     }

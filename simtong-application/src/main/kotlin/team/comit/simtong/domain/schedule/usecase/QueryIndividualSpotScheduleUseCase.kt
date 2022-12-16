@@ -6,7 +6,7 @@ import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
 import java.time.LocalDate
 
@@ -27,7 +27,7 @@ class QueryIndividualSpotScheduleUseCase(
 
     fun execute(startAt: LocalDate, endAt: LocalDate): QueryIndividualSpotScheduleResponse {
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
-            ?: throw UserNotFoundException.EXCEPTION
+            ?: throw UserExceptions.NotFound()
 
         val individualSchedules = querySchedulePort.querySchedulesByPeriodAndUserIdAndScope(
             startAt, endAt, user.id, Scope.INDIVIDUAL

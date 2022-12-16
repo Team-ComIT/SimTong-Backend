@@ -1,12 +1,10 @@
 package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.auth.dto.TokenResponse
-import team.comit.simtong.domain.auth.exception.RequiredNewEmailAuthenticationException
-import team.comit.simtong.domain.auth.exception.UncertifiedEmailException
-import team.comit.simtong.domain.auth.exception.UsedEmailException
-import team.comit.simtong.domain.file.exception.InvalidEmployeeException
-import team.comit.simtong.domain.spot.exception.SpotNotFoundException
-import team.comit.simtong.domain.team.exception.TeamNotFoundException
+import team.comit.simtong.domain.auth.exception.AuthExceptions
+import team.comit.simtong.domain.file.exception.FileExceptions
+import team.comit.simtong.domain.spot.exception.SpotExceptions
+import team.comit.simtong.domain.team.exception.TeamExceptions
 import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -47,24 +45,24 @@ class SignUpUseCase(
         val (name, email, password, nickname, employeeNumber, profileImagePath) = request
 
         if (queryUserPort.existsUserByEmail(email)) {
-            throw UsedEmailException.EXCEPTION
+            throw AuthExceptions.AlreadyUsedEmail()
         }
 
         val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
-            ?: throw RequiredNewEmailAuthenticationException.EXCEPTION
+            ?: throw AuthExceptions.RequiredNewEmailAuthentication()
 
         if (!authCodeLimit.verified) {
-            throw UncertifiedEmailException.EXCEPTION
+            throw AuthExceptions.UncertifiedEmail()
         }
 
         val employeeCertificate = queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(name, employeeNumber)
-            ?: throw InvalidEmployeeException.EXCEPTION
+            ?: throw FileExceptions.NotExistsEmployee()
 
         val spot = querySpotPort.querySpotByName(employeeCertificate.spotName)
-            ?: throw SpotNotFoundException.EXCEPTION
+            ?: throw SpotExceptions.NotFound()
 
         val team = queryTeamPort.queryTeamByName(employeeCertificate.teamName)
-            ?: throw TeamNotFoundException.EXCEPTION
+            ?: throw TeamExceptions.NotFound()
 
         val user = commandUserPort.save(
             User(

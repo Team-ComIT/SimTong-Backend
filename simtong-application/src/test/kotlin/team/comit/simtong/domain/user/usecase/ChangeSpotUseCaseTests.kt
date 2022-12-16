@@ -9,16 +9,17 @@ import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import team.comit.simtong.global.DomainPropertiesInitialization
-import team.comit.simtong.domain.spot.exception.SpotNotFoundException
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.schedule.exception.ScheduleExceptions
+import team.comit.simtong.domain.spot.exception.SpotExceptions
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserQuerySpotPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
-import java.util.*
+import team.comit.simtong.global.DomainPropertiesInitialization
+import java.util.UUID
 
 @Import(DomainPropertiesInitialization::class)
 @ExtendWith(SpringExtension::class)
@@ -79,8 +80,6 @@ class ChangeSpotUseCaseTests {
         }
     }
 
-
-
     @Test
     fun `유저를 찾을 수 없음`() {
         // given
@@ -91,7 +90,7 @@ class ChangeSpotUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<UserNotFoundException> {
+        assertThrows<UserExceptions.NotFound> {
             changeSpotUseCase.execute(spotId)
         }
     }
@@ -109,7 +108,7 @@ class ChangeSpotUseCaseTests {
             .willReturn(false)
 
         // when & then
-        assertThrows<SpotNotFoundException> {
+        assertThrows<SpotExceptions.NotFound> {
             changeSpotUseCase.execute(spotId)
         }
     }

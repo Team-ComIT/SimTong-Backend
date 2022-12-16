@@ -4,7 +4,7 @@ import team.comit.simtong.domain.menu.dto.MenuResponse
 import team.comit.simtong.domain.menu.spi.MenuQueryUserPort
 import team.comit.simtong.domain.menu.spi.MenuSecurityPort
 import team.comit.simtong.domain.menu.spi.QueryMenuPort
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
 import java.time.LocalDate
 
@@ -25,7 +25,7 @@ class QueryMenuByMonthUseCase(
 
     fun execute(startAt: LocalDate, endAt: LocalDate): MenuResponse {
         val currentUserId = menuSecurityPort.getCurrentUserId()
-        val user = queryUserPort.queryUserById(currentUserId) ?: throw UserNotFoundException.EXCEPTION
+        val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
         val menu = queryMenuPort.queryMenusByPeriodAndSpotId(startAt, endAt, user.spotId)
         val result = menu.map { MenuResponse.MenuElement(it.date, it.meal) }

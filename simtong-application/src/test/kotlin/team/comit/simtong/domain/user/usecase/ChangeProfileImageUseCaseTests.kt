@@ -6,10 +6,10 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.file.exception.NotFoundFilePathException
+import team.comit.simtong.domain.file.exception.FileExceptions
 import team.comit.simtong.domain.file.spi.CheckFilePort
 import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.CommandUserPort
@@ -93,7 +93,7 @@ class ChangeProfileImageUseCaseTests {
             .willReturn(false)
 
         // when & then
-        assertThrows<NotFoundFilePathException> {
+        assertThrows<FileExceptions.PathNotFound> {
             changeProfileImageUseCase.execute(requestStub)
         }
     }
@@ -111,7 +111,7 @@ class ChangeProfileImageUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<UserNotFoundException> {
+        assertThrows<UserExceptions.NotFound> {
             changeProfileImageUseCase.execute(requestStub)
         }
     }

@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.menu.usecase
 
 import team.comit.simtong.domain.menu.dto.SaveMenuRequest
-import team.comit.simtong.domain.menu.exception.MenuAlreadyExistsSameMonthException
+import team.comit.simtong.domain.menu.exception.MenuExceptions
 import team.comit.simtong.domain.menu.spi.CommandMenuPort
 import team.comit.simtong.domain.menu.spi.ParseMenuFilePort
 import team.comit.simtong.domain.menu.spi.QueryMenuPort
@@ -29,7 +29,7 @@ class SaveMenuUseCase(
         val menu = parseMenuFilePort.importMenu(file, year, month, spotId)
 
         if (queryMenuPort.existsMenuByMonthAndSpotId(LocalDate.of(year, month, 1), spotId)) {
-            throw MenuAlreadyExistsSameMonthException.EXCEPTION
+            throw MenuExceptions.AlreadyExistsSameMonth("${year}년 ${month}월 메뉴가 이미 존재합니다.")
         }
 
         commandMenuPort.saveAll(menu)

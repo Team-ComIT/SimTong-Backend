@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.auth.usecase
 
-import team.comit.simtong.domain.auth.exception.CertifiedEmailException
+import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCode
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
@@ -29,8 +29,8 @@ class SendAuthCodeUseCase(
         val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
             ?: AuthCodeLimit(email)
 
-        if(authCodeLimit.verified) {
-            throw CertifiedEmailException.EXCEPTION
+        if (authCodeLimit.verified) {
+            throw AuthExceptions.AlreadyCertifiedEmail()
         }
 
         commandAuthCodeLimitPort.save(authCodeLimit.increaseCount())

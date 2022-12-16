@@ -1,8 +1,8 @@
 package team.comit.simtong.domain.user.usecase
 
-import team.comit.simtong.domain.spot.exception.SpotNotFoundException
+import team.comit.simtong.domain.spot.exception.SpotExceptions
 import team.comit.simtong.domain.user.dto.QueryAdminInfoResponse
-import team.comit.simtong.domain.user.exception.UserNotFoundException
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserQuerySpotPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
@@ -25,10 +25,10 @@ class QueryAdminInfoUseCase(
 
     fun execute(): QueryAdminInfoResponse {
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
-            ?: throw UserNotFoundException.EXCEPTION
+            ?: throw UserExceptions.NotFound()
 
         val spot = querySpotPort.querySpotById(user.spotId)
-            ?: throw SpotNotFoundException.EXCEPTION
+            ?: throw SpotExceptions.NotFound()
 
         return QueryAdminInfoResponse(
             name = user.name,
