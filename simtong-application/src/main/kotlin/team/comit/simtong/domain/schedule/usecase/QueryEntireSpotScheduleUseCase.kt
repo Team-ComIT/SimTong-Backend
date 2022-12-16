@@ -20,8 +20,8 @@ class QueryEntireSpotScheduleUseCase(
     private val querySchedulePort: QuerySchedulePort
 ) {
 
-    fun execute(date: LocalDate): QueryEntireSpotScheduleResponse {
-        val list = querySchedulePort.querySpotSchedulesByMonthAndScope(date, Scope.ENTIRE)
+    fun execute(startAt: LocalDate, endAt: LocalDate): QueryEntireSpotScheduleResponse {
+        val list = querySchedulePort.querySpotSchedulesByPeriodAndScope(startAt, endAt, Scope.ENTIRE)
 
         val response = list.map {
             SpotScheduleResponse(
