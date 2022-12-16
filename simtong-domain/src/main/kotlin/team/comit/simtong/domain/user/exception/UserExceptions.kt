@@ -16,7 +16,7 @@ sealed class UserExceptions(
 ) : BusinessException(status, message) {
 
     // 401
-    class DifferentPassword(message: String = DIFFERENT_PASSWORD) : UserExceptions(401, message)
+    class DifferentPassword(message: String = DIFFERENT_SECRET) : UserExceptions(401, message)
     class DifferentPermissionAccount(message: String = DIFFERENT_PERMISSION_ACCOUNT) : UserExceptions(401, message)
 
     // 403
@@ -29,7 +29,7 @@ sealed class UserExceptions(
     class AlreadyUsedNickname(message: String = ALREADY_USED_NICKNAME) : UserExceptions(409, message)
 
     companion object {
-        private const val DIFFERENT_PASSWORD = "비밀번호가 일치하지 않습니다."
+        private const val DIFFERENT_SECRET = "비밀번호가 일치하지 않습니다."
         private const val DIFFERENT_PERMISSION_ACCOUNT = "다른 권한의 계정입니다."
         private const val NOT_ENOUGH_PERMISSION = "권한이 부족한 동작입니다."
         private const val NOT_FOUND = "사용자를 찾을 수 없습니다."
