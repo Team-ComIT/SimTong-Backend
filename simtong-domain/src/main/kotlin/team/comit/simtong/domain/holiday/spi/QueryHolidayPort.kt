@@ -19,6 +19,6 @@ interface QueryHolidayPort {
 
     fun queryHolidayByDateAndUserId(date: LocalDate, userId: UUID) : Holiday?
 
-    fun queryHolidaysByMonthAndUserId(date: LocalDate, userId: UUID) : List<Holiday>
+    fun queryHolidaysByPeriodAndUserId(startAt: LocalDate, endAt: LocalDate, userId: UUID) : List<Holiday>
 
 }
