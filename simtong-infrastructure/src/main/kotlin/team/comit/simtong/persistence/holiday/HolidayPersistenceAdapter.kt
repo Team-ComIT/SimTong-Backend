@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component
 import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidayPort
-import team.comit.simtong.persistence.QuerydslExtensionUtils.sameMonthFilter
 import team.comit.simtong.persistence.QuerydslExtensionUtils.sameWeekFilter
 import team.comit.simtong.persistence.holiday.entity.HolidayId
 import team.comit.simtong.persistence.holiday.mapper.HolidayMapper
@@ -49,11 +48,11 @@ class HolidayPersistenceAdapter(
         ).let(holidayMapper::toDomain)
     }
 
-    override fun queryHolidaysByMonthAndUserId(date: LocalDate, userId: UUID): List<Holiday> {
+    override fun queryHolidaysByPeriodAndUserId(startAt: LocalDate, endAt: LocalDate, userId: UUID): List<Holiday> {
         return queryFactory.selectFrom(holiday)
             .where(
                 holiday.id.userId.eq(userId),
-                holiday.id.date.sameMonthFilter(date)
+                holiday.id.date.between(startAt, endAt)
             )
             .orderBy(holiday.id.date.asc())
             .fetch()

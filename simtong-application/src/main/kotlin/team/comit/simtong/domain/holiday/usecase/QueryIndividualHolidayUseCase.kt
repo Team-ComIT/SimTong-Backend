@@ -21,10 +21,13 @@ class QueryIndividualHolidayUseCase(
     private val securityPort: HolidaySecurityPort
 ) {
 
-    fun execute(date: LocalDate) : QueryIndividualHolidaysResponse {
+    fun execute(
+        startAt: LocalDate,
+        endAt: LocalDate
+    ) : QueryIndividualHolidaysResponse {
         val currentUserId = securityPort.getCurrentUserId()
 
-        val holidays = queryHolidayPort.queryHolidaysByMonthAndUserId(date, currentUserId)
+        val holidays = queryHolidayPort.queryHolidaysByPeriodAndUserId(startAt, endAt, currentUserId)
 
         val response = holidays.map {
             IndividualHolidayResponse(
