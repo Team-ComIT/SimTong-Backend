@@ -55,7 +55,7 @@ jobs:
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.DOCKER_IMAGE_DEV }}
             docker pull ${{ secrets.DOCKER_IMAGE_DEV }}
             docker rm -f simtong-dev || true
-            docker run -d --name simtong-dev -p ${{ secrets.APPLICATION_PORT }}:8080 --env-file .env ${{ secrets.DOCKER_IMAGE_DEV }}
+            docker run -d --name simtong-dev -p ${{ secrets.APPLICATION_PORT_DEV }}:8080 --env-file .env ${{ secrets.DOCKER_IMAGE_DEV }}
             sleep 20
             is_healthy=$(docker inspect --format '{{ .State.Health.Status }}' simtong-dev)
             echo $is_healthy
