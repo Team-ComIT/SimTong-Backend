@@ -38,7 +38,7 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: ${{ secrets.ECR_REPOSITORY }}
+          name: ${{ secrets.ECR_REPOSITORY_DEV }}
           username: ${{ steps.ecr.outputs.username }}
           password: ${{ steps.ecr.outputs.password }}
           registry: ${{ steps.ecr.outputs.registry }}
@@ -51,13 +51,13 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd simtong-server
-            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.DOCKER_IMAGE }}
-            docker pull ${{ secrets.DOCKER_IMAGE }}
-            docker rm -f simtong-server || true
-            docker run -d --name simtong-server -p ${{ secrets.APPLICATION_PORT }}:8080 --env-file .env ${{ secrets.DOCKER_IMAGE }}
+            cd simtong-dev
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.DOCKER_IMAGE_DEV }}
+            docker pull ${{ secrets.DOCKER_IMAGE_DEV }}
+            docker rm -f simtong-dev || true
+            docker run -d --name simtong-dev -p ${{ secrets.APPLICATION_PORT }}:8080 --env-file .env ${{ secrets.DOCKER_IMAGE_DEV }}
             sleep 20
-            is_healthy=$(docker inspect --format '{{ .State.Health.Status }}' simtong-server)
+            is_healthy=$(docker inspect --format '{{ .State.Health.Status }}' simtong-dev)
             echo $is_healthy
             if [[ $is_healthy -ne "healthy" ]]; then
                 echo $is_healthy
