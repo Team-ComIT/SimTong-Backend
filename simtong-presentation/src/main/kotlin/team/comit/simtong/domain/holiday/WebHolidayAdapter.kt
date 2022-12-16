@@ -47,8 +47,8 @@ class WebHolidayAdapter(
 
     @GetMapping
     fun queryIndividualHolidays(
-        @RequestParam startAt: LocalDate,
-        @RequestParam endAt: LocalDate
+        @RequestParam("start_at") startAt: LocalDate,
+        @RequestParam("end_at") endAt: LocalDate
     ) : QueryIndividualHolidaysResponse {
         return queryIndividualHolidayUseCase.execute(startAt, endAt)
     }

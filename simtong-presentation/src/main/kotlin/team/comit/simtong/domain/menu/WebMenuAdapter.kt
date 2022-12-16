@@ -1,18 +1,22 @@
 package team.comit.simtong.domain.menu
 
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.multipart.MultipartFile
 import team.comit.simtong.domain.file.converter.ExcelFileConverter
 import team.comit.simtong.domain.menu.dto.MenuResponse
+import team.comit.simtong.domain.menu.dto.SaveMenuRequest
+import team.comit.simtong.domain.menu.dto.request.SaveMenuWebRequest
 import team.comit.simtong.domain.menu.usecase.QueryMenuByMonthUseCase
 import team.comit.simtong.domain.menu.usecase.QueryPublicMenuUseCase
 import team.comit.simtong.domain.menu.usecase.SaveMenuUseCase
 import java.time.LocalDate
 import java.util.UUID
+import javax.validation.Valid
 
 /**
  *
@@ -33,30 +37,32 @@ class WebMenuAdapter(
 
     @GetMapping
     fun getMenu(
-        @RequestParam date: LocalDate
+        @RequestParam("start_at") startAt: LocalDate,
+        @RequestParam("end_at") endAt: LocalDate
     ): MenuResponse {
-        return queryMenuByMonthUseCase.execute(date)
+        return queryMenuByMonthUseCase.execute(startAt, endAt)
     }
 
     @GetMapping("/public")
     fun getPublicMenu(
-        @RequestParam date: LocalDate
+        @RequestParam("start_at") startAt: LocalDate,
+        @RequestParam("end_at") endAt: LocalDate
     ): MenuResponse {
-        return queryPublicMenuUseCase.execute(date)
+        return queryPublicMenuUseCase.execute(startAt, endAt)
     }
 
-    @PostMapping
+    @PostMapping("/{spot-id}")
     fun saveMenu(
-        file: MultipartFile,
-        @RequestParam year: Int,
-        @RequestParam month: Int,
-        @RequestParam spotId: UUID,
+        @PathVariable("spot-id") spotId: UUID,
+        @Valid @ModelAttribute request: SaveMenuWebRequest
     ) {
         saveMenuUseCase.execute(
-            file = file.let(ExcelFileConverter::transferTo),
-            year = year,
-            month = month,
-            spotId = spotId
+            SaveMenuRequest(
+                file = request.file.let(ExcelFileConverter::transferTo),
+                year = request.year,
+                month = request.month,
+                spotId = spotId
+            )
         )
     }
 }
