@@ -44,15 +44,18 @@ class SignUpUseCase(
     fun execute(request: SignUpRequest): TokenResponse {
         val (name, email, password, nickname, employeeNumber, profileImagePath) = request
 
-        if (queryUserPort.existsUserByEmail(email)) {
-            throw AuthExceptions.AlreadyUsedEmail()
-        }
-
         val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
             ?: throw AuthExceptions.RequiredNewEmailAuthentication()
 
-        if (!authCodeLimit.verified) {
-            throw AuthExceptions.UncertifiedEmail()
+        when {
+            queryUserPort.existsUserByEmail(email) ->
+                throw AuthExceptions.AlreadyUsedEmail()
+
+            queryUserPort.existsUserByEmployeeNumber(employeeNumber) ->
+                throw AuthExceptions.AlreadyUsedEmployeeNumber()
+
+            !authCodeLimit.verified -> 
+                throw AuthExceptions.UncertifiedEmail()
         }
 
         val employeeCertificate = queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(name, employeeNumber)
