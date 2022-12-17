@@ -175,11 +175,14 @@ class SignUpUseCaseTests {
             profileImagePath = profileImagePath
         )
 
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
+
         given(queryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(false)
 
-        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
-            .willReturn(authCodeLimitStub)
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
+            .willReturn(false)
 
         given(queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(requestStub.name, requestStub.employeeNumber))
             .willReturn(employeeCertificateStub)
@@ -230,11 +233,14 @@ class SignUpUseCaseTests {
             profileImagePath = User.DEFAULT_IMAGE
         )
 
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
+
         given(queryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(false)
 
-        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
-            .willReturn(authCodeLimitStub)
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
+            .willReturn(false)
 
         given(queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(requestStub.name, requestStub.employeeNumber))
             .willReturn(employeeCertificateStub)
@@ -273,6 +279,12 @@ class SignUpUseCaseTests {
 
         given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(unVerifiedAuthCodeLimitStub)
+
+        given(queryUserPort.existsUserByEmail(requestStub.email))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
+            .willReturn(false)
 
         // when & then
         assertThrows<AuthExceptions.UncertifiedEmail> {
@@ -316,6 +328,9 @@ class SignUpUseCaseTests {
         given(queryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(false)
 
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
+            .willReturn(false)
+
         given(queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(requestStub.name, requestStub.employeeNumber))
             .willReturn(null)
 
@@ -332,6 +347,9 @@ class SignUpUseCaseTests {
             .willReturn(authCodeLimitStub)
 
         given(queryUserPort.existsUserByEmail(requestStub.email))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
             .willReturn(false)
 
         given(queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(requestStub.name, requestStub.employeeNumber))
@@ -355,6 +373,9 @@ class SignUpUseCaseTests {
         given(queryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(false)
 
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
+            .willReturn(false)
+
         given(queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(requestStub.name, requestStub.employeeNumber))
             .willReturn(employeeCertificateStub)
 
@@ -366,6 +387,24 @@ class SignUpUseCaseTests {
 
         // when & then
         assertThrows<TeamExceptions.NotFound> {
+            signUpUseCase.execute(requestStub)
+        }
+    }
+
+    @Test
+    fun `이미 사용중인 사원번호`() {
+        // given
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
+
+        given(queryUserPort.existsUserByEmail(requestStub.email))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
+            .willReturn(true)
+
+        // when & then
+        assertThrows<AuthExceptions.AlreadyUsedEmployeeNumber> {
             signUpUseCase.execute(requestStub)
         }
     }
