@@ -6,6 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
+import team.comit.simtong.domain.menu.dto.SaveMenuRequest
 import team.comit.simtong.domain.menu.exception.MenuExceptions
 import team.comit.simtong.domain.menu.model.Menu
 import team.comit.simtong.domain.menu.spi.CommandMenuPort
@@ -43,6 +44,15 @@ class SaveMenuUseCaseTests {
         )
     }
 
+    private val requestStub: SaveMenuRequest by lazy {
+        SaveMenuRequest(
+            file = fileStub,
+            year = year,
+            month = month,
+            spotId = spotId
+        )
+    }
+
     @BeforeEach
     fun setUp() {
         saveMenuUseCase = SaveMenuUseCase(
@@ -58,12 +68,12 @@ class SaveMenuUseCaseTests {
         given(parseMenuFilePort.importMenu(fileStub, year, month, spotId))
             .willReturn(listOf(menuStub))
 
-        given(queryMenuPort.queryMenusByMonthAndSpotId(LocalDate.of(year, month, 1), spotId))
-            .willReturn(emptyList())
+        given(queryMenuPort.existsMenuByMonthAndSpotId(LocalDate.of(year, month, 1), spotId))
+            .willReturn(false)
 
         // when & then
         assertDoesNotThrow {
-            saveMenuUseCase.execute(fileStub, year, month, spotId)
+            saveMenuUseCase.execute(requestStub)
         }
     }
 
@@ -73,12 +83,12 @@ class SaveMenuUseCaseTests {
         given(parseMenuFilePort.importMenu(fileStub, year, month, spotId))
             .willReturn(listOf(menuStub))
 
-        given(queryMenuPort.queryMenusByMonthAndSpotId(LocalDate.of(year, month, 1), spotId))
-            .willReturn(listOf(menuStub))
+        given(queryMenuPort.existsMenuByMonthAndSpotId(LocalDate.of(year, month, 1), spotId))
+            .willReturn(true)
 
         // when & then
         assertThrows<MenuExceptions.AlreadyExistsSameMonth> {
-            saveMenuUseCase.execute(fileStub, year, month, spotId)
+            saveMenuUseCase.execute(requestStub)
         }
     }
 

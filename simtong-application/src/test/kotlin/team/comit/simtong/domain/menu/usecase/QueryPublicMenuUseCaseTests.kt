@@ -45,13 +45,13 @@ class QueryPublicMenuUseCaseTests {
     fun `메뉴 조회 성공`() {
         // given
         val now = LocalDate.now()
-        given(queryMenuPort.queryMenusByMonthAndSpotName(now, Spot.HEAD_SHOP))
+        given(queryMenuPort.queryMenusByPeriodAndSpotName(now, now, Spot.HEAD_SHOP))
             .willReturn(
                 listOf(menuStub, menuStub2)
             )
 
         // when
-        val response = queryPublicMenuUseCase.execute(now)
+        val response = queryPublicMenuUseCase.execute(now, now)
 
         // then
         Assertions.assertThat(response).isNotNull

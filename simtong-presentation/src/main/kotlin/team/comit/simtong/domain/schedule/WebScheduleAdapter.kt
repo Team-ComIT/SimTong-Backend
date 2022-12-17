@@ -85,13 +85,19 @@ class WebScheduleAdapter(
     }
 
     @GetMapping
-    fun queryIndividualSpotSchedule(@RequestParam date: LocalDate): QueryIndividualSpotScheduleResponse {
-        return queryIndividualSpotScheduleUseCase.execute(date)
+    fun queryIndividualSpotSchedule(
+        @RequestParam("start_at") startAt: LocalDate,
+        @RequestParam("end_at") endAt: LocalDate
+    ): QueryIndividualSpotScheduleResponse {
+        return queryIndividualSpotScheduleUseCase.execute(startAt, endAt)
     }
 
     @GetMapping("/spots")
-    fun queryEntireSpotSchedule(@RequestParam date: LocalDate): QueryEntireSpotScheduleResponse {
-        return queryEntireSpotScheduleUseCase.execute(date)
+    fun queryEntireSpotSchedule(
+        @RequestParam("start_at") startAt: LocalDate,
+        @RequestParam("end_at") endAt: LocalDate
+    ): QueryEntireSpotScheduleResponse {
+        return queryEntireSpotScheduleUseCase.execute(startAt, endAt)
     }
 
     @PostMapping("/spots/{spot-id}")

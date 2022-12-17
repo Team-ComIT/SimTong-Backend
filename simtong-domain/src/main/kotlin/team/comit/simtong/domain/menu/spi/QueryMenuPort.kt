@@ -15,8 +15,10 @@ import java.util.UUID
  **/
 interface QueryMenuPort {
 
-    fun queryMenusByMonthAndSpotId(date: LocalDate, spotId: UUID): List<Menu>
+    fun existsMenuByMonthAndSpotId(date: LocalDate, spotId: UUID): Boolean
 
-    fun queryMenusByMonthAndSpotName(date: LocalDate, spotName: String): List<Menu>
+    fun queryMenusByPeriodAndSpotId(startAt: LocalDate, endAt: LocalDate, spotId: UUID): List<Menu>
+
+    fun queryMenusByPeriodAndSpotName(startAt: LocalDate, endAt: LocalDate, spotName: String): List<Menu>
 
 }

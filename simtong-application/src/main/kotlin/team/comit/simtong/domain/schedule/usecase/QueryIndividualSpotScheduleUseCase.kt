@@ -25,16 +25,16 @@ class QueryIndividualSpotScheduleUseCase(
     private val securityPort: ScheduleSecurityPort
 ) {
 
-    fun execute(date: LocalDate): QueryIndividualSpotScheduleResponse {
+    fun execute(startAt: LocalDate, endAt: LocalDate): QueryIndividualSpotScheduleResponse {
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
             ?: throw UserExceptions.NotFound()
 
-        val individualSchedules = querySchedulePort.querySchedulesByMonthAndUserIdAndScope(
-            date, user.id, Scope.INDIVIDUAL
+        val individualSchedules = querySchedulePort.querySchedulesByPeriodAndUserIdAndScope(
+            startAt, endAt, user.id, Scope.INDIVIDUAL
         )
 
-        val ownSpotSchedules = querySchedulePort.querySchedulesByMonthAndSpotIdAndScope(
-            date, user.spotId, Scope.ENTIRE
+        val ownSpotSchedules = querySchedulePort.querySchedulesByPeriodAndSpotIdAndScope(
+            startAt, endAt, user.spotId, Scope.ENTIRE
         )
 
         val schedules = (ownSpotSchedules + individualSchedules) // 개인 일정과 소속 지점 일정 합치기
