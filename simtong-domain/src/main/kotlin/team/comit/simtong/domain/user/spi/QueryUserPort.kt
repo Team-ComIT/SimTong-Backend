@@ -14,6 +14,8 @@ import java.util.UUID
  **/
 interface QueryUserPort {
 
+    fun existsUserByEmployeeNumber(employeeNumber: Int): Boolean
+
     fun existsUserByEmail(email: String): Boolean
 
     fun existsUserByNickname(nickname: String): Boolean

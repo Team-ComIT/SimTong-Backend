@@ -53,6 +53,10 @@ class UserPersistenceAdapter(
             .let(userMapper::toDomain)
     }
 
+    override fun existsUserByEmployeeNumber(employeeNumber: Int): Boolean {
+        return userJpaRepository.existsUserJpaEntitiesByEmployeeNumber(employeeNumber)
+    }
+
     override fun existsUserByEmail(email: String): Boolean {
         return userJpaRepository.existsUserJpaEntitiesByEmail(email)
     }

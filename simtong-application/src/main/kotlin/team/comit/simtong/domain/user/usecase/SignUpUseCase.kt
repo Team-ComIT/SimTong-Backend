@@ -6,6 +6,7 @@ import team.comit.simtong.domain.file.exception.FileExceptions
 import team.comit.simtong.domain.spot.exception.SpotExceptions
 import team.comit.simtong.domain.team.exception.TeamExceptions
 import team.comit.simtong.domain.user.dto.SignUpRequest
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.CommandUserPort
@@ -44,8 +45,15 @@ class SignUpUseCase(
     fun execute(request: SignUpRequest): TokenResponse {
         val (name, email, password, nickname, employeeNumber, profileImagePath) = request
 
-        if (queryUserPort.existsUserByEmail(email)) {
-            throw AuthExceptions.AlreadyUsedEmail()
+        when {
+            queryUserPort.existsUserByEmail(email) ->
+                throw AuthExceptions.AlreadyUsedEmail()
+
+            queryUserPort.existsUserByEmployeeNumber(employeeNumber) ->
+                throw AuthExceptions.AlreadyUsedEmployeeNumber()
+
+            nickname != null && queryUserPort.existsUserByNickname(nickname) ->
+                throw UserExceptions.AlreadyUsedNickname()
         }
 
         val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
