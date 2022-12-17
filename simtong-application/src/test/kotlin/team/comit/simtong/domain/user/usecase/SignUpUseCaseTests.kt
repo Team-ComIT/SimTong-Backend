@@ -16,6 +16,7 @@ import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.team.exception.TeamExceptions
 import team.comit.simtong.domain.team.model.Team
 import team.comit.simtong.domain.user.dto.SignUpRequest
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.CommandUserPort
@@ -175,11 +176,17 @@ class SignUpUseCaseTests {
             profileImagePath = profileImagePath
         )
 
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
+
         given(queryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(false)
 
-        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
-            .willReturn(authCodeLimitStub)
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByNickname(nickname))
+            .willReturn(false)
 
         given(queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(requestStub.name, requestStub.employeeNumber))
             .willReturn(employeeCertificateStub)
@@ -230,11 +237,17 @@ class SignUpUseCaseTests {
             profileImagePath = User.DEFAULT_IMAGE
         )
 
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
+
         given(queryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(false)
 
-        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
-            .willReturn(authCodeLimitStub)
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByNickname(nickname))
+            .willReturn(false)
 
         given(queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(requestStub.name, requestStub.employeeNumber))
             .willReturn(employeeCertificateStub)
@@ -274,6 +287,15 @@ class SignUpUseCaseTests {
         given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(unVerifiedAuthCodeLimitStub)
 
+        given(queryUserPort.existsUserByEmail(requestStub.email))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByNickname(nickname))
+            .willReturn(false)
+
         // when & then
         assertThrows<AuthExceptions.UncertifiedEmail> {
             signUpUseCase.execute(requestStub)
@@ -285,6 +307,15 @@ class SignUpUseCaseTests {
         // given
         given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(null)
+
+        given(queryUserPort.existsUserByEmail(requestStub.email))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByNickname(nickname))
+            .willReturn(false)
 
         // when & then
         assertThrows<AuthExceptions.RequiredNewEmailAuthentication> {
@@ -316,6 +347,12 @@ class SignUpUseCaseTests {
         given(queryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(false)
 
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByNickname(nickname))
+            .willReturn(false)
+
         given(queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(requestStub.name, requestStub.employeeNumber))
             .willReturn(null)
 
@@ -332,6 +369,12 @@ class SignUpUseCaseTests {
             .willReturn(authCodeLimitStub)
 
         given(queryUserPort.existsUserByEmail(requestStub.email))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByNickname(nickname))
             .willReturn(false)
 
         given(queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(requestStub.name, requestStub.employeeNumber))
@@ -355,6 +398,12 @@ class SignUpUseCaseTests {
         given(queryUserPort.existsUserByEmail(requestStub.email))
             .willReturn(false)
 
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByNickname(nickname))
+            .willReturn(false)
+
         given(queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(requestStub.name, requestStub.employeeNumber))
             .willReturn(employeeCertificateStub)
 
@@ -366,6 +415,45 @@ class SignUpUseCaseTests {
 
         // when & then
         assertThrows<TeamExceptions.NotFound> {
+            signUpUseCase.execute(requestStub)
+        }
+    }
+
+    @Test
+    fun `이미 사용중인 사원번호`() {
+        // given
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
+
+        given(queryUserPort.existsUserByEmail(requestStub.email))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
+            .willReturn(true)
+
+        // when & then
+        assertThrows<AuthExceptions.AlreadyUsedEmployeeNumber> {
+            signUpUseCase.execute(requestStub)
+        }
+    }
+
+    @Test
+    fun `이미 사용중인 닉네임`() {
+        // given
+        given(userQueryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
+            .willReturn(authCodeLimitStub)
+
+        given(queryUserPort.existsUserByEmail(requestStub.email))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByEmployeeNumber(requestStub.employeeNumber))
+            .willReturn(false)
+
+        given(queryUserPort.existsUserByNickname(nickname))
+            .willReturn(true)
+
+        // when & then
+        assertThrows<UserExceptions.AlreadyUsedNickname> {
             signUpUseCase.execute(requestStub)
         }
     }

@@ -29,6 +29,8 @@ interface UserJpaRepository : CrudRepository<UserJpaEntity, UUID> {
 
     fun existsUserJpaEntitiesByNickname(nickname: String): Boolean
 
+    fun existsUserJpaEntitiesByEmployeeNumber(employeeNumber: Int): Boolean
+
     fun queryUserJpaEntityByNameAndSpotIdAndEmail(name: String, spotId: UUID, email: String): UserJpaEntity?
 
     fun queryUserJpaEntityByEmailAndEmployeeNumber(email: String, employeeNumber: Int): UserJpaEntity?

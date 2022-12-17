@@ -25,6 +25,7 @@ sealed class AuthExceptions(
 
     // 409
     class AlreadyUsedEmail(message: String = ALREADY_USED_EMAIL) : AuthExceptions(409, message)
+    class AlreadyUsedEmployeeNumber(message: String = ALREADY_USED_EMPLOYEE_NUMBER) : AuthExceptions(409, message)
     class AlreadyCertifiedEmail(message: String = ALREADY_CERTIFIED_EMAIL) : AuthExceptions(409, message)
 
     // 429
@@ -36,6 +37,7 @@ sealed class AuthExceptions(
         private const val REQUIRED_NEW_EMAIL_AUTHENTICATION = "새로운 이메일 인증이 필요합니다."
         private const val REFRESH_TOKEN_NOT_FOUND = "리프레시 토큰을 찾을 수 없습니다."
         private const val ALREADY_USED_EMAIL = "이미 사용중인 이메일입니다."
+        private const val ALREADY_USED_EMPLOYEE_NUMBER = "이미 사용중인 사원번호입니다."
         private const val ALREADY_CERTIFIED_EMAIL = "이미 인증된 이메일입니다."
         private const val EXCEEDED_SEND_AUTH_CODE_REQUEST = "인증 코드 발송 횟수를 초과하였습니다."
     }
