@@ -6,6 +6,7 @@ import team.comit.simtong.domain.file.exception.FileExceptions
 import team.comit.simtong.domain.spot.exception.SpotExceptions
 import team.comit.simtong.domain.team.exception.TeamExceptions
 import team.comit.simtong.domain.user.dto.SignUpRequest
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.CommandUserPort
@@ -44,9 +45,6 @@ class SignUpUseCase(
     fun execute(request: SignUpRequest): TokenResponse {
         val (name, email, password, nickname, employeeNumber, profileImagePath) = request
 
-        val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
-            ?: throw AuthExceptions.RequiredNewEmailAuthentication()
-
         when {
             queryUserPort.existsUserByEmail(email) ->
                 throw AuthExceptions.AlreadyUsedEmail()
@@ -54,8 +52,15 @@ class SignUpUseCase(
             queryUserPort.existsUserByEmployeeNumber(employeeNumber) ->
                 throw AuthExceptions.AlreadyUsedEmployeeNumber()
 
-            !authCodeLimit.verified -> 
-                throw AuthExceptions.UncertifiedEmail()
+            nickname != null && queryUserPort.existsUserByNickname(nickname) ->
+                throw UserExceptions.AlreadyUsedNickname()
+        }
+
+        val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
+            ?: throw AuthExceptions.RequiredNewEmailAuthentication()
+
+        if (!authCodeLimit.verified) {
+            throw AuthExceptions.UncertifiedEmail()
         }
 
         val employeeCertificate = queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(name, employeeNumber)
