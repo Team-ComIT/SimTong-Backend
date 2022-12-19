@@ -19,8 +19,8 @@ sealed class HolidayExceptions(
     class NotFound(message: String = NOT_FOUND) : HolidayExceptions(404, message)
 
     // 409
-    class WeekHolidayLimitExcess(message: String = WEEK_HOLIDAY_LIMIT_EXCESS) : HolidayExceptions(409, message)
-    class AnnualLeaveLimitExcess(message: String = ANNUAL_LEAVE_LIMIT_EXCESS) : HolidayExceptions(409, message)
+    class WeekHolidayLimitExcess(message: String = WEEK_HOLIDAY_LIMIT_EXCESS) : HolidayExceptions(429, message)
+    class AnnualLeaveLimitExcess(message: String = ANNUAL_LEAVE_LIMIT_EXCESS) : HolidayExceptions(429, message)
 
     companion object {
         private const val NOT_FOUND = "휴무일을 찾을 수 없습니다."
