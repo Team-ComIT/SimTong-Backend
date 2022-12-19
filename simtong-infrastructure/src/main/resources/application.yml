@@ -29,6 +29,7 @@ domain:
       head: ${HEAD_SPOT:본점}
     holiday:
       week-holiday-limit: ${WEEK_HOLIDAY_LIMIT:2}
+      annual-leave-limit: ${ANNUAL_LEAVE_LIMIT:15}
 
 
 logging:

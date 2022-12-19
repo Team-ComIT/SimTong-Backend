@@ -26,5 +26,6 @@ object DomainPropertiesPrefix {
 
     // holiday
     const val WEEK_HOLIDAY_LIMIT = "holiday.week-holiday-limit"
+    const val ANNUAL_LEAVE_LIMIT = "holiday.annual-leave-limit"
 
 }
