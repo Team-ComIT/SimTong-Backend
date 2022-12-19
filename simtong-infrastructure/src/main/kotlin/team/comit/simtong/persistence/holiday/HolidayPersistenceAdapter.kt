@@ -8,6 +8,7 @@ import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidayPort
 import team.comit.simtong.persistence.QuerydslExtensionUtils.sameWeekFilter
+import team.comit.simtong.persistence.QuerydslExtensionUtils.sameYearFilter
 import team.comit.simtong.persistence.holiday.entity.HolidayId
 import team.comit.simtong.persistence.holiday.mapper.HolidayMapper
 import java.time.LocalDate
@@ -27,6 +28,17 @@ class HolidayPersistenceAdapter(
     private val holidayJpaRepository: HolidayJpaRepository,
     private val queryFactory: JPAQueryFactory
 ) : HolidayPort {
+
+    override fun countHolidayByYearAndUserIdAndType(date: LocalDate, userId: UUID, type: HolidayType): Long {
+        return queryFactory.select(holiday.count())
+            .from(holiday)
+            .where(
+                holiday.id.userId.eq(userId),
+                holiday.type.eq(type),
+                holiday.id.date.sameYearFilter(date)
+            )
+            .fetchFirst()
+    }
 
     override fun countHolidayByWeekAndUserIdAndType(date: LocalDate, userId: UUID, type: HolidayType): Long {
         return queryFactory.select(holiday.count())
