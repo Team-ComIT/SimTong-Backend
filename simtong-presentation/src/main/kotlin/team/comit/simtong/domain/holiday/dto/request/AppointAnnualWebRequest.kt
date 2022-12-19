@@ -4,12 +4,12 @@ import java.time.LocalDate
 
 /**
  *
- * 휴무일 지정을 요청하는 AppointHolidayWebRequest
+ * 연차 지정을 요청하는 AppointAnnualWebRequest
  *
  * @author Chokyunghyeon
- * @date 2022/12/03
+ * @date 2022/12/19
  * @version 1.0.0
  **/
-data class AppointHolidayWebRequest(
+data class AppointAnnualWebRequest(
     val date: LocalDate
 )
