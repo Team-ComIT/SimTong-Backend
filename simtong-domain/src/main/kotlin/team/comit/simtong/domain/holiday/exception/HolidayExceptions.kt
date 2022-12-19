@@ -18,7 +18,7 @@ sealed class HolidayExceptions(
     // 404
     class NotFound(message: String = NOT_FOUND) : HolidayExceptions(404, message)
 
-    // 409
+    // 429
     class WeekHolidayLimitExcess(message: String = WEEK_HOLIDAY_LIMIT_EXCESS) : HolidayExceptions(429, message)
     class AnnualLeaveLimitExcess(message: String = ANNUAL_LEAVE_LIMIT_EXCESS) : HolidayExceptions(429, message)
 
