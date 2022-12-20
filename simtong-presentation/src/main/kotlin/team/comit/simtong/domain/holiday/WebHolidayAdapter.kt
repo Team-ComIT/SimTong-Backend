@@ -58,7 +58,6 @@ class WebHolidayAdapter(
     }
 
     @PutMapping("/work")
-    @ResponseStatus(HttpStatus.OK)
     fun cancelHoliday(@RequestParam date: LocalDate) {
         cancelHolidayUseCase.execute(date)
     }
