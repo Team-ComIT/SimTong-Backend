@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.holiday.dto.QueryIndividualHolidaysResponse
 import team.comit.simtong.domain.holiday.dto.request.AppointAnnualWebRequest
 import team.comit.simtong.domain.holiday.dto.request.AppointHolidayWebRequest
-import team.comit.simtong.domain.holiday.dto.response.RemainAnnualWebResponse
+import team.comit.simtong.domain.holiday.dto.response.QueryRemainAnnualWebResponse
 import team.comit.simtong.domain.holiday.usecase.AppointAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.CancelHolidayUseCase
@@ -39,8 +39,8 @@ class WebHolidayAdapter(
 ) {
 
     @GetMapping("/annual/count")
-    fun remainAnnual(@RequestParam year: Int) : RemainAnnualWebResponse {
-        return RemainAnnualWebResponse(
+    fun remainAnnual(@RequestParam year: Int) : QueryRemainAnnualWebResponse {
+        return QueryRemainAnnualWebResponse(
             queryRemainAnnualUseCase.execute(year)
         )
     }
