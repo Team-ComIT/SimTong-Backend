@@ -12,6 +12,8 @@ import team.comit.simtong.domain.common.dto.request.ResetPasswordWebRequest
 import team.comit.simtong.domain.common.dto.response.FindEmployeeNumberWebResponse
 import team.comit.simtong.domain.spot.dto.SpotResponse
 import team.comit.simtong.domain.spot.usecase.ShowSpotListUseCase
+import team.comit.simtong.domain.team.dto.QueryTeamsResponse
+import team.comit.simtong.domain.team.usecase.QueryTeamsUseCase
 import team.comit.simtong.domain.user.dto.ChangePasswordRequest
 import team.comit.simtong.domain.user.dto.CheckMatchedAccountRequest
 import team.comit.simtong.domain.user.dto.FindEmployeeNumberRequest
@@ -22,6 +24,7 @@ import team.comit.simtong.domain.user.usecase.CheckMatchedAccountUseCase
 import team.comit.simtong.domain.user.usecase.ComparePasswordUseCase
 import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
 import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
+import java.util.UUID
 import javax.validation.Valid
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
@@ -45,7 +48,8 @@ class WebCommonAdapter(
     private val changePasswordUseCase: ChangePasswordUseCase,
     private val checkMatchedAccountUseCase: CheckMatchedAccountUseCase,
     private val showSpotListUseCase: ShowSpotListUseCase,
-    private val comparePasswordUseCase: ComparePasswordUseCase
+    private val comparePasswordUseCase: ComparePasswordUseCase,
+    private val queryTeamsUseCase: QueryTeamsUseCase
 ) {
 
     @GetMapping("/employee-number")
@@ -82,7 +86,7 @@ class WebCommonAdapter(
     fun checkEmailDuplication(@Email @NotBlank @RequestParam email: String) {
         checkEmailDuplicationUseCase.execute(email)
     }
-    
+
     @PutMapping("/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changePassword(@Valid @RequestBody request: ChangePasswordWebRequest) {
@@ -112,6 +116,11 @@ class WebCommonAdapter(
     @GetMapping("/password/compare")
     fun comparePassword(@NotBlank @RequestParam password: String) {
         comparePasswordUseCase.execute(password)
+    }
+
+    @GetMapping("/team/{spot-id}")
+    fun queryTeams(@PathVariable(name = "spot-id") spotId: UUID): QueryTeamsResponse {
+        return queryTeamsUseCase.execute(spotId)
     }
 
 }
