@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.holiday.dto.QueryIndividualHolidaysResponse
 import team.comit.simtong.domain.holiday.dto.request.AppointAnnualWebRequest
 import team.comit.simtong.domain.holiday.dto.request.AppointHolidayWebRequest
+import team.comit.simtong.domain.holiday.dto.request.CancelHolidayRequest
 import team.comit.simtong.domain.holiday.dto.response.QueryRemainAnnualWebResponse
 import team.comit.simtong.domain.holiday.usecase.AppointAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayUseCase
@@ -58,8 +59,8 @@ class WebHolidayAdapter(
     }
 
     @PutMapping("/work")
-    fun cancelHoliday(@RequestParam date: LocalDate) {
-        cancelHolidayUseCase.execute(date)
+    fun cancelHoliday(@RequestBody request: CancelHolidayRequest) {
+        cancelHolidayUseCase.execute(request.date)
     }
 
     @GetMapping
