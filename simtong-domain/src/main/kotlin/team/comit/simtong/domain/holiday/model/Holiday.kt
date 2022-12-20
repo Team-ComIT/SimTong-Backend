@@ -22,7 +22,9 @@ data class Holiday(
 
     val type: HolidayType,
 
-    val spotId: UUID
+    val spotId: UUID,
+
+    val status: HolidayStatus
 
 ) {
     companion object {
