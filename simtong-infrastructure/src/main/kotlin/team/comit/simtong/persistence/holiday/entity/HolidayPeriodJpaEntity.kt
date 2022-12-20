@@ -1,6 +1,5 @@
 package team.comit.simtong.persistence.holiday.entity
 
-import org.jetbrains.annotations.NotNull
 import team.comit.simtong.persistence.spot.entity.SpotJpaEntity
 import java.time.LocalDate
 import javax.persistence.EmbeddedId
@@ -10,6 +9,7 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.MapsId
 import javax.persistence.Table
+import javax.validation.constraints.NotNull
 
 /**
  *

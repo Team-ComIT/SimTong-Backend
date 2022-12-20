@@ -1,6 +1,5 @@
 package team.comit.simtong.persistence.holiday.entity
 
-import org.jetbrains.annotations.NotNull
 import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.persistence.spot.entity.SpotJpaEntity
@@ -44,8 +43,8 @@ class HolidayJpaEntity(
     @JoinColumn(name = "spot_id", columnDefinition = "BINARY(16)", nullable = false)
     val spot: SpotJpaEntity,
 
-    @field:NotNull
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(7)", nullable = false)
     val status: HolidayStatus
 
 )
