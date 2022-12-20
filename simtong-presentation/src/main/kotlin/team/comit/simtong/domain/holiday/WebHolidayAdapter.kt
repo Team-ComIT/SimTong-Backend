@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.holiday.dto.QueryIndividualHolidaysResponse
 import team.comit.simtong.domain.holiday.dto.request.AppointAnnualWebRequest
 import team.comit.simtong.domain.holiday.dto.request.AppointHolidayWebRequest
+import team.comit.simtong.domain.holiday.dto.response.RemainAnnualWebResponse
 import team.comit.simtong.domain.holiday.usecase.AppointAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.CancelHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryIndividualHolidayUseCase
+import team.comit.simtong.domain.holiday.usecase.RemainAnnualUseCase
 import java.time.LocalDate
 
 /**
@@ -29,11 +31,19 @@ import java.time.LocalDate
 @RestController
 @RequestMapping("/holidays")
 class WebHolidayAdapter(
+    private val remainAnnualUseCase: RemainAnnualUseCase,
     private val appointAnnualUseCase: AppointAnnualUseCase,
     private val appointHolidayUseCase: AppointHolidayUseCase,
     private val cancelHolidayUseCase: CancelHolidayUseCase,
     private val queryIndividualHolidayUseCase: QueryIndividualHolidayUseCase
 ) {
+
+    @GetMapping("/annual/count")
+    fun remainAnnual(@RequestParam year: Int) : RemainAnnualWebResponse {
+        return RemainAnnualWebResponse(
+            remainAnnualUseCase.execute(year)
+        )
+    }
 
     @PostMapping("/annual")
     @ResponseStatus(HttpStatus.CREATED)
