@@ -55,8 +55,11 @@ class QueryTeamsUseCaseTests {
         given(queryTeamPort.queryTeamsBySpotId(spotId))
             .willReturn(teamsStub)
 
-        // when & then
-        assertEquals(queryTeamsUseCase.execute(spotId), responseStub)
+        // when
+        val response = queryTeamsUseCase.execute(spotId)
+
+        // then
+        assertEquals(response, responseStub)
     }
 
 }
