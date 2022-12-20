@@ -15,7 +15,7 @@ import java.util.UUID
  **/
 interface QueryHolidayPort {
 
-    fun countHolidayByYearAndUserIdAndType(date: LocalDate, userId: UUID, type: HolidayType): Long
+    fun countHolidayByYearAndUserIdAndType(year: Int, userId: UUID, type: HolidayType): Long
 
     fun countHolidayByWeekAndUserIdAndType(date: LocalDate, userId: UUID, type: HolidayType): Long
 

@@ -75,7 +75,7 @@ class AppointAnnualUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(queryHolidayPort.countHolidayByYearAndUserIdAndType(date, id, HolidayType.ANNUAL))
+        given(queryHolidayPort.countHolidayByYearAndUserIdAndType(date.year, id, HolidayType.ANNUAL))
             .willReturn(0)
 
         // when & then
@@ -93,7 +93,7 @@ class AppointAnnualUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(queryHolidayPort.countHolidayByYearAndUserIdAndType(date, id, HolidayType.ANNUAL))
+        given(queryHolidayPort.countHolidayByYearAndUserIdAndType(date.year, id, HolidayType.ANNUAL))
             .willReturn(Holiday.ANNUAL_LEAVE_LIMIT)
 
         // when & then
