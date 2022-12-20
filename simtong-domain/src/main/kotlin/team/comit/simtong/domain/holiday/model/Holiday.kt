@@ -29,5 +29,7 @@ data class Holiday(
 
         val WEEK_HOLIDAY_LIMIT: Long = getProperty(DomainPropertiesPrefix.WEEK_HOLIDAY_LIMIT).toLong()
 
+        val ANNUAL_LEAVE_LIMIT: Long = getProperty(DomainPropertiesPrefix.ANNUAL_LEAVE_LIMIT).toLong()
+
     }
 }

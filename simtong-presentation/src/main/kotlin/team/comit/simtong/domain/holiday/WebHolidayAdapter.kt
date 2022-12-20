@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.holiday.dto.QueryIndividualHolidaysResponse
+import team.comit.simtong.domain.holiday.dto.request.AppointAnnualWebRequest
 import team.comit.simtong.domain.holiday.dto.request.AppointHolidayWebRequest
+import team.comit.simtong.domain.holiday.usecase.AppointAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.CancelHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryIndividualHolidayUseCase
 import java.time.LocalDate
-import javax.validation.Valid
 
 /**
  *
@@ -28,14 +29,21 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/holidays")
 class WebHolidayAdapter(
+    private val appointAnnualUseCase: AppointAnnualUseCase,
     private val appointHolidayUseCase: AppointHolidayUseCase,
     private val cancelHolidayUseCase: CancelHolidayUseCase,
     private val queryIndividualHolidayUseCase: QueryIndividualHolidayUseCase
 ) {
 
+    @PostMapping("/annual")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun appointAnnual(@RequestBody request: AppointAnnualWebRequest) {
+        appointAnnualUseCase.execute(request.date)
+    }
+
     @PostMapping("/dayoff")
     @ResponseStatus(HttpStatus.CREATED)
-    fun appointHoliday(@Valid @RequestBody request: AppointHolidayWebRequest) {
+    fun appointHoliday(@RequestBody request: AppointHolidayWebRequest) {
         appointHolidayUseCase.execute(request.date)
     }
 

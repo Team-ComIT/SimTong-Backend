@@ -1,5 +1,6 @@
 package team.comit.simtong.global
 
+import team.comit.simtong.global.DomainPropertiesPrefix.ANNUAL_LEAVE_LIMIT
 import team.comit.simtong.global.DomainPropertiesPrefix.AUTHCODELIMIT_EXP
 import team.comit.simtong.global.DomainPropertiesPrefix.AUTHCODELIMIT_MAX_ATTEMPT_COUNT
 import team.comit.simtong.global.DomainPropertiesPrefix.AUTHCODELIMIT_VERIFIED_EXP
@@ -18,7 +19,8 @@ object DomainPropertiesInitialization {
                 AUTHCODELIMIT_VERIFIED_EXP to "12345",
                 AUTHCODELIMIT_MAX_ATTEMPT_COUNT to "12345",
                 HEAD_SHOP to "test",
-                WEEK_HOLIDAY_LIMIT to "12345"
+                WEEK_HOLIDAY_LIMIT to "12345",
+                ANNUAL_LEAVE_LIMIT to "12345"
             )
         )
     }
