@@ -1,8 +1,9 @@
 package team.comit.simtong.persistence.holiday.repository
 
 import org.springframework.data.repository.CrudRepository
-import team.comit.simtong.domain.holiday.model.HolidayPeriod
+import org.springframework.stereotype.Repository
 import team.comit.simtong.persistence.holiday.entity.HolidayPeriodId
+import team.comit.simtong.persistence.holiday.entity.HolidayPeriodJpaEntity
 
 /**
  *
@@ -12,5 +13,6 @@ import team.comit.simtong.persistence.holiday.entity.HolidayPeriodId
  * @date 2022/12/20
  * @version 1.0.0
  **/
-interface HolidayPeriodJpaRepository : CrudRepository<HolidayPeriod, HolidayPeriodId> {
+@Repository
+interface HolidayPeriodJpaRepository : CrudRepository<HolidayPeriodJpaEntity, HolidayPeriodId> {
 }
