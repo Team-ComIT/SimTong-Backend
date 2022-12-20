@@ -8,14 +8,14 @@ import team.comit.simtong.global.annotation.ReadOnlyUseCase
 
 /**
  *
- * 남은 연차 개수 확인을 담당하는 RemainAnnualUseCase
+ * 남은 연차 개수 확인을 담당하는 QueryRemainAnnualUseCase
  *
  * @author Chokyunghyeon
  * @date 2022/12/20
  * @version 1.0.0
  **/
 @ReadOnlyUseCase
-class RemainAnnualUseCase(
+class QueryRemainAnnualUseCase(
     private val queryHolidayPort: QueryHolidayPort,
     private val securityPort: HolidaySecurityPort
 ) {

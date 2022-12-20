@@ -17,7 +17,7 @@ import team.comit.simtong.domain.holiday.usecase.AppointAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.CancelHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryIndividualHolidayUseCase
-import team.comit.simtong.domain.holiday.usecase.RemainAnnualUseCase
+import team.comit.simtong.domain.holiday.usecase.QueryRemainAnnualUseCase
 import java.time.LocalDate
 
 /**
@@ -31,7 +31,7 @@ import java.time.LocalDate
 @RestController
 @RequestMapping("/holidays")
 class WebHolidayAdapter(
-    private val remainAnnualUseCase: RemainAnnualUseCase,
+    private val queryRemainAnnualUseCase: QueryRemainAnnualUseCase,
     private val appointAnnualUseCase: AppointAnnualUseCase,
     private val appointHolidayUseCase: AppointHolidayUseCase,
     private val cancelHolidayUseCase: CancelHolidayUseCase,
@@ -41,7 +41,7 @@ class WebHolidayAdapter(
     @GetMapping("/annual/count")
     fun remainAnnual(@RequestParam year: Int) : RemainAnnualWebResponse {
         return RemainAnnualWebResponse(
-            remainAnnualUseCase.execute(year)
+            queryRemainAnnualUseCase.execute(year)
         )
     }
 
