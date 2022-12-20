@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component
 import team.comit.simtong.domain.team.model.Team
 import team.comit.simtong.domain.team.spi.TeamPort
 import team.comit.simtong.persistence.team.mapper.TeamMapper
+import java.util.UUID
 
 /**
  *
@@ -18,6 +19,10 @@ class TeamPersistenceAdapter(
     private val teamJpaRepository: TeamJpaRepository,
     private val teamMapper: TeamMapper
 ) : TeamPort {
+    override fun queryTeamsBySpotId(spotId: UUID): List<Team> {
+        return teamJpaRepository.queryTeamJpaEntitiesBySpotId(spotId)
+            .map { teamMapper.toDomain(it)!! }
+    }
 
     override fun queryTeamByName(name: String): Team? {
         return teamJpaRepository.queryTeamJpaEntityByName(name)
