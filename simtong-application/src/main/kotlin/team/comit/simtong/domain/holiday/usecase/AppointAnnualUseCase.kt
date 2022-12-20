@@ -31,7 +31,7 @@ class AppointAnnualUseCase(
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
             ?: throw UserExceptions.NotFound()
 
-        val countAnnual = queryHolidayPort.countHolidayByYearAndUserIdAndType(date, user.id, HolidayType.ANNUAL)
+        val countAnnual = queryHolidayPort.countHolidayByYearAndUserIdAndType(date.year, user.id, HolidayType.ANNUAL)
 
         if (countAnnual >= Holiday.ANNUAL_LEAVE_LIMIT) {
             throw HolidayExceptions.AnnualLeaveLimitExcess()

@@ -16,13 +16,6 @@ import java.time.LocalDate
 object QuerydslExtensionUtils {
 
     /**
-     * 입력된 날짜가 포함된 해
-     */
-    fun DatePath<LocalDate>.sameYearFilter(date: LocalDate) : BooleanExpression {
-        return year().eq(date.year)
-    }
-
-    /**
      * 입력된 날짜가 포함된 달
      */
     fun DatePath<LocalDate>.sameMonthFilter(date: LocalDate) : BooleanExpression {
