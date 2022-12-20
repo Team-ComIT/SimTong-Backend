@@ -1,9 +1,9 @@
 package team.comit.simtong.domain.holiday
 
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -39,7 +39,7 @@ class WebHolidayAdapter(
 ) {
 
     @GetMapping("/annual/count")
-    fun remainAnnual(@RequestParam year: Int) : QueryRemainAnnualWebResponse {
+    fun queryRemainAnnual(@RequestParam year: Int) : QueryRemainAnnualWebResponse {
         return QueryRemainAnnualWebResponse(
             queryRemainAnnualUseCase.execute(year)
         )
@@ -57,8 +57,7 @@ class WebHolidayAdapter(
         appointHolidayUseCase.execute(request.date)
     }
 
-    @DeleteMapping("/work")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/work")
     fun cancelHoliday(@RequestParam date: LocalDate) {
         cancelHolidayUseCase.execute(date)
     }
