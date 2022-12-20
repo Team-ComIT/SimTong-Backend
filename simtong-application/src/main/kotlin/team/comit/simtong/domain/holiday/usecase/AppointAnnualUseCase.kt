@@ -2,6 +2,7 @@ package team.comit.simtong.domain.holiday.usecase
 
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.model.Holiday
+import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
@@ -42,7 +43,8 @@ class AppointAnnualUseCase(
                 date = date,
                 userId = user.id,
                 spotId = user.spotId,
-                type = HolidayType.ANNUAL
+                type = HolidayType.ANNUAL,
+                status = HolidayStatus.ANNUAL
             )
         )
     }
