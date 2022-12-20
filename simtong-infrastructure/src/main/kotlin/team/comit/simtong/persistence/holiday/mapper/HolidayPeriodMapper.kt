@@ -31,7 +31,7 @@ abstract class HolidayPeriodMapper : GenericMapper<HolidayPeriodJpaEntity, Holid
     abstract override fun toDomain(entity: HolidayPeriodJpaEntity?): HolidayPeriod?
 
     @Mappings(
-        Mapping(target = "id", expression = "java(new HolidayPeriodId())"),
+        Mapping(target = "id", expression = "java( new HolidayPeriodId(model.getYear(), model.getMonth(), model.getSpotId()))"),
         Mapping(target = "spot", expression = "java(spotJpaRepository.findById(model.getSpotId()).orElse(null))")
     )
     abstract override fun toEntity(model: HolidayPeriod): HolidayPeriodJpaEntity
