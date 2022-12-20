@@ -66,6 +66,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.PUT, "/commons/token/reissue").permitAll()
             .antMatchers(HttpMethod.PUT, "/commons/password/initialization").permitAll()
             .antMatchers(HttpMethod.GET, "/commons/spot").permitAll()
+            .antMatchers(HttpMethod.GET, "/commons/team/{spot-id}").permitAll()
 
             // emails
             .antMatchers(HttpMethod.GET, "/emails").permitAll()
