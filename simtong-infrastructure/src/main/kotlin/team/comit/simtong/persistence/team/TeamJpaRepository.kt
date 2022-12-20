@@ -19,4 +19,6 @@ interface TeamJpaRepository : CrudRepository<TeamJpaEntity, UUID> {
 
     fun queryTeamJpaEntityByName(name: String): TeamJpaEntity?
 
+    fun queryTeamJpaEntitiesBySpotId(spotId: UUID): List<TeamJpaEntity>
+
 }
