@@ -10,6 +10,7 @@ import team.comit.simtong.domain.holiday.spi.HolidayPort
 import team.comit.simtong.persistence.QuerydslExtensionUtils.sameWeekFilter
 import team.comit.simtong.persistence.holiday.entity.HolidayId
 import team.comit.simtong.persistence.holiday.mapper.HolidayMapper
+import team.comit.simtong.persistence.holiday.repository.HolidayJpaRepository
 import java.time.LocalDate
 import java.util.UUID
 
