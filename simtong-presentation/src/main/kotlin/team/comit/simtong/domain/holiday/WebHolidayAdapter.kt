@@ -1,7 +1,6 @@
 package team.comit.simtong.domain.holiday
 
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -40,7 +39,7 @@ class WebHolidayAdapter(
 ) {
 
     @GetMapping("/annual/count")
-    fun remainAnnual(@RequestParam year: Int) : QueryRemainAnnualWebResponse {
+    fun queryRemainAnnual(@RequestParam year: Int) : QueryRemainAnnualWebResponse {
         return QueryRemainAnnualWebResponse(
             queryRemainAnnualUseCase.execute(year)
         )
