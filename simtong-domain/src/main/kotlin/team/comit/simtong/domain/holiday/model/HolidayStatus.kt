@@ -18,11 +18,6 @@ enum class HolidayStatus {
     /**
      *휴무표 확정 완료
      */
-    COMPLETED,
-
-    /**
-     * 연차
-     */
-    ANNUAL
+    COMPLETED
 
 }
