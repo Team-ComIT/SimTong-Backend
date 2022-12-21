@@ -8,10 +8,12 @@ import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.model.Holiday
+import team.comit.simtong.domain.holiday.model.HolidayPeriod
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
+import team.comit.simtong.domain.holiday.spi.QueryHolidayPeriodPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
@@ -35,9 +37,14 @@ class AppointHolidayUseCaseTests {
     @MockBean
     private lateinit var queryUserPort: HolidayQueryUserPort
 
+    @MockBean
+    private lateinit var queryHolidayPeriodPort: QueryHolidayPeriodPort
+
     private lateinit var appointHolidayUseCase: AppointHolidayUseCase
 
-    private val id = UUID.randomUUID()
+    private val id: UUID = UUID.randomUUID()
+
+    private val spotId: UUID = UUID.randomUUID()
 
     private val date: LocalDate = LocalDate.now()
 
@@ -50,9 +57,19 @@ class AppointHolidayUseCaseTests {
             password = "test password",
             employeeNumber = 1234567890,
             authority = Authority.ROLE_COMMON,
-            spotId = id,
+            spotId = spotId,
             teamId = id,
             profileImagePath = User.DEFAULT_IMAGE
+        )
+    }
+
+    private val holidayPeriodStub: HolidayPeriod by lazy {
+        HolidayPeriod(
+            year = date.year,
+            month = date.monthValue,
+            spotId = spotId,
+            startAt = LocalDate.MIN,
+            endAt = LocalDate.MAX
         )
     }
 
@@ -62,7 +79,8 @@ class AppointHolidayUseCaseTests {
             commandHolidayPort = commandHolidayPort,
             queryHolidayPort = queryHolidayPort,
             securityPort = securityPort,
-            queryUserPort = queryUserPort
+            queryUserPort = queryUserPort,
+            queryHolidayPeriodPort = queryHolidayPeriodPort
         )
     }
 
@@ -74,6 +92,9 @@ class AppointHolidayUseCaseTests {
 
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
+
+        given(queryHolidayPeriodPort.queryHolidayPeriodByYearAndMonthAndSpotId(date.year, date.monthValue, spotId))
+            .willReturn(holidayPeriodStub)
 
         given(queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, id, HolidayType.ANNUAL))
             .willReturn(false)
@@ -96,6 +117,9 @@ class AppointHolidayUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
+        given(queryHolidayPeriodPort.queryHolidayPeriodByYearAndMonthAndSpotId(date.year, date.monthValue, spotId))
+            .willReturn(holidayPeriodStub)
+
         given(queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, id, HolidayType.HOLIDAY))
             .willReturn(true)
 
@@ -114,6 +138,9 @@ class AppointHolidayUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
+        given(queryHolidayPeriodPort.queryHolidayPeriodByYearAndMonthAndSpotId(date.year, date.monthValue, spotId))
+            .willReturn(holidayPeriodStub)
+
         given(queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, id, HolidayType.ANNUAL))
             .willReturn(false)
 
@@ -122,6 +149,76 @@ class AppointHolidayUseCaseTests {
 
         // when & then
         assertThrows<HolidayExceptions.WeekHolidayLimitExcess> {
+            appointHolidayUseCase.execute(date)
+        }
+    }
+
+    @Test
+    fun `휴무표 작성 기간이 아님`() {
+        // given
+        val beforeHolidayPeriodStub = HolidayPeriod(
+            year = date.year,
+            month = date.monthValue,
+            spotId = spotId,
+            endAt = LocalDate.MAX,
+            startAt = LocalDate.MAX
+        )
+
+        given(securityPort.getCurrentUserId())
+            .willReturn(id)
+
+        given(queryUserPort.queryUserById(id))
+            .willReturn(userStub)
+
+        given(queryHolidayPeriodPort.queryHolidayPeriodByYearAndMonthAndSpotId(date.year, date.monthValue, spotId))
+            .willReturn(beforeHolidayPeriodStub)
+
+        // when & then
+        assertThrows<HolidayExceptions.NotWritablePeriod> {
+            appointHolidayUseCase.execute(date)
+        }
+    }
+
+    @Test
+    fun `휴무표 작성 기간이 지남`() {
+        // given
+        val afterHolidayPeriodStub = HolidayPeriod(
+            year = date.year,
+            month = date.monthValue,
+            spotId = spotId,
+            endAt = LocalDate.MIN,
+            startAt = LocalDate.MIN
+        )
+
+        given(securityPort.getCurrentUserId())
+            .willReturn(id)
+
+        given(queryUserPort.queryUserById(id))
+            .willReturn(userStub)
+
+        given(queryHolidayPeriodPort.queryHolidayPeriodByYearAndMonthAndSpotId(date.year, date.monthValue, spotId))
+            .willReturn(afterHolidayPeriodStub)
+
+        // when & then
+        assertThrows<HolidayExceptions.NotWritablePeriod> {
+            appointHolidayUseCase.execute(date)
+        }
+    }
+
+    @Test
+    fun `휴무표 작성 기간이 등록되지 않은 날임`() {
+        // given
+        given(securityPort.getCurrentUserId())
+            .willReturn(id)
+
+        given(queryUserPort.queryUserById(id))
+            .willReturn(userStub)
+
+        given(queryHolidayPeriodPort.queryHolidayPeriodByYearAndMonthAndSpotId(date.year, date.monthValue, spotId))
+            .willReturn(null)
+
+        // when & then
+        assertThrows<HolidayExceptions.NotWritablePeriod> {
             appointHolidayUseCase.execute(date)
         }
     }
