@@ -1,6 +1,7 @@
 package team.comit.simtong.domain.holiday.spi
 
 import team.comit.simtong.domain.holiday.model.Holiday
+import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
 import java.time.LocalDate
 import java.util.UUID
@@ -21,6 +22,8 @@ interface QueryHolidayPort {
 
     fun queryHolidayByDateAndUserId(date: LocalDate, userId: UUID) : Holiday?
 
-    fun queryHolidaysByPeriodAndUserId(startAt: LocalDate, endAt: LocalDate, userId: UUID) : List<Holiday>
+    fun queryHolidaysByPeriodAndUserIdAndStatus(startAt: LocalDate, endAt: LocalDate, userId: UUID, status: HolidayStatus) : List<Holiday>
+
+    fun existsHolidayByDateAndUserIdAndType(date: LocalDate, userId: UUID, type: HolidayType) : Boolean
 
 }
