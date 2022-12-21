@@ -24,7 +24,7 @@ abstract class MenuMapper : GenericMapper<MenuJpaEntity, Menu> {
     protected lateinit var spotJpaRepository: SpotJpaRepository
 
     @Mappings(
-        Mapping(target = "menuId", expression = "java(new MenuId(model.getSpotId(), model.getDate()))"),
+        Mapping(target = "menuId", expression = "java(new MenuJpaEntity.Id(model.getSpotId(), model.getDate()))"),
         Mapping(target = "spot", expression = "java(spotJpaRepository.findById(model.getSpotId()).orElse(null))")
     )
     abstract override fun toEntity(model: Menu): MenuJpaEntity

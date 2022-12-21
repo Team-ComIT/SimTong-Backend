@@ -32,6 +32,10 @@ class AppointAnnualUseCase(
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
             ?: throw UserExceptions.NotFound()
 
+        if (queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, user.id, HolidayType.ANNUAL)) {
+            throw HolidayExceptions.AlreadyExists("이미 연차입니다.")
+        }
+
         val countAnnual = queryHolidayPort.countHolidayByYearAndUserIdAndType(date.year, user.id, HolidayType.ANNUAL)
 
         if (countAnnual >= Holiday.ANNUAL_LEAVE_LIMIT) {
@@ -44,7 +48,7 @@ class AppointAnnualUseCase(
                 userId = user.id,
                 spotId = user.spotId,
                 type = HolidayType.ANNUAL,
-                status = HolidayStatus.ANNUAL
+                status = HolidayStatus.COMPLETED
             )
         )
     }

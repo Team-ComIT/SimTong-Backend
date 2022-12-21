@@ -35,4 +35,6 @@ object QuerydslExtensionUtils {
         return between(startOfWeek, endOfWeek)
     }
 
+    infix fun BooleanExpression.or(exp: BooleanExpression) : BooleanExpression = this.or(exp)
+
 }

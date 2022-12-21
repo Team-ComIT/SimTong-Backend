@@ -7,6 +7,7 @@ import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
+import team.comit.simtong.domain.holiday.spi.QueryHolidayPeriodPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.global.annotation.UseCase
@@ -23,6 +24,7 @@ import java.time.LocalDate
 @UseCase
 class AppointHolidayUseCase(
     private val commandHolidayPort: CommandHolidayPort,
+    private val queryHolidayPeriodPort: QueryHolidayPeriodPort,
     private val queryHolidayPort: QueryHolidayPort,
     private val queryUserPort: HolidayQueryUserPort,
     private val securityPort: HolidaySecurityPort
@@ -31,6 +33,19 @@ class AppointHolidayUseCase(
     fun execute(date: LocalDate) {
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
             ?: throw UserExceptions.NotFound()
+
+        val holidayPeriod = queryHolidayPeriodPort.queryHolidayPeriodByYearAndMonthAndSpotId(date.year, date.monthValue, user.spotId)
+            ?: throw HolidayExceptions.NotFound("아직 작성 기간이 등록되지 않았습니다.")
+
+        val today = LocalDate.now()
+
+        if (holidayPeriod.startAt > today || holidayPeriod.endAt < today) {
+            throw HolidayExceptions.NotWritablePeriod()
+        }
+
+        if (queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, user.id, HolidayType.HOLIDAY)) {
+            throw HolidayExceptions.AlreadyExists("이미 휴무일입니다.")
+        }
 
         val countHoliday = queryHolidayPort.countHolidayByWeekAndUserIdAndType(date, user.id, HolidayType.HOLIDAY)
 

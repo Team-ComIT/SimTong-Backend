@@ -7,6 +7,7 @@ import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.holiday.dto.IndividualHolidayResponse
 import team.comit.simtong.domain.holiday.dto.QueryIndividualHolidaysResponse
+import team.comit.simtong.domain.holiday.dto.QueryIndividualRequest
 import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
@@ -29,7 +30,13 @@ class QueryIndividualHolidayUseCaseTests {
 
     private val userId: UUID = UUID.randomUUID()
 
-    private val date: LocalDate = LocalDate.now()
+    private val requestStub: QueryIndividualRequest by lazy {
+        QueryIndividualRequest(
+            startAt = LocalDate.now(),
+            endAt = LocalDate.now(),
+            status = HolidayStatus.COMPLETED.name
+        )
+    }
 
     private val holidaysStub: List<Holiday> by lazy {
         listOf(
@@ -68,11 +75,11 @@ class QueryIndividualHolidayUseCaseTests {
         given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(queryHolidayPort.queryHolidaysByPeriodAndUserId(date, date, userId))
+        given(queryHolidayPort.queryHolidaysByPeriodAndUserIdAndStatus(requestStub.startAt, requestStub.endAt, userId, HolidayStatus.COMPLETED))
             .willReturn(holidaysStub)
 
         // when
-        val response = queryIndividualHolidayUseCase.execute(date, date)
+        val response = queryIndividualHolidayUseCase.execute(requestStub)
 
         // then
         assertEquals(response, responseStub)

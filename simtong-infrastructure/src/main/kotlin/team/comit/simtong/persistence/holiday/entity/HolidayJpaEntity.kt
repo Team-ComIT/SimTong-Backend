@@ -4,7 +4,11 @@ import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.persistence.spot.entity.SpotJpaEntity
 import team.comit.simtong.persistence.user.entity.UserJpaEntity
+import java.io.Serializable
+import java.time.LocalDate
+import java.util.UUID
 import javax.persistence.Column
+import javax.persistence.Embeddable
 import javax.persistence.EmbeddedId
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -26,9 +30,8 @@ import javax.persistence.Table
 @Entity
 @Table(name = "tbl_holiday")
 class HolidayJpaEntity(
-
     @EmbeddedId
-    val id: HolidayId,
+    val id: Id,
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(7)", nullable = false)
@@ -46,5 +49,23 @@ class HolidayJpaEntity(
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(7)", nullable = false)
     val status: HolidayStatus
+) {
+    
+    /**
+     *
+     * 휴무일의 기본키를 구성하는 Holiday Id
+     *
+     * @author Chokyunghyeon
+     * @date 2022/12/02
+     * @version 1.0.0
+     **/
+    @Embeddable
+    data class Id(
+        @Column(nullable = false)
+        val date: LocalDate,
 
-)
+        @Column(columnDefinition = "BINARY(16)", nullable = false)
+        val userId: UUID
+    ) : Serializable
+
+}

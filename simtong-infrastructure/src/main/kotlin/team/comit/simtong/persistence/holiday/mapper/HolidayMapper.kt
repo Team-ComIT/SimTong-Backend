@@ -37,7 +37,7 @@ abstract class HolidayMapper : GenericMapper<HolidayJpaEntity, Holiday> {
     @Mappings(
         Mapping(target = "user", expression = "java(userJpaRepository.findById(model.getUserId()).orElse(null))"),
         Mapping(target = "spot", expression = "java(spotJpaRepository.findById(model.getSpotId()).orElse(null))"),
-        Mapping(target = "id", expression = "java(new HolidayId(model.getDate(), model.getUserId()))")
+        Mapping(target = "id", expression = "java(new HolidayJpaEntity.Id(model.getDate(), model.getUserId()))")
     )
     abstract override fun toEntity(model: Holiday): HolidayJpaEntity
 }
