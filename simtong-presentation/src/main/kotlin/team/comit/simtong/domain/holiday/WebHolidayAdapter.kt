@@ -86,7 +86,7 @@ class WebHolidayAdapter(
 
     @PutMapping("/public")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun shareHoliday(@RequestBody @Valid request: ShareHolidayWebRequest ) {
+    fun shareHoliday(@Valid @RequestBody request: ShareHolidayWebRequest ) {
         shareHolidayUseCase.execute(
             year = request.year,
             month = request.month
