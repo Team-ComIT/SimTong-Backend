@@ -1,6 +1,8 @@
 package team.comit.simtong.domain.holiday.usecase
 
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
+import team.comit.simtong.domain.holiday.model.HolidayStatus
+import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
@@ -28,6 +30,17 @@ class CancelHolidayUseCase(
         val holiday = queryHolidayPort.queryHolidayByDateAndUserId(date, currentUserId)
             ?: throw HolidayExceptions.NotFound()
 
+        when (holiday.type) {
+            HolidayType.HOLIDAY -> if (holiday.status == HolidayStatus.COMPLETED) {
+                throw HolidayExceptions.CannotChange()
+            }
+
+            HolidayType.ANNUAL -> if (holiday.date < LocalDate.now()) {
+                throw HolidayExceptions.CannotChange()
+            }
+        }
+
         commandHolidayPort.delete(holiday)
     }
+
 }
