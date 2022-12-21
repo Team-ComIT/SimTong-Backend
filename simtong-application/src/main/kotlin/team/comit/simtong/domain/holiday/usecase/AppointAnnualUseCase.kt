@@ -33,7 +33,7 @@ class AppointAnnualUseCase(
             ?: throw UserExceptions.NotFound()
 
         if (queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, user.id, HolidayType.ANNUAL)) {
-            throw HolidayExceptions.AlreadyAnnual()
+            throw HolidayExceptions.AlreadyExists("이미 연차입니다.")
         }
 
         val countAnnual = queryHolidayPort.countHolidayByYearAndUserIdAndType(date.year, user.id, HolidayType.ANNUAL)

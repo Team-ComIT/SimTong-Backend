@@ -100,7 +100,7 @@ class AppointAnnualUseCaseTests {
             .willReturn(true)
 
         // when & then
-        assertThrows<HolidayExceptions.AlreadyAnnual> {
+        assertThrows<HolidayExceptions.AlreadyExists> {
             appointAnnualUseCase.execute(date)
         }
     }

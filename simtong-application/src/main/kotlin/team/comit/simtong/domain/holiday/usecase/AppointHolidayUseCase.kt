@@ -32,8 +32,10 @@ class AppointHolidayUseCase(
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
             ?: throw UserExceptions.NotFound()
 
+
+
         if (queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, user.id, HolidayType.HOLIDAY)) {
-            throw HolidayExceptions.AlreadyHoliday()
+            throw HolidayExceptions.AlreadyExists("이미 휴무일입니다.")
         }
 
         val countHoliday = queryHolidayPort.countHolidayByWeekAndUserIdAndType(date, user.id, HolidayType.HOLIDAY)
