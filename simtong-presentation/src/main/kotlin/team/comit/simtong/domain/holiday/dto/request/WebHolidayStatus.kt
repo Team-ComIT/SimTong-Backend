@@ -8,7 +8,7 @@ package team.comit.simtong.domain.holiday.dto.request
  * @date 2022/12/21
  * @version 1.0.0
  **/
-internal enum class WebHolidayStatus {
+enum class WebHolidayStatus {
 
     /**
      * 휴무일 작성 완료
