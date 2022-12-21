@@ -35,10 +35,12 @@ class AppointHolidayUseCase(
             ?: throw UserExceptions.NotFound()
 
         val holidayPeriod = queryHolidayPeriodPort.queryHolidayPeriodByYearAndMonthAndSpotId(date.year, date.monthValue, user.spotId)
-            ?: throw HolidayExceptions.NotWritablePeriod()
+            ?: throw HolidayExceptions.NotFound("아직 작성 기간이 등록되지 않았습니다.")
 
-        if (holidayPeriod.startAt > LocalDate.now() || holidayPeriod.endAt < LocalDate.now()) {
-            throw HolidayExceptions.NotWritablePeriod()
+        LocalDate.now().run {
+            if (holidayPeriod.startAt > this || holidayPeriod.endAt < this) {
+                throw HolidayExceptions.NotWritablePeriod()
+            }
         }
 
         if (queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, user.id, HolidayType.HOLIDAY)) {
