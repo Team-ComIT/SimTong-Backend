@@ -1,11 +1,10 @@
 package team.comit.simtong.persistence.spot.entity
 
-import org.hibernate.validator.constraints.Length
 import team.comit.simtong.persistence.BaseUUIDEntity
-import java.util.*
+import java.util.UUID
+import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Table
-import javax.validation.constraints.NotNull
 
 /**
  *
@@ -20,11 +19,9 @@ import javax.validation.constraints.NotNull
 class SpotJpaEntity(
     override val id: UUID?,
 
-    @field:NotNull
-    @field:Length(max = 20)
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     val name: String,
 
-    @field:NotNull
-    @field:Length(max = 40)
+    @Column(columnDefinition = "VARCHAR(40)", nullable = false)
     val location: String
 ) : BaseUUIDEntity(id)
