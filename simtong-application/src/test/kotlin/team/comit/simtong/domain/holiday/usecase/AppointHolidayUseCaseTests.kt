@@ -39,6 +39,8 @@ class AppointHolidayUseCaseTests {
 
     private val id = UUID.randomUUID()
 
+    private val date: LocalDate = LocalDate.now()
+
     private val userStub: User by lazy {
         User(
             id = id,
@@ -53,8 +55,6 @@ class AppointHolidayUseCaseTests {
             profileImagePath = User.DEFAULT_IMAGE
         )
     }
-
-    private val dateStub: LocalDate = LocalDate.now()
 
     @BeforeEach
     fun setUp() {
@@ -75,12 +75,33 @@ class AppointHolidayUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(queryHolidayPort.countHolidayByWeekAndUserIdAndType(dateStub, id, HolidayType.HOLIDAY))
+        given(queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, id, HolidayType.ANNUAL))
+            .willReturn(false)
+
+        given(queryHolidayPort.countHolidayByWeekAndUserIdAndType(date, id, HolidayType.HOLIDAY))
             .willReturn(0)
 
         // when & then
         assertDoesNotThrow {
-            appointHolidayUseCase.execute(dateStub)
+            appointHolidayUseCase.execute(date)
+        }
+    }
+
+    @Test
+    fun `이미 휴무일임`() {
+        // given
+        given(securityPort.getCurrentUserId())
+            .willReturn(id)
+
+        given(queryUserPort.queryUserById(id))
+            .willReturn(userStub)
+
+        given(queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, id, HolidayType.HOLIDAY))
+            .willReturn(true)
+
+        // when & then
+        assertThrows<HolidayExceptions.AlreadyHoliday> {
+            appointHolidayUseCase.execute(date)
         }
     }
 
@@ -93,12 +114,15 @@ class AppointHolidayUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(queryHolidayPort.countHolidayByWeekAndUserIdAndType(dateStub, id, HolidayType.HOLIDAY))
+        given(queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, id, HolidayType.ANNUAL))
+            .willReturn(false)
+
+        given(queryHolidayPort.countHolidayByWeekAndUserIdAndType(date, id, HolidayType.HOLIDAY))
             .willReturn(Holiday.WEEK_HOLIDAY_LIMIT)
 
         // when & then
         assertThrows<HolidayExceptions.WeekHolidayLimitExcess> {
-            appointHolidayUseCase.execute(dateStub)
+            appointHolidayUseCase.execute(date)
         }
     }
 
@@ -113,7 +137,7 @@ class AppointHolidayUseCaseTests {
 
         // when & then
         assertThrows<UserExceptions.NotFound> {
-            appointHolidayUseCase.execute(dateStub)
+            appointHolidayUseCase.execute(date)
         }
     }
 

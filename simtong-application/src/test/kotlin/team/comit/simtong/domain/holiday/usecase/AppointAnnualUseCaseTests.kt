@@ -75,11 +75,32 @@ class AppointAnnualUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
+        given(queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, id, HolidayType.ANNUAL))
+            .willReturn(false)
+
         given(queryHolidayPort.countHolidayByYearAndUserIdAndType(date.year, id, HolidayType.ANNUAL))
             .willReturn(0)
 
         // when & then
         assertDoesNotThrow {
+            appointAnnualUseCase.execute(date)
+        }
+    }
+
+    @Test
+    fun `이미 연차임`() {
+        // given
+        given(securityPort.getCurrentUserId())
+            .willReturn(id)
+
+        given(queryUserPort.queryUserById(id))
+            .willReturn(userStub)
+
+        given(queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, id, HolidayType.ANNUAL))
+            .willReturn(true)
+
+        // when & then
+        assertThrows<HolidayExceptions.AlreadyAnnual> {
             appointAnnualUseCase.execute(date)
         }
     }
@@ -92,6 +113,9 @@ class AppointAnnualUseCaseTests {
 
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
+
+        given(queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, id, HolidayType.ANNUAL))
+            .willReturn(false)
 
         given(queryHolidayPort.countHolidayByYearAndUserIdAndType(date.year, id, HolidayType.ANNUAL))
             .willReturn(Holiday.ANNUAL_LEAVE_LIMIT)
