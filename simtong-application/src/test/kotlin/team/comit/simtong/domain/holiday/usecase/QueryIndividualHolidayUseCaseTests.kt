@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.holiday.dto.IndividualHolidayResponse
 import team.comit.simtong.domain.holiday.dto.QueryIndividualHolidaysResponse
 import team.comit.simtong.domain.holiday.model.Holiday
+import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
@@ -36,7 +37,8 @@ class QueryIndividualHolidayUseCaseTests {
                 date = LocalDate.now(),
                 userId = userId,
                 type = HolidayType.HOLIDAY,
-                spotId = UUID.randomUUID()
+                spotId = UUID.randomUUID(),
+                status = HolidayStatus.COMPLETED
             )
         )
     }

@@ -1,4 +1,4 @@
-package team.comit.simtong.persistence.holiday
+package team.comit.simtong.persistence.holiday.repository
 
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
