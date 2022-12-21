@@ -10,6 +10,7 @@ import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.SchedulePort
 import team.comit.simtong.domain.schedule.vo.SpotSchedule
+import team.comit.simtong.persistence.QuerydslExtensionUtils.or
 import team.comit.simtong.persistence.schedule.mapper.ScheduleMapper
 import team.comit.simtong.persistence.schedule.vo.QSpotScheduleVo
 import java.time.LocalDate
@@ -97,7 +98,7 @@ class SchedulePersistenceAdapter(
     }
 
     private fun inPeriodScheduleFilter(startAt: LocalDate, endAt: LocalDate) : BooleanExpression {
-        return schedule.startAt.between(startAt, endAt)
-            .or(schedule.endAt.between(startAt, endAt))
+        return schedule.startAt.between(startAt, endAt) or
+                schedule.endAt.between(startAt, endAt)
     }
 }
