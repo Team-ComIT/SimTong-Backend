@@ -38,7 +38,7 @@ class QueryIndividualHolidayUseCaseTests {
                 userId = userId,
                 type = HolidayType.HOLIDAY,
                 spotId = UUID.randomUUID(),
-                status = HolidayStatus.FINAL
+                status = HolidayStatus.COMPLETED
             )
         )
     }
