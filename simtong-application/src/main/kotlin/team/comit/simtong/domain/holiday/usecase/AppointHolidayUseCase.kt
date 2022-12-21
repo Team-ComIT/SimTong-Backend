@@ -44,7 +44,7 @@ class AppointHolidayUseCase(
         }
 
         if (queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, user.id, HolidayType.HOLIDAY)) {
-            throw HolidayExceptions.AlreadyExists("이미 휴무일입니다.")
+            throw HolidayExceptions.AlreadyExists("해당 날짜는 이미 휴무일입니다.")
         }
 
         val countHoliday = queryHolidayPort.countHolidayByWeekAndUserIdAndType(date, user.id, HolidayType.HOLIDAY)
