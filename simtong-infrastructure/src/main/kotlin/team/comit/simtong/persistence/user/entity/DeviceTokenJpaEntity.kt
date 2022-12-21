@@ -1,6 +1,6 @@
 package team.comit.simtong.persistence.user.entity
 
-import java.util.*
+import java.util.UUID
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.Id
@@ -21,7 +21,6 @@ import javax.validation.constraints.NotNull
 @Entity
 @Table(name = "tbl_device")
 class DeviceTokenJpaEntity(
-
     @Id
     val userId: UUID,
 

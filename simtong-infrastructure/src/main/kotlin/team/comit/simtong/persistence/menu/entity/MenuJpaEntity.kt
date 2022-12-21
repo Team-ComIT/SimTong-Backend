@@ -29,7 +29,6 @@ import javax.validation.constraints.NotNull
 @Entity
 @Table(name = "tbl_menu")
 class MenuJpaEntity(
-
     @EmbeddedId
     val menuId: Id,
 
@@ -44,7 +43,7 @@ class MenuJpaEntity(
 
     /**
      *
-     * 메뉴 엔티티의 기본키인 MenuId
+     * 메뉴 엔티티의 기본키인 Menu Id
      *
      * @author Chokyunghyeon
      * @date 2022/12/01
@@ -52,7 +51,6 @@ class MenuJpaEntity(
      **/
     @Embeddable
     data class Id(
-
         @Column(nullable = false)
         val spotId: UUID,
 

@@ -29,7 +29,6 @@ import javax.validation.constraints.NotNull
 @Entity
 @Table(name = "tbl_schedule")
 class ScheduleJpaEntity(
-
     override val id: UUID?,
 
     @field:NotNull
@@ -60,5 +59,4 @@ class ScheduleJpaEntity(
     @field:NotNull
     @ColumnDefault("'08:30:00'")
     val alarmTime: LocalTime
-
 ) : BaseEntity(id)

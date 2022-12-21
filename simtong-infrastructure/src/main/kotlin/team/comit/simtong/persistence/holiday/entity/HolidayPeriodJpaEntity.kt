@@ -26,7 +26,6 @@ import javax.validation.constraints.NotNull
 @Entity
 @Table(name = "tbl_holiday_period")
 class HolidayPeriodJpaEntity(
-
     @EmbeddedId
     val id: Id,
 
@@ -44,7 +43,7 @@ class HolidayPeriodJpaEntity(
 
     /**
      *
-     * 휴무일 작성 기간의 기본키를 담당하는 HolidayPeriodId
+     * 휴무일 작성 기간의 기본키를 담당하는 HolidayPeriod Id
      *
      * @author Chokyunghyeon
      * @date 2022/12/20
@@ -58,7 +57,7 @@ class HolidayPeriodJpaEntity(
         @Column(nullable = false)
         val month: Int,
 
-        @Column(nullable = false, columnDefinition = "BINARY(16)")
+        @Column(columnDefinition = "BINARY(16)", nullable = false)
         val spotId: UUID
     ) : Serializable
 

@@ -30,7 +30,6 @@ import javax.persistence.Table
 @Entity
 @Table(name = "tbl_holiday")
 class HolidayJpaEntity(
-
     @EmbeddedId
     val id: Id,
 
@@ -50,12 +49,11 @@ class HolidayJpaEntity(
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(7)", nullable = false)
     val status: HolidayStatus
-
 ) {
     
     /**
      *
-     * 휴무일의 기본키를 구성하는 HolidayId
+     * 휴무일의 기본키를 구성하는 Holiday Id
      *
      * @author Chokyunghyeon
      * @date 2022/12/02
@@ -63,11 +61,10 @@ class HolidayJpaEntity(
      **/
     @Embeddable
     data class Id(
-
         @Column(nullable = false)
         val date: LocalDate,
 
-        @Column(nullable = false)
+        @Column(columnDefinition = "BINARY(16)", nullable = false)
         val userId: UUID
     ) : Serializable
 
