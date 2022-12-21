@@ -8,6 +8,7 @@ import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.model.Holiday
+import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
@@ -39,7 +40,7 @@ class AppointAnnualUseCaseTests {
 
     private val id: UUID = UUID.randomUUID()
 
-    private val date: LocalDate = LocalDate.now()
+    private val date: LocalDate = LocalDate.MAX
 
     private val userStub: User by lazy {
         User(
@@ -75,32 +76,14 @@ class AppointAnnualUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, id, HolidayType.ANNUAL))
-            .willReturn(false)
+        given(queryHolidayPort.queryHolidayByDateAndUserId(date, id))
+            .willReturn(null)
 
         given(queryHolidayPort.countHolidayByYearAndUserIdAndType(date.year, id, HolidayType.ANNUAL))
             .willReturn(0)
 
         // when & then
         assertDoesNotThrow {
-            appointAnnualUseCase.execute(date)
-        }
-    }
-
-    @Test
-    fun `이미 연차임`() {
-        // given
-        given(securityPort.getCurrentUserId())
-            .willReturn(id)
-
-        given(queryUserPort.queryUserById(id))
-            .willReturn(userStub)
-
-        given(queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, id, HolidayType.ANNUAL))
-            .willReturn(true)
-
-        // when & then
-        assertThrows<HolidayExceptions.AlreadyExists> {
             appointAnnualUseCase.execute(date)
         }
     }
@@ -114,14 +97,95 @@ class AppointAnnualUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, id, HolidayType.ANNUAL))
-            .willReturn(false)
+        given(queryHolidayPort.queryHolidayByDateAndUserId(date, id))
+            .willReturn(null)
 
         given(queryHolidayPort.countHolidayByYearAndUserIdAndType(date.year, id, HolidayType.ANNUAL))
             .willReturn(Holiday.ANNUAL_LEAVE_LIMIT)
 
         // when & then
         assertThrows<HolidayExceptions.AnnualLeaveLimitExcess> {
+            appointAnnualUseCase.execute(date)
+        }
+    }
+
+    @Test
+    fun `작성중인 휴무일을 변경할 때`() {
+        // given
+        val holidayStub = Holiday(
+            date = date,
+            spotId = id,
+            type = HolidayType.HOLIDAY,
+            userId = id,
+            status = HolidayStatus.WRITTEN
+        )
+
+        given(securityPort.getCurrentUserId())
+            .willReturn(id)
+
+        given(queryUserPort.queryUserById(id))
+            .willReturn(userStub)
+
+        given(queryHolidayPort.queryHolidayByDateAndUserId(date, userStub.id))
+            .willReturn(holidayStub)
+
+        given(queryHolidayPort.countHolidayByYearAndUserIdAndType(date.year, id, HolidayType.ANNUAL))
+            .willReturn(0)
+
+        // when & then
+        assertDoesNotThrow {
+            appointAnnualUseCase.execute(date)
+        }
+    }
+
+    @Test
+    fun `확정된 휴무일을 변경할 때`() {
+        // given
+        val holidayStub = Holiday(
+            date = date,
+            spotId = id,
+            type = HolidayType.HOLIDAY,
+            userId = id,
+            status = HolidayStatus.COMPLETED
+        )
+
+        given(securityPort.getCurrentUserId())
+            .willReturn(id)
+
+        given(queryUserPort.queryUserById(id))
+            .willReturn(userStub)
+
+        given(queryHolidayPort.queryHolidayByDateAndUserId(date, userStub.id))
+            .willReturn(holidayStub)
+
+        // when & then
+        assertThrows<HolidayExceptions.AlreadyExists> {
+            appointAnnualUseCase.execute(date)
+        }
+    }
+
+    @Test
+    fun `이미 연차일때`() {
+        // given
+        val annualStub = Holiday(
+            date = date,
+            spotId = id,
+            type = HolidayType.ANNUAL,
+            userId = id,
+            status = HolidayStatus.COMPLETED
+        )
+
+        given(securityPort.getCurrentUserId())
+            .willReturn(id)
+
+        given(queryUserPort.queryUserById(id))
+            .willReturn(userStub)
+
+        given(queryHolidayPort.queryHolidayByDateAndUserId(date, userStub.id))
+            .willReturn(annualStub)
+
+        // when & then
+        assertThrows<HolidayExceptions.AlreadyExists> {
             appointAnnualUseCase.execute(date)
         }
     }
@@ -138,6 +202,14 @@ class AppointAnnualUseCaseTests {
         // when & then
         assertThrows<UserExceptions.NotFound> {
             appointAnnualUseCase.execute(date)
+        }
+    }
+
+    @Test
+    fun `과거에 연차를 지정할 때`() {
+        // when & then
+        assertThrows<HolidayExceptions.CannotChange> {
+            appointAnnualUseCase.execute(LocalDate.MIN)
         }
     }
 
