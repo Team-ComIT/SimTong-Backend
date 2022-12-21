@@ -3,6 +3,7 @@ package team.comit.simtong.domain.holiday.usecase
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.holiday.model.Holiday
@@ -12,11 +13,12 @@ import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
+import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.global.annotation.SimtongTest
 import java.time.LocalDate
-import java.util.*
+import java.util.UUID
 
 @SimtongTest
 class ShareHolidayUseCaseTests {
@@ -86,6 +88,21 @@ class ShareHolidayUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
+            shareHolidayUseCase.execute(2022, 12)
+        }
+    }
+
+    @Test
+    fun `유저를 찾을 수 없음`() {
+        // given
+        given(securityPort.getCurrentUserId())
+            .willReturn(userId)
+
+        given(queryUserPort.queryUserById(userId))
+            .willReturn(null)
+
+        // when & then
+        assertThrows<UserExceptions.NotFound> {
             shareHolidayUseCase.execute(2022, 12)
         }
     }
