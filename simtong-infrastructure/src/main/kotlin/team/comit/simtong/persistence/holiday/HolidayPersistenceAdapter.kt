@@ -22,6 +22,7 @@ import java.util.UUID
  * 휴무일의 영속성을 관리하는 HolidayPersistenceAdapter
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/12/02
  * @version 1.0.0
  **/
@@ -80,6 +81,18 @@ class HolidayPersistenceAdapter(
             .map { holidayMapper.toDomain(it)!! }
     }
 
+    override fun queryHolidaysByYearAndMonthAndSpotIdAndType(year: Int, month: Int, spotId: UUID, type: HolidayType): List<Holiday> {
+        return queryFactory.selectFrom(holiday)
+            .where(
+                holiday.id.date.year().eq(year),
+                holiday.id.date.month().eq(month),
+                holiday.spot.id.eq(spotId),
+                holiday.type.eq(type)
+            )
+            .fetch()
+            .map { holidayMapper.toDomain(it)!! }
+    }
+
     override fun existsHolidayByDateAndUserIdAndType(date: LocalDate, userId: UUID, type: HolidayType): Boolean {
         return queryFactory.selectFrom(holiday)
             .where(
@@ -94,6 +107,12 @@ class HolidayPersistenceAdapter(
         return holidayJpaRepository.save(
             holidayMapper.toEntity(holiday)
         ).let { holidayMapper.toDomain(it)!! }
+    }
+
+    override fun saveAll(holidays: List<Holiday>) {
+        holidayJpaRepository.saveAll(
+            holidays.map(holidayMapper::toEntity)
+        )
     }
 
     override fun delete(holiday: Holiday) {
