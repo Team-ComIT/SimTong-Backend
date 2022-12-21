@@ -206,7 +206,7 @@ class AppointHolidayUseCaseTests {
     }
 
     @Test
-    fun `휴무표 작성 기간이 등록되지 않은 날임`() {
+    fun `휴무표 작성 기간이 등록되지 않음`() {
         // given
         given(securityPort.getCurrentUserId())
             .willReturn(id)
@@ -218,7 +218,7 @@ class AppointHolidayUseCaseTests {
             .willReturn(null)
 
         // when & then
-        assertThrows<HolidayExceptions.NotWritablePeriod> {
+        assertThrows<HolidayExceptions.NotFound> {
             appointHolidayUseCase.execute(date)
         }
     }
