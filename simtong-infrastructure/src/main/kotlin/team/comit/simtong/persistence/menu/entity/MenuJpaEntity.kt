@@ -51,7 +51,7 @@ class MenuJpaEntity(
      **/
     @Embeddable
     data class Id(
-        @Column(nullable = false)
+        @Column(columnDefinition = "BINARY(16)", nullable = false)
         val spotId: UUID,
 
         @Column(nullable = false)
