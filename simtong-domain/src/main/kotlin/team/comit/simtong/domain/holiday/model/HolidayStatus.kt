@@ -11,19 +11,14 @@ package team.comit.simtong.domain.holiday.model
 enum class HolidayStatus {
 
     /**
-     * 휴무표 작성 중
+     * 휴무표 작성 완료
      */
     WRITTEN,
 
     /**
-     * 휴무표 조율 중
+     *휴무표 확정 완료
      */
-    TUNING,
-
-    /**
-     *휴무표 결정됨
-     */
-    FINAL,
+    COMPLETED,
 
     /**
      * 연차
