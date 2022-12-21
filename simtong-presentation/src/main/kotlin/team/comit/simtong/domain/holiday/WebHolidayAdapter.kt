@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.holiday.dto.QueryIndividualHolidaysResponse
+import team.comit.simtong.domain.holiday.dto.QueryIndividualRequest
 import team.comit.simtong.domain.holiday.dto.request.AppointAnnualWebRequest
 import team.comit.simtong.domain.holiday.dto.request.AppointHolidayWebRequest
 import team.comit.simtong.domain.holiday.dto.request.CancelHolidayRequest
+import team.comit.simtong.domain.holiday.dto.request.WebHolidayStatus
 import team.comit.simtong.domain.holiday.dto.response.QueryRemainAnnualWebResponse
 import team.comit.simtong.domain.holiday.usecase.AppointAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayUseCase
@@ -66,8 +68,15 @@ class WebHolidayAdapter(
     @GetMapping
     fun queryIndividualHolidays(
         @RequestParam("start_at") startAt: LocalDate,
-        @RequestParam("end_at") endAt: LocalDate
+        @RequestParam("end_at") endAt: LocalDate,
+        @RequestParam status: WebHolidayStatus
     ) : QueryIndividualHolidaysResponse {
-        return queryIndividualHolidayUseCase.execute(startAt, endAt)
+        return queryIndividualHolidayUseCase.execute(
+            QueryIndividualRequest(
+                startAt = startAt,
+                endAt = endAt,
+                status = status.name
+            )
+        )
     }
 }
