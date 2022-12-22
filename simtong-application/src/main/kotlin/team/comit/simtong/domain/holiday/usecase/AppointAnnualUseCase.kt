@@ -30,7 +30,7 @@ class AppointAnnualUseCase(
 
     fun execute(date: LocalDate) {
         if (date <= LocalDate.now()) {
-            throw HolidayExceptions.CannotChange()
+            throw HolidayExceptions.CannotChange("당일 이후만 연차를 사용할 수 있습니다.")
         }
 
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
