@@ -47,7 +47,7 @@ class HolidayJpaEntity(
     val spot: SpotJpaEntity,
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(7)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(9)", nullable = false)
     val status: HolidayStatus
 ) {
     
