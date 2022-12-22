@@ -36,7 +36,5 @@ class AppointHolidayPeriodUseCase(
                 spotId = user.spotId
             )
         )
-
-        // TODO 휴무표 작성 기간 알림
     }
 }
