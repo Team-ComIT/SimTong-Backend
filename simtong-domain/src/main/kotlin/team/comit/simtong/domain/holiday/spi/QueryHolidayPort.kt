@@ -11,6 +11,7 @@ import java.util.UUID
  * Holiday Domain에 관한 Query를 요청하는 QueryHolidayPort
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/12/03
  * @version 1.0.0
  **/
@@ -23,6 +24,8 @@ interface QueryHolidayPort {
     fun queryHolidayByDateAndUserId(date: LocalDate, userId: UUID) : Holiday?
 
     fun queryHolidaysByPeriodAndUserIdAndStatus(startAt: LocalDate, endAt: LocalDate, userId: UUID, status: HolidayStatus) : List<Holiday>
+
+    fun queryHolidaysByYearAndMonthAndSpotIdAndType(year: Int, month: Int, spotId: UUID, type: HolidayType) : List<Holiday>
 
     fun existsHolidayByDateAndUserIdAndType(date: LocalDate, userId: UUID, type: HolidayType) : Boolean
 
