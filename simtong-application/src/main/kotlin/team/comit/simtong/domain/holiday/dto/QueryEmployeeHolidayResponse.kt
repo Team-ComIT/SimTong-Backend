@@ -18,7 +18,7 @@ data class QueryEmployeeHolidayResponse(
 
     /**
      *
-     * QueryEmployeeHolidayResponse
+     * 지점 직원의 휴무일 정보를 반환하는 Holiday
      *
      * @author kimbeomjin
      * @date 2022/12/22
@@ -32,7 +32,7 @@ data class QueryEmployeeHolidayResponse(
 
         /**
          *
-         * QueryEmployeeHolidayResponse
+         * 지점 직원 정보를 반환하는 Employee
          *
          * @author kimbeomjin
          * @date 2022/12/22
