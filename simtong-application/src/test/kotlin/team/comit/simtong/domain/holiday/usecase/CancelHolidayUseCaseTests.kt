@@ -33,17 +33,7 @@ class CancelHolidayUseCaseTests {
 
     private val id: UUID = UUID.randomUUID()
 
-    private val dateStub: LocalDate = LocalDate.now()
-
-    private val holidayStub: Holiday by lazy {
-        Holiday(
-            date = dateStub,
-            userId = id,
-            type = HolidayType.HOLIDAY,
-            spotId = id,
-            status = HolidayStatus.WRITTEN
-        )
-    }
+    private val date: LocalDate = LocalDate.now()
 
     @BeforeEach
     fun setUp() {
@@ -55,17 +45,94 @@ class CancelHolidayUseCaseTests {
     }
 
     @Test
-    fun `휴무일 취소 성공`() {
+    fun `작성중인 휴무일 취소`() {
         // given
+        val holidayStub = Holiday(
+            date = date,
+            userId = id,
+            type = HolidayType.HOLIDAY,
+            spotId = id,
+            status = HolidayStatus.WRITTEN
+        )
+
         given(securityPort.getCurrentUserId())
             .willReturn(id)
 
-        given(queryHolidayPort.queryHolidayByDateAndUserId(dateStub, id))
+        given(queryHolidayPort.queryHolidayByDateAndUserId(date, id))
             .willReturn(holidayStub)
 
         // when & then
         assertDoesNotThrow {
-            cancelHolidayUseCase.execute(dateStub)
+            cancelHolidayUseCase.execute(date)
+        }
+    }
+
+    @Test
+    fun `확정된 휴무일 취소`() {
+        // given
+        val holidayStub = Holiday(
+            date = date,
+            userId = id,
+            type = HolidayType.HOLIDAY,
+            spotId = id,
+            status = HolidayStatus.COMPLETED
+        )
+
+        given(securityPort.getCurrentUserId())
+            .willReturn(id)
+
+        given(queryHolidayPort.queryHolidayByDateAndUserId(date, id))
+            .willReturn(holidayStub)
+
+        // when & then
+        assertThrows<HolidayExceptions.CannotChange> {
+            cancelHolidayUseCase.execute(date)
+        }
+    }
+
+    @Test
+    fun `미래의 연차 취소`() {
+        // given
+        val holidayStub = Holiday(
+            date = LocalDate.MAX,
+            userId = id,
+            type = HolidayType.ANNUAL,
+            spotId = id,
+            status = HolidayStatus.COMPLETED
+        )
+
+        given(securityPort.getCurrentUserId())
+            .willReturn(id)
+
+        given(queryHolidayPort.queryHolidayByDateAndUserId(date, id))
+            .willReturn(holidayStub)
+
+        // when & then
+        assertDoesNotThrow {
+            cancelHolidayUseCase.execute(date)
+        }
+    }
+
+    @Test
+    fun `과거의 연차 취소`() {
+        // given
+        val holidayStub = Holiday(
+            date = LocalDate.MIN,
+            userId = id,
+            type = HolidayType.ANNUAL,
+            spotId = id,
+            status = HolidayStatus.COMPLETED
+        )
+
+        given(securityPort.getCurrentUserId())
+            .willReturn(id)
+
+        given(queryHolidayPort.queryHolidayByDateAndUserId(date, id))
+            .willReturn(holidayStub)
+
+        // when & then
+        assertThrows<HolidayExceptions.CannotChange> {
+            cancelHolidayUseCase.execute(date)
         }
     }
 
@@ -75,12 +142,12 @@ class CancelHolidayUseCaseTests {
         given(securityPort.getCurrentUserId())
             .willReturn(id)
 
-        given(queryHolidayPort.queryHolidayByDateAndUserId(dateStub, id))
+        given(queryHolidayPort.queryHolidayByDateAndUserId(date, id))
             .willReturn(null)
 
         // when & then
         assertThrows<HolidayExceptions.NotFound> {
-            cancelHolidayUseCase.execute(dateStub)
+            cancelHolidayUseCase.execute(date)
         }
     }
 

@@ -29,11 +29,22 @@ class AppointAnnualUseCase(
 ) {
 
     fun execute(date: LocalDate) {
+        if (date <= LocalDate.now()) {
+            throw HolidayExceptions.CannotChange("당일 이후만 연차를 사용할 수 있습니다.")
+        }
+
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
             ?: throw UserExceptions.NotFound()
 
-        if (queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, user.id, HolidayType.ANNUAL)) {
-            throw HolidayExceptions.AlreadyExists("이미 연차입니다.")
+        queryHolidayPort.queryHolidayByDateAndUserId(date, user.id)?.run {
+            when (type) {
+                HolidayType.ANNUAL ->
+                    throw HolidayExceptions.AlreadyExists("해당 날짜는 이미 연차입니다.")
+
+                HolidayType.HOLIDAY -> if (status == HolidayStatus.COMPLETED) {
+                    throw HolidayExceptions.AlreadyExists("해당 날짜는 이미 휴무일입니다.")
+                }
+            }
         }
 
         val countAnnual = queryHolidayPort.countHolidayByYearAndUserIdAndType(date.year, user.id, HolidayType.ANNUAL)

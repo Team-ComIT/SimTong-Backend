@@ -93,7 +93,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.DELETE, "/schedules/{schedule-id}").hasRole(ROLE_COMMON.role)
 
             // holiday
-            .antMatchers(HttpMethod.GET, "/holidays").hasRole(ROLE_COMMON.role)
+            .antMatchers(HttpMethod.GET, "/holidays/individual").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.POST, "/holidays/dayoff").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.POST, "/holidays/annual").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.PUT, "/holidays/work").hasRole(ROLE_COMMON.role)

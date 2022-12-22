@@ -2,7 +2,7 @@ package team.comit.simtong.domain.holiday.model
 
 /**
  *
- * 후무일 상태를 관리하는 HolidayStatus
+ * 휴무일 상태를 관리하는 HolidayStatus
  *
  * @author Chokyunghyeon
  * @date 2022/12/20
