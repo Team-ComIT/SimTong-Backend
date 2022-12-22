@@ -46,7 +46,7 @@ class WebHolidayAdapter(
 ) {
 
     @GetMapping("/annual/count")
-    fun queryRemainAnnual(@RequestParam year: Int) : QueryRemainAnnualWebResponse {
+    fun queryRemainAnnual(@RequestParam year: Int): QueryRemainAnnualWebResponse {
         return QueryRemainAnnualWebResponse(
             queryRemainAnnualUseCase.execute(year)
         )
@@ -74,7 +74,7 @@ class WebHolidayAdapter(
         @RequestParam("start_at") startAt: LocalDate,
         @RequestParam("end_at") endAt: LocalDate,
         @RequestParam status: WebHolidayStatus
-    ) : QueryIndividualHolidaysResponse {
+    ): QueryIndividualHolidaysResponse {
         return queryIndividualHolidayUseCase.execute(
             QueryIndividualRequest(
                 startAt = startAt,
@@ -86,7 +86,7 @@ class WebHolidayAdapter(
 
     @PutMapping("/public")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun shareHoliday(@Valid @RequestBody request: ShareHolidayWebRequest ) {
+    fun shareHoliday(@Valid @RequestBody request: ShareHolidayWebRequest) {
         shareHolidayUseCase.execute(
             year = request.year,
             month = request.month
