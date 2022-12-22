@@ -32,11 +32,11 @@ class CancelHolidayUseCase(
 
         when (holiday.type) {
             HolidayType.HOLIDAY -> if (holiday.status == HolidayStatus.COMPLETED) {
-                throw HolidayExceptions.CannotChange()
+                throw HolidayExceptions.CannotChange("결정된 휴무일는 취소할 수 없습니다.")
             }
 
-            HolidayType.ANNUAL -> if (holiday.date < LocalDate.now()) {
-                throw HolidayExceptions.CannotChange()
+            HolidayType.ANNUAL -> if (holiday.date <= LocalDate.now()) {
+                throw HolidayExceptions.CannotChange("지난 연차는 취소할 수 없습니다.")
             }
         }
 

@@ -29,7 +29,7 @@ class AppointAnnualUseCase(
 ) {
 
     fun execute(date: LocalDate) {
-        if (date < LocalDate.now()) {
+        if (date <= LocalDate.now()) {
             throw HolidayExceptions.CannotChange()
         }
 
