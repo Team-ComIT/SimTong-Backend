@@ -9,21 +9,25 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import team.comit.simtong.domain.holiday.dto.QueryEmployeeHolidayResponse
 import team.comit.simtong.domain.holiday.dto.QueryIndividualHolidaysResponse
 import team.comit.simtong.domain.holiday.dto.QueryIndividualRequest
 import team.comit.simtong.domain.holiday.dto.request.AppointAnnualWebRequest
 import team.comit.simtong.domain.holiday.dto.request.AppointHolidayWebRequest
 import team.comit.simtong.domain.holiday.dto.request.CancelHolidayRequest
 import team.comit.simtong.domain.holiday.dto.request.ShareHolidayWebRequest
+import team.comit.simtong.domain.holiday.dto.request.WebHolidayQueryType
 import team.comit.simtong.domain.holiday.dto.request.WebHolidayStatus
 import team.comit.simtong.domain.holiday.dto.response.QueryRemainAnnualWebResponse
 import team.comit.simtong.domain.holiday.usecase.AppointAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.CancelHolidayUseCase
+import team.comit.simtong.domain.holiday.usecase.QueryEmployeeHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryIndividualHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryRemainAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.ShareHolidayUseCase
 import java.time.LocalDate
+import java.util.UUID
 import javax.validation.Valid
 
 /**
@@ -42,7 +46,8 @@ class WebHolidayAdapter(
     private val appointHolidayUseCase: AppointHolidayUseCase,
     private val cancelHolidayUseCase: CancelHolidayUseCase,
     private val queryIndividualHolidayUseCase: QueryIndividualHolidayUseCase,
-    private val shareHolidayUseCase: ShareHolidayUseCase
+    private val shareHolidayUseCase: ShareHolidayUseCase,
+    private val queryEmployeeHolidayUseCase: QueryEmployeeHolidayUseCase
 ) {
 
     @GetMapping("/annual/count")
@@ -90,6 +95,21 @@ class WebHolidayAdapter(
         shareHolidayUseCase.execute(
             year = request.year,
             month = request.month
+        )
+    }
+
+    @GetMapping("/employee")
+    fun queryEmployeeHolidays(
+        @RequestParam year: Int,
+        @RequestParam month: Int,
+        @RequestParam type: WebHolidayQueryType,
+        @RequestParam("team_id", required = false) teamId: UUID?
+    ): QueryEmployeeHolidayResponse {
+        return queryEmployeeHolidayUseCase.execute(
+            year = year,
+            month = month,
+            typeName = type.name,
+            teamId = teamId
         )
     }
 }
