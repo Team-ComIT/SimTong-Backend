@@ -47,4 +47,10 @@ class HolidayPeriodPersistenceAdapter(
             .fetchOne() != null
     }
 
+    override fun save(holidayPeriod: HolidayPeriod): HolidayPeriod {
+        return holidayPeriodJpaRepository.save(
+            holidayPeriodMapper.toEntity(holidayPeriod)
+        ).let { holidayPeriodMapper.toDomain(it)!! }
+    }
+
 }

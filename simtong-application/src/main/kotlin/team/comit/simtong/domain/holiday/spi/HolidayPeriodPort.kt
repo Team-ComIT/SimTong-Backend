@@ -8,4 +8,4 @@ package team.comit.simtong.domain.holiday.spi
  * @date 2022/12/21
  * @version 1.0.0
  **/
-interface HolidayPeriodPort : QueryHolidayPeriodPort
+interface HolidayPeriodPort : QueryHolidayPeriodPort, CommandHolidayPeriodPort
