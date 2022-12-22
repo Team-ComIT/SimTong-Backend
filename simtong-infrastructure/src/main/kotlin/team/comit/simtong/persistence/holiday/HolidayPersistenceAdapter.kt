@@ -1,6 +1,9 @@
 package team.comit.simtong.persistence.holiday
 
 import team.comit.simtong.persistence.holiday.entity.QHolidayJpaEntity.holidayJpaEntity as holiday
+import team.comit.simtong.persistence.user.entity.QUserJpaEntity.userJpaEntity as user
+import team.comit.simtong.persistence.spot.entity.QSpotJpaEntity.spotJpaEntity as spot
+import team.comit.simtong.persistence.team.entity.QTeamJpaEntity.teamJpaEntity as team
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
@@ -9,11 +12,13 @@ import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidayPort
+import team.comit.simtong.domain.holiday.spi.vo.EmployeeHoliday
 import team.comit.simtong.persistence.QuerydslExtensionUtils.or
 import team.comit.simtong.persistence.QuerydslExtensionUtils.sameWeekFilter
 import team.comit.simtong.persistence.holiday.entity.HolidayJpaEntity
 import team.comit.simtong.persistence.holiday.mapper.HolidayMapper
 import team.comit.simtong.persistence.holiday.repository.HolidayJpaRepository
+import team.comit.simtong.persistence.holiday.vo.QEmployeeHolidayVO
 import java.time.LocalDate
 import java.util.UUID
 
@@ -38,7 +43,7 @@ class HolidayPersistenceAdapter(
             .from(holiday)
             .where(
                 holiday.id.userId.eq(userId),
-                holiday.type.eq(type),
+                holidayTypeFilter(type),
                 holiday.id.date.year().eq(year)
             )
             .fetchFirst()
@@ -49,7 +54,7 @@ class HolidayPersistenceAdapter(
             .from(holiday)
             .where(
                 holiday.id.userId.eq(userId),
-                holiday.type.eq(type),
+                holidayTypeFilter(type),
                 holiday.id.date.sameWeekFilter(date)
             )
             .fetchFirst()
@@ -81,13 +86,52 @@ class HolidayPersistenceAdapter(
             .map { holidayMapper.toDomain(it)!! }
     }
 
-    override fun queryHolidaysByYearAndMonthAndSpotIdAndType(year: Int, month: Int, spotId: UUID, type: HolidayType): List<Holiday> {
+    override fun queryHolidaysByYearAndMonthAndTeamId(
+        year: Int,
+        month: Int,
+        type: HolidayType?,
+        spotId: UUID,
+        teamId: UUID?
+    ): List<EmployeeHoliday> {
+        return queryFactory
+            .select(
+                QEmployeeHolidayVO(
+                    holiday.id.date,
+                    holiday.type,
+                    user.id,
+                    user.name,
+                    spot.name,
+                    team.name
+                )
+            )
+            .from(holiday)
+            .join(holiday.spot, spot)
+            .join(holiday.user, user)
+            .join(user.team, team)
+            .where(
+                holiday.id.date.year().eq(year),
+                holiday.id.date.month().eq(month),
+                holiday.spot.id.eq(spotId),
+                holiday.status.eq(HolidayStatus.WRITTEN),
+                holidayTypeFilter(type),
+                teamId?.let { team.id.eq(it) }
+            )
+            .fetch()
+    }
+
+    override fun queryHolidaysByYearAndMonthAndSpotIdAndType(
+        year: Int,
+        month: Int,
+        spotId: UUID,
+        type: HolidayType
+    ): List<Holiday> {
         return queryFactory.selectFrom(holiday)
             .where(
                 holiday.id.date.year().eq(year),
                 holiday.id.date.month().eq(month),
                 holiday.spot.id.eq(spotId),
-                holiday.type.eq(type)
+                holidayTypeFilter(type),
+                holiday.status.eq(HolidayStatus.WRITTEN)
             )
             .fetch()
             .map { holidayMapper.toDomain(it)!! }
@@ -98,7 +142,7 @@ class HolidayPersistenceAdapter(
             .where(
                 holiday.id.userId.eq(userId),
                 holiday.id.date.eq(date),
-                holiday.type.eq(type)
+                holidayTypeFilter(type)
             )
             .fetchOne() != null
     }
@@ -121,8 +165,13 @@ class HolidayPersistenceAdapter(
         )
     }
 
-    private fun holidayAndAnnualFilter(status: HolidayStatus) : BooleanExpression {
+    private fun holidayAndAnnualFilter(status: HolidayStatus): BooleanExpression {
         return holiday.status.eq(status) or holiday.type.eq(HolidayType.ANNUAL)
     }
 
+    private fun holidayTypeFilter(type: HolidayType?): BooleanExpression? {
+        return type?.let {
+            holiday.type.eq(type)
+        }
+    }
 }
