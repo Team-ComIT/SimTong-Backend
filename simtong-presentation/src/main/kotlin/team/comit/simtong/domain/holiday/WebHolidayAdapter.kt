@@ -20,6 +20,7 @@ import team.comit.simtong.domain.holiday.dto.response.QueryRemainAnnualWebRespon
 import team.comit.simtong.domain.holiday.usecase.AppointAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.CancelHolidayUseCase
+import team.comit.simtong.domain.holiday.usecase.CheckHolidayPeriodUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryIndividualHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryRemainAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.ShareHolidayUseCase
@@ -37,6 +38,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/holidays")
 class WebHolidayAdapter(
+    private val checkHolidayPeriodUseCase: CheckHolidayPeriodUseCase,
     private val queryRemainAnnualUseCase: QueryRemainAnnualUseCase,
     private val appointAnnualUseCase: AppointAnnualUseCase,
     private val appointHolidayUseCase: AppointHolidayUseCase,
@@ -91,5 +93,10 @@ class WebHolidayAdapter(
             year = request.year,
             month = request.month
         )
+    }
+
+    @GetMapping("/verification-period")
+    fun verifiedHolidayPeriod() {
+        checkHolidayPeriodUseCase.execute()
     }
 }
