@@ -27,7 +27,7 @@ class CheckHolidayPeriodUseCase(
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
             ?: throw UserExceptions.NotFound()
 
-        if (!queryHolidayPeriodPort.existsHolidayPeriodByDateAndSpotId(LocalDate.now(), user.spotId)) {
+        if (!queryHolidayPeriodPort.existsHolidayPeriodByWithinPeriodAndSpotId(LocalDate.now(), user.spotId)) {
             throw HolidayExceptions.NotFound("휴무표 작성 기간이 아닙니다.")
         }
     }

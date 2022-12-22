@@ -37,7 +37,7 @@ class HolidayPeriodPersistenceAdapter(
         ).let(holidayPeriodMapper::toDomain)
     }
 
-    override fun existsHolidayPeriodByDateAndSpotId(date: LocalDate, spotId: UUID): Boolean {
+    override fun existsHolidayPeriodByWithinPeriodAndSpotId(date: LocalDate, spotId: UUID): Boolean {
         return queryFactory.selectFrom(holidayPeriod)
             .where(
                 holidayPeriod.id.spotId.eq(spotId),

@@ -16,6 +16,6 @@ interface QueryHolidayPeriodPort {
 
     fun queryHolidayPeriodByYearAndMonthAndSpotId(year: Int, month: Int, spotId: UUID) : HolidayPeriod?
 
-    fun existsHolidayPeriodByDateAndSpotId(date: LocalDate, spotId: UUID) : Boolean
+    fun existsHolidayPeriodByWithinPeriodAndSpotId(date: LocalDate, spotId: UUID) : Boolean
 
 }

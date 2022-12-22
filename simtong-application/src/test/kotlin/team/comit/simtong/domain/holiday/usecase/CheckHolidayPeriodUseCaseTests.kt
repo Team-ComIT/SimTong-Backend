@@ -68,7 +68,7 @@ class CheckHolidayPeriodUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(queryHolidayPeriodPort.existsHolidayPeriodByDateAndSpotId(date, userStub.spotId))
+        given(queryHolidayPeriodPort.existsHolidayPeriodByWithinPeriodAndSpotId(date, userStub.spotId))
             .willReturn(true)
 
         // when & then
@@ -86,7 +86,7 @@ class CheckHolidayPeriodUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(queryHolidayPeriodPort.existsHolidayPeriodByDateAndSpotId(date, userStub.spotId))
+        given(queryHolidayPeriodPort.existsHolidayPeriodByWithinPeriodAndSpotId(date, userStub.spotId))
             .willReturn(false)
 
         // when & then
