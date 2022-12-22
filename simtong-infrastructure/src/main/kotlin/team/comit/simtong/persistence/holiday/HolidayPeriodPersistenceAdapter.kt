@@ -1,5 +1,7 @@
 package team.comit.simtong.persistence.holiday
 
+import team.comit.simtong.persistence.holiday.entity.QHolidayPeriodJpaEntity.holidayPeriodJpaEntity as holidayPeriod
+import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.holiday.model.HolidayPeriod
@@ -7,6 +9,7 @@ import team.comit.simtong.domain.holiday.spi.HolidayPeriodPort
 import team.comit.simtong.persistence.holiday.entity.HolidayPeriodJpaEntity
 import team.comit.simtong.persistence.holiday.mapper.HolidayPeriodMapper
 import team.comit.simtong.persistence.holiday.repository.HolidayPeriodJpaRepository
+import java.time.LocalDate
 import java.util.UUID
 
 /**
@@ -20,7 +23,8 @@ import java.util.UUID
 @Component
 class HolidayPeriodPersistenceAdapter(
     private val holidayPeriodMapper: HolidayPeriodMapper,
-    private val holidayPeriodJpaRepository: HolidayPeriodJpaRepository
+    private val holidayPeriodJpaRepository: HolidayPeriodJpaRepository,
+    private val queryFactory: JPAQueryFactory
 ) : HolidayPeriodPort {
 
     override fun queryHolidayPeriodByYearAndMonthAndSpotId(year: Int, month: Int, spotId: UUID): HolidayPeriod? {
@@ -33,5 +37,14 @@ class HolidayPeriodPersistenceAdapter(
         ).let(holidayPeriodMapper::toDomain)
     }
 
+    override fun existsHolidayPeriodByDateAndSpotId(date: LocalDate, spotId: UUID): Boolean {
+        return queryFactory.selectFrom(holidayPeriod)
+            .where(
+                holidayPeriod.id.spotId.eq(spotId),
+                holidayPeriod.startAt.after(date),
+                holidayPeriod.endAt.before(date)
+            )
+            .fetchOne() != null
+    }
 
 }
