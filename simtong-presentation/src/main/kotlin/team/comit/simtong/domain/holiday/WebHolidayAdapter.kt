@@ -14,6 +14,7 @@ import team.comit.simtong.domain.holiday.dto.QueryIndividualRequest
 import team.comit.simtong.domain.holiday.dto.request.AppointAnnualWebRequest
 import team.comit.simtong.domain.holiday.dto.request.AppointHolidayWebRequest
 import team.comit.simtong.domain.holiday.dto.request.CancelHolidayRequest
+import team.comit.simtong.domain.holiday.dto.request.ShareHolidayWebRequest
 import team.comit.simtong.domain.holiday.dto.request.WebHolidayStatus
 import team.comit.simtong.domain.holiday.dto.response.QueryRemainAnnualWebResponse
 import team.comit.simtong.domain.holiday.usecase.AppointAnnualUseCase
@@ -21,7 +22,9 @@ import team.comit.simtong.domain.holiday.usecase.AppointHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.CancelHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryIndividualHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryRemainAnnualUseCase
+import team.comit.simtong.domain.holiday.usecase.ShareHolidayUseCase
 import java.time.LocalDate
+import javax.validation.Valid
 
 /**
  *
@@ -38,11 +41,12 @@ class WebHolidayAdapter(
     private val appointAnnualUseCase: AppointAnnualUseCase,
     private val appointHolidayUseCase: AppointHolidayUseCase,
     private val cancelHolidayUseCase: CancelHolidayUseCase,
-    private val queryIndividualHolidayUseCase: QueryIndividualHolidayUseCase
+    private val queryIndividualHolidayUseCase: QueryIndividualHolidayUseCase,
+    private val shareHolidayUseCase: ShareHolidayUseCase
 ) {
 
     @GetMapping("/annual/count")
-    fun queryRemainAnnual(@RequestParam year: Int) : QueryRemainAnnualWebResponse {
+    fun queryRemainAnnual(@RequestParam year: Int): QueryRemainAnnualWebResponse {
         return QueryRemainAnnualWebResponse(
             queryRemainAnnualUseCase.execute(year)
         )
@@ -70,13 +74,22 @@ class WebHolidayAdapter(
         @RequestParam("start_at") startAt: LocalDate,
         @RequestParam("end_at") endAt: LocalDate,
         @RequestParam status: WebHolidayStatus
-    ) : QueryIndividualHolidaysResponse {
+    ): QueryIndividualHolidaysResponse {
         return queryIndividualHolidayUseCase.execute(
             QueryIndividualRequest(
                 startAt = startAt,
                 endAt = endAt,
                 status = status.name
             )
+        )
+    }
+
+    @PutMapping("/public")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun shareHoliday(@Valid @RequestBody request: ShareHolidayWebRequest) {
+        shareHolidayUseCase.execute(
+            year = request.year,
+            month = request.month
         )
     }
 }

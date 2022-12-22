@@ -97,6 +97,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/holidays/dayoff").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.POST, "/holidays/annual").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.PUT, "/holidays/work").hasRole(ROLE_COMMON.role)
+            .antMatchers(HttpMethod.PUT, "/holidays/public").hasRole(ROLE_ADMIN.role)
             .antMatchers(HttpMethod.GET, "/holidays/annual/count").hasRole(ROLE_COMMON.role)
 
             // admins
