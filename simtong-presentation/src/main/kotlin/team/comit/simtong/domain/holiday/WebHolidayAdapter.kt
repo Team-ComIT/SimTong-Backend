@@ -13,6 +13,7 @@ import team.comit.simtong.domain.holiday.dto.AppointHolidayPeriodRequest
 import team.comit.simtong.domain.holiday.dto.QueryEmployeeHolidayResponse
 import team.comit.simtong.domain.holiday.dto.QueryIndividualHolidaysResponse
 import team.comit.simtong.domain.holiday.dto.QueryIndividualRequest
+import team.comit.simtong.domain.holiday.dto.QueryMonthHolidayPeriodResponse
 import team.comit.simtong.domain.holiday.dto.request.AppointAnnualWebRequest
 import team.comit.simtong.domain.holiday.dto.request.AppointHolidayPeriodWebRequest
 import team.comit.simtong.domain.holiday.dto.request.AppointHolidayWebRequest
@@ -28,6 +29,7 @@ import team.comit.simtong.domain.holiday.usecase.CancelHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.CheckHolidayPeriodUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryEmployeeHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryIndividualHolidayUseCase
+import team.comit.simtong.domain.holiday.usecase.QueryMonthHolidayPeriodUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryRemainAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.ShareHolidayUseCase
 import java.time.LocalDate
@@ -45,6 +47,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/holidays")
 class WebHolidayAdapter(
+    private val queryMonthHolidayPeriodUseCase: QueryMonthHolidayPeriodUseCase,
     private val appointHolidayPeriodUseCase: AppointHolidayPeriodUseCase,
     private val checkHolidayPeriodUseCase: CheckHolidayPeriodUseCase,
     private val queryRemainAnnualUseCase: QueryRemainAnnualUseCase,
@@ -134,5 +137,13 @@ class WebHolidayAdapter(
                 endAt = request.endAt
             )
         )
+    }
+
+    @GetMapping("/period")
+    fun queryMonthHolidayPeriod(
+        @RequestParam year: Int,
+        @RequestParam month: Int
+    ): QueryMonthHolidayPeriodResponse {
+        return queryMonthHolidayPeriodUseCase.execute(year, month)
     }
 }
