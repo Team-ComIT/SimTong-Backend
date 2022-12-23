@@ -101,6 +101,7 @@ class SecurityConfig(
             .antMatchers(HttpMethod.GET, "/holidays/annual/count").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.GET, "/holidays/verification-period").hasRole(ROLE_COMMON.role)
             .antMatchers(HttpMethod.GET, "/holidays/employee").hasRole(ROLE_ADMIN.role)
+            .antMatchers(HttpMethod.PUT, "/holidays/period").hasRole(ROLE_ADMIN.role)
 
             // admins
             .antMatchers(HttpMethod.POST, "/admins/tokens").permitAll()

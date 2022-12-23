@@ -13,7 +13,7 @@ import team.comit.simtong.global.annotation.SimtongTest
 import java.util.UUID
 
 @SimtongTest
-class QueryQueryRemainAnnualUseCaseTests {
+class QueryRemainAnnualUseCaseTests {
 
     @MockBean
     private lateinit var queryHolidayPort: QueryHolidayPort

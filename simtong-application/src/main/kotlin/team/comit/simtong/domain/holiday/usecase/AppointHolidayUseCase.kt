@@ -35,7 +35,7 @@ class AppointHolidayUseCase(
             ?: throw UserExceptions.NotFound()
 
         val holidayPeriod = queryHolidayPeriodPort.queryHolidayPeriodByYearAndMonthAndSpotId(date.year, date.monthValue, user.spotId)
-            ?: throw HolidayExceptions.NotFound("아직 작성 기간이 등록되지 않았습니다.")
+            ?: throw HolidayExceptions.NotFound("휴무표 작성 기간이 등록되지 않았습니다.")
 
         val today = LocalDate.now()
 
