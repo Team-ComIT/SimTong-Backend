@@ -18,6 +18,7 @@ import team.comit.simtong.domain.holiday.dto.request.AppointAnnualWebRequest
 import team.comit.simtong.domain.holiday.dto.request.AppointHolidayPeriodWebRequest
 import team.comit.simtong.domain.holiday.dto.request.AppointHolidayWebRequest
 import team.comit.simtong.domain.holiday.dto.request.CancelHolidayWebRequest
+import team.comit.simtong.domain.holiday.dto.request.ChangeEmployeeHolidayWebRequest
 import team.comit.simtong.domain.holiday.dto.request.ShareHolidayWebRequest
 import team.comit.simtong.domain.holiday.dto.request.WebHolidayQueryType
 import team.comit.simtong.domain.holiday.dto.request.WebHolidayStatus
@@ -26,6 +27,7 @@ import team.comit.simtong.domain.holiday.usecase.AppointAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayPeriodUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.CancelHolidayUseCase
+import team.comit.simtong.domain.holiday.usecase.ChangeEmployeeHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.CheckHolidayPeriodUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryEmployeeHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryIndividualHolidayUseCase
@@ -41,6 +43,7 @@ import javax.validation.Valid
  * 휴무일에 관한 요청을 받는 WebHolidayAdapter
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/12/03
  * @version 1.0.0
  **/
@@ -56,7 +59,8 @@ class WebHolidayAdapter(
     private val cancelHolidayUseCase: CancelHolidayUseCase,
     private val queryIndividualHolidayUseCase: QueryIndividualHolidayUseCase,
     private val shareHolidayUseCase: ShareHolidayUseCase,
-    private val queryEmployeeHolidayUseCase: QueryEmployeeHolidayUseCase
+    private val queryEmployeeHolidayUseCase: QueryEmployeeHolidayUseCase,
+    private val changeEmployeeHolidayUseCase: ChangeEmployeeHolidayUseCase
 ) {
 
     @GetMapping("/annual/count")
@@ -124,6 +128,16 @@ class WebHolidayAdapter(
             month = month,
             typeName = type.name,
             teamId = teamId
+        )
+    }
+
+    @PutMapping("/employee")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun changeEmployeeHoliday(@Valid @RequestBody request: ChangeEmployeeHolidayWebRequest) {
+        changeEmployeeHolidayUseCase.execute(
+            beforeDate = request.beforeDate,
+            userId = request.userId,
+            afterDate = request.afterDate
         )
     }
 
