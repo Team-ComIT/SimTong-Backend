@@ -22,6 +22,7 @@ spring:
   redis:
     port: 6379
     host: localhost
+    password: 1234
 
   security:
     secret-key: ${SECRET_KEY:asdfasfdasfadsf}
