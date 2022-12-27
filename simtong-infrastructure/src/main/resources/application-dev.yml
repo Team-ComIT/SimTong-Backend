@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:mysql://${DB_URL:localhost}:3306/${DB_NAME:simtong}?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:1234}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -23,6 +23,16 @@ spring:
     port: 6379
     host: localhost
 
+  security:
+    secret-key: ${SECRET_KEY:asdfasfdasfadsf}
+    access-exp: ${ACCESS_EXP:180}
+    refresh-exp: ${REFRESH_EXP:180}
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 cloud:
   aws:
     credentials:
@@ -37,3 +47,19 @@ cloud:
       bucket: ${BUCKET_NAME:simtong}
     ses:
       source: ${SES_SENDER}
+
+domain:
+  model:
+    user:
+      default-image: ${USER_DEFAULT_IMAGE:TODO}
+    authcode:
+      exp: ${AUTHCODE_EXP:1234567890}
+    authcodelimit:
+      exp: ${AUTHCODELIMIT_EXP:1234567890}
+      verified-exp: ${AUTHCODELIMIT_VERIFIED_EXP:1234567890}
+      max-attempt-count: ${AUTHCODELIMIT_MAX_ATTEMPT_COUNT:12345}
+    spot:
+      head: ${HEAD_SPOT:본점}
+    holiday:
+      week-holiday-limit: ${WEEK_HOLIDAY_LIMIT:2}
+      annual-leave-limit: ${ANNUAL_LEAVE_LIMIT:15}

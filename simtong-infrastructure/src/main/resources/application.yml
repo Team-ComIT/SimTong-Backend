@@ -9,29 +9,6 @@ spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
 
-  security:
-    secret-key: ${SECRET_KEY:asdfasfdasfadsf}
-    access-exp: ${ACCESS_EXP:180}
-    refresh-exp: ${REFRESH_EXP:180}
-
-
-domain:
-  model:
-    user:
-      default-image: ${USER_DEFAULT_IMAGE:TODO}
-    authcode:
-      exp: ${AUTHCODE_EXP:1234567890}
-    authcodelimit:
-      exp: ${AUTHCODELIMIT_EXP:1234567890}
-      verified-exp: ${AUTHCODELIMIT_VERIFIED_EXP:1234567890}
-      max-attempt-count: ${AUTHCODELIMIT_MAX_ATTEMPT_COUNT:12345}
-    spot:
-      head: ${HEAD_SPOT:본점}
-    holiday:
-      week-holiday-limit: ${WEEK_HOLIDAY_LIMIT:2}
-      annual-leave-limit: ${ANNUAL_LEAVE_LIMIT:15}
-
-
 logging:
   level:
     com:
