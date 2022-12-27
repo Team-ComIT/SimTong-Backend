@@ -22,6 +22,7 @@ spring:
   redis:
     port: ${REDIS_PORT}
     host: ${REDIS_HOST}
+    password: ${REDIS_PASSWORD}
 
   security:
     secret-key: ${SECRET_KEY}
