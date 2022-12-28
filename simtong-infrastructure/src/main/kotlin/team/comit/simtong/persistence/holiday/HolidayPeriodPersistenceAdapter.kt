@@ -41,8 +41,8 @@ class HolidayPeriodPersistenceAdapter(
         return queryFactory.selectFrom(holidayPeriod)
             .where(
                 holidayPeriod.id.spotId.eq(spotId),
-                holidayPeriod.startAt.after(date),
-                holidayPeriod.endAt.before(date)
+                holidayPeriod.startAt.before(date),
+                holidayPeriod.endAt.after(date)
             )
             .fetchOne() != null
     }
