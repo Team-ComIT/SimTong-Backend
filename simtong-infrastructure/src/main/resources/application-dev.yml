@@ -64,3 +64,6 @@ domain:
     holiday:
       week-holiday-limit: ${WEEK_HOLIDAY_LIMIT:2}
       annual-leave-limit: ${ANNUAL_LEAVE_LIMIT:15}
+
+fcm:
+  value: ${FCM_VALUE}
