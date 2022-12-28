@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct
  *
  * @author kimbeomjin
  * @date 2022/12/27
- * @version 1.0.0
+ * @version 1.1.0
  **/
 @Configuration
 class FcmConfig(
