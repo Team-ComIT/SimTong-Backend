@@ -18,7 +18,7 @@ import java.util.UUID
  *
  * @author Chokyunghyeon
  * @date 2022/12/20
- * @version 1.0.0
+ * @version 1.0.1
  **/
 @Component
 class HolidayPeriodPersistenceAdapter(
@@ -41,8 +41,8 @@ class HolidayPeriodPersistenceAdapter(
         return queryFactory.selectFrom(holidayPeriod)
             .where(
                 holidayPeriod.id.spotId.eq(spotId),
-                holidayPeriod.startAt.before(date),
-                holidayPeriod.endAt.after(date)
+                holidayPeriod.startAt.loe(date),
+                holidayPeriod.endAt.goe(date)
             )
             .fetchOne() != null
     }
