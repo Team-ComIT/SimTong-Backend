@@ -60,4 +60,7 @@ object Dependencies {
     // poi
     const val POI = "org.apache.poi:poi:${DependencyVersions.POI_VERSION}"
     const val POI_OOXML = "org.apache.poi:poi-ooxml:${DependencyVersions.POI_VERSION}"
+
+    // firebase
+    const val FIREBASE_ADMIN = "com.google.firebase:firebase-admin:${DependencyVersions.FIREBASE_ADMIN_VERSION}"
 }

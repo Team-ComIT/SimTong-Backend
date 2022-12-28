@@ -11,4 +11,5 @@ object DependencyVersions {
     const val BYTE_BUDDY = "1.12.18"
     const val COMMONS_IO = "2.11.0"
     const val POI_VERSION = "5.2.3"
+    const val FIREBASE_ADMIN_VERSION = "9.1.0"
 }

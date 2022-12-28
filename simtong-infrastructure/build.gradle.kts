@@ -46,6 +46,9 @@ dependencies {
     implementation(Dependencies.POI)
     implementation(Dependencies.POI_OOXML)
 
+    // firebase
+    implementation(Dependencies.FIREBASE_ADMIN)
+
     // configuration
     annotationProcessor(Dependencies.CONFIGURATION_PROCESSOR)
 
