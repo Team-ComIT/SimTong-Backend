@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.MapsId
 import javax.persistence.Table
-import javax.validation.constraints.NotNull
 
 /**
  *
@@ -39,8 +38,7 @@ class NotificationReceiverJpaEntity(
     @JoinColumn(name = "notification_id", columnDefinition = "BINARY(16)", nullable = false)
     val notification: NotificationJpaEntity,
 
-    @field:NotNull
-    val checkedAt: LocalDateTime
+    val checkedAt: LocalDateTime?
 ) {
 
     /**
