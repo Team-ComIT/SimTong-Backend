@@ -41,7 +41,6 @@ class NotificationJpaEntity(
     val identify: UUID?,
 
     @field:NotNull
-    @Column(name = "send_at")
     override val createdAt: LocalDateTime
 
 ) : BaseEntity(id)
