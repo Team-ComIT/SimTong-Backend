@@ -7,6 +7,7 @@ import com.google.firebase.messaging.Message
 import com.google.firebase.messaging.MulticastMessage
 import com.google.firebase.messaging.Notification
 import org.springframework.stereotype.Component
+import team.comit.simtong.domain.notification.model.NotificationType
 import team.comit.simtong.domain.notification.spi.SendPushMessagePort
 import java.util.UUID
 
@@ -21,29 +22,10 @@ import java.util.UUID
 @Component
 class FcmAdapter : SendPushMessagePort {
 
-    override fun sendMessage(tokens: List<String>, title: String, content: String, identify: UUID?) {
-        val multicastMessage = MulticastMessage.builder()
-            .addAllTokens(tokens)
-            .putData("identify", identify.toString())
-            .setNotification(
-                Notification.builder()
-                    .setTitle(title)
-                    .setBody(content)
-                    .build()
-            )
-            .setApnsConfig(
-                ApnsConfig.builder()
-                    .setAps(Aps.builder().setSound("default").build())
-                    .build()
-            )
-            .build()
-
-        FirebaseMessaging.getInstance().sendMulticastAsync(multicastMessage)
-    }
-
-    override fun sendMessage(token: String, title: String, content: String, identify: UUID?) {
+    override fun sendMessage(token: String, title: String, content: String, type: NotificationType, identify: UUID?) {
         val message = Message.builder()
             .setToken(token)
+            .putData("type", type.name)
             .putData("identify", identify.toString())
             .setNotification(
                 Notification.builder()
@@ -59,5 +41,26 @@ class FcmAdapter : SendPushMessagePort {
             .build()
 
         FirebaseMessaging.getInstance().sendAsync(message)
+    }
+
+    override fun sendMessage(tokens: List<String>, title: String, content: String, type: NotificationType, identify: UUID?) {
+        val multicastMessage = MulticastMessage.builder()
+            .addAllTokens(tokens)
+            .putData("type", type.name)
+            .putData("identify", identify.toString())
+            .setNotification(
+                Notification.builder()
+                    .setTitle(title)
+                    .setBody(content)
+                    .build()
+            )
+            .setApnsConfig(
+                ApnsConfig.builder()
+                    .setAps(Aps.builder().setSound("default").build())
+                    .build()
+            )
+            .build()
+
+        FirebaseMessaging.getInstance().sendMulticastAsync(multicastMessage)
     }
 }
