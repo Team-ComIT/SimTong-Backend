@@ -1,6 +1,8 @@
 package team.comit.simtong.domain.notification.dto
 
 import java.util.UUID
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 /**
  *
@@ -11,10 +13,19 @@ import java.util.UUID
  * @version 1.1.0
  **/
 data class SendNotificationWebRequest(
-    val userId: UUID,
-    val title: String,
-    val content: String,
-    val type: WebNotificationType,
+
+    @field:NotNull
+    val userId: UUID?,
+
+    @field:NotBlank
+    val title: String?,
+
+    @field:NotBlank
+    val content: String?,
+
+    @field:NotNull
+    val type: WebNotificationType?,
+
     val identify: UUID?
 )
 
@@ -28,8 +39,15 @@ data class SendNotificationWebRequest(
  **/
 data class SendMultiNotificationWebRequest(
     val userIds: List<UUID>,
-    val title: String,
-    val content: String,
-    val type: WebNotificationType,
+
+    @field:NotBlank
+    val title: String?,
+
+    @field:NotBlank
+    val content: String?,
+
+    @field:NotNull
+    val type: WebNotificationType?,
+
     val identify: UUID?
 )

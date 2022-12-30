@@ -26,10 +26,10 @@ class NotificationWebAdapter(
     @PostMapping
     fun sendNotification(@RequestBody @Valid request: SendNotificationWebRequest) {
         sendNotificationUseCase.execute(
-            userId = request.userId,
-            title = request.title,
-            content = request.content,
-            type = request.type.name,
+            userId = request.userId!!,
+            title = request.title!!,
+            content = request.content!!,
+            type = request.type!!.name,
             identify = request.identify
         )
     }
@@ -38,9 +38,9 @@ class NotificationWebAdapter(
     fun sendMultiNotification(@RequestBody @Valid request: SendMultiNotificationWebRequest) {
         sendNotificationUseCase.execute(
             userIds = request.userIds,
-            title = request.title,
-            content = request.content,
-            type = request.type.name,
+            title = request.title!!,
+            content = request.content!!,
+            type = request.type!!.name,
             identify = request.identify
         )
     }
