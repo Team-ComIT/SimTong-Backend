@@ -7,6 +7,7 @@ import com.google.firebase.messaging.Message
 import com.google.firebase.messaging.MulticastMessage
 import com.google.firebase.messaging.Notification
 import org.springframework.stereotype.Component
+import team.comit.simtong.domain.notification.spi.SendPushMessagePort
 import java.util.UUID
 
 /**
@@ -18,9 +19,9 @@ import java.util.UUID
  * @version 1.1.0
  **/
 @Component
-class FcmAdapter {
+class FcmAdapter : SendPushMessagePort {
 
-    fun sendMessage(tokens: List<String>, title: String, content: String, identify: UUID) {
+    override fun sendMessage(tokens: List<String>, title: String, content: String, identify: UUID?) {
         val multicastMessage = MulticastMessage.builder()
             .addAllTokens(tokens)
             .putData("identify", identify.toString())
@@ -40,7 +41,7 @@ class FcmAdapter {
         FirebaseMessaging.getInstance().sendMulticastAsync(multicastMessage)
     }
 
-    fun sendMessage(token: String, title: String, content: String, identify: UUID) {
+    override fun sendMessage(token: String, title: String, content: String, identify: UUID?) {
         val message = Message.builder()
             .setToken(token)
             .putData("identify", identify.toString())
