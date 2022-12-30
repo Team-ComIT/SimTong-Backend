@@ -12,7 +12,7 @@ import java.util.UUID
  * @version 1.1.0
  **/
 data class Notification(
-    val id: UUID,
+    val id: UUID = UUID(0, 0),
 
     val title: String,
 
@@ -22,5 +22,5 @@ data class Notification(
 
     val identify: UUID?,
 
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime = LocalDateTime.now()
 )

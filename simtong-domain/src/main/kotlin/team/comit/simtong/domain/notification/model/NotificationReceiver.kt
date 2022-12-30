@@ -14,5 +14,5 @@ import java.util.UUID
 data class NotificationReceiver(
     val userId: UUID,
     val notificationId: UUID,
-    val checkedAt: LocalDateTime
+    val checkedAt: LocalDateTime? = null
 )
