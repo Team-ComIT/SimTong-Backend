@@ -15,4 +15,9 @@ import java.util.*
  **/
 @Repository
 interface DeviceTokenJpaRepository : CrudRepository<DeviceTokenJpaEntity, UUID> {
+
+    fun findByUserId(userId: UUID): DeviceTokenJpaEntity?
+
+    fun findAllByUserIdIsIn(userIds: List<UUID>): List<DeviceTokenJpaEntity>
+
 }
