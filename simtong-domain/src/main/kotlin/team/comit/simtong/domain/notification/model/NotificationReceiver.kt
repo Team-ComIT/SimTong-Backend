@@ -5,7 +5,7 @@ import java.util.UUID
 
 /**
  *
- * NotificationReceiver
+ * 알림 Aggregate의 알림을 받은 수신자를 담당하는 NotificationReceiver
  *
  * @author kimbeomjin
  * @date 2022/12/29
