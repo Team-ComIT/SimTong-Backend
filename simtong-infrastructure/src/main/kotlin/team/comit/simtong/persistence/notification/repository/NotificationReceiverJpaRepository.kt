@@ -13,5 +13,5 @@ import team.comit.simtong.persistence.notification.entity.NotificationReceiverJp
  * @version 1.1.0
  **/
 @Repository
-interface NotificationReceiverRepository : CrudRepository<NotificationReceiverJpaEntity, NotificationReceiverJpaEntity.Id> {
+interface NotificationReceiverJpaRepository : CrudRepository<NotificationReceiverJpaEntity, NotificationReceiverJpaEntity.Id> {
 }

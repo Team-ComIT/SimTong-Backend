@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.UserPort
 import team.comit.simtong.persistence.user.mapper.UserMapper
+import team.comit.simtong.persistence.user.repository.DeviceTokenJpaRepository
 import team.comit.simtong.persistence.user.repository.UserJpaRepository
 import java.util.UUID
 
@@ -19,8 +20,9 @@ import java.util.UUID
  **/
 @Component
 class UserPersistenceAdapter(
+    private val userMapper: UserMapper,
     private val userJpaRepository: UserJpaRepository,
-    private val userMapper: UserMapper
+    private val deviceTokenRepository: DeviceTokenJpaRepository
 ) : UserPort {
 
     override fun queryUserById(id: UUID): User? {
@@ -75,4 +77,13 @@ class UserPersistenceAdapter(
         ).let { userMapper.toDomain(it)!! }
     }
 
+    override fun queryDeviceTokenByUserId(userId: UUID): String? {
+        return deviceTokenRepository.findByUserId(userId)?.token
+    }
+
+    override fun queryDeviceTokensByUserIds(userIds: List<UUID>): List<String> {
+        return deviceTokenRepository.findAllByUserIdIsIn(userIds).map {
+            it.token
+        }
+    }
 }
