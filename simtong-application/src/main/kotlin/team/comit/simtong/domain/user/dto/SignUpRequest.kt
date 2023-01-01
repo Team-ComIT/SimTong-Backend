@@ -20,5 +20,7 @@ data class SignUpRequest(
 
     val employeeNumber: Int,
 
-    val profileImagePath: String?
+    val profileImagePath: String?,
+
+    val deviceToken: String
 )

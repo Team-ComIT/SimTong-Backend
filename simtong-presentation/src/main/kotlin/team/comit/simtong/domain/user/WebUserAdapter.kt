@@ -16,7 +16,7 @@ import team.comit.simtong.domain.user.dto.ChangeEmailRequest
 import team.comit.simtong.domain.user.dto.ChangeNicknameRequest
 import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
 import team.comit.simtong.domain.user.dto.QueryUserInfoResponse
-import team.comit.simtong.domain.user.dto.SignInRequest
+import team.comit.simtong.domain.user.dto.UserSignInRequest
 import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.domain.user.dto.request.ChangeEmailWebRequest
 import team.comit.simtong.domain.user.dto.request.ChangeNicknameWebRequest
@@ -70,7 +70,8 @@ class WebUserAdapter(
                 password = request.password,
                 nickname = request.nickname,
                 profileImagePath = request.profileImagePath,
-                employeeNumber = request.employeeNumber
+                employeeNumber = request.employeeNumber,
+                deviceToken = request.deviceToken
             )
         )
     }
@@ -78,9 +79,10 @@ class WebUserAdapter(
     @PostMapping("/tokens")
     fun signIn(@Valid @RequestBody request: SignInWebRequest): TokenResponse {
         return signInUseCase.execute(
-            SignInRequest(
+            UserSignInRequest(
                 employeeNumber = request.employeeNumber,
-                password = request.password
+                password = request.password,
+                deviceToken = request.deviceToken
             )
         )
     }
