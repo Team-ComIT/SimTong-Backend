@@ -1,9 +1,11 @@
 package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.auth.dto.TokenResponse
-import team.comit.simtong.domain.user.dto.SignInRequest
+import team.comit.simtong.domain.user.dto.UserSignInRequest
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
+import team.comit.simtong.domain.user.model.DeviceToken
+import team.comit.simtong.domain.user.spi.CommandDeviceTokenPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserJwtPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
@@ -21,10 +23,11 @@ import team.comit.simtong.global.annotation.UseCase
 class SignInUseCase(
     private val queryUserPort: QueryUserPort,
     private val userSecurityPort: UserSecurityPort,
-    private val userJwtPort: UserJwtPort
+    private val userJwtPort: UserJwtPort,
+    private val commandDeviceTokenPort: CommandDeviceTokenPort
 ) {
 
-    fun execute(request: SignInRequest): TokenResponse {
+    fun execute(request: UserSignInRequest): TokenResponse {
         val user = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber)
             ?: throw UserExceptions.NotFound()
 
@@ -35,6 +38,13 @@ class SignInUseCase(
         if (!userSecurityPort.compare(request.password, user.password)) {
             throw UserExceptions.DifferentPassword()
         }
+
+        commandDeviceTokenPort.save(
+            DeviceToken(
+                userId = user.id,
+                token = request.deviceToken
+            )
+        )
 
         return userJwtPort.receiveToken(
             userId = user.id,
