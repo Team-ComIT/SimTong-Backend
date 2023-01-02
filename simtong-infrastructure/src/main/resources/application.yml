@@ -9,6 +9,10 @@ spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
 
+sentry:
+  dsn: ${SENTRY_DSN}
+  traces-sample-rate: 1.0
+
 logging:
   level:
     com:
