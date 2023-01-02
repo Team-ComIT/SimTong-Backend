@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     environment: dev
-    if: "github.event.pull_request.base.ref != 'develop'"
+    if: github.event.pull_request.base.ref != 'develop'
     runs-on: ubuntu-latest
 
     steps:
