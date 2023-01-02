@@ -8,7 +8,9 @@ import team.comit.simtong.domain.team.exception.TeamExceptions
 import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
+import team.comit.simtong.domain.user.model.DeviceToken
 import team.comit.simtong.domain.user.model.User
+import team.comit.simtong.domain.user.spi.CommandDeviceTokenPort
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserCommandAuthCodeLimitPort
@@ -33,6 +35,7 @@ import team.comit.simtong.global.annotation.UseCase
 class SignUpUseCase(
     private val jwtPort: UserJwtPort,
     private val commandUserPort: CommandUserPort,
+    private val commandDeviceTokenPort: CommandDeviceTokenPort,
     private val queryUserPort: QueryUserPort,
     private val queryAuthCodeLimitPort: UserQueryAuthCodeLimitPort,
     private val commandAuthCodeLimitPort: UserCommandAuthCodeLimitPort,
@@ -87,6 +90,13 @@ class SignUpUseCase(
         )
 
         commandAuthCodeLimitPort.delete(authCodeLimit)
+
+        commandDeviceTokenPort.save(
+            DeviceToken(
+                userId = user.id,
+                token = request.deviceToken
+            )
+        )
 
         return jwtPort.receiveToken(
             userId = user.id,

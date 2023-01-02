@@ -19,6 +19,7 @@ import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
+import team.comit.simtong.domain.user.spi.CommandDeviceTokenPort
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserCommandAuthCodeLimitPort
@@ -40,6 +41,9 @@ class SignUpUseCaseTests {
 
     @MockBean
     private lateinit var commandUserPort: CommandUserPort
+
+    @MockBean
+    private lateinit var commandDeviceTokenPort: CommandDeviceTokenPort
 
     @MockBean
     private lateinit var userSecurityPort: UserSecurityPort
@@ -134,7 +138,8 @@ class SignUpUseCaseTests {
             email = email,
             password = "test password",
             employeeNumber = employeeNumber,
-            profileImagePath = profileImagePath
+            profileImagePath = profileImagePath,
+            deviceToken = "test device token"
         )
     }
 
@@ -151,6 +156,7 @@ class SignUpUseCaseTests {
         signUpUseCase = SignUpUseCase(
             userJwtPort,
             commandUserPort,
+            commandDeviceTokenPort,
             queryUserPort,
             userQueryAuthCodeLimitPort,
             commandAuthCodeLimitPort,
@@ -222,7 +228,8 @@ class SignUpUseCaseTests {
             email = email,
             password = "test password",
             employeeNumber = employeeNumber,
-            profileImagePath = null
+            profileImagePath = null,
+            deviceToken = "test device token"
         )
 
         val userStub = User(

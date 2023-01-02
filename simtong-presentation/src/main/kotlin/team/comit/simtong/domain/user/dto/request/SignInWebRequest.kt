@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull
 
 /**
  *
- * 로그인을 요청하는 SignInWebRequest
+ * 일반 사용자가 로그인을 요청하는 SignInWebRequest
  *
  * @author kimbeomjin
  * @date 2022/09/08
@@ -17,5 +17,8 @@ data class SignInWebRequest(
     val employeeNumber: Int,
 
     @field:NotBlank
-    val password: String
+    val password: String,
+
+    @field:NotBlank
+    val deviceToken: String
 )
