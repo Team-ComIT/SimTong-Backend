@@ -1,13 +1,13 @@
-name: CD for Stage
+name: CD for Dev
 
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   build:
-    environment: stage
+    environment: dev
     runs-on: ubuntu-latest
 
     steps:

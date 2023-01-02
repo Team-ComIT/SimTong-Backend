@@ -13,4 +13,4 @@ import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
  * @date 2022/09/18
  * @version 1.0.0
  **/
-interface UserPort : QueryUserPort, CommandUserPort, MenuQueryUserPort, ScheduleQueryUserPort, HolidayQueryUserPort, NotificationQueryUserPort
+interface UserPort : QueryUserPort, CommandUserPort, CommandDeviceTokenPort, MenuQueryUserPort, ScheduleQueryUserPort, HolidayQueryUserPort, NotificationQueryUserPort

@@ -7,10 +7,11 @@ import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.auth.dto.TokenResponse
-import team.comit.simtong.domain.user.dto.SignInRequest
+import team.comit.simtong.domain.user.dto.UserSignInRequest
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
+import team.comit.simtong.domain.user.spi.CommandDeviceTokenPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserJwtPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
@@ -29,6 +30,9 @@ class SignInUseCaseTests {
 
     @MockBean
     private lateinit var userJwtPort: UserJwtPort
+
+    @MockBean
+    private lateinit var commandDeviceTokenPort: CommandDeviceTokenPort
 
     private lateinit var signInUseCase: SignInUseCase
 
@@ -64,10 +68,11 @@ class SignInUseCaseTests {
         )
     }
 
-    private val requestStub: SignInRequest by lazy {
-        SignInRequest(
+    private val requestStub: UserSignInRequest by lazy {
+        UserSignInRequest(
             employeeNumber = employeeNumber,
-            password = "test password"
+            password = "test password",
+            deviceToken = "test device token"
         )
     }
 
@@ -81,7 +86,7 @@ class SignInUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        signInUseCase = SignInUseCase(queryUserPort, userSecurityPort, userJwtPort)
+        signInUseCase = SignInUseCase(queryUserPort, userSecurityPort, userJwtPort, commandDeviceTokenPort)
     }
 
     @Test

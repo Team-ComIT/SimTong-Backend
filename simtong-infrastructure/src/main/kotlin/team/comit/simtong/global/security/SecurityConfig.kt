@@ -109,6 +109,10 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/admins/tokens").permitAll()
             .antMatchers(HttpMethod.GET, "/admins/information").hasAnyRole(ROLE_ADMIN.role, ROLE_SUPER.role)
 
+            // notifications
+            .antMatchers(HttpMethod.POST, "/notifications").permitAll()
+            .antMatchers(HttpMethod.POST, "/notifications/list").permitAll()
+
             .anyRequest().authenticated()
 
         http

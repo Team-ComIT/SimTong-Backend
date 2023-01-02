@@ -7,7 +7,7 @@ import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.auth.dto.TokenResponse
-import team.comit.simtong.domain.user.dto.SignInRequest
+import team.comit.simtong.domain.user.dto.AdminSignInRequest
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -64,8 +64,8 @@ class AdminSignInUseCaseTests {
         )
     }
 
-    private val requestStub: SignInRequest by lazy {
-        SignInRequest(
+    private val requestStub: AdminSignInRequest by lazy {
+        AdminSignInRequest(
             employeeNumber = employeeNumber,
             password = "test password"
         )
