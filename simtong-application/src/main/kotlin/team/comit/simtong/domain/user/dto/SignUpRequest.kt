@@ -7,7 +7,7 @@ package team.comit.simtong.domain.user.dto
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/09/04
- * @version 1.0.0
+ * @version 1.2.1
  **/
 data class SignUpRequest(
     val name: String,

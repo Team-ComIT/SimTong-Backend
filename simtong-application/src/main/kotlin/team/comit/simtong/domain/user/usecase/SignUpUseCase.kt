@@ -29,7 +29,7 @@ import team.comit.simtong.global.annotation.UseCase
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/09/04
- * @version 1.0.0
+ * @version 1.2.1
  **/
 @UseCase
 class SignUpUseCase(
