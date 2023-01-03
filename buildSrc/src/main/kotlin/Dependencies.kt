@@ -63,4 +63,7 @@ object Dependencies {
 
     // firebase
     const val FIREBASE_ADMIN = "com.google.firebase:firebase-admin:${DependencyVersions.FIREBASE_ADMIN_VERSION}"
+
+    // sentry
+    const val SENTRY = "io.sentry:sentry-spring-boot-starter:${DependencyVersions.SENTRY_VERSION}"
 }

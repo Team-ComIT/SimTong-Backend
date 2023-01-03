@@ -1,6 +1,7 @@
 package team.comit.simtong.global.filter
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.sentry.Sentry
 import org.springframework.http.MediaType
 import org.springframework.web.filter.OncePerRequestFilter
 import team.comit.simtong.global.error.dto.ErrorResponse
@@ -32,8 +33,10 @@ class ExceptionFilter(
         try {
             filterChain.doFilter(request, response)
         } catch (e: BusinessException) {
+            Sentry.captureException(e)
             writeErrorCode(e, response)
         } catch (e: Exception) {
+            Sentry.captureException(e)
             when (e.cause) {
                 is BusinessException -> writeErrorCode(e.cause as BusinessException, response)
                 is WebException -> writeErrorCode(e.cause as WebException, response)

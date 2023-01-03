@@ -12,4 +12,5 @@ object DependencyVersions {
     const val COMMONS_IO = "2.11.0"
     const val POI_VERSION = "5.2.3"
     const val FIREBASE_ADMIN_VERSION = "9.1.0"
+    const val SENTRY_VERSION = "6.10.0"
 }
