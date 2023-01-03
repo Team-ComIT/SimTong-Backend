@@ -223,7 +223,7 @@ class SignUpUseCaseTests {
     fun `회원가입 성공 OPTINAL`() {
         // given
         val requestStub = SignUpRequest(
-            nickname = null,
+            nickname = nickname,
             name = name,
             email = email,
             password = "test password",
@@ -233,7 +233,7 @@ class SignUpUseCaseTests {
         )
 
         val userStub = User(
-            nickname = "",
+            nickname = nickname,
             name = name,
             email = email,
             password = "encode test password",

@@ -16,7 +16,7 @@ data class SignUpRequest(
 
     val password: String,
 
-    val nickname: String?,
+    val nickname: String,
 
     val employeeNumber: Int,
 

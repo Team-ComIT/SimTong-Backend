@@ -55,7 +55,7 @@ class SignUpUseCase(
             queryUserPort.existsUserByEmployeeNumber(employeeNumber) ->
                 throw AuthExceptions.AlreadyUsedEmployeeNumber()
 
-            nickname != null && queryUserPort.existsUserByNickname(nickname) ->
+            queryUserPort.existsUserByNickname(nickname) ->
                 throw UserExceptions.AlreadyUsedNickname()
         }
 
@@ -77,7 +77,7 @@ class SignUpUseCase(
 
         val user = commandUserPort.save(
             User(
-                nickname = nickname ?: "", // TODO 랜덤 닉네임
+                nickname = nickname,
                 name = name,
                 email = email,
                 password = securityPort.encode(password),

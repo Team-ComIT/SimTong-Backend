@@ -35,7 +35,7 @@ data class SignUpWebRequest(
     val password: String,
 
     @field:Pattern(regexp = RegexUtils.NICKNAME_PATTERN)
-    val nickname: String?,
+    val nickname: String,
 
     val profileImagePath: String?,
 
