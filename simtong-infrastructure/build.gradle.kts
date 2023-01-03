@@ -49,6 +49,9 @@ dependencies {
     // firebase
     implementation(Dependencies.FIREBASE_ADMIN)
 
+    // sentry
+    implementation(Dependencies.SENTRY)
+
     // configuration
     annotationProcessor(Dependencies.CONFIGURATION_PROCESSOR)
 
