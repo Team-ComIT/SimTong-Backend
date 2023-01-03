@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern
  *
  * @author Chokyunghyeon
  * @date 2022/09/04
- * @version 1.0.0
+ * @version 1.2.1
  **/
 data class SignUpWebRequest(
 
@@ -35,7 +35,7 @@ data class SignUpWebRequest(
     val password: String,
 
     @field:Pattern(regexp = RegexUtils.NICKNAME_PATTERN)
-    val nickname: String?,
+    val nickname: String,
 
     val profileImagePath: String?,
 
