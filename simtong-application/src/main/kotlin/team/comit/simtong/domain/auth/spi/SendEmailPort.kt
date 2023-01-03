@@ -10,6 +10,6 @@ package team.comit.simtong.domain.auth.spi
  **/
 interface SendEmailPort {
 
-    fun sendAuthCode(code: String, email: String) // TODO 비동기 처리
+    fun sendAuthCode(code: String, email: String)
 
 }
