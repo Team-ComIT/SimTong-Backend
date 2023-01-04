@@ -31,7 +31,7 @@ import javax.validation.constraints.NotNull
 @Table(
     name = "tbl_schedule",
     indexes = [
-        Index(name = "idx_start_at_end_at", columnList = "start_at ASC, end_at ASC")
+        Index(name = "idx_start_at_end_at", columnList = "startAt ASC, endAt ASC")
     ]
 )
 class ScheduleJpaEntity(
