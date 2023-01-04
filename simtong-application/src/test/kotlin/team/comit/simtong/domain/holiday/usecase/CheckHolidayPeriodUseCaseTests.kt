@@ -90,7 +90,7 @@ class CheckHolidayPeriodUseCaseTests {
             .willReturn(false)
 
         // when & then
-        assertThrows<HolidayExceptions.NotFound> {
+        assertThrows<HolidayExceptions.NotWritablePeriod> {
             checkHolidayPeriodUseCase.execute()
         }
     }
