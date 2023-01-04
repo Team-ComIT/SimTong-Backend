@@ -8,10 +8,10 @@ import team.comit.simtong.domain.menu.model.Menu
  *
  * @author kimbeomjin
  * @date 2022/12/10
- * @version 1.0.0
+ * @version 1.2.3
  **/
 interface CommandMenuPort {
 
-    fun saveAll(menus: List<Menu>)
+    fun saveAll(menus: List<Menu>) : List<Menu>
 
 }
