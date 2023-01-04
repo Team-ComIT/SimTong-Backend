@@ -4,7 +4,6 @@ import org.hibernate.validator.constraints.Length
 import team.comit.simtong.persistence.BaseUUIDEntity
 import team.comit.simtong.persistence.spot.entity.SpotJpaEntity
 import java.util.UUID
-import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.JoinColumn
