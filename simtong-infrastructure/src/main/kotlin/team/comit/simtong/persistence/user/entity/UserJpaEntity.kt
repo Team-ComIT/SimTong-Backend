@@ -13,9 +13,11 @@ import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
 import javax.persistence.FetchType
+import javax.persistence.Index
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
+import javax.persistence.UniqueConstraint
 import javax.validation.constraints.NotNull
 
 /**
@@ -28,7 +30,14 @@ import javax.validation.constraints.NotNull
  * @version 1.0.0
  **/
 @Entity
-@Table(name = "tbl_user")
+@Table(
+    name = "tbl_user",
+    indexes = [
+        Index(name = "idx_employee_number", columnList = "employee_number ASC", unique = true),
+        Index(name = "idx_email", columnList = "email ASC", unique = true),
+        Index(name = "idx_nickname", columnList = "nickname ASC", unique = true)
+    ]
+)
 class UserJpaEntity(
     override val id: UUID?,
 

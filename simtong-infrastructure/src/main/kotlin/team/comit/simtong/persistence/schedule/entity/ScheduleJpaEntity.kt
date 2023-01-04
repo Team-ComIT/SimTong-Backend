@@ -13,6 +13,7 @@ import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
 import javax.persistence.FetchType
+import javax.persistence.Index
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
@@ -27,7 +28,12 @@ import javax.validation.constraints.NotNull
  * @version 1.0.0
  **/
 @Entity
-@Table(name = "tbl_schedule")
+@Table(
+    name = "tbl_schedule",
+    indexes = [
+        Index(name = "idx_start_at_end_at", columnList = "start_at DESC, end_at DESC")
+    ]
+)
 class ScheduleJpaEntity(
     override val id: UUID?,
 
