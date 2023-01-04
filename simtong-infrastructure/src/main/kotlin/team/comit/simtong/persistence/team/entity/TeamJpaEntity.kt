@@ -27,7 +27,6 @@ class TeamJpaEntity(
 
     @field:NotNull
     @field:Length(max = 8)
-    @Column(unique = true)
     val name: String,
 
     @field:NotNull
