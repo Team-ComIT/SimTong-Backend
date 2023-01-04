@@ -18,7 +18,7 @@ import java.util.UUID
  * @author kimbeomjin
  * @author Chokyunghyeon
  * @date 2022/09/20
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Component
 class MenuPersistenceAdapter(
@@ -46,7 +46,7 @@ class MenuPersistenceAdapter(
             )
             .orderBy(menu.menuId.date.asc())
             .fetch()
-            .map { menuMapper.toDomain(it)!! }
+            .mapNotNull(menuMapper::toDomain)
     }
 
     override fun queryMenusByPeriodAndSpotName(startAt: LocalDate, endAt: LocalDate, spotName: String): List<Menu> {
@@ -58,13 +58,13 @@ class MenuPersistenceAdapter(
             )
             .orderBy(menu.menuId.date.asc())
             .fetch()
-            .map { menuMapper.toDomain(it)!! }
+            .mapNotNull(menuMapper::toDomain)
     }
 
-    override fun saveAll(menus: List<Menu>) {
-        menuRepository.saveAll(
+    override fun saveAll(menus: List<Menu>) : List<Menu> {
+        return menuRepository.saveAll(
             menus.map(menuMapper::toEntity)
-        )
+        ).mapNotNull(menuMapper::toDomain)
     }
 
 }

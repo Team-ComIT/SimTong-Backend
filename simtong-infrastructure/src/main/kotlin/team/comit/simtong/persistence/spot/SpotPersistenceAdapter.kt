@@ -13,20 +13,21 @@ import java.util.UUID
  *
  * @author Chokyunghyeon
  * @date 2022/09/18
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Component
 class SpotPersistenceAdapter(
     private val spotJpaRepository: SpotJpaRepository,
     private val spotMapper: SpotMapper
 ) : SpotPort {
+
     override fun existsSpotById(id: UUID): Boolean {
         return spotJpaRepository.existsById(id)
     }
 
     override fun queryAllSpot(): List<Spot> {
         return spotJpaRepository.findAll()
-            .map { spotMapper.toDomain(it)!! }
+            .mapNotNull(spotMapper::toDomain)
     }
 
     override fun querySpotByName(name: String): Spot? {
@@ -38,5 +39,4 @@ class SpotPersistenceAdapter(
         return spotJpaRepository.findByIdOrNull(id)
             .let(spotMapper::toDomain)
     }
-
 }

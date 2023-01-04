@@ -22,7 +22,7 @@ import java.util.UUID
  *
  * @author Chokyunghyeon
  * @date 2022/11/21
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Component
 class SchedulePersistenceAdapter(
@@ -34,7 +34,7 @@ class SchedulePersistenceAdapter(
     override fun save(schedule: Schedule): Schedule {
         return scheduleJpaRepository.save(
             scheduleMapper.toEntity(schedule)
-        ).let { scheduleMapper.toDomain(it)!! }
+        ).let(scheduleMapper::toDomain)!!
     }
 
     override fun delete(schedule: Schedule) {
@@ -81,7 +81,7 @@ class SchedulePersistenceAdapter(
             )
             .orderBy(schedule.startAt.asc())
             .fetch()
-            .map { scheduleMapper.toDomain(it)!! }
+            .mapNotNull(scheduleMapper::toDomain)
     }
 
     override fun querySchedulesByPeriodAndUserIdAndScope(startAt: LocalDate, endAt: LocalDate, userId: UUID, scope: Scope): List<Schedule> {
@@ -94,7 +94,7 @@ class SchedulePersistenceAdapter(
             )
             .orderBy(schedule.startAt.asc())
             .fetch()
-            .map { scheduleMapper.toDomain(it)!! }
+            .mapNotNull(scheduleMapper::toDomain)
     }
 
     private fun inPeriodScheduleFilter(startAt: LocalDate, endAt: LocalDate) : BooleanExpression {

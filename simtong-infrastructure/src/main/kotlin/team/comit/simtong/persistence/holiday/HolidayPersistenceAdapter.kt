@@ -1,9 +1,9 @@
 package team.comit.simtong.persistence.holiday
 
 import team.comit.simtong.persistence.holiday.entity.QHolidayJpaEntity.holidayJpaEntity as holiday
-import team.comit.simtong.persistence.user.entity.QUserJpaEntity.userJpaEntity as user
 import team.comit.simtong.persistence.spot.entity.QSpotJpaEntity.spotJpaEntity as spot
 import team.comit.simtong.persistence.team.entity.QTeamJpaEntity.teamJpaEntity as team
+import team.comit.simtong.persistence.user.entity.QUserJpaEntity.userJpaEntity as user
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
@@ -29,7 +29,7 @@ import java.util.UUID
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/12/02
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Component
 class HolidayPersistenceAdapter(
@@ -83,7 +83,7 @@ class HolidayPersistenceAdapter(
             )
             .orderBy(holiday.id.date.asc())
             .fetch()
-            .map { holidayMapper.toDomain(it)!! }
+            .mapNotNull(holidayMapper::toDomain)
     }
 
     override fun queryHolidaysByYearAndMonthAndTeamId(
@@ -134,7 +134,7 @@ class HolidayPersistenceAdapter(
                 holiday.status.eq(HolidayStatus.WRITTEN)
             )
             .fetch()
-            .map { holidayMapper.toDomain(it)!! }
+            .mapNotNull(holidayMapper::toDomain)
     }
 
     override fun existsHolidayByDateAndUserIdAndType(date: LocalDate, userId: UUID, type: HolidayType): Boolean {
@@ -150,13 +150,13 @@ class HolidayPersistenceAdapter(
     override fun save(holiday: Holiday): Holiday {
         return holidayJpaRepository.save(
             holidayMapper.toEntity(holiday)
-        ).let { holidayMapper.toDomain(it)!! }
+        ).let(holidayMapper::toDomain)!!
     }
 
-    override fun saveAll(holidays: List<Holiday>) {
-        holidayJpaRepository.saveAll(
+    override fun saveAll(holidays: List<Holiday>): List<Holiday> {
+        return holidayJpaRepository.saveAll(
             holidays.map(holidayMapper::toEntity)
-        )
+        ).mapNotNull(holidayMapper::toDomain)
     }
 
     override fun delete(holiday: Holiday) {

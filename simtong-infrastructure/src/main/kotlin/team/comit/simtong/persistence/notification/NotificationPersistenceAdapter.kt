@@ -15,7 +15,7 @@ import team.comit.simtong.persistence.notification.repository.NotificationReceiv
  *
  * @author kimbeomjin
  * @date 2022/12/30
- * @version 1.1.0
+ * @version 1.2.3
  **/
 @Component
 class NotificationPersistenceAdapter(
@@ -24,21 +24,22 @@ class NotificationPersistenceAdapter(
     private val notificationReceiverMapper: NotificationReceiverMapper,
     private val notificationReceiverRepository: NotificationReceiverJpaRepository
 ) : NotificationPort {
+
     override fun saveNotification(notification: Notification): Notification {
         return notificationRepository.save(
             notificationMapper.toEntity(notification)
-        ).let { notificationMapper.toDomain(it)!! }
+        ).let(notificationMapper::toDomain)!!
     }
 
     override fun saveNotificationReceiver(notificationReceiver: NotificationReceiver): NotificationReceiver {
         return notificationReceiverRepository.save(
             notificationReceiverMapper.toEntity(notificationReceiver)
-        ).let { notificationReceiverMapper.toDomain(it)!! }
+        ).let(notificationReceiverMapper::toDomain)!!
     }
 
-    override fun saveAllNotificationReceiver(notificationReceivers: List<NotificationReceiver>) {
-        notificationReceiverRepository.saveAll(
-            notificationReceivers.map { notificationReceiverMapper.toEntity(it) }
-        )
+    override fun saveAllNotificationReceiver(notificationReceivers: List<NotificationReceiver>): List<NotificationReceiver> {
+        return notificationReceiverRepository.saveAll(
+            notificationReceivers.map(notificationReceiverMapper::toEntity)
+        ).mapNotNull(notificationReceiverMapper::toDomain)
     }
 }

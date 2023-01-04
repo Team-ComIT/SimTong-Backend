@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component
 import team.comit.simtong.domain.user.model.DeviceToken
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.UserPort
+import team.comit.simtong.persistence.user.entity.DeviceTokenJpaEntity
 import team.comit.simtong.persistence.user.mapper.DeviceTokenMapper
 import team.comit.simtong.persistence.user.mapper.UserMapper
 import team.comit.simtong.persistence.user.repository.DeviceTokenJpaRepository
@@ -18,7 +19,7 @@ import java.util.UUID
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/09/04
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Component
 class UserPersistenceAdapter(
@@ -77,13 +78,13 @@ class UserPersistenceAdapter(
     override fun save(user: User): User {
         return userJpaRepository.save(
             userMapper.toEntity(user)
-        ).let { userMapper.toDomain(it)!! }
+        ).let(userMapper::toDomain)!!
     }
 
     override fun save(deviceToken: DeviceToken): DeviceToken {
         return deviceTokenRepository.save(
             deviceTokenMapper.toEntity(deviceToken)
-        ).let { deviceTokenMapper.toDomain(it)!! }
+        ).let(deviceTokenMapper::toDomain)!!
     }
 
     override fun queryDeviceTokenByUserId(userId: UUID): String? {
@@ -91,8 +92,7 @@ class UserPersistenceAdapter(
     }
 
     override fun queryDeviceTokensByUserIds(userIds: List<UUID>): List<String> {
-        return deviceTokenRepository.findAllByUserIdIsIn(userIds).map {
-            it.token
-        }
+        return deviceTokenRepository.findAllByUserIdIsIn(userIds)
+            .map(DeviceTokenJpaEntity::token)
     }
 }
