@@ -3,6 +3,7 @@ package team.comit.simtong.persistence.file.entity
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.Index
 import javax.persistence.Table
 
 /**
@@ -14,7 +15,12 @@ import javax.persistence.Table
  * @version 1.0.0
  **/
 @Entity
-@Table(name = "tbl_employee_certificate")
+@Table(
+    name = "tbl_employee_certificate",
+    indexes = [
+        Index(name = "idx_name", columnList = "name ASC")
+    ]
+)
 data class EmployeeCertificateJpaEntity(
     @Id
     val employeeNumber: Int,
