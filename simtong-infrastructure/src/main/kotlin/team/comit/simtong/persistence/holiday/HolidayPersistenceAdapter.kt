@@ -13,8 +13,9 @@ import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidayPort
 import team.comit.simtong.domain.holiday.spi.vo.EmployeeHoliday
-import team.comit.simtong.persistence.QuerydslExtensionUtils.or
-import team.comit.simtong.persistence.QuerydslExtensionUtils.sameWeekFilter
+import team.comit.simtong.global.extension.CollectionExtensionUtils.mapNonNull
+import team.comit.simtong.global.extension.QuerydslExtensionUtils.or
+import team.comit.simtong.global.extension.QuerydslExtensionUtils.sameWeekFilter
 import team.comit.simtong.persistence.holiday.entity.HolidayJpaEntity
 import team.comit.simtong.persistence.holiday.mapper.HolidayMapper
 import team.comit.simtong.persistence.holiday.repository.HolidayJpaRepository
@@ -83,7 +84,7 @@ class HolidayPersistenceAdapter(
             )
             .orderBy(holiday.id.date.asc())
             .fetch()
-            .mapNotNull(holidayMapper::toDomain)
+            .mapNonNull(holidayMapper::toDomain)
     }
 
     override fun queryHolidaysByYearAndMonthAndTeamId(
@@ -134,7 +135,7 @@ class HolidayPersistenceAdapter(
                 holiday.status.eq(HolidayStatus.WRITTEN)
             )
             .fetch()
-            .mapNotNull(holidayMapper::toDomain)
+            .mapNonNull(holidayMapper::toDomain)
     }
 
     override fun existsHolidayByDateAndUserIdAndType(date: LocalDate, userId: UUID, type: HolidayType): Boolean {
@@ -156,7 +157,7 @@ class HolidayPersistenceAdapter(
     override fun saveAll(holidays: List<Holiday>): List<Holiday> {
         return holidayJpaRepository.saveAll(
             holidays.map(holidayMapper::toEntity)
-        ).mapNotNull(holidayMapper::toDomain)
+        ).mapNonNull(holidayMapper::toDomain)
     }
 
     override fun delete(holiday: Holiday) {
