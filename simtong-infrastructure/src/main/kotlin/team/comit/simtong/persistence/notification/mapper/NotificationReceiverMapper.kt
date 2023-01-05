@@ -8,7 +8,6 @@ import team.comit.simtong.domain.notification.model.NotificationReceiver
 import team.comit.simtong.persistence.GenericMapper
 import team.comit.simtong.persistence.notification.entity.NotificationReceiverJpaEntity
 import team.comit.simtong.persistence.notification.repository.NotificationJpaRepository
-import team.comit.simtong.persistence.spot.SpotJpaRepository
 import team.comit.simtong.persistence.user.repository.UserJpaRepository
 
 /**
@@ -17,7 +16,7 @@ import team.comit.simtong.persistence.user.repository.UserJpaRepository
  *
  * @author kimbeomjin
  * @date 2022/12/29
- * @version 1.1.0
+ * @version 1.2.3
  **/
 @Mapper
 abstract class NotificationReceiverMapper : GenericMapper<NotificationReceiverJpaEntity, NotificationReceiver> {
@@ -49,5 +48,11 @@ abstract class NotificationReceiverMapper : GenericMapper<NotificationReceiverJp
         Mapping(target = "notificationId", expression = "java(entity.getNotificationReceiverId().getNotificationId())")
     )
     abstract override fun toDomain(entity: NotificationReceiverJpaEntity?): NotificationReceiver?
+
+    @Mappings(
+        Mapping(target = "userId", expression = "java(entity.getNotificationReceiverId().getUserId())"),
+        Mapping(target = "notificationId", expression = "java(entity.getNotificationReceiverId().getNotificationId())")
+    )
+    abstract override fun toDomainNotNull(entity: NotificationReceiverJpaEntity): NotificationReceiver
 
 }

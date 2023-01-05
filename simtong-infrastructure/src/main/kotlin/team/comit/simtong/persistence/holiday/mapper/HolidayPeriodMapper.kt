@@ -15,7 +15,7 @@ import team.comit.simtong.persistence.spot.SpotJpaRepository
  *
  * @author Chokyunghyeon
  * @date 2022/12/20
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Mapper
 abstract class HolidayPeriodMapper : GenericMapper<HolidayPeriodJpaEntity, HolidayPeriod> {
@@ -29,6 +29,13 @@ abstract class HolidayPeriodMapper : GenericMapper<HolidayPeriodJpaEntity, Holid
         Mapping(target = "month", expression = "java(entity.getId().getMonth())")
     )
     abstract override fun toDomain(entity: HolidayPeriodJpaEntity?): HolidayPeriod?
+
+    @Mappings(
+        Mapping(target = "spotId", expression = "java(entity.getId().getSpotId())"),
+        Mapping(target = "year", expression = "java(entity.getId().getYear())"),
+        Mapping(target = "month", expression = "java(entity.getId().getMonth())")
+    )
+    abstract override fun toDomainNotNull(entity: HolidayPeriodJpaEntity): HolidayPeriod
 
     @Mappings(
         Mapping(target = "id", expression = "java(new HolidayPeriodJpaEntity.Id(model.getYear(), model.getMonth(), model.getSpotId()))"),

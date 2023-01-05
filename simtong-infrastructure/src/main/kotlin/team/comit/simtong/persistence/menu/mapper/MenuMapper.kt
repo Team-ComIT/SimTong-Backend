@@ -15,7 +15,7 @@ import team.comit.simtong.persistence.spot.SpotJpaRepository
  *
  * @author kimbeomjin
  * @date 2022/09/20
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Mapper
 abstract class MenuMapper : GenericMapper<MenuJpaEntity, Menu> {
@@ -34,5 +34,11 @@ abstract class MenuMapper : GenericMapper<MenuJpaEntity, Menu> {
         Mapping(target = "date", expression = "java(entity.getMenuId().getDate())")
     )
     abstract override fun toDomain(entity: MenuJpaEntity?): Menu?
+
+    @Mappings(
+        Mapping(target = "spotId", expression = "java(entity.getMenuId().getSpotId())"),
+        Mapping(target = "date", expression = "java(entity.getMenuId().getDate())")
+    )
+    abstract override fun toDomainNotNull(entity: MenuJpaEntity): Menu
 
 }

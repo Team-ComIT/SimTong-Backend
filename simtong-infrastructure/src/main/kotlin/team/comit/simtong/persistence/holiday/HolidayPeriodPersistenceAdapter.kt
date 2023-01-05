@@ -18,7 +18,7 @@ import java.util.UUID
  *
  * @author Chokyunghyeon
  * @date 2022/12/20
- * @version 1.0.1
+ * @version 1.2.3
  **/
 @Component
 class HolidayPeriodPersistenceAdapter(
@@ -50,7 +50,7 @@ class HolidayPeriodPersistenceAdapter(
     override fun save(holidayPeriod: HolidayPeriod): HolidayPeriod {
         return holidayPeriodJpaRepository.save(
             holidayPeriodMapper.toEntity(holidayPeriod)
-        ).let { holidayPeriodMapper.toDomain(it)!! }
+        ).let(holidayPeriodMapper::toDomain)!!
     }
 
 }

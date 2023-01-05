@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.holiday.dto.request
+package team.comit.simtong.domain.holiday.value
 
 /**
  *
@@ -6,7 +6,7 @@ package team.comit.simtong.domain.holiday.dto.request
  *
  * @author Chokyunghyeon
  * @date 2022/12/21
- * @version 1.0.0
+ * @version 1.2.3
  **/
 enum class WebHolidayStatus {
 

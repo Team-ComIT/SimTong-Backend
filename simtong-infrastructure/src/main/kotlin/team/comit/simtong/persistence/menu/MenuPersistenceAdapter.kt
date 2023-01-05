@@ -5,7 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.menu.model.Menu
 import team.comit.simtong.domain.menu.spi.MenuPort
-import team.comit.simtong.persistence.QuerydslExtensionUtils.sameMonthFilter
+import team.comit.simtong.global.extension.QuerydslExtensionUtils.sameMonthFilter
 import team.comit.simtong.persistence.menu.mapper.MenuMapper
 import team.comit.simtong.persistence.menu.repository.MenuJpaRepository
 import java.time.LocalDate
@@ -18,7 +18,7 @@ import java.util.UUID
  * @author kimbeomjin
  * @author Chokyunghyeon
  * @date 2022/09/20
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Component
 class MenuPersistenceAdapter(
@@ -46,7 +46,7 @@ class MenuPersistenceAdapter(
             )
             .orderBy(menu.menuId.date.asc())
             .fetch()
-            .map { menuMapper.toDomain(it)!! }
+            .map(menuMapper::toDomainNotNull)
     }
 
     override fun queryMenusByPeriodAndSpotName(startAt: LocalDate, endAt: LocalDate, spotName: String): List<Menu> {
@@ -58,7 +58,7 @@ class MenuPersistenceAdapter(
             )
             .orderBy(menu.menuId.date.asc())
             .fetch()
-            .map { menuMapper.toDomain(it)!! }
+            .map(menuMapper::toDomainNotNull)
     }
 
     override fun saveAll(menus: List<Menu>) {

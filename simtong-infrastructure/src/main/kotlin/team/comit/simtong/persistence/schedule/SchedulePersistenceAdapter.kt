@@ -10,7 +10,7 @@ import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.SchedulePort
 import team.comit.simtong.domain.schedule.vo.SpotSchedule
-import team.comit.simtong.persistence.QuerydslExtensionUtils.or
+import team.comit.simtong.global.extension.QuerydslExtensionUtils.or
 import team.comit.simtong.persistence.schedule.mapper.ScheduleMapper
 import team.comit.simtong.persistence.schedule.vo.QSpotScheduleVo
 import java.time.LocalDate
@@ -22,7 +22,7 @@ import java.util.UUID
  *
  * @author Chokyunghyeon
  * @date 2022/11/21
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Component
 class SchedulePersistenceAdapter(
@@ -34,7 +34,7 @@ class SchedulePersistenceAdapter(
     override fun save(schedule: Schedule): Schedule {
         return scheduleJpaRepository.save(
             scheduleMapper.toEntity(schedule)
-        ).let { scheduleMapper.toDomain(it)!! }
+        ).let(scheduleMapper::toDomainNotNull)
     }
 
     override fun delete(schedule: Schedule) {
@@ -81,7 +81,7 @@ class SchedulePersistenceAdapter(
             )
             .orderBy(schedule.startAt.asc())
             .fetch()
-            .map { scheduleMapper.toDomain(it)!! }
+            .map(scheduleMapper::toDomainNotNull)
     }
 
     override fun querySchedulesByPeriodAndUserIdAndScope(startAt: LocalDate, endAt: LocalDate, userId: UUID, scope: Scope): List<Schedule> {
@@ -94,7 +94,7 @@ class SchedulePersistenceAdapter(
             )
             .orderBy(schedule.startAt.asc())
             .fetch()
-            .map { scheduleMapper.toDomain(it)!! }
+            .map(scheduleMapper::toDomainNotNull)
     }
 
     private fun inPeriodScheduleFilter(startAt: LocalDate, endAt: LocalDate) : BooleanExpression {

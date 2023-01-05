@@ -6,12 +6,12 @@ package team.comit.simtong.thirdparty.email.template
  *
  * @author Chokyunghyeon
  * @date 2022/09/08
- * @version 1.0.0
+ * @version 1.2.3
  **/
 enum class MailTemplate(
     val templateName: String
 ) {
 
-    AuthCode("SIMTONG_SIGNUP_TEMPLATE")
+    AUTHCODE("SIMTONG_SIGNUP_TEMPLATE")
 
 }

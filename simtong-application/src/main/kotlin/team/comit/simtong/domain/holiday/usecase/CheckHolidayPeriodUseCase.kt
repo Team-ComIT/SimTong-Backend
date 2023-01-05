@@ -14,7 +14,7 @@ import java.time.LocalDate
  *
  * @author Chokyunghyeon
  * @date 2022/12/22
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @ReadOnlyUseCase
 class CheckHolidayPeriodUseCase(
@@ -28,7 +28,7 @@ class CheckHolidayPeriodUseCase(
             ?: throw UserExceptions.NotFound()
 
         if (!queryHolidayPeriodPort.existsHolidayPeriodByWithinPeriodAndSpotId(LocalDate.now(), user.spotId)) {
-            throw HolidayExceptions.NotFound("휴무표 작성 기간이 아닙니다.")
+            throw HolidayExceptions.NotWritablePeriod()
         }
     }
 

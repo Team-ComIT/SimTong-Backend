@@ -6,11 +6,13 @@ package team.comit.simtong.persistence
  *
  * @author Chokyunghyeon
  * @date 2022/09/04
- * @version 1.0.0
+ * @version 1.2.3
  **/
 interface GenericMapper<E, D> {
 
     fun toEntity(model: D): E
 
     fun toDomain(entity: E?): D?
+
+    fun toDomainNotNull(entity: E): D
 }
