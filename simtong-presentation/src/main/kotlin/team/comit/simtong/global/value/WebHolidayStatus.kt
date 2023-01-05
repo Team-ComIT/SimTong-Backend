@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.holiday.value
+package team.comit.simtong.global.value
 
 /**
  *
