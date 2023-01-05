@@ -17,6 +17,6 @@ interface CommandNotificationPort {
 
     fun saveNotificationReceiver(notificationReceiver: NotificationReceiver): NotificationReceiver
 
-    fun saveAllNotificationReceiver(notificationReceivers: List<NotificationReceiver>): List<NotificationReceiver>
+    fun saveAllNotificationReceiver(notificationReceivers: List<NotificationReceiver>)
 
 }

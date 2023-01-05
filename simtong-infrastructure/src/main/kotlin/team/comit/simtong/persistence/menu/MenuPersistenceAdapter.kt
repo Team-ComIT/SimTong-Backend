@@ -61,10 +61,10 @@ class MenuPersistenceAdapter(
             .map(menuMapper::toDomainNotNull)
     }
 
-    override fun saveAll(menus: List<Menu>) : List<Menu> {
-        return menuRepository.saveAll(
+    override fun saveAll(menus: List<Menu>) {
+        menuRepository.saveAll(
             menus.map(menuMapper::toEntity)
-        ).map(menuMapper::toDomainNotNull)
+        )
     }
 
 }

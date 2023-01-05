@@ -28,10 +28,10 @@ class EmployeeCertificatePersistenceAdapter(
 
     override fun saveAll(
         employeeCertificates: List<EmployeeCertificate>
-    ) : List<EmployeeCertificate> {
-        return employeeCertificateJpaRepository.saveAll(
+    ) {
+        employeeCertificateJpaRepository.saveAll(
             employeeCertificates.map(employeeCertificateMapper::toEntity)
-        ).map(employeeCertificateMapper::toDomainNotNull)
+        )
     }
 
     override fun queryEmployeeCertificateByNameAndEmployeeNumber(

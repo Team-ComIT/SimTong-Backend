@@ -15,7 +15,7 @@ interface CommandHolidayPort {
 
     fun save(holiday: Holiday): Holiday
 
-    fun saveAll(holidays: List<Holiday>) : List<Holiday>
+    fun saveAll(holidays: List<Holiday>)
 
     fun delete(holiday: Holiday)
 

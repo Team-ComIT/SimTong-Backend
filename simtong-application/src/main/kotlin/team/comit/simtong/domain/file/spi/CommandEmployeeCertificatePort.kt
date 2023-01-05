@@ -12,5 +12,5 @@ import team.comit.simtong.domain.file.model.EmployeeCertificate
  **/
 interface CommandEmployeeCertificatePort {
 
-    fun saveAll(employeeCertificates: List<EmployeeCertificate>) : List<EmployeeCertificate>
+    fun saveAll(employeeCertificates: List<EmployeeCertificate>)
 }

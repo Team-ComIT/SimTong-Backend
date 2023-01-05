@@ -12,6 +12,6 @@ import team.comit.simtong.domain.menu.model.Menu
  **/
 interface CommandMenuPort {
 
-    fun saveAll(menus: List<Menu>) : List<Menu>
+    fun saveAll(menus: List<Menu>)
 
 }

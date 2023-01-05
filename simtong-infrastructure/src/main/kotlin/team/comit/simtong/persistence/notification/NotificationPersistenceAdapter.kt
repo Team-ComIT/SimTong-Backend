@@ -37,9 +37,9 @@ class NotificationPersistenceAdapter(
         ).let(notificationReceiverMapper::toDomainNotNull)
     }
 
-    override fun saveAllNotificationReceiver(notificationReceivers: List<NotificationReceiver>): List<NotificationReceiver> {
-        return notificationReceiverRepository.saveAll(
+    override fun saveAllNotificationReceiver(notificationReceivers: List<NotificationReceiver>) {
+        notificationReceiverRepository.saveAll(
             notificationReceivers.map(notificationReceiverMapper::toEntity)
-        ).map(notificationReceiverMapper::toDomainNotNull)
+        )
     }
 }

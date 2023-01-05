@@ -153,10 +153,10 @@ class HolidayPersistenceAdapter(
         ).let(holidayMapper::toDomainNotNull)
     }
 
-    override fun saveAll(holidays: List<Holiday>): List<Holiday> {
-        return holidayJpaRepository.saveAll(
+    override fun saveAll(holidays: List<Holiday>) {
+        holidayJpaRepository.saveAll(
             holidays.map(holidayMapper::toEntity)
-        ).map(holidayMapper::toDomainNotNull)
+        )
     }
 
     override fun delete(holiday: Holiday) {
