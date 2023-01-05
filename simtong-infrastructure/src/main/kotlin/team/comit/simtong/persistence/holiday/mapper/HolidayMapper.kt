@@ -16,7 +16,7 @@ import team.comit.simtong.persistence.user.repository.UserJpaRepository
  *
  * @author Chokyunghyeon
  * @date 2022/12/02
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Mapper
 abstract class HolidayMapper : GenericMapper<HolidayJpaEntity, Holiday> {
@@ -33,6 +33,13 @@ abstract class HolidayMapper : GenericMapper<HolidayJpaEntity, Holiday> {
         Mapping(target = "date", expression = "java(entity.getId().getDate())")
     )
     abstract override fun toDomain(entity: HolidayJpaEntity?): Holiday?
+
+    @Mappings(
+        Mapping(target = "userId", expression = "java(entity.getId().getUserId())"),
+        Mapping(target = "spotId", expression = "java(entity.getSpot().getId())"),
+        Mapping(target = "date", expression = "java(entity.getId().getDate())")
+    )
+    abstract override fun toDomainNotNull(entity: HolidayJpaEntity): Holiday
 
     @Mappings(
         Mapping(target = "user", expression = "java(userJpaRepository.findById(model.getUserId()).orElse(null))"),
