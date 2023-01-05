@@ -5,7 +5,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.menu.model.Menu
 import team.comit.simtong.domain.menu.spi.MenuPort
-import team.comit.simtong.global.extension.CollectionExtensionUtils.mapNonNull
 import team.comit.simtong.global.extension.QuerydslExtensionUtils.sameMonthFilter
 import team.comit.simtong.persistence.menu.mapper.MenuMapper
 import team.comit.simtong.persistence.menu.repository.MenuJpaRepository
@@ -47,7 +46,7 @@ class MenuPersistenceAdapter(
             )
             .orderBy(menu.menuId.date.asc())
             .fetch()
-            .mapNonNull(menuMapper::toDomain)
+            .map(menuMapper::toDomainNotNull)
     }
 
     override fun queryMenusByPeriodAndSpotName(startAt: LocalDate, endAt: LocalDate, spotName: String): List<Menu> {
@@ -59,13 +58,13 @@ class MenuPersistenceAdapter(
             )
             .orderBy(menu.menuId.date.asc())
             .fetch()
-            .mapNonNull(menuMapper::toDomain)
+            .map(menuMapper::toDomainNotNull)
     }
 
     override fun saveAll(menus: List<Menu>) : List<Menu> {
         return menuRepository.saveAll(
             menus.map(menuMapper::toEntity)
-        ).mapNonNull(menuMapper::toDomain)
+        ).map(menuMapper::toDomainNotNull)
     }
 
 }

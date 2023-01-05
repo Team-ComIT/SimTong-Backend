@@ -3,7 +3,6 @@ package team.comit.simtong.persistence.file
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.file.model.EmployeeCertificate
 import team.comit.simtong.domain.file.spi.EmployeeCertificatePort
-import team.comit.simtong.global.extension.CollectionExtensionUtils.mapNonNull
 import team.comit.simtong.persistence.file.mapper.EmployeeCertificateMapper
 
 /**
@@ -32,7 +31,7 @@ class EmployeeCertificatePersistenceAdapter(
     ) : List<EmployeeCertificate> {
         return employeeCertificateJpaRepository.saveAll(
             employeeCertificates.map(employeeCertificateMapper::toEntity)
-        ).mapNonNull(employeeCertificateMapper::toDomain)
+        ).map(employeeCertificateMapper::toDomainNotNull)
     }
 
     override fun queryEmployeeCertificateByNameAndEmployeeNumber(

@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component
 import team.comit.simtong.domain.notification.model.Notification
 import team.comit.simtong.domain.notification.model.NotificationReceiver
 import team.comit.simtong.domain.notification.spi.NotificationPort
-import team.comit.simtong.global.extension.CollectionExtensionUtils.mapNonNull
 import team.comit.simtong.persistence.notification.mapper.NotificationMapper
 import team.comit.simtong.persistence.notification.mapper.NotificationReceiverMapper
 import team.comit.simtong.persistence.notification.repository.NotificationJpaRepository
@@ -29,18 +28,18 @@ class NotificationPersistenceAdapter(
     override fun saveNotification(notification: Notification): Notification {
         return notificationRepository.save(
             notificationMapper.toEntity(notification)
-        ).let(notificationMapper::toDomain)!!
+        ).let(notificationMapper::toDomainNotNull)
     }
 
     override fun saveNotificationReceiver(notificationReceiver: NotificationReceiver): NotificationReceiver {
         return notificationReceiverRepository.save(
             notificationReceiverMapper.toEntity(notificationReceiver)
-        ).let(notificationReceiverMapper::toDomain)!!
+        ).let(notificationReceiverMapper::toDomainNotNull)
     }
 
     override fun saveAllNotificationReceiver(notificationReceivers: List<NotificationReceiver>): List<NotificationReceiver> {
         return notificationReceiverRepository.saveAll(
             notificationReceivers.map(notificationReceiverMapper::toEntity)
-        ).mapNonNull(notificationReceiverMapper::toDomain)
+        ).map(notificationReceiverMapper::toDomainNotNull)
     }
 }

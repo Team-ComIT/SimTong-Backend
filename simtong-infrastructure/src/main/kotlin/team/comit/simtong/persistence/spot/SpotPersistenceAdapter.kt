@@ -4,7 +4,6 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.spot.spi.SpotPort
-import team.comit.simtong.global.extension.CollectionExtensionUtils.mapNonNull
 import team.comit.simtong.persistence.spot.mapper.SpotMapper
 import java.util.UUID
 
@@ -28,7 +27,7 @@ class SpotPersistenceAdapter(
 
     override fun queryAllSpot(): List<Spot> {
         return spotJpaRepository.findAll()
-            .mapNonNull(spotMapper::toDomain)
+            .map(spotMapper::toDomainNotNull)
     }
 
     override fun querySpotByName(name: String): Spot? {

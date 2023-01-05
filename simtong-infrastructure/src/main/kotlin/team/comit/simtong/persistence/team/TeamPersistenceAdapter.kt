@@ -22,7 +22,7 @@ class TeamPersistenceAdapter(
 
     override fun queryTeamsBySpotId(spotId: UUID): List<Team> {
         return teamJpaRepository.queryTeamJpaEntitiesBySpotId(spotId)
-            .mapNotNull(teamMapper::toDomain)
+            .map(teamMapper::toDomainNotNull)
     }
 
     override fun queryTeamByName(name: String): Team? {

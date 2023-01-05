@@ -78,13 +78,13 @@ class UserPersistenceAdapter(
     override fun save(user: User): User {
         return userJpaRepository.save(
             userMapper.toEntity(user)
-        ).let(userMapper::toDomain)!!
+        ).let(userMapper::toDomainNotNull)
     }
 
     override fun save(deviceToken: DeviceToken): DeviceToken {
         return deviceTokenRepository.save(
             deviceTokenMapper.toEntity(deviceToken)
-        ).let(deviceTokenMapper::toDomain)!!
+        ).let(deviceTokenMapper::toDomainNotNull)
     }
 
     override fun queryDeviceTokenByUserId(userId: UUID): String? {
