@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.common.dto.request
 
-import team.comit.simtong.global.RegexUtils
+import team.comit.simtong.global.value.Password
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern
 
@@ -15,8 +15,8 @@ import javax.validation.constraints.Pattern
 data class ChangePasswordWebRequest(
 
     @field:NotBlank
-    val password: String,
+    val password: Password,
 
-    @field:Pattern(regexp = RegexUtils.SECRET_PATTERN)
-    val newPassword: String
+    @field:Pattern(regexp = Password.PATTERN)
+    val newPassword: Password
 )

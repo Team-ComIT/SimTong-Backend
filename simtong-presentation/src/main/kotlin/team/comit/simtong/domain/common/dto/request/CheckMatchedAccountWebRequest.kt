@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.common.dto.request
 
+import team.comit.simtong.global.value.EmployeeNumber
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotNull
  **/
 data class CheckMatchedAccountWebRequest(
     @field:NotNull
-    val employeeNumber: Int,
+    val employeeNumber: EmployeeNumber,
 
     @field:NotBlank
     @field:Email
