@@ -32,8 +32,8 @@ import team.comit.simtong.domain.holiday.usecase.QueryIndividualHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryMonthHolidayPeriodUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryRemainAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.ShareHolidayUseCase
-import team.comit.simtong.domain.holiday.value.WebHolidayQueryType
-import team.comit.simtong.domain.holiday.value.WebHolidayStatus
+import team.comit.simtong.global.value.WebHolidayQueryType
+import team.comit.simtong.global.value.WebHolidayStatus
 import java.time.LocalDate
 import java.util.UUID
 import javax.validation.Valid

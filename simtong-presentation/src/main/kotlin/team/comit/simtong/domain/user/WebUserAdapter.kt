@@ -16,8 +16,8 @@ import team.comit.simtong.domain.user.dto.ChangeEmailRequest
 import team.comit.simtong.domain.user.dto.ChangeNicknameRequest
 import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
 import team.comit.simtong.domain.user.dto.QueryUserInfoResponse
-import team.comit.simtong.domain.user.dto.UserSignInRequest
 import team.comit.simtong.domain.user.dto.SignUpRequest
+import team.comit.simtong.domain.user.dto.UserSignInRequest
 import team.comit.simtong.domain.user.dto.request.ChangeEmailWebRequest
 import team.comit.simtong.domain.user.dto.request.ChangeNicknameWebRequest
 import team.comit.simtong.domain.user.dto.request.ChangeProfileImageWebRequest
@@ -32,7 +32,8 @@ import team.comit.simtong.domain.user.usecase.CheckNicknameDuplicationUseCase
 import team.comit.simtong.domain.user.usecase.QueryUserInfoUseCase
 import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
-import team.comit.simtong.global.RegexUtils
+import team.comit.simtong.global.value.EmployeeNumber
+import team.comit.simtong.global.value.NickName
 import javax.validation.Valid
 import javax.validation.constraints.Pattern
 
@@ -43,7 +44,7 @@ import javax.validation.constraints.Pattern
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/09/04
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Validated
 @RestController
@@ -67,10 +68,10 @@ class WebUserAdapter(
             SignUpRequest(
                 name = request.name,
                 email = request.email,
-                password = request.password,
-                nickname = request.nickname,
+                password = request.password.value,
+                nickname = request.nickname.value,
                 profileImagePath = request.profileImagePath,
-                employeeNumber = request.employeeNumber,
+                employeeNumber = request.employeeNumber.value,
                 deviceToken = request.deviceToken
             )
         )
@@ -80,8 +81,8 @@ class WebUserAdapter(
     fun signIn(@Valid @RequestBody request: SignInWebRequest): TokenResponse {
         return signInUseCase.execute(
             UserSignInRequest(
-                employeeNumber = request.employeeNumber,
-                password = request.password,
+                employeeNumber = request.employeeNumber.value,
+                password = request.password.value,
                 deviceToken = request.deviceToken
             )
         )
@@ -96,7 +97,7 @@ class WebUserAdapter(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeNickname(@Valid @RequestBody request: ChangeNicknameWebRequest) {
         changeNicknameUseCase.execute(
-            ChangeNicknameRequest(request.nickname)
+            ChangeNicknameRequest(request.nickname.value)
         )
     }
 
@@ -124,18 +125,18 @@ class WebUserAdapter(
 
     @GetMapping("/nickname/duplication")
     fun checkNicknameDuplication(
-        @Pattern(regexp = RegexUtils.NICKNAME_PATTERN)
-        @RequestParam nickname: String
+        @Pattern(regexp = NickName.PATTERN)
+        @RequestParam nickname: NickName
     ) {
-        checkNicknameDuplicationUseCase.execute(nickname)
+        checkNicknameDuplicationUseCase.execute(nickname.value)
     }
 
     @GetMapping("/verification-employee")
     fun checkEmployee(
         @RequestParam name: String,
-        @RequestParam("employee_number") employeeNumber: Int
+        @RequestParam("employee_number") employeeNumber: EmployeeNumber
     ) {
-        checkEmployeeUseCase.execute(name, employeeNumber)
+        checkEmployeeUseCase.execute(name, employeeNumber.value)
     }
 
 }

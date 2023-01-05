@@ -1,5 +1,7 @@
 package team.comit.simtong.domain.admin.dto.request
 
+import team.comit.simtong.global.value.EmployeeNumber
+import team.comit.simtong.global.value.Password
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
@@ -9,13 +11,13 @@ import javax.validation.constraints.NotNull
  *
  * @author kimbeomjin
  * @date 2023/01/01
- * @version 1.1.0
+ * @version 1.2.3
  **/
 data class SignInWebRequest(
 
     @field:NotNull
-    val employeeNumber: Int,
+    val employeeNumber: EmployeeNumber,
 
     @field:NotBlank
-    val password: String
+    val password: Password
 )

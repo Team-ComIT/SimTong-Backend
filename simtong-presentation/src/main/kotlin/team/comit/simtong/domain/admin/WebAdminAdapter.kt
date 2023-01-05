@@ -19,7 +19,7 @@ import javax.validation.Valid
  *
  * @author Chokyunghyeon
  * @date 2022/10/04
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @RestController
 @RequestMapping("/admins")
@@ -32,8 +32,8 @@ class WebAdminAdapter(
     fun signIn(@Valid @RequestBody request: SignInWebRequest): TokenResponse {
         return adminSignInUseCase.execute(
             AdminSignInRequest(
-                employeeNumber = request.employeeNumber,
-                password = request.password
+                employeeNumber = request.employeeNumber.value,
+                password = request.password.value
             )
         )
     }
