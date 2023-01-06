@@ -1,4 +1,4 @@
-package team.comit.simtong.global.value
+package team.comit.simtong.domain.user.value
 
 /**
  *
@@ -13,8 +13,7 @@ value class EmployeeNumber(
     val value: Int
 ) {
     companion object {
-        const val MIN: Long = 1200000000
-        const val MAX: Long = 1299999999
+        const val MIN_VALUE: Long = 1200000000
+        const val MAX_VALUE: Long = 1299999999
     }
-
 }
