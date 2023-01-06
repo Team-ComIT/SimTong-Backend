@@ -12,7 +12,7 @@ import java.util.UUID
  *
  * @author Chokyunghyeon
  * @date 2022/12/09
- * @version 1.0.0
+ * @version 1.2.3
  **/
 interface FileConverter {
 
@@ -42,9 +42,8 @@ interface FileConverter {
     private fun transferFile(multipartFile: MultipartFile): File {
         return File("${UUID.randomUUID()}_${multipartFile.originalFilename}")
             .apply {
-                FileOutputStream(this).run {
-                    write(multipartFile.bytes)
-                    close()
+                FileOutputStream(this).use {
+                    it.write(multipartFile.bytes)
                 }
             }
     }
