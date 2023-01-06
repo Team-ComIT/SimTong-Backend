@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import team.comit.simtong.global.error.dto.ErrorResponse
-import team.comit.simtong.global.exception.GlobalExceptions
 
 /**
  *
@@ -36,6 +35,6 @@ class GlobalErrorHandler {
     @ExceptionHandler(IllegalArgumentException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected fun handleIllegalArgumentException(exception: IllegalArgumentException): ErrorResponse? {
-        return ErrorResponse.of(GlobalExceptions.BadRequest())
+        return ErrorResponse.of(exception)
     }
 }
