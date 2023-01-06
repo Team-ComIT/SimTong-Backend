@@ -1,4 +1,4 @@
-package team.comit.simtong.global.value
+package team.comit.simtong.domain.user.value
 
 /**
  *
@@ -13,14 +13,14 @@ value class NickName(
     val value: String
 ) {
     companion object {
+        const val MIN_LENGTH = 1
+        const val MAX_LENGTH = 20
 
         /**
          * first word & Last word - space X
          *
          * space , _ , . , a ~ z , A ~ Z , 가 ~ 힣 , 0 ~ 9
-         *
-         * length - 1 ~ 20
-         **/
-        const val PATTERN = """(?=^\S)(?=^[\w\s가-힣.]{1,20}$).*(?=\S$)."""
+         */
+        const val PATTERN = """(?=^\S)(?=^[\w\s가-힣.]*$).*(?=\S$)."""
     }
 }

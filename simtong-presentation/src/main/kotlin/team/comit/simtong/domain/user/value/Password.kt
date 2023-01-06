@@ -1,4 +1,4 @@
-package team.comit.simtong.global.value
+package team.comit.simtong.domain.user.value
 
 /**
  *
@@ -13,14 +13,14 @@ value class Password(
     val value: String
 ) {
     companion object {
+        const val MIN_LENGTH = 8
+        const val MAX_LENGTH = 20
 
         /**
          * a ~ z or A ~ Z & 0 ~ 9 - must more than once
          *
          * non-space, $ , + , - , _ , a ~ z , A ~ Z , 0 ~ 9
-         *
-         * length - 8 ~ 20
-         **/
-        const val PATTERN = """(?=.*[a-zA-Z])(?=.*\d)(?=^[\w$+-]{8,20}$).*"""
+         */
+        const val PATTERN = """(?=.*[a-zA-Z])(?=.*\d)(?=^[\w$+-]*$).*"""
     }
 }
