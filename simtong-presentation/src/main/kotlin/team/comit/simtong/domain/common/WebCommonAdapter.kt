@@ -24,7 +24,7 @@ import team.comit.simtong.domain.user.usecase.CheckMatchedAccountUseCase
 import team.comit.simtong.domain.user.usecase.ComparePasswordUseCase
 import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
 import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
-import team.comit.simtong.global.value.Password
+import team.comit.simtong.domain.user.value.Password
 import java.util.UUID
 import javax.validation.Valid
 import javax.validation.constraints.Email
