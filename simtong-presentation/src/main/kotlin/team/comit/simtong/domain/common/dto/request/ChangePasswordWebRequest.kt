@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.common.dto.request
 
-import team.comit.simtong.global.value.Password
-import javax.validation.constraints.NotBlank
+import org.hibernate.validator.constraints.Length
+import team.comit.simtong.domain.user.value.Password
 import javax.validation.constraints.Pattern
 
 /**
@@ -10,13 +10,14 @@ import javax.validation.constraints.Pattern
  *
  * @author Chokyunghyeon
  * @date 2022/10/14
- * @version 1.0.0
+ * @version 1.2.3
  **/
 data class ChangePasswordWebRequest(
-
-    @field:NotBlank
+    @field:Length(min = Password.MIN_LENGTH, max = Password.MAX_LENGTH)
+    @field:Pattern(regexp = Password.PATTERN)
     val password: Password,
 
+    @field:Length(min = Password.MIN_LENGTH, max = Password.MAX_LENGTH)
     @field:Pattern(regexp = Password.PATTERN)
     val newPassword: Password
 )

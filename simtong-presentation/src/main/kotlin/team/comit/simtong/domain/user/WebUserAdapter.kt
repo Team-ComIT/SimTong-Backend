@@ -1,5 +1,7 @@
 package team.comit.simtong.domain.user
 
+import org.hibernate.validator.constraints.Length
+import org.hibernate.validator.constraints.Range
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
@@ -32,8 +34,8 @@ import team.comit.simtong.domain.user.usecase.CheckNicknameDuplicationUseCase
 import team.comit.simtong.domain.user.usecase.QueryUserInfoUseCase
 import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
-import team.comit.simtong.global.value.EmployeeNumber
-import team.comit.simtong.global.value.NickName
+import team.comit.simtong.domain.user.value.EmployeeNumber
+import team.comit.simtong.domain.user.value.NickName
 import javax.validation.Valid
 import javax.validation.constraints.Pattern
 
@@ -125,6 +127,7 @@ class WebUserAdapter(
 
     @GetMapping("/nickname/duplication")
     fun checkNicknameDuplication(
+        @Length(min = NickName.MIN_LENGTH, max = NickName.MAX_LENGTH)
         @Pattern(regexp = NickName.PATTERN)
         @RequestParam nickname: NickName
     ) {
@@ -134,6 +137,7 @@ class WebUserAdapter(
     @GetMapping("/verification-employee")
     fun checkEmployee(
         @RequestParam name: String,
+        @Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
         @RequestParam("employee_number") employeeNumber: EmployeeNumber
     ) {
         checkEmployeeUseCase.execute(name, employeeNumber.value)
