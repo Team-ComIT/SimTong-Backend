@@ -21,6 +21,6 @@ value class NickName(
          *
          * space , _ , . , a ~ z , A ~ Z , 가 ~ 힣 , 0 ~ 9
          */
-        const val PATTERN = """(?=^\S)(?=^[\w\s가-힣.]*$).*(?=\S$)."""
+        const val PATTERN = """(?=^\S)(?=^[\w\s가-힣.]{$MIN_LENGTH,$MAX_LENGTH}$).*(?=\S$)."""
     }
 }
