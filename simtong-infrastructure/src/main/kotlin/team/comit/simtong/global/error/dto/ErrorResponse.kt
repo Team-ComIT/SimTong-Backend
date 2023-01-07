@@ -15,7 +15,7 @@ import javax.validation.ConstraintViolationException
  *
  * @author kimbeomjin
  * @date 2022/08/22
- * @version 1.0.0
+ * @version 1.2.3
  **/
 class ErrorResponse(
     val status: Int,

@@ -21,7 +21,7 @@ import javax.validation.ConstraintViolationException
  * @author kimbeomjin
  * @author Chokyunghyeon
  * @date 2022/08/22
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @RestControllerAdvice
 class WebErrorHandler {
