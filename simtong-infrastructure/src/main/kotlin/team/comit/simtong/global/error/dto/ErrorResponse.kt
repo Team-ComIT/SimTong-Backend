@@ -57,7 +57,11 @@ class ErrorResponse(
 
         fun of(exception: MethodArgumentTypeMismatchException): ErrorResponse {
             val value = exception.value
-            val fieldErrors = CustomFieldError.of(exception.name, value.toString(), exception.errorCode)
+            val fieldErrors = CustomFieldError.of(
+                field = exception.parameter.parameterName ?: "",
+                value = value.toString(),
+                reason = "${exception.requiredType!!.name} 타입으로 변환할 수 없습니다."
+            )
 
             return of(
                 exception = GlobalExceptions.BadRequest(),
