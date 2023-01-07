@@ -1,6 +1,5 @@
 package team.comit.simtong.domain.common.dto.request
 
-import org.hibernate.validator.constraints.Length
 import org.hibernate.validator.constraints.Range
 import team.comit.simtong.domain.user.value.EmployeeNumber
 import team.comit.simtong.domain.user.value.Password
@@ -24,7 +23,6 @@ data class ResetPasswordWebRequest(
     @field:Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
     val employeeNumber: EmployeeNumber,
 
-    @field:Length(min = Password.MIN_LENGTH, max = Password.MAX_LENGTH)
     @field:Pattern(regexp = Password.PATTERN)
     val newPassword: Password
 )

@@ -1,6 +1,5 @@
 package team.comit.simtong.domain.user.dto.request
 
-import org.hibernate.validator.constraints.Length
 import org.hibernate.validator.constraints.Range
 import team.comit.simtong.domain.user.value.EmployeeNumber
 import team.comit.simtong.domain.user.value.NickName
@@ -29,11 +28,9 @@ data class SignUpWebRequest(
     @Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
     val employeeNumber: EmployeeNumber,
 
-    @Length(min = Password.MIN_LENGTH, max = Password.MAX_LENGTH)
     @Pattern(regexp = Password.PATTERN)
     val password: Password,
 
-    @Length(min = NickName.MIN_LENGTH, max = NickName.MAX_LENGTH)
     @Pattern(regexp = NickName.PATTERN)
     val nickname: NickName,
 

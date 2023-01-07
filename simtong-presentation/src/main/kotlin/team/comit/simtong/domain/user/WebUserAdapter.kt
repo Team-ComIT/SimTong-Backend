@@ -1,6 +1,5 @@
 package team.comit.simtong.domain.user
 
-import org.hibernate.validator.constraints.Length
 import org.hibernate.validator.constraints.Range
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
@@ -127,7 +126,6 @@ class WebUserAdapter(
 
     @GetMapping("/nickname/duplication")
     fun checkNicknameDuplication(
-        @Length(min = NickName.MIN_LENGTH, max = NickName.MAX_LENGTH)
         @Pattern(regexp = NickName.PATTERN)
         @RequestParam nickname: NickName
     ) {
