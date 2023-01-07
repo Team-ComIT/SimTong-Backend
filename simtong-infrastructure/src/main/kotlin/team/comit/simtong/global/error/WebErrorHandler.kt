@@ -73,15 +73,6 @@ class WebErrorHandler {
     }
 
     /**
-     * 적합하지 않거나 적절하지 못한 인자를 메서드에 넘기면 발생
-     */
-    @ExceptionHandler(IllegalArgumentException::class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected fun handleIllegalArgumentException(exception: IllegalArgumentException): ErrorResponse? {
-        return ErrorResponse.of(GlobalExceptions.BadRequest())
-    }
-
-    /**
      * 지원하지 않은 HTTP method 호출할 경우 발생
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException::class)
