@@ -1,9 +1,9 @@
 package team.comit.simtong.domain.user.dto.request
 
-import org.hibernate.validator.constraints.Range
 import team.comit.simtong.domain.user.value.EmployeeNumber
 import team.comit.simtong.domain.user.value.Password
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 /**
  *
@@ -16,7 +16,7 @@ import javax.validation.constraints.NotBlank
  **/
 data class SignInWebRequest(
 
-    @field:Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
+    @field:NotNull
     val employeeNumber: EmployeeNumber,
 
     @field:NotBlank
