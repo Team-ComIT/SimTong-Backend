@@ -13,7 +13,7 @@ import team.comit.simtong.global.error.dto.ErrorResponse
  *
  * @author kimbeomjin
  * @date 2022/08/22
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @RestControllerAdvice
 class GlobalErrorHandler {
@@ -26,15 +26,6 @@ class GlobalErrorHandler {
     protected fun handleDataIntegrityViolationException(
         exception: DataIntegrityViolationException
     ): ErrorResponse? {
-        return ErrorResponse.of(exception)
-    }
-
-    /**
-     * 적합하지 않거나 적절하지 못한 인자를 메서드에 넘기면 발생
-     */
-    @ExceptionHandler(IllegalArgumentException::class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected fun handleIllegalArgumentException(exception: IllegalArgumentException): ErrorResponse? {
         return ErrorResponse.of(exception)
     }
 }
