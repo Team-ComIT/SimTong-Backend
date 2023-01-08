@@ -2,11 +2,12 @@ package team.comit.simtong.global.exception
 
 /**
  *
- * GlobalExceptions
+ * 애플리케이션에서 발생하는 예외를 관리하는 GlobalExceptions
  *
  * @author kimbeomjin
+ * @author Chokyunghyeon
  * @date 2022/12/17
- * @version 1.0.0
+ * @version 1.2.3
  **/
 sealed class GlobalExceptions(
     override val status: Int,

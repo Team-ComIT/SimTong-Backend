@@ -16,8 +16,9 @@ import java.util.UUID
  * FCM 메시지를 전송하는 FcmAdapter
  *
  * @author kimbeomjin
+ * @author Chokyunghyeon
  * @date 2022/12/27
- * @version 1.1.0
+ * @version 1.2.3
  **/
 @Component
 class FcmAdapter : SendPushMessagePort {
@@ -25,8 +26,8 @@ class FcmAdapter : SendPushMessagePort {
     override fun sendMessage(token: String, title: String, content: String, type: NotificationType, identify: UUID?) {
         val message = Message.builder()
             .setToken(token)
-            .putData("type", type.name)
-            .putData("identify", identify.toString())
+            .putData(TYPE, type.name)
+            .putData(IDENTIFY, identify.toString())
             .setNotification(
                 Notification.builder()
                     .setTitle(title)
@@ -35,7 +36,7 @@ class FcmAdapter : SendPushMessagePort {
             )
             .setApnsConfig(
                 ApnsConfig.builder()
-                    .setAps(Aps.builder().setSound("default").build())
+                    .setAps(Aps.builder().setSound(SOUND).build())
                     .build()
             )
             .build()
@@ -46,8 +47,8 @@ class FcmAdapter : SendPushMessagePort {
     override fun sendMessage(tokens: List<String>, title: String, content: String, type: NotificationType, identify: UUID?) {
         val multicastMessage = MulticastMessage.builder()
             .addAllTokens(tokens)
-            .putData("type", type.name)
-            .putData("identify", identify.toString())
+            .putData(TYPE, type.name)
+            .putData(IDENTIFY, identify.toString())
             .setNotification(
                 Notification.builder()
                     .setTitle(title)
@@ -56,11 +57,18 @@ class FcmAdapter : SendPushMessagePort {
             )
             .setApnsConfig(
                 ApnsConfig.builder()
-                    .setAps(Aps.builder().setSound("default").build())
+                    .setAps(Aps.builder().setSound(SOUND).build())
                     .build()
             )
             .build()
 
         FirebaseMessaging.getInstance().sendMulticastAsync(multicastMessage)
+    }
+
+    companion object {
+        private const val TYPE = "type"
+        private const val IDENTIFY = "identify"
+
+        private const val SOUND = "default"
     }
 }

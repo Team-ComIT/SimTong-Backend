@@ -13,7 +13,7 @@ import team.comit.simtong.persistence.auth.repository.AuthCodeRepository
  *
  * @author Chokyunghyeon
  * @date 2022/09/25
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Component
 class AuthCodePersistenceAdapter(
@@ -29,7 +29,7 @@ class AuthCodePersistenceAdapter(
     override fun save(authCode: AuthCode): AuthCode {
         return authCodeRepository.save(
             authCodeMapper.toEntity(authCode)
-        ).let { authCodeMapper.toDomain(it)!! }
+        ).let(authCodeMapper::toDomainNotNull)
     }
 
 }

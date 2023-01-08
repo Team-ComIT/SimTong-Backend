@@ -12,16 +12,16 @@ import javax.persistence.Table
  *
  * @author kimbeomjin
  * @date 2022/08/21
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Entity
 @Table(name = "tbl_spot")
 class SpotJpaEntity(
     override val id: UUID?,
 
-    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(20)", unique = true, nullable = false)
     val name: String,
 
-    @Column(columnDefinition = "VARCHAR(40)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(40)", unique = true, nullable = false)
     val location: String
 ) : BaseUUIDEntity(id)

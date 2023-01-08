@@ -12,16 +12,17 @@ import java.util.UUID
  *
  * @author Chokyunghyeon
  * @date 2022/09/18
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Component
 class TeamPersistenceAdapter(
     private val teamJpaRepository: TeamJpaRepository,
     private val teamMapper: TeamMapper
 ) : TeamPort {
+
     override fun queryTeamsBySpotId(spotId: UUID): List<Team> {
         return teamJpaRepository.queryTeamJpaEntitiesBySpotId(spotId)
-            .map { teamMapper.toDomain(it)!! }
+            .map(teamMapper::toDomainNotNull)
     }
 
     override fun queryTeamByName(name: String): Team? {

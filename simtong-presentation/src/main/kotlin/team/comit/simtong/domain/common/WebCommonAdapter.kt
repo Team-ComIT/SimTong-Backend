@@ -24,6 +24,7 @@ import team.comit.simtong.domain.user.usecase.CheckMatchedAccountUseCase
 import team.comit.simtong.domain.user.usecase.ComparePasswordUseCase
 import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
 import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
+import team.comit.simtong.domain.user.value.Password
 import java.util.UUID
 import javax.validation.Valid
 import javax.validation.constraints.Email
@@ -76,8 +77,8 @@ class WebCommonAdapter(
         resetPasswordUseCase.execute(
             ResetPasswordRequest(
                 email = request.email,
-                employeeNumber = request.employeeNumber,
-                newPassword = request.newPassword
+                employeeNumber = request.employeeNumber.value,
+                newPassword = request.newPassword.value
             )
         )
     }
@@ -92,8 +93,8 @@ class WebCommonAdapter(
     fun changePassword(@Valid @RequestBody request: ChangePasswordWebRequest) {
         changePasswordUseCase.execute(
             ChangePasswordRequest(
-                password = request.password,
-                newPassword = request.newPassword
+                password = request.password.value,
+                newPassword = request.newPassword.value
             )
         )
     }
@@ -102,7 +103,7 @@ class WebCommonAdapter(
     fun checkMatchedAccount(@Valid @ModelAttribute request: CheckMatchedAccountWebRequest) {
         checkMatchedAccountUseCase.execute(
             CheckMatchedAccountRequest(
-                employeeNumber = request.employeeNumber,
+                employeeNumber = request.employeeNumber.value,
                 email = request.email
             )
         )
@@ -114,8 +115,8 @@ class WebCommonAdapter(
     }
 
     @GetMapping("/password/compare")
-    fun comparePassword(@NotBlank @RequestParam password: String) {
-        comparePasswordUseCase.execute(password)
+    fun comparePassword(@NotBlank @RequestParam password: Password) {
+        comparePasswordUseCase.execute(password.value)
     }
 
     @GetMapping("/team/{spot-id}")

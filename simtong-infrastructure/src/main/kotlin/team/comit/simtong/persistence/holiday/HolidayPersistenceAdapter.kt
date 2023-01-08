@@ -1,9 +1,9 @@
 package team.comit.simtong.persistence.holiday
 
 import team.comit.simtong.persistence.holiday.entity.QHolidayJpaEntity.holidayJpaEntity as holiday
-import team.comit.simtong.persistence.user.entity.QUserJpaEntity.userJpaEntity as user
 import team.comit.simtong.persistence.spot.entity.QSpotJpaEntity.spotJpaEntity as spot
 import team.comit.simtong.persistence.team.entity.QTeamJpaEntity.teamJpaEntity as team
+import team.comit.simtong.persistence.user.entity.QUserJpaEntity.userJpaEntity as user
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
@@ -13,8 +13,8 @@ import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidayPort
 import team.comit.simtong.domain.holiday.spi.vo.EmployeeHoliday
-import team.comit.simtong.persistence.QuerydslExtensionUtils.or
-import team.comit.simtong.persistence.QuerydslExtensionUtils.sameWeekFilter
+import team.comit.simtong.global.extension.QuerydslExtensionUtils.or
+import team.comit.simtong.global.extension.QuerydslExtensionUtils.sameWeekFilter
 import team.comit.simtong.persistence.holiday.entity.HolidayJpaEntity
 import team.comit.simtong.persistence.holiday.mapper.HolidayMapper
 import team.comit.simtong.persistence.holiday.repository.HolidayJpaRepository
@@ -29,7 +29,7 @@ import java.util.UUID
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/12/02
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Component
 class HolidayPersistenceAdapter(
@@ -83,7 +83,7 @@ class HolidayPersistenceAdapter(
             )
             .orderBy(holiday.id.date.asc())
             .fetch()
-            .map { holidayMapper.toDomain(it)!! }
+            .map(holidayMapper::toDomainNotNull)
     }
 
     override fun queryHolidaysByYearAndMonthAndTeamId(
@@ -134,7 +134,7 @@ class HolidayPersistenceAdapter(
                 holiday.status.eq(HolidayStatus.WRITTEN)
             )
             .fetch()
-            .map { holidayMapper.toDomain(it)!! }
+            .map(holidayMapper::toDomainNotNull)
     }
 
     override fun existsHolidayByDateAndUserIdAndType(date: LocalDate, userId: UUID, type: HolidayType): Boolean {
@@ -150,7 +150,7 @@ class HolidayPersistenceAdapter(
     override fun save(holiday: Holiday): Holiday {
         return holidayJpaRepository.save(
             holidayMapper.toEntity(holiday)
-        ).let { holidayMapper.toDomain(it)!! }
+        ).let(holidayMapper::toDomainNotNull)
     }
 
     override fun saveAll(holidays: List<Holiday>) {

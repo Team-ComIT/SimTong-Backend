@@ -21,7 +21,7 @@ import javax.validation.ConstraintViolationException
  * @author kimbeomjin
  * @author Chokyunghyeon
  * @date 2022/08/22
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @RestControllerAdvice
 class WebErrorHandler {
@@ -70,15 +70,6 @@ class WebErrorHandler {
         exception: ConstraintViolationException
     ): ErrorResponse? {
         return ErrorResponse.of(exception)
-    }
-
-    /**
-     * 적합하지 않거나 적절하지 못한 인자를 메서드에 넘기면 발생
-     */
-    @ExceptionHandler(IllegalArgumentException::class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected fun handleIllegalArgumentException(exception: IllegalArgumentException): ErrorResponse? {
-        return ErrorResponse.of(GlobalExceptions.BadRequest())
     }
 
     /**

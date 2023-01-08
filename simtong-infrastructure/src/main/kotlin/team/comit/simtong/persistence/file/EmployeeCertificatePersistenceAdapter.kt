@@ -11,7 +11,7 @@ import team.comit.simtong.persistence.file.mapper.EmployeeCertificateMapper
  *
  * @author Chokyunghyeon
  * @date 2022/12/06
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Component
 class EmployeeCertificatePersistenceAdapter(
@@ -26,7 +26,9 @@ class EmployeeCertificatePersistenceAdapter(
         return employeeCertificateJpaRepository.existsByNameAndEmployeeNumber(name, employeeNumber)
     }
 
-    override fun saveAll(employeeCertificates: List<EmployeeCertificate>) {
+    override fun saveAll(
+        employeeCertificates: List<EmployeeCertificate>
+    ) {
         employeeCertificateJpaRepository.saveAll(
             employeeCertificates.map(employeeCertificateMapper::toEntity)
         )

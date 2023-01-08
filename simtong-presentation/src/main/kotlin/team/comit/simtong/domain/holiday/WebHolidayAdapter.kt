@@ -20,8 +20,6 @@ import team.comit.simtong.domain.holiday.dto.request.AppointHolidayWebRequest
 import team.comit.simtong.domain.holiday.dto.request.CancelHolidayWebRequest
 import team.comit.simtong.domain.holiday.dto.request.ChangeEmployeeHolidayWebRequest
 import team.comit.simtong.domain.holiday.dto.request.ShareHolidayWebRequest
-import team.comit.simtong.domain.holiday.dto.request.WebHolidayQueryType
-import team.comit.simtong.domain.holiday.dto.request.WebHolidayStatus
 import team.comit.simtong.domain.holiday.dto.response.QueryRemainAnnualWebResponse
 import team.comit.simtong.domain.holiday.usecase.AppointAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayPeriodUseCase
@@ -34,6 +32,8 @@ import team.comit.simtong.domain.holiday.usecase.QueryIndividualHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryMonthHolidayPeriodUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryRemainAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.ShareHolidayUseCase
+import team.comit.simtong.domain.holiday.value.WebHolidayQueryType
+import team.comit.simtong.domain.holiday.value.WebHolidayStatus
 import java.time.LocalDate
 import java.util.UUID
 import javax.validation.Valid
@@ -45,7 +45,7 @@ import javax.validation.Valid
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/12/03
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @RestController
 @RequestMapping("/holidays")

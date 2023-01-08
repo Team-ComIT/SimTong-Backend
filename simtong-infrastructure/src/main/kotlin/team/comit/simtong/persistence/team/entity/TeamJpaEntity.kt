@@ -3,7 +3,7 @@ package team.comit.simtong.persistence.team.entity
 import org.hibernate.validator.constraints.Length
 import team.comit.simtong.persistence.BaseUUIDEntity
 import team.comit.simtong.persistence.spot.entity.SpotJpaEntity
-import java.util.*
+import java.util.UUID
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.JoinColumn
@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull
  *
  * @author kimbeomjin
  * @date 2022/08/21
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Entity
 @Table(name = "tbl_team")

@@ -1,4 +1,4 @@
-package team.comit.simtong.persistence
+package team.comit.simtong.global.extension
 
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.core.types.dsl.DatePath

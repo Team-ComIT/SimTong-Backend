@@ -1,8 +1,9 @@
 package team.comit.simtong.domain.common.dto.request
 
+import org.hibernate.validator.constraints.Range
+import team.comit.simtong.domain.user.value.EmployeeNumber
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
 
 /**
  *
@@ -10,11 +11,11 @@ import javax.validation.constraints.NotNull
  *
  * @author Chokyunghyeon
  * @date 2022/10/15
- * @version 1.0.0
+ * @version 1.2.3
  **/
 data class CheckMatchedAccountWebRequest(
-    @field:NotNull
-    val employeeNumber: Int,
+    @field:Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
+    val employeeNumber: EmployeeNumber,
 
     @field:NotBlank
     @field:Email

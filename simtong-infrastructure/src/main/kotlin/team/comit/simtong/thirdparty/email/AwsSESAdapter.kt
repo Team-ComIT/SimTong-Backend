@@ -15,7 +15,7 @@ import team.comit.simtong.thirdparty.email.template.MailTemplate
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/09/08
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Component
 class AwsSESAdapter(
@@ -30,7 +30,7 @@ class AwsSESAdapter(
         )
 
         sendEmail(
-            mailTemplate = MailTemplate.AuthCode,
+            mailTemplate = MailTemplate.AUTHCODE,
             data = templateData,
             email
         )

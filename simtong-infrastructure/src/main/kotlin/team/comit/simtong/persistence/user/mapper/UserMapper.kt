@@ -16,7 +16,7 @@ import team.comit.simtong.persistence.user.entity.UserJpaEntity
  *
  * @author Chokyunghyeon
  * @date 2022/09/04
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Mapper
 abstract class UserMapper : GenericMapper<UserJpaEntity, User> {
@@ -38,4 +38,10 @@ abstract class UserMapper : GenericMapper<UserJpaEntity, User> {
         Mapping(target = "teamId", expression = "java(entity.getTeam().getId())")
     )
     abstract override fun toDomain(entity: UserJpaEntity?): User?
+
+    @Mappings(
+        Mapping(target = "spotId", expression = "java(entity.getSpot().getId())"),
+        Mapping(target = "teamId", expression = "java(entity.getTeam().getId())")
+    )
+    abstract override fun toDomainNotNull(entity: UserJpaEntity): User
 }

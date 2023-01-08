@@ -14,7 +14,7 @@ import team.comit.simtong.persistence.auth.repository.AuthCodeLimitRepository
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/09/09
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Component
 class AuthCodeLimitPersistenceAdapter(
@@ -30,7 +30,7 @@ class AuthCodeLimitPersistenceAdapter(
     override fun save(authCodeLimit: AuthCodeLimit): AuthCodeLimit {
         return authCodeLimitRepository.save(
             authCodeLimitMapper.toEntity(authCodeLimit)
-        ).let { authCodeLimitMapper.toDomain(it)!! }
+        ).let(authCodeLimitMapper::toDomainNotNull)
     }
 
     override fun delete(authCodeLimit: AuthCodeLimit) {

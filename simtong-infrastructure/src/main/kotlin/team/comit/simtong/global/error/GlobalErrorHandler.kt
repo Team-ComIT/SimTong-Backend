@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import team.comit.simtong.global.error.dto.ErrorResponse
-import team.comit.simtong.global.exception.GlobalExceptions
 
 /**
  *
@@ -14,7 +13,7 @@ import team.comit.simtong.global.exception.GlobalExceptions
  *
  * @author kimbeomjin
  * @date 2022/08/22
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @RestControllerAdvice
 class GlobalErrorHandler {
@@ -28,14 +27,5 @@ class GlobalErrorHandler {
         exception: DataIntegrityViolationException
     ): ErrorResponse? {
         return ErrorResponse.of(exception)
-    }
-
-    /**
-     * 적합하지 않거나 적절하지 못한 인자를 메서드에 넘기면 발생
-     */
-    @ExceptionHandler(IllegalArgumentException::class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected fun handleIllegalArgumentException(exception: IllegalArgumentException): ErrorResponse? {
-        return ErrorResponse.of(GlobalExceptions.BadRequest())
     }
 }
