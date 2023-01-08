@@ -1,12 +1,12 @@
 package team.comit.simtong.domain.common
 
+import org.hibernate.validator.constraints.Range
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.auth.usecase.ReissueTokenUseCase
 import team.comit.simtong.domain.common.dto.request.ChangePasswordWebRequest
-import team.comit.simtong.domain.common.dto.request.CheckMatchedAccountWebRequest
 import team.comit.simtong.domain.common.dto.request.FindEmployeeNumberWebRequest
 import team.comit.simtong.domain.common.dto.request.ResetPasswordWebRequest
 import team.comit.simtong.domain.common.dto.response.FindEmployeeNumberWebResponse
@@ -24,6 +24,7 @@ import team.comit.simtong.domain.user.usecase.CheckMatchedAccountUseCase
 import team.comit.simtong.domain.user.usecase.ComparePasswordUseCase
 import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
 import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
+import team.comit.simtong.domain.user.value.EmployeeNumber
 import team.comit.simtong.domain.user.value.Password
 import java.util.UUID
 import javax.validation.Valid
@@ -36,7 +37,7 @@ import javax.validation.constraints.NotBlank
  *
  * @author Chokyunghyeon
  * @date 2022/09/11
- * @version 1.0.0
+ * @version 1.2.4
  **/
 @Validated
 @RestController
@@ -100,11 +101,16 @@ class WebCommonAdapter(
     }
 
     @GetMapping("/account/existence")
-    fun checkMatchedAccount(@Valid @ModelAttribute request: CheckMatchedAccountWebRequest) {
+    fun checkMatchedAccount(
+        @Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
+        @RequestParam("employee_number") employeeNumber: EmployeeNumber,
+        @NotBlank @Email
+        @RequestParam email: String
+    ) {
         checkMatchedAccountUseCase.execute(
             CheckMatchedAccountRequest(
-                employeeNumber = request.employeeNumber.value,
-                email = request.email
+                employeeNumber = employeeNumber.value,
+                email = email
             )
         )
     }
