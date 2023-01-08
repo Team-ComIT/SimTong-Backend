@@ -14,6 +14,7 @@ import javax.validation.ConstraintViolationException
  * 예외가 발생했을 경우 response 형태를 일관되게 유지하기 위한 ErrorResponse
  *
  * @author kimbeomjin
+ * @author Chokyunghyeon
  * @date 2022/08/22
  * @version 1.2.3
  **/
@@ -70,7 +71,7 @@ class ErrorResponse(
         }
 
         fun of(exception: MissingServletRequestParameterException): ErrorResponse {
-            val fieldErrors = CustomFieldError.of(exception.parameterName, "", exception.message)
+            val fieldErrors = CustomFieldError.of(exception.parameterName, "", exception.message ?: "")
 
             return of(
                 exception = GlobalExceptions.BadRequest(),
@@ -79,6 +80,11 @@ class ErrorResponse(
         }
 
         fun of(exception: DataIntegrityViolationException): ErrorResponse = of(
+            exception = GlobalExceptions.BadRequest(),
+            fieldErrors = CustomFieldError.of("", "", exception.message ?: "")
+        )
+
+        fun of(exception: IllegalArgumentException): ErrorResponse = of(
             exception = GlobalExceptions.BadRequest(),
             fieldErrors = CustomFieldError.of("", "", exception.message ?: "")
         )

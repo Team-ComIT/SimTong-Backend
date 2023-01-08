@@ -25,7 +25,7 @@ import java.util.UUID
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/12/06
- * @version 1.0.0
+ * @version 1.2.3
  **/
 @Component
 class ExcelFileAdapter : ParseEmployeeCertificateFilePort, ParseMenuFilePort {
@@ -113,17 +113,20 @@ class ExcelFileAdapter : ParseEmployeeCertificateFilePort, ParseMenuFilePort {
     }
 
     private fun transferToExcel(file: File): Workbook {
-        val inputStream = file.inputStream()
-
-        return runCatching {
-            when (file.extension.uppercase()) {
-                XLS -> HSSFWorkbook(inputStream)
-                XLSX -> XSSFWorkbook(inputStream)
-                else -> throw WebFileExceptions.InvalidExtension()
+        val result = file.inputStream()
+            .use { inputStream ->
+                runCatching {
+                    when (file.extension.uppercase()) {
+                        XLS -> HSSFWorkbook(inputStream)
+                        XLSX -> XSSFWorkbook(inputStream)
+                        else -> throw WebFileExceptions.InvalidExtension()
+                    }
+                }
             }
-        }.also {
-            inputStream.close()
-            file.delete()
-        }.getOrThrow()
+            .also {
+                file.delete()
+            }
+
+        return result.getOrThrow()
     }
 }
