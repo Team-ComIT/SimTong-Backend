@@ -103,7 +103,7 @@ class WebCommonAdapter(
     @GetMapping("/account/existence")
     fun checkMatchedAccount(
         @Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
-        @RequestParam("employee-number") employeeNumber: EmployeeNumber,
+        @RequestParam("employee_number") employeeNumber: EmployeeNumber,
         @NotBlank @Email
         @RequestParam email: String
     ) {
