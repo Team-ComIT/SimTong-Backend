@@ -37,7 +37,7 @@ import javax.validation.constraints.NotBlank
  *
  * @author Chokyunghyeon
  * @date 2022/09/11
- * @version 1.0.0
+ * @version 1.2.4
  **/
 @Validated
 @RestController
