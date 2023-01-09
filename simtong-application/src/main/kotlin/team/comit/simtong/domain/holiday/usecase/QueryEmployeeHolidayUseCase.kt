@@ -2,7 +2,6 @@ package team.comit.simtong.domain.holiday.usecase
 
 import team.comit.simtong.domain.holiday.dto.QueryEmployeeHolidayResponse
 import team.comit.simtong.domain.holiday.model.HolidayQueryType
-import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
@@ -20,7 +19,7 @@ import java.util.UUID
  *
  * @author kimbeomjin
  * @date 2022/12/22
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @ReadOnlyUseCase
 class QueryEmployeeHolidayUseCase(
@@ -33,28 +32,13 @@ class QueryEmployeeHolidayUseCase(
         val currentUserId = securityPort.getCurrentUserId()
         val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
-        val holidays = when (HolidayQueryType.valueOf(typeName)) {
-            HolidayQueryType.HOLIDAY -> queryHolidayPort.queryHolidaysByYearAndMonthAndTeamId(
-                year = year, month = month,
-                type = HolidayType.HOLIDAY,
-                spotId = user.spotId,
-                teamId = teamId
-            )
-
-            HolidayQueryType.ANNUAL -> queryHolidayPort.queryHolidaysByYearAndMonthAndTeamId(
-                year = year, month = month,
-                type = HolidayType.ANNUAL,
-                spotId = user.spotId,
-                teamId = teamId
-            )
-
-            HolidayQueryType.ALL -> queryHolidayPort.queryHolidaysByYearAndMonthAndTeamId(
-                year = year, month = month,
-                type = null,
-                spotId = user.spotId,
-                teamId = teamId
-            )
-        }
+        val holidays = queryHolidayPort.queryHolidaysByYearAndMonthAndTeamId(
+            year = year,
+            month = month,
+            type = HolidayQueryType.valueOf(typeName).toHolidayType(),
+            spotId = user.spotId,
+            teamId = teamId
+        )
 
         val response = holidays.map {
             QueryEmployeeHolidayResponse.Holiday(

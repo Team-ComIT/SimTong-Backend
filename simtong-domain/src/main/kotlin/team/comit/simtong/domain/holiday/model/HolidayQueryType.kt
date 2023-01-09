@@ -6,7 +6,7 @@ package team.comit.simtong.domain.holiday.model
  *
  * @author kimbeomjin
  * @date 2022/12/22
- * @version 1.0.0
+ * @version 1.2.5
  **/
 enum class HolidayQueryType {
 
@@ -24,5 +24,13 @@ enum class HolidayQueryType {
      * 연차
      */
     ANNUAL
+    ;
 
+    fun toHolidayType(): HolidayType? {
+        return when (this) {
+            HOLIDAY -> HolidayType.HOLIDAY
+            ANNUAL -> HolidayType.ANNUAL
+            ALL -> null
+        }
+    }
 }

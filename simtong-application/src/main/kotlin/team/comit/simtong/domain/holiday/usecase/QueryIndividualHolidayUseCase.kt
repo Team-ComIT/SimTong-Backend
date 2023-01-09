@@ -22,9 +22,7 @@ class QueryIndividualHolidayUseCase(
     private val securityPort: HolidaySecurityPort
 ) {
 
-    fun execute(
-        request: QueryIndividualRequest
-    ) : QueryIndividualHolidaysResponse {
+    fun execute(request: QueryIndividualRequest) : QueryIndividualHolidaysResponse {
         val currentUserId = securityPort.getCurrentUserId()
 
         val holidays = queryHolidayPort.queryHolidaysByPeriodAndUserIdAndStatus(
@@ -43,5 +41,4 @@ class QueryIndividualHolidayUseCase(
 
         return QueryIndividualHolidaysResponse(response)
     }
-
 }

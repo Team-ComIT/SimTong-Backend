@@ -1,7 +1,6 @@
 package team.comit.simtong.domain.holiday.usecase
 
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
-import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
@@ -14,8 +13,9 @@ import java.time.LocalDate
  * 휴무일 또는 연차 취소 요청을 담당하는 CancelHolidayUseCase
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/12/04
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class CancelHolidayUseCase(
@@ -31,8 +31,8 @@ class CancelHolidayUseCase(
             ?: throw HolidayExceptions.NotFound()
 
         when (holiday.type) {
-            HolidayType.HOLIDAY -> if (holiday.status == HolidayStatus.COMPLETED) {
-                throw HolidayExceptions.CannotChange("결정된 휴무일는 취소할 수 없습니다.")
+            HolidayType.HOLIDAY -> if (holiday.isCompleted()) {
+                throw HolidayExceptions.CannotChange("결정된 휴무일은 취소할 수 없습니다.")
             }
 
             HolidayType.ANNUAL -> if (holiday.date <= LocalDate.now()) {
@@ -42,5 +42,4 @@ class CancelHolidayUseCase(
 
         commandHolidayPort.delete(holiday)
     }
-
 }

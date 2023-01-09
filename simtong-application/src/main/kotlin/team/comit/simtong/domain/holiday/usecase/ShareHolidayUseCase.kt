@@ -1,6 +1,5 @@
 package team.comit.simtong.domain.holiday.usecase
 
-import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
@@ -15,7 +14,7 @@ import team.comit.simtong.global.annotation.UseCase
  *
  * @author kimbeomjin
  * @date 2022/12/21
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class ShareHolidayUseCase(
@@ -34,9 +33,7 @@ class ShareHolidayUseCase(
         )
 
         val completedHolidays = holidays.map {
-            it.copy(
-                status = HolidayStatus.COMPLETED
-            )
+            it.complete()
         }
 
         commandHolidayPort.saveAll(completedHolidays)
