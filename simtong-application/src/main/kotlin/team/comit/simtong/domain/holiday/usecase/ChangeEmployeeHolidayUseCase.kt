@@ -1,7 +1,6 @@
 package team.comit.simtong.domain.holiday.usecase
 
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
-import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
@@ -19,7 +18,7 @@ import java.util.UUID
  *
  * @author kimbeomjin
  * @date 2022/12/23
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class ChangeEmployeeHolidayUseCase(
@@ -36,18 +35,14 @@ class ChangeEmployeeHolidayUseCase(
         val holiday = queryHolidayPort.queryHolidayByDateAndUserId(beforeDate, userId)
             ?: throw HolidayExceptions.NotFound()
 
-        if (admin.spotId != holiday.spotId) {
+        if (!holiday.isSameSpot(admin.spotId)) {
             throw HolidayExceptions.CannotChange("같은 지점 직원의 휴무일만 변경할 수 있습니다.")
         }
 
-        val countHoliday = queryHolidayPort.countHolidayByWeekAndUserIdAndType(afterDate, userId, HolidayType.HOLIDAY)
-
-        if (countHoliday >= Holiday.WEEK_HOLIDAY_LIMIT) {
-            throw HolidayExceptions.WeekHolidayLimitExcess()
-        }
+        val holidayCount = queryHolidayPort.countHolidayByWeekAndUserIdAndType(afterDate, userId, HolidayType.HOLIDAY)
 
         commandHolidayPort.save(
-            holiday.copy(date = afterDate)
+            holiday.change(holidayCount, afterDate)
         )
         commandHolidayPort.delete(holiday)
     }

@@ -2,7 +2,7 @@ package team.comit.simtong.domain.holiday.usecase
 
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.model.Holiday
-import team.comit.simtong.domain.holiday.model.HolidayStatus
+import team.comit.simtong.domain.holiday.model.Holiday.Companion.checkNotExceededAnnualLimit
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
@@ -17,8 +17,9 @@ import java.time.LocalDate
  * 연차 지정을 담당하는 AppointAnnualUseCase
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/12/17
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class AppointAnnualUseCase(
@@ -36,32 +37,20 @@ class AppointAnnualUseCase(
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
             ?: throw UserExceptions.NotFound()
 
-        queryHolidayPort.queryHolidayByDateAndUserId(date, user.id)?.run {
-            when (type) {
-                HolidayType.ANNUAL ->
-                    throw HolidayExceptions.AlreadyExists("해당 날짜는 이미 연차입니다.")
-
-                HolidayType.HOLIDAY -> if (status == HolidayStatus.COMPLETED) {
-                    throw HolidayExceptions.AlreadyExists("해당 날짜는 이미 휴무일입니다.")
-                }
-            }
+        if (queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, user.id, HolidayType.ANNUAL)) {
+            throw HolidayExceptions.AlreadyExists("해당 날짜는 이미 연차입니다.")
         }
 
-        val countAnnual = queryHolidayPort.countHolidayByYearAndUserIdAndType(date.year, user.id, HolidayType.ANNUAL)
+        val annualCount = queryHolidayPort.countHolidayByYearAndUserIdAndType(date.year, user.id, HolidayType.ANNUAL)
 
-        if (countAnnual >= Holiday.ANNUAL_LEAVE_LIMIT) {
-            throw HolidayExceptions.AnnualLeaveLimitExcess()
-        }
+        checkNotExceededAnnualLimit(annualCount)
 
         commandHolidayPort.save(
-            Holiday(
+            Holiday.createAnnual(
                 date = date,
                 userId = user.id,
-                spotId = user.spotId,
-                type = HolidayType.ANNUAL,
-                status = HolidayStatus.COMPLETED
+                spotId = user.spotId
             )
         )
     }
-
 }
