@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.notification.model
 
+import team.comit.simtong.global.annotation.Aggregate
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -11,6 +12,7 @@ import java.util.UUID
  * @date 2022/12/29
  * @version 1.1.0
  **/
+@Aggregate
 data class Notification(
     val id: UUID = UUID(0, 0),
 
