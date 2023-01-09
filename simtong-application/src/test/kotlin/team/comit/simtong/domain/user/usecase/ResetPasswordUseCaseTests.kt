@@ -57,7 +57,7 @@ class ResetPasswordUseCaseTests {
     }
 
     private val uncertifiedAuthCodeLimit: AuthCodeLimit by lazy {
-        AuthCodeLimit(
+        AuthCodeLimit.issue(
             email = email
         )
     }
