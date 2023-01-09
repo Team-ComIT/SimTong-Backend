@@ -35,9 +35,8 @@ class SendAuthCodeUseCase(
 
         commandAuthCodeLimitPort.save(authCodeLimit.increaseCount())
 
-        val authCode = commandAuthCodePort.save(AuthCode(email))
+        val authCode = commandAuthCodePort.save(AuthCode.issue(email))
 
-        sendEmailPort.sendAuthCode(authCode.code, email)
+        sendEmailPort.sendAuthCode(authCode.code.value, email)
     }
-
 }
