@@ -1,6 +1,6 @@
 package team.comit.simtong.persistence.auth.mapper
 
-import org.mapstruct.Mapper
+import org.springframework.stereotype.Component
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.persistence.GenericMapper
 import team.comit.simtong.persistence.auth.entity.AuthCodeLimitEntity
@@ -12,8 +12,37 @@ import team.comit.simtong.persistence.auth.entity.AuthCodeLimitEntity
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/09/11
- * @version 1.0.0
+ * @version 1.2.5
  **/
-@Mapper
-abstract class AuthCodeLimitMapper : GenericMapper<AuthCodeLimitEntity, AuthCodeLimit> {
+@Component
+class AuthCodeLimitMapper : GenericMapper<AuthCodeLimitEntity, AuthCodeLimit> {
+
+    override fun toEntity(model: AuthCodeLimit): AuthCodeLimitEntity {
+        return AuthCodeLimitEntity(
+            key = model.key,
+            expirationTime = model.expirationTime,
+            attemptCount = model.attemptCount,
+            verified = model.verified
+        )
+    }
+
+    override fun toDomain(entity: AuthCodeLimitEntity?): AuthCodeLimit? {
+        return entity?.let {
+            AuthCodeLimit(
+                key = it.key,
+                expirationTime = it.expirationTime,
+                attemptCount = it.attemptCount,
+                verified = it.verified
+            )
+        }
+    }
+
+    override fun toDomainNotNull(entity: AuthCodeLimitEntity): AuthCodeLimit {
+        return AuthCodeLimit(
+            key = entity.key,
+            expirationTime = entity.expirationTime,
+            attemptCount = entity.attemptCount,
+            verified = entity.verified
+        )
+    }
 }

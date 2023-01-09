@@ -1,9 +1,7 @@
 package team.comit.simtong.persistence.schedule.mapper
 
-import org.mapstruct.Mapper
-import org.mapstruct.Mapping
-import org.mapstruct.Mappings
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
+import org.springframework.stereotype.Component
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.persistence.GenericMapper
 import team.comit.simtong.persistence.schedule.entity.ScheduleJpaEntity
@@ -15,33 +13,57 @@ import team.comit.simtong.persistence.user.repository.UserJpaRepository
  * Schedule Entity와 Schedule Aggregate를 변환하는 ScheduleMapper
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/11/21
- * @version 1.2.3
+ * @version 1.2.5
  **/
-@Mapper
-abstract class ScheduleMapper : GenericMapper<ScheduleJpaEntity, Schedule> {
+@Component
+class ScheduleMapper(
+    private val userJpaRepository: UserJpaRepository,
+    private val spotJpaRepository: SpotJpaRepository
+) : GenericMapper<ScheduleJpaEntity, Schedule> {
 
-    @Autowired
-    protected lateinit var userJpaRepository: UserJpaRepository
+    override fun toEntity(model: Schedule): ScheduleJpaEntity {
+        val user = userJpaRepository.findByIdOrNull(model.userId)!!
+        val spot = spotJpaRepository.findByIdOrNull(model.spotId)!!
 
-    @Autowired
-    protected lateinit var spotJpaRepository: SpotJpaRepository
+        return ScheduleJpaEntity(
+            id = model.id,
+            user = user,
+            spot = spot,
+            title = model.title,
+            scope = model.scope,
+            startAt = model.startAt,
+            endAt = model.endAt,
+            alarmTime = model.alarmTime
+        )
+    }
 
-    @Mappings(
-        Mapping(target = "userId", expression = "java(entity.getUser().getId())"),
-        Mapping(target = "spotId", expression = "java(entity.getSpot().getId())")
-    )
-    abstract override fun toDomain(entity: ScheduleJpaEntity?): Schedule?
+    override fun toDomain(entity: ScheduleJpaEntity?): Schedule? {
+        return entity?.let {
+            Schedule(
+                id = it.id!!,
+                userId = it.user.id!!,
+                spotId = it.spot.id!!,
+                title = it.title,
+                scope = it.scope,
+                startAt = it.startAt,
+                endAt = it.endAt,
+                alarmTime = it.alarmTime
+            )
+        }
+    }
 
-    @Mappings(
-        Mapping(target = "userId", expression = "java(entity.getUser().getId())"),
-        Mapping(target = "spotId", expression = "java(entity.getSpot().getId())")
-    )
-    abstract override fun toDomainNotNull(entity: ScheduleJpaEntity): Schedule
-
-    @Mappings(
-        Mapping(target = "user", expression = "java(userJpaRepository.findById(model.getUserId()).orElse(null))"),
-        Mapping(target= "spot", expression = "java(spotJpaRepository.findById(model.getSpotId()).orElse(null))")
-    )
-    abstract override fun toEntity(model: Schedule): ScheduleJpaEntity
+    override fun toDomainNotNull(entity: ScheduleJpaEntity): Schedule {
+        return Schedule(
+            id = entity.id!!,
+            userId = entity.user.id!!,
+            spotId = entity.spot.id!!,
+            title = entity.title,
+            scope = entity.scope,
+            startAt = entity.startAt,
+            endAt = entity.endAt,
+            alarmTime = entity.alarmTime
+        )
+    }
 }
