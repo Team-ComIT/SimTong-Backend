@@ -1,5 +1,7 @@
 package team.comit.simtong.domain.file.model
 
+import team.comit.simtong.global.annotation.Aggregate
+
 /**
  *
  * EmployeeCertificate Aggregate Root를 담당하는 EmployeeCertificate
@@ -9,6 +11,7 @@ package team.comit.simtong.domain.file.model
  * @date 2022/12/06
  * @version 1.0.0
  **/
+@Aggregate
 data class EmployeeCertificate(
     val employeeNumber: Int,
 

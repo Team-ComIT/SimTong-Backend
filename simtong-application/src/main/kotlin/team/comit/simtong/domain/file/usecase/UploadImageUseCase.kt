@@ -24,5 +24,4 @@ class UploadImageUseCase(
     fun execute(files: List<File>): List<String> {
         return uploadFilePort.upload(files)
     }
-
 }

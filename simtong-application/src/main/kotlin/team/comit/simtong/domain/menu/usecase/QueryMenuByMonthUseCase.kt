@@ -32,5 +32,4 @@ class QueryMenuByMonthUseCase(
 
         return MenuResponse(result)
     }
-
 }

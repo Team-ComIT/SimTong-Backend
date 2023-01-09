@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.holiday.model
 
+import team.comit.simtong.global.annotation.Aggregate
 import java.time.LocalDate
 import java.util.UUID
 
@@ -11,6 +12,7 @@ import java.util.UUID
  * @date 2022/12/20
  * @version 1.0.0
  **/
+@Aggregate
 data class HolidayPeriod(
     val year: Int,
 
