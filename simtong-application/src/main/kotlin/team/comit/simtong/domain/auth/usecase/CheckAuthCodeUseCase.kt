@@ -13,7 +13,7 @@ import team.comit.simtong.global.annotation.UseCase
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/09/24
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class CheckAuthCodeUseCase(
