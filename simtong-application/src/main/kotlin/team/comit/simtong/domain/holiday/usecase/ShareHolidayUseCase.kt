@@ -33,7 +33,7 @@ class ShareHolidayUseCase(
         )
 
         val completedHolidays = holidays.map {
-            it.share()
+            it.complete()
         }
 
         commandHolidayPort.saveAll(completedHolidays)

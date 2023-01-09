@@ -66,7 +66,7 @@ data class Holiday(
         }
     }
 
-    fun share() = this.copy(status = HolidayStatus.COMPLETED)
+    fun complete() = this.copy(status = HolidayStatus.COMPLETED)
 
     fun isSameSpot(spotId: UUID) = this.spotId == spotId
 
