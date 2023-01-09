@@ -22,7 +22,8 @@ class CheckAuthCodeUseCase(
 ) {
 
     fun execute(email: String, code: String) {
-        val authCode = queryAuthCodePort.queryAuthCodeByEmail(email) ?: throw AuthExceptions.RequiredNewEmailAuthentication()
+        val authCode = queryAuthCodePort.queryAuthCodeByEmail(email)
+            ?: throw AuthExceptions.RequiredNewEmailAuthentication()
 
         if (!authCode.code.match(code)) {
             throw AuthExceptions.DifferentAuthCode()

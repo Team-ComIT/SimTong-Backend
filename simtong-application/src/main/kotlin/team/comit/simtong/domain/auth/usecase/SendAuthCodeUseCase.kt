@@ -28,9 +28,13 @@ class SendAuthCodeUseCase(
         val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
             ?: AuthCodeLimit.issue(email)
 
-        commandAuthCodeLimitPort.save(authCodeLimit.increaseCount())
+        commandAuthCodeLimitPort.save(
+            authCodeLimit.increaseCount()
+        )
 
-        val authCode = commandAuthCodePort.save(AuthCode.issue(email))
+        val authCode = commandAuthCodePort.save(
+            AuthCode.issue(email)
+        )
 
         sendEmailPort.sendAuthCode(authCode.code.value, email)
     }
