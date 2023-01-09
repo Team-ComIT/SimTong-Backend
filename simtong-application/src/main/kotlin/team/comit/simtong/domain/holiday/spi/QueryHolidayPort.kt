@@ -3,7 +3,7 @@ package team.comit.simtong.domain.holiday.spi
 import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
-import team.comit.simtong.domain.holiday.spi.vo.EmployeeHoliday
+import team.comit.simtong.domain.holiday.vo.EmployeeHoliday
 import java.time.LocalDate
 import java.util.UUID
 

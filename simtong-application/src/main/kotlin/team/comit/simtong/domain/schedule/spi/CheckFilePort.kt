@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.file.spi
+package team.comit.simtong.domain.schedule.spi
 
 /**
  *
