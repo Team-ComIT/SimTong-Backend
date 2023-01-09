@@ -12,7 +12,7 @@ import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidayPort
-import team.comit.simtong.domain.holiday.spi.vo.EmployeeHoliday
+import team.comit.simtong.domain.holiday.vo.EmployeeHoliday
 import team.comit.simtong.global.extension.QuerydslExtensionUtils.or
 import team.comit.simtong.global.extension.QuerydslExtensionUtils.sameWeekFilter
 import team.comit.simtong.persistence.holiday.entity.HolidayJpaEntity
