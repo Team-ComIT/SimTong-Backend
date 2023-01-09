@@ -3,6 +3,7 @@ package team.comit.simtong.domain.user.model
 import team.comit.simtong.global.DomainProperties.getProperty
 import team.comit.simtong.global.DomainPropertiesPrefix
 import team.comit.simtong.global.annotation.Aggregate
+import java.time.LocalDateTime
 import java.util.UUID
 
 /**
@@ -34,7 +35,9 @@ data class User(
 
     val teamId: UUID,
 
-    val profileImagePath: String
+    val profileImagePath: String,
+
+    val deletedAt: LocalDateTime? = null
 ) {
 
     companion object {

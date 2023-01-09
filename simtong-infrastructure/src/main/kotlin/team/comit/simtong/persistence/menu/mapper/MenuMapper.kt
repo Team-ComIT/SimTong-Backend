@@ -1,9 +1,7 @@
 package team.comit.simtong.persistence.menu.mapper
 
-import org.mapstruct.Mapper
-import org.mapstruct.Mapping
-import org.mapstruct.Mappings
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
+import org.springframework.stereotype.Component
 import team.comit.simtong.domain.menu.model.Menu
 import team.comit.simtong.persistence.GenericMapper
 import team.comit.simtong.persistence.menu.entity.MenuJpaEntity
@@ -15,30 +13,42 @@ import team.comit.simtong.persistence.spot.SpotJpaRepository
  *
  * @author kimbeomjin
  * @date 2022/09/20
- * @version 1.2.3
+ * @version 1.2.5
  **/
-@Mapper
-abstract class MenuMapper : GenericMapper<MenuJpaEntity, Menu> {
+@Component
+class MenuMapper(
+    private val spotJpaRepository: SpotJpaRepository
+) : GenericMapper<MenuJpaEntity, Menu> {
 
-    @Autowired
-    protected lateinit var spotJpaRepository: SpotJpaRepository
+    override fun toEntity(model: Menu): MenuJpaEntity {
+        val spot = spotJpaRepository.findByIdOrNull(model.spotId)!!
 
-    @Mappings(
-        Mapping(target = "menuId", expression = "java(new MenuJpaEntity.Id(model.getSpotId(), model.getDate()))"),
-        Mapping(target = "spot", expression = "java(spotJpaRepository.findById(model.getSpotId()).orElse(null))")
-    )
-    abstract override fun toEntity(model: Menu): MenuJpaEntity
+        return MenuJpaEntity(
+            menuId = MenuJpaEntity.Id(
+                spotId = model.spotId,
+                date = model.date
+            ),
+            spot = spot,
+            meal = model.meal
+        )
+    }
 
-    @Mappings(
-        Mapping(target = "spotId", expression = "java(entity.getMenuId().getSpotId())"),
-        Mapping(target = "date", expression = "java(entity.getMenuId().getDate())")
-    )
-    abstract override fun toDomain(entity: MenuJpaEntity?): Menu?
+    override fun toDomain(entity: MenuJpaEntity?): Menu? {
+        return entity?.let {
+            val id = it.id
+            Menu(
+                date = id.date,
+                meal = it.meal,
+                spotId = it.spot.id!!
+            )
+        }
+    }
 
-    @Mappings(
-        Mapping(target = "spotId", expression = "java(entity.getMenuId().getSpotId())"),
-        Mapping(target = "date", expression = "java(entity.getMenuId().getDate())")
-    )
-    abstract override fun toDomainNotNull(entity: MenuJpaEntity): Menu
-
+    override fun toDomainNotNull(entity: MenuJpaEntity): Menu {
+        return Menu(
+            date = entity.id.date,
+            meal = entity.meal,
+            spotId = entity.spot.id!!
+        )
+    }
 }

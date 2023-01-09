@@ -1,9 +1,7 @@
 package team.comit.simtong.persistence.user.mapper
 
-import org.mapstruct.Mapper
-import org.mapstruct.Mapping
-import org.mapstruct.Mappings
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
+import org.springframework.stereotype.Component
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.persistence.GenericMapper
 import team.comit.simtong.persistence.spot.SpotJpaRepository
@@ -15,33 +13,66 @@ import team.comit.simtong.persistence.user.entity.UserJpaEntity
  * UserEntity와 DomainUser의 변환을 담당하는 UserMapper
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/09/04
- * @version 1.2.3
+ * @version 1.2.5
  **/
-@Mapper
-abstract class UserMapper : GenericMapper<UserJpaEntity, User> {
+@Component
+class UserMapper(
+    private val spotJpaRepository: SpotJpaRepository,
+    private val teamJpaRepository: TeamJpaRepository
+) : GenericMapper<UserJpaEntity, User> {
 
-    @Autowired
-    protected lateinit var spotJpaRepository: SpotJpaRepository
+    override fun toEntity(model: User): UserJpaEntity {
+        val spot = spotJpaRepository.findByIdOrNull(model.spotId)!!
+        val team = teamJpaRepository.findByIdOrNull(model.teamId)!!
 
-    @Autowired
-    protected lateinit var teamJpaRepository: TeamJpaRepository
+        return UserJpaEntity(
+            id = model.id,
+            employeeNumber = model.employeeNumber,
+            email = model.email,
+            authority = model.authority,
+            name = model.name,
+            nickname = model.nickname,
+            password = model.password,
+            spot = spot,
+            team = team,
+            profileImagePath = model.profileImagePath,
+            deletedAt = model.deletedAt
+        )
+    }
 
-    @Mappings(
-        Mapping(target = "spot", expression = "java(spotJpaRepository.findById(model.getSpotId()).orElse(null))"),
-        Mapping(target = "team", expression = "java(teamJpaRepository.findById(model.getTeamId()).orElse(null))")
-    )
-    abstract override fun toEntity(model: User): UserJpaEntity
+    override fun toDomain(entity: UserJpaEntity?): User? {
+        return entity?.let {
+            User(
+                id = it.id!!,
+                nickname = it.nickname,
+                name = it.name,
+                email = it.email,
+                password = it.password,
+                employeeNumber = it.employeeNumber,
+                authority = it.authority,
+                spotId = it.spot.id!!,
+                teamId = it.team.id!!,
+                profileImagePath = it.profileImagePath,
+                deletedAt = it.deletedAt
+            )
+        }
+    }
 
-    @Mappings(
-        Mapping(target = "spotId", expression = "java(entity.getSpot().getId())"),
-        Mapping(target = "teamId", expression = "java(entity.getTeam().getId())")
-    )
-    abstract override fun toDomain(entity: UserJpaEntity?): User?
-
-    @Mappings(
-        Mapping(target = "spotId", expression = "java(entity.getSpot().getId())"),
-        Mapping(target = "teamId", expression = "java(entity.getTeam().getId())")
-    )
-    abstract override fun toDomainNotNull(entity: UserJpaEntity): User
+    override fun toDomainNotNull(entity: UserJpaEntity): User {
+        return User(
+            id = entity.id!!,
+            nickname = entity.nickname,
+            name = entity.name,
+            email = entity.email,
+            password = entity.password,
+            employeeNumber = entity.employeeNumber,
+            authority = entity.authority,
+            spotId = entity.spot.id!!,
+            teamId = entity.team.id!!,
+            profileImagePath = entity.profileImagePath,
+            deletedAt = entity.deletedAt
+        )
+    }
 }

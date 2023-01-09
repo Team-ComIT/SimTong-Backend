@@ -1,8 +1,7 @@
 package team.comit.simtong.persistence.user.mapper
 
-import org.mapstruct.Mapper
-import org.mapstruct.Mapping
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
+import org.springframework.stereotype.Component
 import team.comit.simtong.domain.user.model.DeviceToken
 import team.comit.simtong.persistence.GenericMapper
 import team.comit.simtong.persistence.user.entity.DeviceTokenJpaEntity
@@ -14,14 +13,36 @@ import team.comit.simtong.persistence.user.repository.UserJpaRepository
  *
  * @author kimbeomjin
  * @date 2023/01/01
- * @version 1.1.0
+ * @version 1.2.5
  **/
-@Mapper
-abstract class DeviceTokenMapper : GenericMapper<DeviceTokenJpaEntity, DeviceToken> {
+@Component
+class DeviceTokenMapper(
+    private val userJpaRepository: UserJpaRepository
+) : GenericMapper<DeviceTokenJpaEntity, DeviceToken> {
 
-    @Autowired
-    protected lateinit var userRepository: UserJpaRepository
+    override fun toEntity(model: DeviceToken): DeviceTokenJpaEntity {
+        val user = userJpaRepository.findByIdOrNull(model.userId)!!
 
-    @Mapping(target = "user", expression = "java(userRepository.findById(model.getUserId()).orElse(null))")
-    abstract override fun toEntity(model: DeviceToken): DeviceTokenJpaEntity
+        return DeviceTokenJpaEntity(
+            userId = model.userId,
+            user = user,
+            token = model.token
+        )
+    }
+
+    override fun toDomain(entity: DeviceTokenJpaEntity?): DeviceToken? {
+        return entity?.let {
+            DeviceToken(
+                userId = it.user.id!!,
+                token = it.token
+            )
+        }
+    }
+
+    override fun toDomainNotNull(entity: DeviceTokenJpaEntity): DeviceToken {
+        return DeviceToken(
+            userId = entity.user.id!!,
+            token = entity.token
+        )
+    }
 }
