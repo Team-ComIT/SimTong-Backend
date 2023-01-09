@@ -10,7 +10,7 @@ import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
-import team.comit.simtong.domain.holiday.spi.vo.EmployeeHoliday
+import team.comit.simtong.domain.holiday.vo.EmployeeHoliday
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User

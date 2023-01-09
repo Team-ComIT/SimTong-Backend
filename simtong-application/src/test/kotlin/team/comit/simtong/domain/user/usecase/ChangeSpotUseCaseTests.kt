@@ -9,7 +9,6 @@ import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import team.comit.simtong.domain.schedule.exception.ScheduleExceptions
 import team.comit.simtong.domain.spot.exception.SpotExceptions
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
