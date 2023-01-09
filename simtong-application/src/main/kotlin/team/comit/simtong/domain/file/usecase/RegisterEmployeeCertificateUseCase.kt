@@ -24,5 +24,4 @@ class RegisterEmployeeCertificateUseCase(
 
         commandEmployeeCertificatePort.saveAll(employeeList)
     }
-
 }
