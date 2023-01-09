@@ -51,7 +51,7 @@ class ChangeEmailUseCaseTests {
     }
 
     private val uncertifiedAuthCodeLimit: AuthCodeLimit by lazy {
-        AuthCodeLimit(
+        AuthCodeLimit.issue(
             email = "test@test.com"
         )
     }

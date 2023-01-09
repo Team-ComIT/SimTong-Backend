@@ -1,6 +1,5 @@
 package team.comit.simtong.domain.auth.usecase
 
-import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCode
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
@@ -15,7 +14,7 @@ import team.comit.simtong.global.annotation.UseCase
  *
  * @author Chokyunghyeon
  * @date 2022/09/24
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class SendAuthCodeUseCase(
@@ -27,17 +26,16 @@ class SendAuthCodeUseCase(
 
     fun execute(email: String) {
         val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
-            ?: AuthCodeLimit(email)
+            ?: AuthCodeLimit.issue(email)
 
-        if (authCodeLimit.verified) {
-            throw AuthExceptions.AlreadyCertifiedEmail()
-        }
+        commandAuthCodeLimitPort.save(
+            authCodeLimit.increaseCount()
+        )
 
-        commandAuthCodeLimitPort.save(authCodeLimit.increaseCount())
+        val authCode = commandAuthCodePort.save(
+            AuthCode.issue(email)
+        )
 
-        val authCode = commandAuthCodePort.save(AuthCode(email))
-
-        sendEmailPort.sendAuthCode(authCode.code, email)
+        sendEmailPort.sendAuthCode(authCode.code.value, email)
     }
-
 }

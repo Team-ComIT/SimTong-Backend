@@ -4,7 +4,6 @@ import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.global.DomainProperties.getProperty
 import team.comit.simtong.global.DomainPropertiesPrefix
 import team.comit.simtong.global.annotation.Aggregate
-import team.comit.simtong.global.annotation.Default
 
 /**
  *
@@ -13,10 +12,10 @@ import team.comit.simtong.global.annotation.Default
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/09/11
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @Aggregate
-data class AuthCodeLimit @Default constructor(
+data class AuthCodeLimit(
     val key: String,
 
     val expirationTime: Int,
@@ -25,14 +24,6 @@ data class AuthCodeLimit @Default constructor(
 
     val verified: Boolean
 ) {
-
-    constructor(email: String) : this(
-        key = email,
-        expirationTime = EXPIRED,
-        attemptCount = 0,
-        verified = false
-    )
-
     companion object {
         @JvmField
         val MAX_ATTEMPT_COUNT: Short = getProperty(DomainPropertiesPrefix.AUTHCODELIMIT_MAX_ATTEMPT_COUNT).toShort()
@@ -43,6 +34,13 @@ data class AuthCodeLimit @Default constructor(
         @JvmField
         val VERIFIED_EXPIRED: Int = getProperty(DomainPropertiesPrefix.AUTHCODELIMIT_VERIFIED_EXP).toInt()
 
+        fun issue(email: String) = AuthCodeLimit(
+            key = email,
+            expirationTime = EXPIRED,
+            attemptCount = 0,
+            verified = false
+        )
+
         fun certified(email: String) = AuthCodeLimit(
             key = email,
             expirationTime = VERIFIED_EXPIRED,
@@ -52,9 +50,8 @@ data class AuthCodeLimit @Default constructor(
     }
 
     fun increaseCount(): AuthCodeLimit {
-        if (attemptCount >= MAX_ATTEMPT_COUNT) {
-            throw AuthExceptions.ExceededSendAuthCodeRequest()
-        }
+        checkNotYetVerified()
+        checkNotExceededAttemptCount()
 
         return AuthCodeLimit(
             key = key,
@@ -64,4 +61,15 @@ data class AuthCodeLimit @Default constructor(
         )
     }
 
+    private fun checkNotYetVerified() {
+        if (verified) {
+            throw AuthExceptions.AlreadyCertifiedEmail()
+        }
+    }
+
+    private fun checkNotExceededAttemptCount() {
+        if (attemptCount >= MAX_ATTEMPT_COUNT) {
+            throw AuthExceptions.ExceededSendAuthCodeRequest()
+        }
+    }
 }

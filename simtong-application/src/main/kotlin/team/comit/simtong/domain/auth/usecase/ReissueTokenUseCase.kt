@@ -13,7 +13,7 @@ import team.comit.simtong.global.annotation.UseCase
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/09/18
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class ReissueTokenUseCase(
@@ -21,13 +21,13 @@ class ReissueTokenUseCase(
     private val queryRefreshTokenPort: QueryRefreshTokenPort
 ) {
 
-    fun execute(request: String): TokenResponse {
-        val token = queryRefreshTokenPort.queryRefreshTokenByToken(request)
+    fun execute(token: String): TokenResponse {
+        val refreshToken = queryRefreshTokenPort.queryRefreshTokenByToken(token)
             ?: throw AuthExceptions.RefreshTokenNotFound()
 
         return jwtPort.receiveToken(
-            userId = token.userId,
-            authority = token.authority
+            userId = refreshToken.userId,
+            authority = refreshToken.authority
         )
     }
 }

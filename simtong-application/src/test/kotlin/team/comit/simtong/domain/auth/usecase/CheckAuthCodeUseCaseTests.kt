@@ -8,6 +8,7 @@ import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCode
+import team.comit.simtong.domain.auth.model.Code
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.QueryAuthCodePort
 import team.comit.simtong.global.annotation.SimtongTest
@@ -30,7 +31,7 @@ class CheckAuthCodeUseCaseTests {
     private val authCodeStub: AuthCode by lazy {
         AuthCode(
             key = email,
-            code = code,
+            code = Code.of(code),
             expirationTime = AuthCode.EXPIRED
         )
     }
@@ -38,7 +39,7 @@ class CheckAuthCodeUseCaseTests {
     private val differentAuthCodeStub by lazy {
         AuthCode(
             key = email,
-            code = "654321",
+            code = Code.of("654321"),
             expirationTime = AuthCode.EXPIRED
         )
     }
