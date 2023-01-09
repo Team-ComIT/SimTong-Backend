@@ -25,5 +25,4 @@ class QueryPublicMenuUseCase(
 
         return MenuResponse(result)
     }
-
 }
