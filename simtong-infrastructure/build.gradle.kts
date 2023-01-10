@@ -55,13 +55,6 @@ dependencies {
     testImplementation(Dependencies.S3MOCK)
 }
 
-kapt {
-    arguments {
-        arg("mapstruct.defaultComponentModel", "spring")
-        arg("mapstruct.unmappedTargetPolicy", "ignore")
-    }
-}
-
 allOpen {
     annotation("javax.persistence.Entity")
     annotation("javax.persistence.MappedSuperclass")
