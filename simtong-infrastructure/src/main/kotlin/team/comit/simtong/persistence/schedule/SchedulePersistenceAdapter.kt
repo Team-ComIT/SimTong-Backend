@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.SchedulePort
-import team.comit.simtong.domain.schedule.vo.SpotSchedule
+import team.comit.simtong.domain.schedule.spi.vo.SpotSchedule
 import team.comit.simtong.global.extension.QuerydslExtensionUtils.or
 import team.comit.simtong.persistence.schedule.mapper.ScheduleMapper
 import team.comit.simtong.persistence.schedule.vo.QSpotScheduleVo

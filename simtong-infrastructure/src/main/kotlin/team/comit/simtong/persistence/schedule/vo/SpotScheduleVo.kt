@@ -1,7 +1,7 @@
 package team.comit.simtong.persistence.schedule.vo
 
 import com.querydsl.core.annotations.QueryProjection
-import team.comit.simtong.domain.schedule.vo.SpotSchedule
+import team.comit.simtong.domain.schedule.spi.vo.SpotSchedule
 import java.time.LocalDate
 import java.util.UUID
 
