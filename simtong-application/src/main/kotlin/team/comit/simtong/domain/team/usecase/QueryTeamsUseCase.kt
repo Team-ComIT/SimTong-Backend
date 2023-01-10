@@ -19,15 +19,13 @@ class QueryTeamsUseCase(
 ) {
 
     fun execute(spotId: UUID): QueryTeamsResponse {
-        val teams = queryTeamPort.queryTeamsBySpotId(spotId)
+        val teams = queryTeamPort.queryTeamsBySpotId(spotId).map {
+            QueryTeamsResponse.TeamElement(
+                id = it.id,
+                name = it.name
+            )
+        }
 
-        return QueryTeamsResponse(
-            teams.map {
-                QueryTeamsResponse.TeamElement(
-                    id = it.id,
-                    name = it.name
-                )
-            }
-        )
+        return QueryTeamsResponse(teams)
     }
 }
