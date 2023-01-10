@@ -14,8 +14,9 @@ import team.comit.simtong.global.annotation.UseCase
  * 개인 일정 정보 변경 요청을 담당하는 ChangeIndividualScheduleUseCase
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/11/27
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class ChangeIndividualScheduleUseCase(
@@ -35,18 +36,14 @@ class ChangeIndividualScheduleUseCase(
         val user = queryUserPort.queryUserById(currentUserId)
             ?: throw UserExceptions.NotFound()
 
-        if (user.id != schedule.userId) {
-            throw ScheduleExceptions.NotScheduleOwner()
-        }
-
         commandSchedulePort.save(
-            schedule.copy(
+            schedule.changeIndividualSchedule(
                 title = title,
                 startAt = startAt,
                 endAt = endAt,
-                alarmTime = alarm
+                alarmTime = alarm,
+                userId = user.id
             )
         )
     }
-
 }

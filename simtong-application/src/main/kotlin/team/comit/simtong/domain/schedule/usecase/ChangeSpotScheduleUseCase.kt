@@ -16,8 +16,9 @@ import team.comit.simtong.global.annotation.UseCase
  * 지점 일정 변경 기능을 담당하는 ChangeSpotScheduleUseCase
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/11/22
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class ChangeSpotScheduleUseCase(
@@ -36,15 +37,12 @@ class ChangeSpotScheduleUseCase(
         val schedule = querySchedulePort.queryScheduleById(request.scheduleId)
             ?: throw ScheduleExceptions.NotFound()
 
-        when {
-            Scope.ENTIRE != schedule.scope -> throw ScheduleExceptions.NotScheduleOwner()
-
-            user.spotId != schedule.spotId && Authority.ROLE_SUPER != user.authority ->
-                throw UserExceptions.NotEnoughPermission("같은 지점 관리자이거나 최고 관리자이어야 합니다.")
+        if (!schedule.isSameSpot(user.spotId) && user.authority != Authority.ROLE_SUPER) {
+            throw UserExceptions.NotEnoughPermission("같은 지점 관리자이거나 최고 관리자이어야 합니다.")
         }
 
         commandSchedulePort.save(
-            schedule.copy(
+            schedule.changeEntireSchedule(
                 title = request.title,
                 startAt = request.startAt,
                 endAt = request.endAt

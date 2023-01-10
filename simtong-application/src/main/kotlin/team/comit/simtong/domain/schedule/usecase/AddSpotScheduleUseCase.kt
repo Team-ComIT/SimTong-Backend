@@ -15,8 +15,9 @@ import team.comit.simtong.global.annotation.UseCase
  * 지점 일정 추가를 담당하는 AddSpotScheduleUseCase
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/11/21
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class AddSpotScheduleUseCase(
@@ -37,7 +38,7 @@ class AddSpotScheduleUseCase(
         }
 
         commandSchedulePort.save(
-            Schedule(
+            Schedule.of(
                 userId = currentUserId,
                 spotId = spotId,
                 title = title,
@@ -47,5 +48,4 @@ class AddSpotScheduleUseCase(
             )
         )
     }
-
 }

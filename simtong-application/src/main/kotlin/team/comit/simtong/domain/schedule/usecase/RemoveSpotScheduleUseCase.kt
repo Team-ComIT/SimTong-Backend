@@ -17,7 +17,7 @@ import java.util.UUID
  *
  * @author Chokyunghyeon
  * @date 2022/11/22
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class RemoveSpotScheduleUseCase(
@@ -36,15 +36,12 @@ class RemoveSpotScheduleUseCase(
         val schedule = querySchedulePort.queryScheduleById(scheduleId)
             ?: throw ScheduleExceptions.NotFound()
 
-        if (user.spotId != schedule.spotId && user.authority != Authority.ROLE_SUPER) {
-            throw UserExceptions.NotEnoughPermission("같은 지점 관리자이거나 최고 관리자이어야 합니다.")
-        }
+        schedule.checkScope(Scope.ENTIRE)
 
-        if (Scope.ENTIRE != schedule.scope) {
-            throw ScheduleExceptions.DifferentScope("지점 일정이 아닙니다.")
+        if (!schedule.isSameSpot(user.spotId) && user.authority != Authority.ROLE_SUPER) {
+            throw UserExceptions.NotEnoughPermission("같은 지점 관리자이거나 최고 관리자이어야 합니다.")
         }
 
         commandSchedulePort.delete(schedule)
     }
-
 }
