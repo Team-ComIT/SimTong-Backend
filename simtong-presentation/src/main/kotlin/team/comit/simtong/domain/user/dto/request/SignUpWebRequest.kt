@@ -1,9 +1,9 @@
 package team.comit.simtong.domain.user.dto.request
 
 import org.hibernate.validator.constraints.Range
-import team.comit.simtong.domain.user.value.EmployeeNumber
-import team.comit.simtong.domain.user.value.NickName
-import team.comit.simtong.domain.user.value.Password
+import team.comit.simtong.domain.user.model.value.EmployeeNumber
+import team.comit.simtong.domain.user.model.value.NickName
+import team.comit.simtong.domain.user.model.value.Password
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern
@@ -14,7 +14,7 @@ import javax.validation.constraints.Pattern
  *
  * @author Chokyunghyeon
  * @date 2022/09/04
- * @version 1.2.3
+ * @version 1.2.5
  **/
 data class SignUpWebRequest(
 
@@ -26,13 +26,13 @@ data class SignUpWebRequest(
     val email: String,
 
     @Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
-    val employeeNumber: EmployeeNumber,
+    val employeeNumber: Int,
 
     @Pattern(regexp = Password.PATTERN)
-    val password: Password,
+    val password: String,
 
     @Pattern(regexp = NickName.PATTERN)
-    val nickname: NickName,
+    val nickname: String,
 
     val profileImagePath: String?,
 

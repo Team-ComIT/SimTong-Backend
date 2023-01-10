@@ -15,7 +15,7 @@ import javax.validation.Valid
  *
  * @author kimbeomjin
  * @date 2022/12/30
- * @version 1.1.0
+ * @version 1.2.5
  **/
 @RestController
 @RequestMapping("/notifications")
@@ -24,23 +24,23 @@ class NotificationWebAdapter(
 ) {
 
     @PostMapping
-    fun sendNotification(@RequestBody @Valid request: SendNotificationWebRequest) {
+    fun sendNotification(@Valid @RequestBody request: SendNotificationWebRequest) {
         sendNotificationUseCase.execute(
-            userId = request.userId!!,
-            title = request.title!!,
-            content = request.content!!,
-            type = request.type!!.name,
+            userId = request.userId,
+            title = request.title,
+            content = request.content,
+            type = request.type,
             identify = request.identify
         )
     }
 
     @PostMapping("/list")
-    fun sendMultiNotification(@RequestBody @Valid request: SendMultiNotificationWebRequest) {
+    fun sendMultiNotification(@Valid @RequestBody request: SendMultiNotificationWebRequest) {
         sendNotificationUseCase.execute(
             userIds = request.userIds,
-            title = request.title!!,
-            content = request.content!!,
-            type = request.type!!.name,
+            title = request.title,
+            content = request.content,
+            type = request.type,
             identify = request.identify
         )
     }

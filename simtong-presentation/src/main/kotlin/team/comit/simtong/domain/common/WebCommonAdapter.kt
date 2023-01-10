@@ -1,6 +1,5 @@
 package team.comit.simtong.domain.common
 
-import org.hibernate.validator.constraints.Range
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
@@ -24,8 +23,6 @@ import team.comit.simtong.domain.user.usecase.CheckMatchedAccountUseCase
 import team.comit.simtong.domain.user.usecase.ComparePasswordUseCase
 import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
 import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
-import team.comit.simtong.domain.user.value.EmployeeNumber
-import team.comit.simtong.domain.user.value.Password
 import java.util.UUID
 import javax.validation.Valid
 import javax.validation.constraints.Email
@@ -37,7 +34,7 @@ import javax.validation.constraints.NotBlank
  *
  * @author Chokyunghyeon
  * @date 2022/09/11
- * @version 1.2.4
+ * @version 1.2.5
  **/
 @Validated
 @RestController
@@ -78,8 +75,8 @@ class WebCommonAdapter(
         resetPasswordUseCase.execute(
             ResetPasswordRequest(
                 email = request.email,
-                employeeNumber = request.employeeNumber.value,
-                newPassword = request.newPassword.value
+                employeeNumber = request.employeeNumber,
+                newPassword = request.newPassword
             )
         )
     }
@@ -94,23 +91,18 @@ class WebCommonAdapter(
     fun changePassword(@Valid @RequestBody request: ChangePasswordWebRequest) {
         changePasswordUseCase.execute(
             ChangePasswordRequest(
-                password = request.password.value,
-                newPassword = request.newPassword.value
+                password = request.password,
+                newPassword = request.newPassword
             )
         )
     }
 
     @GetMapping("/account/existence")
-    fun checkMatchedAccount(
-        @Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
-        @RequestParam employeeNumber: EmployeeNumber,
-        @NotBlank @Email
-        @RequestParam email: String
-    ) {
+    fun checkMatchedAccount(@Valid @ModelAttribute request: CheckMatchedAccountRequest) {
         checkMatchedAccountUseCase.execute(
             CheckMatchedAccountRequest(
-                employeeNumber = employeeNumber.value,
-                email = email
+                employeeNumber = request.employeeNumber,
+                email = request.email
             )
         )
     }
@@ -121,8 +113,8 @@ class WebCommonAdapter(
     }
 
     @GetMapping("/password/compare")
-    fun comparePassword(@NotBlank @RequestParam password: Password) {
-        comparePasswordUseCase.execute(password.value)
+    fun comparePassword(@NotBlank @RequestParam password: String) {
+        comparePasswordUseCase.execute(password)
     }
 
     @GetMapping("/team/{spot-id}")

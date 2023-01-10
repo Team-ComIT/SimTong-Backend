@@ -1,8 +1,8 @@
 package team.comit.simtong.domain.common.dto.request
 
 import org.hibernate.validator.constraints.Range
-import team.comit.simtong.domain.user.value.EmployeeNumber
-import team.comit.simtong.domain.user.value.Password
+import team.comit.simtong.domain.user.model.value.EmployeeNumber
+import team.comit.simtong.domain.user.model.value.Password
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern
@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern
  *
  * @author Chokyunghyeon
  * @date 2022/10/03
- * @version 1.2.3
+ * @version 1.2.5
  **/
 data class ResetPasswordWebRequest(
     @field:NotBlank
@@ -21,8 +21,8 @@ data class ResetPasswordWebRequest(
     val email: String,
 
     @field:Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
-    val employeeNumber: EmployeeNumber,
+    val employeeNumber: Int,
 
     @field:Pattern(regexp = Password.PATTERN)
-    val newPassword: Password
+    val newPassword: String
 )
