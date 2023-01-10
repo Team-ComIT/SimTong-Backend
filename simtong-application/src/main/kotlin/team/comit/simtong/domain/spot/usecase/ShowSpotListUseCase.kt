@@ -28,5 +28,4 @@ class ShowSpotListUseCase(
 
         return SpotResponse(result)
     }
-
 }

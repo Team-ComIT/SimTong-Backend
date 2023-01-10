@@ -17,7 +17,7 @@ import java.util.UUID
 data class Schedule(
     val id: UUID,
 
-    val userId: UUID,
+    val employeeId: UUID,
 
     val spotId: UUID,
 
@@ -50,7 +50,7 @@ data class Schedule(
             alarmTime: LocalTime = DEFAULT_ALARM_TIME
         ) = Schedule(
             id = id,
-            userId = userId,
+            employeeId = userId,
             spotId = spotId,
             title = title,
             scope = scope,
@@ -95,7 +95,7 @@ data class Schedule(
     }
 
     fun checkOwner(userId: UUID) {
-        if (this.userId != userId) {
+        if (this.employeeId != userId) {
             throw ScheduleExceptions.NotScheduleOwner()
         }
     }

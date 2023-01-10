@@ -61,7 +61,7 @@ class ChangeEmployeeHolidayUseCaseTests {
     private val holidayStub: Holiday by lazy {
         Holiday(
             date = beforeDate,
-            userId = userId,
+            employeeId = userId,
             type = HolidayType.HOLIDAY,
             spotId = spotId,
             status = HolidayStatus.COMPLETED

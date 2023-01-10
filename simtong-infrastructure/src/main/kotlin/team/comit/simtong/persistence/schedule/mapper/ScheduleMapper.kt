@@ -24,7 +24,7 @@ class ScheduleMapper(
 ) : GenericMapper<ScheduleJpaEntity, Schedule> {
 
     override fun toEntity(model: Schedule): ScheduleJpaEntity {
-        val user = userJpaRepository.findByIdOrNull(model.userId)!!
+        val user = userJpaRepository.findByIdOrNull(model.employeeId)!!
         val spot = spotJpaRepository.findByIdOrNull(model.spotId)!!
 
         return ScheduleJpaEntity(
@@ -43,7 +43,7 @@ class ScheduleMapper(
         return entity?.let {
             Schedule(
                 id = it.id!!,
-                userId = it.user.id!!,
+                employeeId = it.user.id!!,
                 spotId = it.spot.id!!,
                 title = it.title,
                 scope = it.scope,
@@ -57,7 +57,7 @@ class ScheduleMapper(
     override fun toDomainNotNull(entity: ScheduleJpaEntity): Schedule {
         return Schedule(
             id = entity.id!!,
-            userId = entity.user.id!!,
+            employeeId = entity.user.id!!,
             spotId = entity.spot.id!!,
             title = entity.title,
             scope = entity.scope,

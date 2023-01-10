@@ -47,7 +47,7 @@ class ChangeSpotScheduleUseCaseTests {
     private val scheduleStub: Schedule by lazy {
         Schedule(
             id = scheduleId,
-            userId = userId,
+            employeeId = userId,
             spotId = spotId,
             title = "test title",
             scope = Scope.ENTIRE,
@@ -125,7 +125,7 @@ class ChangeSpotScheduleUseCaseTests {
 
         val individualScheduleStub = Schedule(
             id = scheduleId,
-            userId = userId,
+            employeeId = userId,
             spotId = spotId,
             title = "test title",
             scope = Scope.INDIVIDUAL,

@@ -49,7 +49,7 @@ class CancelHolidayUseCaseTests {
         // given
         val holidayStub = Holiday(
             date = date,
-            userId = id,
+            employeeId = id,
             type = HolidayType.HOLIDAY,
             spotId = id,
             status = HolidayStatus.WRITTEN
@@ -72,7 +72,7 @@ class CancelHolidayUseCaseTests {
         // given
         val holidayStub = Holiday(
             date = date,
-            userId = id,
+            employeeId = id,
             type = HolidayType.HOLIDAY,
             spotId = id,
             status = HolidayStatus.COMPLETED
@@ -95,7 +95,7 @@ class CancelHolidayUseCaseTests {
         // given
         val holidayStub = Holiday(
             date = LocalDate.MAX,
-            userId = id,
+            employeeId = id,
             type = HolidayType.ANNUAL,
             spotId = id,
             status = HolidayStatus.COMPLETED
@@ -118,7 +118,7 @@ class CancelHolidayUseCaseTests {
         // given
         val holidayStub = Holiday(
             date = LocalDate.MIN,
-            userId = id,
+            employeeId = id,
             type = HolidayType.ANNUAL,
             spotId = id,
             status = HolidayStatus.COMPLETED
