@@ -20,7 +20,7 @@ import java.util.UUID
 data class Holiday(
     val date: LocalDate,
 
-    val userId: UUID,
+    val employeeId: UUID,
 
     val type: HolidayType,
 

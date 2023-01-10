@@ -42,7 +42,7 @@ class QueryIndividualHolidayUseCaseTests {
         listOf(
             Holiday(
                 date = LocalDate.now(),
-                userId = userId,
+                employeeId = userId,
                 type = HolidayType.HOLIDAY,
                 spotId = UUID.randomUUID(),
                 status = HolidayStatus.COMPLETED

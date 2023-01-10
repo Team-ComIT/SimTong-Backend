@@ -64,7 +64,7 @@ class QueryIndividualSpotScheduleUseCaseTests {
     private val individualScheduleStub: Schedule by lazy {
         Schedule(
             id = scheduleId,
-            userId = userId,
+            employeeId = userId,
             spotId = spotId,
             title = "test title",
             scope = Scope.INDIVIDUAL,
@@ -77,7 +77,7 @@ class QueryIndividualSpotScheduleUseCaseTests {
     private val entireScheduleStub: Schedule by lazy {
         Schedule(
             id = scheduleId,
-            userId = userId,
+            employeeId = userId,
             spotId = spotId,
             title = "test title",
             scope = Scope.ENTIRE,

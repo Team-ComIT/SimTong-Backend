@@ -137,7 +137,7 @@ class AppointAnnualUseCaseTests {
             date = date,
             spotId = id,
             type = HolidayType.ANNUAL,
-            userId = id,
+            employeeId = id,
             status = HolidayStatus.COMPLETED
         )
 

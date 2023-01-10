@@ -59,7 +59,7 @@ class ShareHolidayUseCaseTests {
         listOf(
             Holiday(
                 date = LocalDate.of(2022, 12, 1),
-                userId = userId,
+                employeeId = userId,
                 type = HolidayType.HOLIDAY,
                 spotId = spotId,
                 status = HolidayStatus.COMPLETED

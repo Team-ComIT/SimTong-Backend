@@ -24,12 +24,12 @@ class HolidayMapper(
 ) : GenericMapper<HolidayJpaEntity, Holiday> {
 
     override fun toEntity(model: Holiday): HolidayJpaEntity {
-        val user = userJpaRepository.findByIdOrNull(model.userId)!!
+        val user = userJpaRepository.findByIdOrNull(model.employeeId)!!
         val spot = spotJpaRepository.findByIdOrNull(model.spotId)!!
 
         return HolidayJpaEntity(
             id = HolidayJpaEntity.Id(
-                userId = model.userId,
+                userId = model.employeeId,
                 date = model.date
             ),
             type = model.type,
@@ -44,7 +44,7 @@ class HolidayMapper(
             val id = it.id
             Holiday(
                 date = id.date,
-                userId = id.userId,
+                employeeId = id.userId,
                 type = it.type,
                 spotId = it.spot.id!!,
                 status = it.status
@@ -56,7 +56,7 @@ class HolidayMapper(
         val id = entity.id
         return Holiday(
             date = id.date,
-            userId = id.userId,
+            employeeId = id.userId,
             type = entity.type,
             spotId = entity.spot.id!!,
             status = entity.status

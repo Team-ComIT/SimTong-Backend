@@ -46,7 +46,7 @@ class RemoveIndividualScheduleUseCaseTests {
     private val scheduleStub: Schedule by lazy {
         Schedule(
             id = scheduleId,
-            userId = userId,
+            employeeId = userId,
             spotId = spotId,
             title = "test title",
             scope = Scope.INDIVIDUAL,
@@ -150,7 +150,7 @@ class RemoveIndividualScheduleUseCaseTests {
         // given
         val scheduleStub = Schedule(
             id = scheduleId,
-            userId = UUID.randomUUID(),
+            employeeId = UUID.randomUUID(),
             spotId = spotId,
             title = "test title",
             scope = Scope.INDIVIDUAL,
@@ -179,7 +179,7 @@ class RemoveIndividualScheduleUseCaseTests {
         // given
         val scheduleStub = Schedule(
             id = scheduleId,
-            userId = userId,
+            employeeId = userId,
             spotId = spotId,
             title = "test title",
             scope = Scope.ENTIRE,
