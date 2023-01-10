@@ -9,7 +9,7 @@ import team.comit.simtong.domain.schedule.dto.QueryEntireSpotScheduleResponse
 import team.comit.simtong.domain.schedule.dto.SpotScheduleResponse
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
-import team.comit.simtong.domain.schedule.vo.SpotSchedule
+import team.comit.simtong.domain.schedule.spi.vo.SpotSchedule
 import team.comit.simtong.global.annotation.SimtongTest
 import java.time.LocalDate
 import java.util.UUID

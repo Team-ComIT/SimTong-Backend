@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.schedule.vo
+package team.comit.simtong.domain.schedule.spi.vo
 
 import java.time.LocalDate
 import java.util.UUID
