@@ -16,7 +16,7 @@ import java.util.UUID
  *
  * @author kimbeomjin
  * @date 2022/12/03
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class RemoveIndividualScheduleUseCase(
@@ -35,13 +35,8 @@ class RemoveIndividualScheduleUseCase(
         val schedule = querySchedulePort.queryScheduleById(scheduleId)
             ?: throw ScheduleExceptions.NotFound()
 
-        if (user.id != schedule.userId) {
-            throw ScheduleExceptions.NotScheduleOwner()
-        }
-
-        if (Scope.INDIVIDUAL != schedule.scope) {
-            throw ScheduleExceptions.DifferentScope("개인 일정이 아닙니다.")
-        }
+        schedule.checkScope(Scope.INDIVIDUAL)
+        schedule.checkOwner(user.id)
 
         commandSchedulePort.delete(schedule)
     }

@@ -15,7 +15,7 @@ import team.comit.simtong.global.annotation.UseCase
  *
  * @author Chokyunghyeon
  * @date 2022/11/26
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class AddIndividualScheduleUseCase(
@@ -32,7 +32,7 @@ class AddIndividualScheduleUseCase(
             ?: throw UserExceptions.NotFound()
 
         commandSchedulePort.save(
-            Schedule(
+            Schedule.of(
                 userId = currentUserId,
                 spotId = user.spotId,
                 title = title,
@@ -43,5 +43,4 @@ class AddIndividualScheduleUseCase(
             )
         )
     }
-
 }

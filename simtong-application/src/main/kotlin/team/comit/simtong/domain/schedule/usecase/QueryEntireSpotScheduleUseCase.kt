@@ -38,5 +38,4 @@ class QueryEntireSpotScheduleUseCase(
 
         return QueryEntireSpotScheduleResponse(response)
     }
-
 }
