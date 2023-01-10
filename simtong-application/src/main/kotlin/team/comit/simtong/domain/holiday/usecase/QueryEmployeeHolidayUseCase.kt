@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.holiday.usecase
 
 import team.comit.simtong.domain.holiday.dto.QueryEmployeeHolidayResponse
-import team.comit.simtong.domain.holiday.model.HolidayQueryType
+import team.comit.simtong.domain.holiday.model.value.HolidayQueryType
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
@@ -28,14 +28,14 @@ class QueryEmployeeHolidayUseCase(
     private val queryUserPort: HolidayQueryUserPort
 ) {
 
-    fun execute(year: Int, month: Int, typeName: String, teamId: UUID?): QueryEmployeeHolidayResponse {
+    fun execute(year: Int, month: Int, type: HolidayQueryType, teamId: UUID?): QueryEmployeeHolidayResponse {
         val currentUserId = securityPort.getCurrentUserId()
         val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
         val holidays = queryHolidayPort.queryHolidaysByYearAndMonthAndTeamId(
             year = year,
             month = month,
-            type = HolidayQueryType.valueOf(typeName).toHolidayType(),
+            type = type.toHolidayType(),
             spotId = user.spotId,
             teamId = teamId
         )

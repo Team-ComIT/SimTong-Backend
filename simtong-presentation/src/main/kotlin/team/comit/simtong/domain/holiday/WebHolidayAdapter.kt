@@ -21,6 +21,8 @@ import team.comit.simtong.domain.holiday.dto.request.CancelHolidayWebRequest
 import team.comit.simtong.domain.holiday.dto.request.ChangeEmployeeHolidayWebRequest
 import team.comit.simtong.domain.holiday.dto.request.ShareHolidayWebRequest
 import team.comit.simtong.domain.holiday.dto.response.QueryRemainAnnualWebResponse
+import team.comit.simtong.domain.holiday.model.value.HolidayQueryType
+import team.comit.simtong.domain.holiday.model.value.HolidayStatus
 import team.comit.simtong.domain.holiday.usecase.AppointAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayPeriodUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayUseCase
@@ -32,8 +34,6 @@ import team.comit.simtong.domain.holiday.usecase.QueryIndividualHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryMonthHolidayPeriodUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryRemainAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.ShareHolidayUseCase
-import team.comit.simtong.domain.holiday.value.WebHolidayQueryType
-import team.comit.simtong.domain.holiday.value.WebHolidayStatus
 import java.time.LocalDate
 import java.util.UUID
 import javax.validation.Valid
@@ -45,7 +45,7 @@ import javax.validation.Valid
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/12/03
- * @version 1.2.3
+ * @version 1.2.5
  **/
 @RestController
 @RequestMapping("/holidays")
@@ -91,7 +91,7 @@ class WebHolidayAdapter(
     fun queryIndividualHolidays(
         @RequestParam("start_at") startAt: LocalDate,
         @RequestParam("end_at") endAt: LocalDate,
-        @RequestParam status: WebHolidayStatus
+        @RequestParam status: HolidayStatus
     ): QueryIndividualHolidaysResponse {
         return queryIndividualHolidayUseCase.execute(
             QueryIndividualRequest(
@@ -120,13 +120,13 @@ class WebHolidayAdapter(
     fun queryEmployeeHolidays(
         @RequestParam year: Int,
         @RequestParam month: Int,
-        @RequestParam type: WebHolidayQueryType,
+        @RequestParam type: HolidayQueryType,
         @RequestParam("team_id", required = false) teamId: UUID?
     ): QueryEmployeeHolidayResponse {
         return queryEmployeeHolidayUseCase.execute(
             year = year,
             month = month,
-            typeName = type.name,
+            type = type,
             teamId = teamId
         )
     }

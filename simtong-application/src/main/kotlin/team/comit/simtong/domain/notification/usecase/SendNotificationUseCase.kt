@@ -9,7 +9,6 @@ import team.comit.simtong.domain.notification.spi.SendPushMessagePort
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.global.annotation.UseCase
 import java.util.UUID
-import kotlin.collections.List
 
 /**
  *
@@ -26,7 +25,7 @@ class SendNotificationUseCase(
     private val queryUserPort: NotificationQueryUserPort
 ) {
 
-    fun execute(userId: UUID, title: String, content: String, type: String, identify: UUID?) {
+    fun execute(userId: UUID, title: String, content: String, type: NotificationType, identify: UUID?) {
         val deviceToken = queryUserPort.queryDeviceTokenByUserId(userId)
             ?: throw UserExceptions.NotFound("디바이스 토큰이 존재하지 않습니다.")
 
@@ -34,7 +33,7 @@ class SendNotificationUseCase(
             Notification(
                 title = title,
                 content = content,
-                type = NotificationType.valueOf(type),
+                type = type,
                 identify = identify
             )
         )
@@ -46,17 +45,17 @@ class SendNotificationUseCase(
             )
         )
 
-        sendPushMessagePort.sendMessage(deviceToken, title, content, NotificationType.valueOf(type), identify)
+        sendPushMessagePort.sendMessage(deviceToken, title, content, type, identify)
     }
 
-    fun execute(userIds: List<UUID>, title: String, content: String, type: String, identify: UUID?) {
+    fun execute(userIds: List<UUID>, title: String, content: String, type: NotificationType, identify: UUID?) {
         val deviceTokens = queryUserPort.queryDeviceTokensByUserIds(userIds)
 
         val notification = commandNotificationPort.saveNotification(
             Notification(
                 title = title,
                 content = content,
-                type = NotificationType.valueOf(type),
+                type = type,
                 identify = identify
             )
         )
@@ -70,6 +69,6 @@ class SendNotificationUseCase(
             }
         )
 
-        sendPushMessagePort.sendMessage(deviceTokens, title, content, NotificationType.valueOf(type), identify)
+        sendPushMessagePort.sendMessage(deviceTokens, title, content, type, identify)
     }
 }
