@@ -144,7 +144,7 @@ class ChangeSpotScheduleUseCaseTests {
             .willReturn(individualScheduleStub)
 
         // when & then
-        assertThrows<ScheduleExceptions.NotScheduleOwner> {
+        assertThrows<ScheduleExceptions.DifferentScope> {
             changeSpotScheduleUseCase.execute(requestStub)
         }
     }

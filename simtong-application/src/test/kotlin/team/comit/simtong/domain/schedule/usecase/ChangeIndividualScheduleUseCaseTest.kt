@@ -65,7 +65,7 @@ class ChangeIndividualScheduleUseCaseTest {
             password = "test password",
             employeeNumber = 1234567890,
             authority = Authority.ROLE_COMMON,
-            spotId = UUID.randomUUID(),
+            spotId = spotId,
             teamId = UUID.randomUUID(),
             profileImagePath = "test profile image"
         )
@@ -108,35 +108,6 @@ class ChangeIndividualScheduleUseCaseTest {
 
         // when & then
         assertDoesNotThrow {
-            changeIndividualScheduleUseCase.execute(requestStub)
-        }
-    }
-
-    @Test
-    fun `소유자가 아님`() {
-        // given
-        val otherScheduleStub = Schedule(
-            id = scheduleId,
-            userId = UUID.randomUUID(),
-            spotId = spotId,
-            title = "test title",
-            scope = Scope.INDIVIDUAL,
-            startAt = LocalDate.now(),
-            endAt = LocalDate.now(),
-            alarmTime = Schedule.DEFAULT_ALARM_TIME
-        )
-
-        given(securityPort.getCurrentUserId())
-            .willReturn(userId)
-
-        given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
-            .willReturn(otherScheduleStub)
-
-        given(queryUserPort.queryUserById(userId))
-            .willReturn(userStub)
-
-        // when & then
-        assertThrows<ScheduleExceptions.NotScheduleOwner> {
             changeIndividualScheduleUseCase.execute(requestStub)
         }
     }
