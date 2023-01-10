@@ -37,7 +37,7 @@ class ChangeSpotScheduleUseCase(
         val schedule = querySchedulePort.queryScheduleById(request.scheduleId)
             ?: throw ScheduleExceptions.NotFound()
 
-        if (schedule.isSameSpot(user.spotId) && user.authority != Authority.ROLE_SUPER) {
+        if (!schedule.isSameSpot(user.spotId) && user.authority != Authority.ROLE_SUPER) {
             throw UserExceptions.NotEnoughPermission("같은 지점 관리자이거나 최고 관리자이어야 합니다.")
         }
 
