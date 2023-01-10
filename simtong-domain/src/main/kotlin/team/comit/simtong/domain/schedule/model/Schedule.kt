@@ -95,7 +95,7 @@ data class Schedule(
     }
 
     fun checkOwner(userId: UUID) {
-        if (this.userId == userId) {
+        if (this.userId != userId) {
             throw ScheduleExceptions.NotScheduleOwner()
         }
     }
