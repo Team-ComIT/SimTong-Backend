@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.user.model
 
+import team.comit.simtong.global.annotation.Aggregate
 import java.util.UUID
 
 /**
@@ -10,7 +11,9 @@ import java.util.UUID
  * @date 2023/01/01
  * @version 1.1.0
  **/
+@Aggregate
 data class DeviceToken(
     val userId: UUID,
+
     val token: String
 )
