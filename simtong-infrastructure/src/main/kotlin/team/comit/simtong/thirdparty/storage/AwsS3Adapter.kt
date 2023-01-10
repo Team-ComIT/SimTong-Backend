@@ -7,7 +7,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.file.exception.FileExceptions
-import team.comit.simtong.domain.schedule.spi.CheckFilePort
+import team.comit.simtong.domain.file.spi.CheckFilePort
 import team.comit.simtong.domain.file.spi.UploadFilePort
 import java.io.File
 import java.io.IOException

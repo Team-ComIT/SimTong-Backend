@@ -7,7 +7,7 @@ import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.file.exception.FileExceptions
-import team.comit.simtong.domain.schedule.spi.CheckFilePort
+import team.comit.simtong.domain.file.spi.CheckFilePort
 import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority

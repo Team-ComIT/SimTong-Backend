@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.file.exception.FileExceptions
-import team.comit.simtong.domain.schedule.spi.CheckFilePort
+import team.comit.simtong.domain.file.spi.CheckFilePort
 import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.CommandUserPort
