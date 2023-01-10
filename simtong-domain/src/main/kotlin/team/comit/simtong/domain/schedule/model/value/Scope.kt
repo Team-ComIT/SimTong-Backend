@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.schedule.model
+package team.comit.simtong.domain.schedule.model.value
 
 /**
  *

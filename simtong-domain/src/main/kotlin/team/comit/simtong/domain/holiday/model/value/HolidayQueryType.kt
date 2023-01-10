@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.holiday.model
+package team.comit.simtong.domain.holiday.model.value
 
 /**
  *

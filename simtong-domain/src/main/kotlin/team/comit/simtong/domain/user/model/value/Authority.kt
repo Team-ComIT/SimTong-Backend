@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.user.model
+package team.comit.simtong.domain.user.model.value
 
 /**
  *

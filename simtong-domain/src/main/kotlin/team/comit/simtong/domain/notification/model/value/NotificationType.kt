@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.notification.model
+package team.comit.simtong.domain.notification.model.value
 
 /**
  *
@@ -24,4 +24,5 @@ enum class NotificationType {
      * 일정 관련 알림
      */
     SCHEDULE
+
 }
