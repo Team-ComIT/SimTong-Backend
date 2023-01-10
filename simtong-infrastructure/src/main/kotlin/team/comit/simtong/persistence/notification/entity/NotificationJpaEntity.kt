@@ -1,6 +1,6 @@
 package team.comit.simtong.persistence.notification.entity
 
-import team.comit.simtong.domain.notification.model.NotificationType
+import team.comit.simtong.domain.notification.model.value.NotificationType
 import team.comit.simtong.persistence.BaseEntity
 import java.time.LocalDateTime
 import java.util.UUID

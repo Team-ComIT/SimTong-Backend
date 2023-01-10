@@ -7,7 +7,7 @@ import team.comit.simtong.domain.spot.exception.SpotExceptions
 import team.comit.simtong.domain.team.exception.TeamExceptions
 import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.domain.user.exception.UserExceptions
-import team.comit.simtong.domain.user.model.Authority
+import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.model.DeviceToken
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.domain.user.spi.CommandDeviceTokenPort

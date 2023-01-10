@@ -2,7 +2,7 @@ package team.comit.simtong.persistence.holiday.vo
 
 import com.querydsl.core.annotations.QueryProjection
 import team.comit.simtong.domain.holiday.spi.vo.EmployeeHoliday
-import team.comit.simtong.domain.holiday.model.HolidayType
+import team.comit.simtong.domain.holiday.model.value.HolidayType
 import java.time.LocalDate
 import java.util.UUID
 

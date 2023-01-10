@@ -9,9 +9,9 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
-import team.comit.simtong.domain.user.model.Authority.ROLE_ADMIN
-import team.comit.simtong.domain.user.model.Authority.ROLE_COMMON
-import team.comit.simtong.domain.user.model.Authority.ROLE_SUPER
+import team.comit.simtong.domain.user.model.value.Authority.ROLE_ADMIN
+import team.comit.simtong.domain.user.model.value.Authority.ROLE_COMMON
+import team.comit.simtong.domain.user.model.value.Authority.ROLE_SUPER
 import team.comit.simtong.global.filter.FilterConfig
 import team.comit.simtong.global.security.token.JwtParser
 

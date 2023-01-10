@@ -1,6 +1,7 @@
 package team.comit.simtong.domain.schedule.model
 
 import team.comit.simtong.domain.schedule.exception.ScheduleExceptions
+import team.comit.simtong.domain.schedule.model.value.Scope
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.UUID

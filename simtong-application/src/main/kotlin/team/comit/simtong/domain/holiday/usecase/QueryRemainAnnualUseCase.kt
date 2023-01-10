@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.holiday.usecase
 
 import team.comit.simtong.domain.holiday.model.Holiday
-import team.comit.simtong.domain.holiday.model.HolidayType
+import team.comit.simtong.domain.holiday.model.value.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
 import team.comit.simtong.global.annotation.ReadOnlyUseCase

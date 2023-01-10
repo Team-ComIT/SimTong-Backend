@@ -1,6 +1,8 @@
 package team.comit.simtong.domain.holiday.model
 
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
+import team.comit.simtong.domain.holiday.model.value.HolidayStatus
+import team.comit.simtong.domain.holiday.model.value.HolidayType
 import team.comit.simtong.global.DomainProperties.getProperty
 import team.comit.simtong.global.DomainPropertiesPrefix
 import team.comit.simtong.global.annotation.Aggregate

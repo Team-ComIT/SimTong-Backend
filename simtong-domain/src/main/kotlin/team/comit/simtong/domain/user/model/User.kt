@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.user.model
 
+import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.global.DomainProperties.getProperty
 import team.comit.simtong.global.DomainPropertiesPrefix
 import team.comit.simtong.global.annotation.Aggregate

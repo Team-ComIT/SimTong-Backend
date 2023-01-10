@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.auth.model
 
-import team.comit.simtong.domain.user.model.Authority
+import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.global.annotation.Aggregate
 import java.util.UUID
 

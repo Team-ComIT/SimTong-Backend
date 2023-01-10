@@ -2,7 +2,7 @@ package team.comit.simtong.persistence.user.entity
 
 import org.hibernate.annotations.ColumnDefault
 import org.hibernate.validator.constraints.Length
-import team.comit.simtong.domain.user.model.Authority
+import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.persistence.BaseEntity
 import team.comit.simtong.persistence.spot.entity.SpotJpaEntity
 import team.comit.simtong.persistence.team.entity.TeamJpaEntity
@@ -13,11 +13,9 @@ import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
 import javax.persistence.FetchType
-import javax.persistence.Index
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
-import javax.persistence.UniqueConstraint
 import javax.validation.constraints.NotNull
 
 /**

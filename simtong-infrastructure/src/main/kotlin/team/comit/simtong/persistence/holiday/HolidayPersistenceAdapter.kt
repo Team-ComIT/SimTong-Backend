@@ -9,8 +9,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.holiday.model.Holiday
-import team.comit.simtong.domain.holiday.model.HolidayStatus
-import team.comit.simtong.domain.holiday.model.HolidayType
+import team.comit.simtong.domain.holiday.model.value.HolidayStatus
+import team.comit.simtong.domain.holiday.model.value.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidayPort
 import team.comit.simtong.domain.holiday.spi.vo.EmployeeHoliday
 import team.comit.simtong.global.extension.QuerydslExtensionUtils.or

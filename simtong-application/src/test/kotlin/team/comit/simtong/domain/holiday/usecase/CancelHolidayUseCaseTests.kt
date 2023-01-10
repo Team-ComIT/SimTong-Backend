@@ -8,8 +8,8 @@ import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.model.Holiday
-import team.comit.simtong.domain.holiday.model.HolidayStatus
-import team.comit.simtong.domain.holiday.model.HolidayType
+import team.comit.simtong.domain.holiday.model.value.HolidayStatus
+import team.comit.simtong.domain.holiday.model.value.HolidayType
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort

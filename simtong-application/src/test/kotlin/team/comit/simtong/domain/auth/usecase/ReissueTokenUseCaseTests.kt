@@ -11,7 +11,7 @@ import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.RefreshToken
 import team.comit.simtong.domain.auth.spi.JwtPort
 import team.comit.simtong.domain.auth.spi.QueryRefreshTokenPort
-import team.comit.simtong.domain.user.model.Authority
+import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.global.annotation.SimtongTest
 import java.util.Date
 import java.util.UUID

@@ -7,7 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.schedule.model.Schedule
-import team.comit.simtong.domain.schedule.model.Scope
+import team.comit.simtong.domain.schedule.model.value.Scope
 import team.comit.simtong.domain.schedule.spi.SchedulePort
 import team.comit.simtong.domain.schedule.spi.vo.SpotSchedule
 import team.comit.simtong.global.extension.QuerydslExtensionUtils.or

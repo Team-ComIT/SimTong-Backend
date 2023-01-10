@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.notification.model
 
+import team.comit.simtong.domain.notification.model.value.NotificationType
 import team.comit.simtong.global.annotation.Aggregate
 import java.time.LocalDateTime
 import java.util.UUID

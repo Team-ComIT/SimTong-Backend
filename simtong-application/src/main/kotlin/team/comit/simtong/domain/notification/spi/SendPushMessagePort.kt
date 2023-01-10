@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.notification.spi
 
-import team.comit.simtong.domain.notification.model.NotificationType
+import team.comit.simtong.domain.notification.model.value.NotificationType
 import java.util.UUID
 
 /**

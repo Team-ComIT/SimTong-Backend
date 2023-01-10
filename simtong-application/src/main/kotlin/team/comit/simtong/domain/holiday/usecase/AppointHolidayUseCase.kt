@@ -3,7 +3,7 @@ package team.comit.simtong.domain.holiday.usecase
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.Holiday.Companion.checkNotExceededHolidayLimit
-import team.comit.simtong.domain.holiday.model.HolidayType
+import team.comit.simtong.domain.holiday.model.value.HolidayType
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort

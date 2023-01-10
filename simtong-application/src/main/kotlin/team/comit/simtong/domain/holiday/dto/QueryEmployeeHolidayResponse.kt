@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.holiday.dto
 
-import team.comit.simtong.domain.holiday.model.HolidayType
+import team.comit.simtong.domain.holiday.model.value.HolidayType
 import java.time.LocalDate
 import java.util.UUID
 

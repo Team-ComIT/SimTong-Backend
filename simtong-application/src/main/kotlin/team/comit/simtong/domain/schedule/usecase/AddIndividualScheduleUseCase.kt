@@ -2,7 +2,7 @@ package team.comit.simtong.domain.schedule.usecase
 
 import team.comit.simtong.domain.schedule.dto.AddIndividualScheduleRequest
 import team.comit.simtong.domain.schedule.model.Schedule
-import team.comit.simtong.domain.schedule.model.Scope
+import team.comit.simtong.domain.schedule.model.value.Scope
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort

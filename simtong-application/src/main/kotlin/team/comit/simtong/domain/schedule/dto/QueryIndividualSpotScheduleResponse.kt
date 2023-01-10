@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.schedule.dto
 
-import team.comit.simtong.domain.schedule.model.Scope
+import team.comit.simtong.domain.schedule.model.value.Scope
 import java.time.LocalDate
 import java.util.UUID
 

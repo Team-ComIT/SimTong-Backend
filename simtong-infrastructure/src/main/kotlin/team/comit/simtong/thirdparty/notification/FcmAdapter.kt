@@ -7,7 +7,7 @@ import com.google.firebase.messaging.Message
 import com.google.firebase.messaging.MulticastMessage
 import com.google.firebase.messaging.Notification
 import org.springframework.stereotype.Component
-import team.comit.simtong.domain.notification.model.NotificationType
+import team.comit.simtong.domain.notification.model.value.NotificationType
 import team.comit.simtong.domain.notification.spi.SendPushMessagePort
 import java.util.UUID
 

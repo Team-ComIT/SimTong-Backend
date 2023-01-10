@@ -2,13 +2,12 @@ package team.comit.simtong.domain.schedule.usecase
 
 import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
 import team.comit.simtong.domain.schedule.exception.ScheduleExceptions
-import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
 import team.comit.simtong.domain.user.exception.UserExceptions
-import team.comit.simtong.domain.user.model.Authority
+import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.global.annotation.UseCase
 
 /**

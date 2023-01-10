@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.schedule.spi
 
 import team.comit.simtong.domain.schedule.model.Schedule
-import team.comit.simtong.domain.schedule.model.Scope
+import team.comit.simtong.domain.schedule.model.value.Scope
 import team.comit.simtong.domain.schedule.spi.vo.SpotSchedule
 import java.time.LocalDate
 import java.util.UUID

@@ -2,7 +2,7 @@ package team.comit.simtong.domain.notification.usecase
 
 import team.comit.simtong.domain.notification.model.Notification
 import team.comit.simtong.domain.notification.model.NotificationReceiver
-import team.comit.simtong.domain.notification.model.NotificationType
+import team.comit.simtong.domain.notification.model.value.NotificationType
 import team.comit.simtong.domain.notification.spi.CommandNotificationPort
 import team.comit.simtong.domain.notification.spi.NotificationQueryUserPort
 import team.comit.simtong.domain.notification.spi.SendPushMessagePort

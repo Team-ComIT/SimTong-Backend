@@ -7,7 +7,7 @@ import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.schedule.dto.QueryEntireSpotScheduleResponse
 import team.comit.simtong.domain.schedule.dto.SpotScheduleResponse
-import team.comit.simtong.domain.schedule.model.Scope
+import team.comit.simtong.domain.schedule.model.value.Scope
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.vo.SpotSchedule
 import team.comit.simtong.global.annotation.SimtongTest

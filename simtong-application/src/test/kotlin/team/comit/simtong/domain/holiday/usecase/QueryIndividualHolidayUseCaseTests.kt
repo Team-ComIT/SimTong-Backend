@@ -9,8 +9,8 @@ import team.comit.simtong.domain.holiday.dto.IndividualHolidayResponse
 import team.comit.simtong.domain.holiday.dto.QueryIndividualHolidaysResponse
 import team.comit.simtong.domain.holiday.dto.QueryIndividualRequest
 import team.comit.simtong.domain.holiday.model.Holiday
-import team.comit.simtong.domain.holiday.model.HolidayStatus
-import team.comit.simtong.domain.holiday.model.HolidayType
+import team.comit.simtong.domain.holiday.model.value.HolidayStatus
+import team.comit.simtong.domain.holiday.model.value.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
 import team.comit.simtong.global.annotation.SimtongTest

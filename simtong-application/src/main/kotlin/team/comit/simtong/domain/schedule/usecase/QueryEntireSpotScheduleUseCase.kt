@@ -2,7 +2,7 @@ package team.comit.simtong.domain.schedule.usecase
 
 import team.comit.simtong.domain.schedule.dto.QueryEntireSpotScheduleResponse
 import team.comit.simtong.domain.schedule.dto.SpotScheduleResponse
-import team.comit.simtong.domain.schedule.model.Scope
+import team.comit.simtong.domain.schedule.model.value.Scope
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
 import java.time.LocalDate

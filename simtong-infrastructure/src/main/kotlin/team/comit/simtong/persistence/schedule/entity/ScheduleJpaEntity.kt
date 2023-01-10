@@ -1,7 +1,7 @@
 package team.comit.simtong.persistence.schedule.entity
 
 import org.hibernate.annotations.ColumnDefault
-import team.comit.simtong.domain.schedule.model.Scope
+import team.comit.simtong.domain.schedule.model.value.Scope
 import team.comit.simtong.persistence.BaseEntity
 import team.comit.simtong.persistence.spot.entity.SpotJpaEntity
 import team.comit.simtong.persistence.user.entity.UserJpaEntity

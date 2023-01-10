@@ -9,12 +9,12 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.schedule.dto.QueryIndividualSpotScheduleResponse
 import team.comit.simtong.domain.schedule.dto.ScheduleResponse
 import team.comit.simtong.domain.schedule.model.Schedule
-import team.comit.simtong.domain.schedule.model.Scope
+import team.comit.simtong.domain.schedule.model.value.Scope
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
 import team.comit.simtong.domain.user.exception.UserExceptions
-import team.comit.simtong.domain.user.model.Authority
+import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.model.User
 import team.comit.simtong.global.annotation.SimtongTest
 import java.time.LocalDate
