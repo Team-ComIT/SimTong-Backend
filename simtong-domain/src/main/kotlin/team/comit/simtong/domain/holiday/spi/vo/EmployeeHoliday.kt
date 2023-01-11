@@ -6,7 +6,7 @@ import java.util.UUID
 
 /**
  *
- * Holiday와 User 정보를 가져오는 EmployeeHoliday
+ * Holiday와 User의 정보를 가져오는 EmployeeHoliday
  *
  * @author kimbeomjin
  * @date 2022/12/22
