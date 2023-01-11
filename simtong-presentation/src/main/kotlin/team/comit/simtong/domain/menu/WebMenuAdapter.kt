@@ -25,7 +25,7 @@ import javax.validation.Valid
  * @author kimbeomjin
  * @author Chokyunghyeon
  * @date 2022/09/25
- * @version 1.2.5
+ * @version 1.0.0
  **/
 @RestController
 @RequestMapping("/menu")

@@ -12,7 +12,7 @@ import java.util.UUID
  * @author kimbeomjin
  * @author Chokyunghyeon
  * @date 2022/12/20
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @ReadOnlyUseCase
 class QueryTeamsUseCase(

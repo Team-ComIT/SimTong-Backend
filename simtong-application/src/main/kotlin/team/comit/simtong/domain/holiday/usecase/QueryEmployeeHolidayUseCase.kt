@@ -18,6 +18,7 @@ import java.util.UUID
  * HolidayStatus가 WRITTEN 상태인 것만 조회
  *
  * @author kimbeomjin
+ * @author Chokyunghyeon
  * @date 2022/12/22
  * @version 1.2.5
  **/

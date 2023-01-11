@@ -10,7 +10,7 @@ import team.comit.simtong.global.annotation.ReadOnlyUseCase
  *
  * @author Chokyunghyeon
  * @date 2022/10/18
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @ReadOnlyUseCase
 class ShowSpotListUseCase(

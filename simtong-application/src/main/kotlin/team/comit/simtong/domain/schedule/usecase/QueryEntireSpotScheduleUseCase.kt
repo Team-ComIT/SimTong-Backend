@@ -13,7 +13,7 @@ import java.time.LocalDate
  *
  * @author Chokyunghyeon
  * @date 2022/11/26
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @ReadOnlyUseCase
 class QueryEntireSpotScheduleUseCase(
