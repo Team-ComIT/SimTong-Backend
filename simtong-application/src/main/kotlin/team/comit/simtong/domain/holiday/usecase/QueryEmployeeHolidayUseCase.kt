@@ -32,7 +32,7 @@ class QueryEmployeeHolidayUseCase(
         val currentUserId = securityPort.getCurrentUserId()
         val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
-        return queryHolidayPort.queryHolidaysByYearAndMonthAndTeamId(
+        return queryHolidayPort.queryEmployeeHolidaysByYearAndMonthAndTeamId(
             year = year,
             month = month,
             type = type.toHolidayType(),

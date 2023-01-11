@@ -86,7 +86,7 @@ class HolidayPersistenceAdapter(
             .map(holidayMapper::toDomainNotNull)
     }
 
-    override fun queryHolidaysByYearAndMonthAndTeamId(
+    override fun queryEmployeeHolidaysByYearAndMonthAndTeamId(
         year: Int,
         month: Int,
         type: HolidayType?,

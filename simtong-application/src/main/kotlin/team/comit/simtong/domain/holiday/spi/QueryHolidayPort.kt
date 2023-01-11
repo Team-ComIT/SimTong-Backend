@@ -28,7 +28,7 @@ interface QueryHolidayPort {
 
     fun queryHolidaysByYearAndMonthAndSpotIdAndType(year: Int, month: Int, spotId: UUID, type: HolidayType) : List<Holiday>
 
-    fun queryHolidaysByYearAndMonthAndTeamId(year: Int, month: Int, type: HolidayType?, spotId: UUID, teamId: UUID?) : List<EmployeeHoliday>
+    fun queryEmployeeHolidaysByYearAndMonthAndTeamId(year: Int, month: Int, type: HolidayType?, spotId: UUID, teamId: UUID?) : List<EmployeeHoliday>
 
     fun existsHolidayByDateAndUserIdAndType(date: LocalDate, userId: UUID, type: HolidayType) : Boolean
 
