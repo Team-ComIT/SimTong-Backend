@@ -22,5 +22,4 @@ class CheckNicknameDuplicationUseCase(
             throw UserExceptions.AlreadyUsedNickname()
         }
     }
-
 }

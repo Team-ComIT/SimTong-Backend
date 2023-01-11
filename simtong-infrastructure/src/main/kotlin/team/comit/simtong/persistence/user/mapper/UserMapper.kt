@@ -29,12 +29,12 @@ class UserMapper(
 
         return UserJpaEntity(
             id = model.id,
-            employeeNumber = model.employeeNumber,
+            employeeNumber = model.employeeNumber.value,
             email = model.email,
             authority = model.authority,
             name = model.name,
-            nickname = model.nickname,
-            password = model.password,
+            nickname = model.nickname.value,
+            password = model.password.value,
             spot = spot,
             team = team,
             profileImagePath = model.profileImagePath,
@@ -44,7 +44,7 @@ class UserMapper(
 
     override fun toDomain(entity: UserJpaEntity?): User? {
         return entity?.let {
-            User(
+            User.of(
                 id = it.id!!,
                 nickname = it.nickname,
                 name = it.name,
@@ -61,7 +61,7 @@ class UserMapper(
     }
 
     override fun toDomainNotNull(entity: UserJpaEntity): User {
-        return User(
+        return User.of(
             id = entity.id!!,
             nickname = entity.nickname,
             name = entity.name,

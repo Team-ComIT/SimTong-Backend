@@ -29,7 +29,7 @@ import team.comit.simtong.global.annotation.UseCase
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/09/04
- * @version 1.2.1
+ * @version 1.2.5
  **/
 @UseCase
 class SignUpUseCase(
@@ -76,7 +76,7 @@ class SignUpUseCase(
             ?: throw TeamExceptions.NotFound()
 
         val user = commandUserPort.save(
-            User(
+            User.of(
                 nickname = nickname,
                 name = name,
                 email = email,
@@ -92,7 +92,7 @@ class SignUpUseCase(
         commandAuthCodeLimitPort.delete(authCodeLimit)
 
         commandDeviceTokenPort.save(
-            DeviceToken(
+            DeviceToken.of(
                 userId = user.id,
                 token = request.deviceToken
             )
@@ -103,5 +103,4 @@ class SignUpUseCase(
             authority = user.authority
         )
     }
-
 }

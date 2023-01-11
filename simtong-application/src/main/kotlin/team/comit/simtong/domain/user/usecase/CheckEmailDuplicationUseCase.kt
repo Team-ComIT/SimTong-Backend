@@ -22,5 +22,4 @@ class CheckEmailDuplicationUseCase(
             throw AuthExceptions.AlreadyUsedEmail()
         }
     }
-
 }
