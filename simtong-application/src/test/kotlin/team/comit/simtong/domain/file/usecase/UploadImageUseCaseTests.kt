@@ -42,7 +42,7 @@ class UploadImageUseCaseTests {
         val response = uploadImageUseCase.execute(fileStub)
 
         // then
-        assertEquals(response, filePathStub)
+        assertEquals(response.filePath, filePathStub)
 
     }
 
@@ -57,7 +57,7 @@ class UploadImageUseCaseTests {
         // when
         val response = uploadImageUseCase.execute(filesStub)
 
-        assertEquals(response, filePathListStub)
+        assertEquals(response.filePathList, filePathListStub)
     }
 
 }

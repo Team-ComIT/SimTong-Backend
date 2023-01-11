@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
+import team.comit.simtong.domain.spot.dto.response.QuerySpotsResponse
 import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.spot.spi.QuerySpotPort
 import team.comit.simtong.global.annotation.SimtongTest
@@ -34,6 +35,18 @@ class ShowSpotListUseCaseTests {
         )
     }
 
+    private val responseStub: QuerySpotsResponse by lazy {
+        QuerySpotsResponse(
+            listOf(
+                QuerySpotsResponse.SpotElement(
+                    id = id,
+                    name = name,
+                    location = location
+                )
+            )
+        )
+    }
+
     @BeforeEach
     fun setUp() {
         showSpotListUseCase = ShowSpotListUseCase(querySpotPort)
@@ -45,11 +58,8 @@ class ShowSpotListUseCaseTests {
         given(querySpotPort.queryAllSpot())
             .willReturn(spotListStub)
 
-        // when
-        val result = showSpotListUseCase.execute()
-
-        // then
-        assertEquals(result, spotListStub)
+        // when & then
+        assertEquals(showSpotListUseCase.execute(), responseStub)
     }
 
 }

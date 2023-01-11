@@ -47,6 +47,6 @@ class QueryRemainAnnualUseCaseTests {
         val result = queryRemainAnnualUseCase.execute(year)
 
         // then
-        assertEquals(result, Holiday.ANNUAL_LEAVE_LIMIT - count)
+        assertEquals(result.result, Holiday.ANNUAL_LEAVE_LIMIT - count)
     }
 }

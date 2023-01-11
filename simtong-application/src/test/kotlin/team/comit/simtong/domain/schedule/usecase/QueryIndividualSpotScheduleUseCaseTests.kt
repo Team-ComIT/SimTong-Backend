@@ -1,11 +1,13 @@
 package team.comit.simtong.domain.schedule.usecase
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
+import team.comit.simtong.domain.schedule.dto.response.QueryIndividualSpotScheduleResponse
+import team.comit.simtong.domain.schedule.dto.response.ScheduleResponse
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.value.Scope
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
@@ -85,6 +87,27 @@ class QueryIndividualSpotScheduleUseCaseTests {
         )
     }
 
+    private val responseStub by lazy {
+        QueryIndividualSpotScheduleResponse(
+            listOf(
+                ScheduleResponse(
+                    id = scheduleId,
+                    startAt = minDate,
+                    endAt = minDate,
+                    title = "test title",
+                    scope = Scope.INDIVIDUAL
+                ),
+                ScheduleResponse(
+                    id = scheduleId,
+                    startAt = maxDate,
+                    endAt = maxDate,
+                    title = "test title",
+                    Scope.ENTIRE
+                )
+            )
+        )
+    }
+
     @BeforeEach
     fun setUp() {
         queryIndividualSpotScheduleUseCase = QueryIndividualSpotScheduleUseCase(
@@ -112,10 +135,10 @@ class QueryIndividualSpotScheduleUseCaseTests {
             )
 
         // when
-        val result = queryIndividualSpotScheduleUseCase.execute(date, date)
+        val response = queryIndividualSpotScheduleUseCase.execute(date, date)
 
         // then
-        assertEquals(result, listOf(individualScheduleStub, entireScheduleStub).sortedBy(Schedule::startAt))
+        assertThat(response).isEqualTo(responseStub)
     }
 
     @Test

@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.user.dto.FindEmployeeNumberRequest
+import team.comit.simtong.domain.user.dto.request.FindEmployeeNumberRequest
 import team.comit.simtong.domain.user.exception.UserExceptions
-import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.model.User
+import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.global.annotation.SimtongTest
 import java.util.UUID
@@ -63,8 +63,11 @@ class FindEmployeeNumberUseCaseTests {
         given(queryUserPort.queryUserByNameAndSpotAndEmail(name, spotId, email))
             .willReturn(userStub)
 
-        // when & then
-        assertEquals(findEmployeeNumberUseCase.execute(requestStub), employeeNumber)
+        // when
+        val response = findEmployeeNumberUseCase.execute(requestStub)
+
+        // then
+        assertEquals(response.employeeNumber, employeeNumber)
     }
 
     @Test

@@ -5,7 +5,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.holiday.dto.QueryIndividualRequest
+import team.comit.simtong.domain.holiday.dto.request.QueryIndividualRequest
+import team.comit.simtong.domain.holiday.dto.response.IndividualHolidayResponse
+import team.comit.simtong.domain.holiday.dto.response.QueryIndividualHolidaysResponse
 import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.value.HolidayStatus
 import team.comit.simtong.domain.holiday.model.value.HolidayType
@@ -48,6 +50,17 @@ class QueryIndividualHolidayUseCaseTests {
         )
     }
 
+    private val responseStub : QueryIndividualHolidaysResponse by lazy {
+        QueryIndividualHolidaysResponse(
+            holidaysStub.map {
+                IndividualHolidayResponse(
+                    date = it.date,
+                    type = it.type
+                )
+            }
+        )
+    }
+
     @BeforeEach
     fun setUp() {
         queryIndividualHolidayUseCase = QueryIndividualHolidayUseCase(
@@ -66,10 +79,10 @@ class QueryIndividualHolidayUseCaseTests {
             .willReturn(holidaysStub)
 
         // when
-        val result = queryIndividualHolidayUseCase.execute(requestStub)
+        val response = queryIndividualHolidayUseCase.execute(requestStub)
 
         // then
-        assertEquals(result, holidaysStub)
+        assertEquals(response, responseStub)
     }
 
 }
