@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.schedule.dto.request
+package team.comit.simtong.domain.schedule.dto
 
 import org.hibernate.validator.constraints.Length
 import java.time.LocalDate
@@ -8,13 +8,14 @@ import javax.validation.constraints.NotNull
 
 /**
  *
- * 지점 일정을 변경 요청하는 ChangeSpotScheduleWebRequest
+ * 관리자가 지점 일정을 추가 요청하는 AddSpotScheduleWebRequest
  *
  * @author Chokyunghyeon
- * @date 2022/11/22
+ * @date 2022/11/21
  * @version 1.0.0
  **/
-data class ChangeSpotScheduleWebRequest(
+data class AddSpotScheduleWebRequest(
+
     @field:NotBlank
     @field:Length(max = 20)
     val title: String,

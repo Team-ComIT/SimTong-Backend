@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.holiday.dto.request
+package team.comit.simtong.domain.holiday.dto
 
 import javax.validation.constraints.NotNull
 

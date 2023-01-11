@@ -1,21 +1,20 @@
-package team.comit.simtong.domain.schedule.dto.request
+package team.comit.simtong.domain.schedule.dto
 
 import org.hibernate.validator.constraints.Length
 import java.time.LocalDate
-import java.time.LocalTime
 import javax.validation.constraints.FutureOrPresent
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
 /**
  *
- * 개인 일정 변경을 요청하는 ChangeIndividualWebRequest
+ * 지점 일정을 변경 요청하는 ChangeSpotScheduleWebRequest
  *
  * @author Chokyunghyeon
- * @date 2022/11/27
+ * @date 2022/11/22
  * @version 1.0.0
  **/
-data class ChangeIndividualScheduleWebRequest(
+data class ChangeSpotScheduleWebRequest(
     @field:NotBlank
     @field:Length(max = 20)
     val title: String,
@@ -25,8 +24,5 @@ data class ChangeIndividualScheduleWebRequest(
 
     // TODO 시작일, 종료일 검증 Resolver 구현
     @field:NotNull
-    val endAt: LocalDate,
-
-    @field:NotNull
-    val alarm: LocalTime
+    val endAt: LocalDate
 )

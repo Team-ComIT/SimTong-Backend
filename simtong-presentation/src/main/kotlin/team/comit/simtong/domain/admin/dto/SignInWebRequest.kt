@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.admin.dto.request
+package team.comit.simtong.domain.admin.dto
 
 import org.hibernate.validator.constraints.Range
 import team.comit.simtong.domain.user.model.value.EmployeeNumber

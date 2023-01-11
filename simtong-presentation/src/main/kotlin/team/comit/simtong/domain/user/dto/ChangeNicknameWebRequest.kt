@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.user.dto.request
+package team.comit.simtong.domain.user.dto
 
 import team.comit.simtong.domain.user.model.value.NickName
 import javax.validation.constraints.Pattern

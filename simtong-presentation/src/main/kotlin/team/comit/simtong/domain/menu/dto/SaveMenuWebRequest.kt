@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.menu.dto.request
+package team.comit.simtong.domain.menu.dto
 
 import org.springframework.web.multipart.MultipartFile
 import javax.validation.constraints.NotNull

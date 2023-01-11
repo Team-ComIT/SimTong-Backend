@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.user.dto.request
+package team.comit.simtong.domain.user.dto
 
 import java.util.UUID
 import javax.validation.constraints.NotNull
