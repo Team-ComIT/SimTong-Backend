@@ -11,20 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import team.comit.simtong.domain.schedule.dto.AddIndividualScheduleRequest
-import team.comit.simtong.domain.schedule.dto.AddSpotScheduleRequest
-import team.comit.simtong.domain.schedule.dto.ChangeIndividualScheduleRequest
-import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
-import team.comit.simtong.domain.schedule.dto.request.AddIndividualScheduleWebRequest
-import team.comit.simtong.domain.schedule.dto.request.AddSpotScheduleWebRequest
-import team.comit.simtong.domain.schedule.dto.request.ChangeIndividualScheduleWebRequest
-import team.comit.simtong.domain.schedule.dto.request.ChangeSpotScheduleWebRequest
-import team.comit.simtong.domain.schedule.dto.response.QueryEntireSpotScheduleWebResponse
-import team.comit.simtong.domain.schedule.dto.response.QueryIndividualSpotScheduleWebResponse
-import team.comit.simtong.domain.schedule.dto.response.ScheduleResponse
-import team.comit.simtong.domain.schedule.dto.response.SpotScheduleResponse
-import team.comit.simtong.domain.schedule.model.Schedule
-import team.comit.simtong.domain.schedule.spi.vo.SpotSchedule
+import team.comit.simtong.domain.schedule.dto.request.AddIndividualScheduleRequest
+import team.comit.simtong.domain.schedule.dto.request.AddSpotScheduleRequest
+import team.comit.simtong.domain.schedule.dto.request.ChangeIndividualScheduleRequest
+import team.comit.simtong.domain.schedule.dto.request.ChangeSpotScheduleRequest
+import team.comit.simtong.domain.schedule.dto.response.QueryEntireSpotScheduleResponse
+import team.comit.simtong.domain.schedule.dto.response.QueryIndividualSpotScheduleResponse
+import team.comit.simtong.domain.schedule.dto.AddIndividualScheduleWebRequest
+import team.comit.simtong.domain.schedule.dto.AddSpotScheduleWebRequest
+import team.comit.simtong.domain.schedule.dto.ChangeIndividualScheduleWebRequest
+import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleWebRequest
 import team.comit.simtong.domain.schedule.usecase.AddIndividualScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.AddSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.ChangeIndividualScheduleUseCase
@@ -92,39 +88,16 @@ class WebScheduleAdapter(
     fun queryIndividualSpotSchedule(
         @RequestParam("start_at") startAt: LocalDate,
         @RequestParam("end_at") endAt: LocalDate
-    ): QueryIndividualSpotScheduleWebResponse {
-        val result: List<Schedule> = queryIndividualSpotScheduleUseCase.execute(startAt, endAt)
-
-        return result.map {
-            ScheduleResponse(
-                id = it.id,
-                startAt = it.startAt,
-                endAt = it.endAt,
-                title = it.title,
-                scope = it.scope
-            )
-        }.run(::QueryIndividualSpotScheduleWebResponse)
+    ): QueryIndividualSpotScheduleResponse {
+        return queryIndividualSpotScheduleUseCase.execute(startAt, endAt)
     }
 
     @GetMapping("/spots")
     fun queryEntireSpotSchedule(
         @RequestParam("start_at") startAt: LocalDate,
         @RequestParam("end_at") endAt: LocalDate
-    ): QueryEntireSpotScheduleWebResponse {
-        val result: List<SpotSchedule> = queryEntireSpotScheduleUseCase.execute(startAt, endAt)
-
-        return result.map {
-            SpotScheduleResponse(
-                id = it.id,
-                title = it.title,
-                startAt = it.startAt,
-                endAt = it.endAt,
-                spot = SpotScheduleResponse.SpotElement(
-                    id = it.spotId,
-                    name = it.spotName
-                )
-            )
-        }.run(::QueryEntireSpotScheduleWebResponse)
+    ): QueryEntireSpotScheduleResponse {
+        return queryEntireSpotScheduleUseCase.execute(startAt, endAt)
     }
 
     @PostMapping("/spots/{spot-id}")

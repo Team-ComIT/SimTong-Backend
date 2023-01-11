@@ -9,23 +9,20 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import team.comit.simtong.domain.holiday.dto.AppointHolidayPeriodRequest
-import team.comit.simtong.domain.holiday.dto.response.QueryEmployeeHolidayWebResponse
-import team.comit.simtong.domain.holiday.dto.QueryIndividualRequest
-import team.comit.simtong.domain.holiday.dto.QueryMonthHolidayPeriodResponse
-import team.comit.simtong.domain.holiday.dto.request.AppointAnnualWebRequest
-import team.comit.simtong.domain.holiday.dto.request.AppointHolidayPeriodWebRequest
-import team.comit.simtong.domain.holiday.dto.request.AppointHolidayWebRequest
-import team.comit.simtong.domain.holiday.dto.request.CancelHolidayWebRequest
-import team.comit.simtong.domain.holiday.dto.request.ChangeEmployeeHolidayWebRequest
-import team.comit.simtong.domain.holiday.dto.request.ShareHolidayWebRequest
-import team.comit.simtong.domain.holiday.dto.response.IndividualHolidayResponse
-import team.comit.simtong.domain.holiday.dto.response.QueryIndividualHolidaysWebResponse
-import team.comit.simtong.domain.holiday.dto.response.QueryRemainAnnualWebResponse
-import team.comit.simtong.domain.holiday.model.Holiday
+import team.comit.simtong.domain.holiday.dto.request.AppointHolidayPeriodRequest
+import team.comit.simtong.domain.holiday.dto.response.QueryEmployeeHolidayResponse
+import team.comit.simtong.domain.holiday.dto.response.QueryIndividualHolidaysResponse
+import team.comit.simtong.domain.holiday.dto.request.QueryIndividualRequest
+import team.comit.simtong.domain.holiday.dto.response.QueryMonthHolidayPeriodResponse
+import team.comit.simtong.domain.holiday.dto.response.QueryRemainAnnualResponse
+import team.comit.simtong.domain.holiday.dto.AppointAnnualWebRequest
+import team.comit.simtong.domain.holiday.dto.AppointHolidayPeriodWebRequest
+import team.comit.simtong.domain.holiday.dto.AppointHolidayWebRequest
+import team.comit.simtong.domain.holiday.dto.CancelHolidayWebRequest
+import team.comit.simtong.domain.holiday.dto.ChangeEmployeeHolidayWebRequest
+import team.comit.simtong.domain.holiday.dto.ShareHolidayWebRequest
 import team.comit.simtong.domain.holiday.model.value.HolidayQueryType
 import team.comit.simtong.domain.holiday.model.value.HolidayStatus
-import team.comit.simtong.domain.holiday.spi.vo.EmployeeHoliday
 import team.comit.simtong.domain.holiday.usecase.AppointAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayPeriodUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayUseCase
@@ -67,9 +64,8 @@ class WebHolidayAdapter(
 ) {
 
     @GetMapping("/annual/count")
-    fun queryRemainAnnual(@RequestParam year: Int): QueryRemainAnnualWebResponse {
+    fun queryRemainAnnual(@RequestParam year: Int): QueryRemainAnnualResponse {
         return queryRemainAnnualUseCase.execute(year)
-            .run(::QueryRemainAnnualWebResponse)
     }
 
     @PostMapping("/annual")
@@ -94,21 +90,14 @@ class WebHolidayAdapter(
         @RequestParam("start_at") startAt: LocalDate,
         @RequestParam("end_at") endAt: LocalDate,
         @RequestParam status: HolidayStatus
-    ): QueryIndividualHolidaysWebResponse {
-        val result: List<Holiday> = queryIndividualHolidayUseCase.execute(
+    ): QueryIndividualHolidaysResponse {
+        return queryIndividualHolidayUseCase.execute(
             QueryIndividualRequest(
                 startAt = startAt,
                 endAt = endAt,
                 status = status
             )
         )
-
-        return result.map {
-            IndividualHolidayResponse(
-                date = it.date,
-                type = it.type
-            )
-        }.run(::QueryIndividualHolidaysWebResponse)
     }
 
     @PutMapping("/public")
@@ -131,26 +120,13 @@ class WebHolidayAdapter(
         @RequestParam month: Int,
         @RequestParam type: HolidayQueryType,
         @RequestParam("team_id", required = false) teamId: UUID?
-    ): QueryEmployeeHolidayWebResponse {
-        val result: List<EmployeeHoliday> = queryEmployeeHolidayUseCase.execute(
+    ): QueryEmployeeHolidayResponse {
+        return queryEmployeeHolidayUseCase.execute(
             year = year,
             month = month,
             type = type,
             teamId = teamId
         )
-
-        return result.map {
-            QueryEmployeeHolidayWebResponse.Holiday(
-                date = it.date,
-                type = it.type,
-                user = QueryEmployeeHolidayWebResponse.Holiday.Employee(
-                    id = it.userId,
-                    name = it.userName,
-                    team = it.teamName,
-                    spot = it.spotName
-                )
-            )
-        }.run(::QueryEmployeeHolidayWebResponse)
     }
 
     @PutMapping("/employee")
