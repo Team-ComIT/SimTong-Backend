@@ -6,14 +6,15 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
+import team.comit.simtong.domain.holiday.model.value.HolidayQueryType
 import team.comit.simtong.domain.holiday.model.value.HolidayType
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
 import team.comit.simtong.domain.holiday.spi.vo.EmployeeHoliday
 import team.comit.simtong.domain.user.exception.UserExceptions
-import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.model.User
+import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.global.annotation.SimtongTest
 import java.time.LocalDate
 import java.util.UUID
@@ -85,7 +86,7 @@ class QueryEmployeeHolidayUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            queryEmployeeHolidayUseCase.execute(year, month, "HOLIDAY", teamId)
+            queryEmployeeHolidayUseCase.execute(year, month, HolidayQueryType.HOLIDAY, teamId)
         }
     }
 
@@ -114,7 +115,7 @@ class QueryEmployeeHolidayUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            queryEmployeeHolidayUseCase.execute(year, month, "ANNUAL", teamId)
+            queryEmployeeHolidayUseCase.execute(year, month, HolidayQueryType.ANNUAL, teamId)
         }
     }
 
@@ -143,7 +144,7 @@ class QueryEmployeeHolidayUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            queryEmployeeHolidayUseCase.execute(year, month, "ALL", teamId)
+            queryEmployeeHolidayUseCase.execute(year, month, HolidayQueryType.ALL, teamId)
         }
     }
 
@@ -158,7 +159,7 @@ class QueryEmployeeHolidayUseCaseTests {
 
         // when & then
         assertThrows<UserExceptions.NotFound> {
-            queryEmployeeHolidayUseCase.execute(2022, 12, "HOLIDAY", null)
+            queryEmployeeHolidayUseCase.execute(2022, 12, HolidayQueryType.HOLIDAY, null)
         }
     }
 }

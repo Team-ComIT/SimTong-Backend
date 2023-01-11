@@ -10,8 +10,8 @@ import team.comit.simtong.domain.spot.exception.SpotExceptions
 import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.user.dto.QueryUserInfoResponse
 import team.comit.simtong.domain.user.exception.UserExceptions
-import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.model.User
+import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserQuerySpotPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
@@ -34,6 +34,8 @@ class QueryUserInfoUseCaseTests {
 
     private val id: UUID = UUID.randomUUID()
 
+    private val spotId: UUID = UUID.randomUUID()
+
     private val nickname = "test nickname"
 
     private val name = "test name"
@@ -51,7 +53,7 @@ class QueryUserInfoUseCaseTests {
             password = "test password",
             employeeNumber = 1234567891,
             authority = Authority.ROLE_COMMON,
-            spotId = id,
+            spotId = spotId,
             teamId = id,
             profileImagePath = profileImagePath
         )
@@ -59,8 +61,8 @@ class QueryUserInfoUseCaseTests {
 
     private val spotStub: Spot by lazy {
         Spot(
-            id = id,
-            name = name,
+            id = spotId,
+            name = "test spot name",
             location = "test location"
         )
     }

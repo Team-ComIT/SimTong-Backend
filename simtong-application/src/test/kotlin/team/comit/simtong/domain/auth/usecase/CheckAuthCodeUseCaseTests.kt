@@ -8,7 +8,7 @@ import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCode
-import team.comit.simtong.domain.auth.model.Code
+import team.comit.simtong.domain.auth.model.value.Code
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
 import team.comit.simtong.domain.auth.spi.QueryAuthCodePort
 import team.comit.simtong.global.annotation.SimtongTest
