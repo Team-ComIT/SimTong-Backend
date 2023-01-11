@@ -6,7 +6,7 @@ import java.util.UUID
 
 /**
  *
- * 지점 직원의 휴무일을 반환하는 QueryEmployeeHolidayResponse
+ * 지점 직원의 휴무일을 반환하는 QueryEmployeeHolidayWebResponse
  *
  * @author kimbeomjin
  * @author Chokyunghyeon
