@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.spot.usecase
 
-import team.comit.simtong.domain.spot.dto.SpotResponse
+import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.spot.spi.QuerySpotPort
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
 
@@ -17,15 +17,7 @@ class ShowSpotListUseCase(
     private val querySpotPort: QuerySpotPort
 ) {
 
-    fun execute(): SpotResponse {
-        val result = querySpotPort.queryAllSpot().map {
-            SpotResponse.SpotElement(
-                id = it.id,
-                name = it.name,
-                location = it.location
-            )
-        }
-
-        return SpotResponse(result)
+    fun execute(): List<Spot> {
+        return querySpotPort.queryAllSpot()
     }
 }
