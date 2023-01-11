@@ -1,21 +1,19 @@
 package team.comit.simtong.domain.schedule.usecase
 
-import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.schedule.dto.QueryIndividualSpotScheduleResponse
-import team.comit.simtong.domain.schedule.dto.ScheduleResponse
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.value.Scope
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
 import team.comit.simtong.domain.user.exception.UserExceptions
-import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.model.User
+import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.global.annotation.SimtongTest
 import java.time.LocalDate
 import java.util.UUID
@@ -87,27 +85,6 @@ class QueryIndividualSpotScheduleUseCaseTests {
         )
     }
 
-    private val responseStub by lazy {
-        QueryIndividualSpotScheduleResponse(
-            listOf(
-                ScheduleResponse(
-                    id = scheduleId,
-                    startAt = minDate,
-                    endAt = minDate,
-                    title = "test title",
-                    scope = Scope.INDIVIDUAL
-                ),
-                ScheduleResponse(
-                    id = scheduleId,
-                    startAt = maxDate,
-                    endAt = maxDate,
-                    title = "test title",
-                    Scope.ENTIRE
-                )
-            )
-        )
-    }
-
     @BeforeEach
     fun setUp() {
         queryIndividualSpotScheduleUseCase = QueryIndividualSpotScheduleUseCase(
@@ -135,10 +112,10 @@ class QueryIndividualSpotScheduleUseCaseTests {
             )
 
         // when
-        val response = queryIndividualSpotScheduleUseCase.execute(date, date)
+        val result = queryIndividualSpotScheduleUseCase.execute(date, date)
 
         // then
-        assertThat(response).isEqualTo(responseStub)
+        assertEquals(result, listOf(individualScheduleStub, entireScheduleStub).sortedBy(Schedule::startAt))
     }
 
     @Test

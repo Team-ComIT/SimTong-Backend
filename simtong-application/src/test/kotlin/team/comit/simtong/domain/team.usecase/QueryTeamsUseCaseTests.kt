@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.team.dto.QueryTeamsResponse
 import team.comit.simtong.domain.team.model.Team
 import team.comit.simtong.domain.team.spi.QueryTeamPort
 import team.comit.simtong.global.annotation.SimtongTest
@@ -33,17 +32,6 @@ class QueryTeamsUseCaseTests {
         )
     }
 
-    private val responseStub: QueryTeamsResponse by lazy {
-        QueryTeamsResponse(
-            listOf(
-                QueryTeamsResponse.TeamElement(
-                    id = id,
-                    name = name
-                )
-            )
-        )
-    }
-
     @BeforeEach
     fun setUp() {
         queryTeamsUseCase = QueryTeamsUseCase(queryTeamPort)
@@ -56,10 +44,10 @@ class QueryTeamsUseCaseTests {
             .willReturn(teamsStub)
 
         // when
-        val response = queryTeamsUseCase.execute(spotId)
+        val result = queryTeamsUseCase.execute(spotId)
 
         // then
-        assertEquals(response, responseStub)
+        assertEquals(result, teamsStub)
     }
 
 }
