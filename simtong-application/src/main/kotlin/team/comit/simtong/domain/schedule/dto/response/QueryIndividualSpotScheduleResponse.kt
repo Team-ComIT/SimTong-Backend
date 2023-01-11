@@ -6,14 +6,13 @@ import java.util.UUID
 
 /**
  *
- * 개인 일정과 소속 지점의 일정 조회 정보를 다루는 QueryIndividualSpotScheduleWebResponse
+ * 개인 일정과 소속 지점의 일정 조회 정보를 다루는 QueryIndividualSpotScheduleResponse
  *
  * @author kimbeomjin
- * @author Chokyunghyeon
  * @date 2022/12/02
- * @version 1.2.5
+ * @version 1.0.0
  **/
-data class QueryIndividualSpotScheduleWebResponse(
+data class QueryIndividualSpotScheduleResponse(
     val schedules: List<ScheduleResponse>
 )
 

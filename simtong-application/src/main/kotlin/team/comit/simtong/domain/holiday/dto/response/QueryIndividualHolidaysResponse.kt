@@ -5,13 +5,13 @@ import java.time.LocalDate
 
 /**
  *
- * 개인 휴무일 정보를 전송하는 QueryIndividualHolidayWebResponse
+ * 개인 휴무일 정보를 전송하는 QueryIndividualHolidayResponse
  *
  * @author Chokyunghyeon
  * @date 2022/12/05
  * @version 1.2.5
  **/
-data class QueryIndividualHolidaysWebResponse(
+data class QueryIndividualHolidaysResponse(
     val holidays: List<IndividualHolidayResponse>
 )
 

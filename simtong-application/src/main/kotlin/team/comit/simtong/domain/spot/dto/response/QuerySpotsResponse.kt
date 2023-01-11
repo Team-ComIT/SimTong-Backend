@@ -1,16 +1,16 @@
-package team.comit.simtong.domain.common.dto.response
+package team.comit.simtong.domain.spot.dto.response
 
 import java.util.UUID
 
 /**
  *
- * 지점 리스트를 전송하는 SpotWebResponse
+ * 지점 리스트를 전송하는 QuerySpotsResponse
  *
  * @author Chokyunghyeon
  * @date 2022/10/18
  * @version 1.2.5
  **/
-data class SpotWebResponse(
+data class QuerySpotsResponse(
     val spotList: List<SpotElement>
 ) {
     data class SpotElement (

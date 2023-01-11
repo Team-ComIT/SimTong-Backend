@@ -4,14 +4,13 @@ import java.time.LocalDate
 
 /**
  *
- * 메뉴를 반환하는 MenuWebResponse
+ * 메뉴를 반환하는 MenuResponse
  *
  * @author kimbeomjin
- * @author Chokyunghyeon
  * @date 2022/09/26
- * @version 1.2.5
+ * @version 1.0.0
  **/
-data class MenuWebResponse(
+data class MenuResponse(
     val menu: List<MenuElement>
 ) {
     data class MenuElement(

@@ -6,14 +6,13 @@ import java.util.UUID
 
 /**
  *
- * 지점 직원의 휴무일을 반환하는 QueryEmployeeHolidayWebResponse
+ * 지점 직원의 휴무일을 반환하는 QueryEmployeeHolidayResponse
  *
  * @author kimbeomjin
- * @author Chokyunghyeon
  * @date 2022/12/22
- * @version 1.2.5
+ * @version 1.0.0
  **/
-data class QueryEmployeeHolidayWebResponse(
+data class QueryEmployeeHolidayResponse(
     val holidays: List<Holiday>
 ) {
 
