@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.auth.dto.TokenResponse
-import team.comit.simtong.domain.user.dto.AdminSignInRequest
+import team.comit.simtong.domain.auth.dto.response.TokenResponse
+import team.comit.simtong.domain.user.dto.request.AdminSignInRequest
 import team.comit.simtong.domain.user.exception.UserExceptions
-import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.model.User
+import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserJwtPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort

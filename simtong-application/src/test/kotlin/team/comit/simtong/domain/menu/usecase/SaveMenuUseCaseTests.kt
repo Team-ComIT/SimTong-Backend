@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.menu.dto.SaveMenuRequest
+import team.comit.simtong.domain.menu.dto.request.SaveMenuRequest
 import team.comit.simtong.domain.menu.exception.MenuExceptions
 import team.comit.simtong.domain.menu.model.Menu
 import team.comit.simtong.domain.menu.spi.CommandMenuPort

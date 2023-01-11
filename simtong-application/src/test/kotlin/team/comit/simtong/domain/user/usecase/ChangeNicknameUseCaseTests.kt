@@ -6,10 +6,10 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.user.dto.ChangeNicknameRequest
+import team.comit.simtong.domain.user.dto.request.ChangeNicknameRequest
 import team.comit.simtong.domain.user.exception.UserExceptions
-import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.model.User
+import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort

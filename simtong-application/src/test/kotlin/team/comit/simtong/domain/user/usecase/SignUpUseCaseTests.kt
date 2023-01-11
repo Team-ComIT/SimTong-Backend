@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.auth.dto.TokenResponse
+import team.comit.simtong.domain.auth.dto.response.TokenResponse
 import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.file.exception.FileExceptions
@@ -15,10 +15,10 @@ import team.comit.simtong.domain.spot.exception.SpotExceptions
 import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.team.exception.TeamExceptions
 import team.comit.simtong.domain.team.model.Team
-import team.comit.simtong.domain.user.dto.SignUpRequest
+import team.comit.simtong.domain.user.dto.request.SignUpRequest
 import team.comit.simtong.domain.user.exception.UserExceptions
-import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.model.User
+import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.spi.CommandDeviceTokenPort
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort

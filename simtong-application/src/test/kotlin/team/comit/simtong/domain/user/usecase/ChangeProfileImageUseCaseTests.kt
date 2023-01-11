@@ -8,10 +8,10 @@ import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.file.exception.FileExceptions
 import team.comit.simtong.domain.file.spi.CheckFilePort
-import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
+import team.comit.simtong.domain.user.dto.request.ChangeProfileImageRequest
 import team.comit.simtong.domain.user.exception.UserExceptions
-import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.model.User
+import team.comit.simtong.domain.user.model.value.Authority
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
