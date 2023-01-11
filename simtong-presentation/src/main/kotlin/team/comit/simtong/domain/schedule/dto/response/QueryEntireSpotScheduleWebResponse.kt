@@ -1,17 +1,17 @@
-package team.comit.simtong.domain.schedule.dto
+package team.comit.simtong.domain.schedule.dto.response
 
 import java.time.LocalDate
 import java.util.UUID
 
 /**
  *
- * 모든 지점 일정 조회 정보를 전송하는 QueryEntireSpotScheduleResponse
+ * 모든 지점 일정 조회 정보를 전송하는 QueryEntireSpotScheduleWebResponse
  *
  * @author Chokyunghyeon
  * @date 2022/11/26
- * @version 1.0.0
+ * @version 1.2.5
  **/
-data class QueryEntireSpotScheduleResponse(
+data class QueryEntireSpotScheduleWebResponse(
     val schedules: List<SpotScheduleResponse>
 )
 

@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.holiday.dto
+package team.comit.simtong.domain.holiday.dto.response
 
 import team.comit.simtong.domain.holiday.model.value.HolidayType
 import java.time.LocalDate
@@ -9,10 +9,11 @@ import java.util.UUID
  * 지점 직원의 휴무일을 반환하는 QueryEmployeeHolidayResponse
  *
  * @author kimbeomjin
+ * @author Chokyunghyeon
  * @date 2022/12/22
- * @version 1.0.0
+ * @version 1.2.5
  **/
-data class QueryEmployeeHolidayResponse(
+data class QueryEmployeeHolidayWebResponse(
     val holidays: List<Holiday>
 ) {
 

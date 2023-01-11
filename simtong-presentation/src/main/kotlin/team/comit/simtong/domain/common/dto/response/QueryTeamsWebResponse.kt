@@ -1,16 +1,17 @@
-package team.comit.simtong.domain.team.dto
+package team.comit.simtong.domain.common.dto.response
 
 import java.util.UUID
 
 /**
  *
- * 팀 리스트를 전송하는 QueryTeamsResponse
+ * 팀 리스트를 전송하는 QueryTeamsWebResponse
  *
  * @author kimbeomjin
+ * @author Chokyunghyeon
  * @date 2022/12/20
- * @version 1.0.0
+ * @version 1.2.5
  **/
-data class QueryTeamsResponse(
+data class QueryTeamsWebResponse(
     val teamList: List<TeamElement>
 ) {
     data class TeamElement(
