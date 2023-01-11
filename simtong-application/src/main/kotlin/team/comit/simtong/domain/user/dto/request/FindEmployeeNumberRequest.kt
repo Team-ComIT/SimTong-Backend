@@ -1,6 +1,6 @@
-package team.comit.simtong.domain.user.dto
+package team.comit.simtong.domain.user.dto.request
 
-import java.util.*
+import java.util.UUID
 
 /**
  *
