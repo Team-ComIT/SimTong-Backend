@@ -13,7 +13,6 @@ import java.util.UUID
  * @version 1.0.0
  **/
 data class ChangeIndividualScheduleRequest(
-
     val scheduleId: UUID,
 
     val title: String,
