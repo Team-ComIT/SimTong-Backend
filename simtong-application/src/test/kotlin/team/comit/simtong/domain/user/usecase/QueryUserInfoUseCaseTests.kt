@@ -95,7 +95,7 @@ class QueryUserInfoUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(querySpotPort.querySpotById(id))
+        given(querySpotPort.querySpotById(spotId))
             .willReturn(spotStub)
 
         // when
