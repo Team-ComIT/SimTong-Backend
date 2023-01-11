@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.holiday.usecase
 
-import team.comit.simtong.domain.holiday.dto.QueryMonthHolidayPeriodResponse
+import team.comit.simtong.domain.holiday.dto.response.QueryMonthHolidayPeriodResponse
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort

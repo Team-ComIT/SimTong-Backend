@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.schedule.usecase
 
-import team.comit.simtong.domain.schedule.dto.AddIndividualScheduleRequest
+import team.comit.simtong.domain.schedule.dto.request.AddIndividualScheduleRequest
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.value.Scope
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort

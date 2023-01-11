@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.holiday.usecase
 
-import team.comit.simtong.domain.holiday.dto.AppointHolidayPeriodRequest
+import team.comit.simtong.domain.holiday.dto.request.AppointHolidayPeriodRequest
 import team.comit.simtong.domain.holiday.model.HolidayPeriod
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPeriodPort
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort

@@ -2,7 +2,7 @@ package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.spi.QueryAuthCodeLimitPort
-import team.comit.simtong.domain.user.dto.ChangeEmailRequest
+import team.comit.simtong.domain.user.dto.request.ChangeEmailRequest
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort

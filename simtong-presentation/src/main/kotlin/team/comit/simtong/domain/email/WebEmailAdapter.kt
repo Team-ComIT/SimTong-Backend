@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.auth.usecase.CheckAuthCodeUseCase
 import team.comit.simtong.domain.auth.usecase.SendAuthCodeUseCase
-import team.comit.simtong.domain.email.dto.request.CheckAuthCodeWebRequest
-import team.comit.simtong.domain.email.dto.request.SendAuthCodeWebRequest
+import team.comit.simtong.domain.email.dto.CheckAuthCodeWebRequest
+import team.comit.simtong.domain.email.dto.SendAuthCodeWebRequest
 import javax.validation.Valid
 
 /**

@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.user.usecase
 
-import team.comit.simtong.domain.user.dto.CheckMatchedAccountRequest
+import team.comit.simtong.domain.user.dto.request.CheckMatchedAccountRequest
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.global.annotation.ReadOnlyUseCase

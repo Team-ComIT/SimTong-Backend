@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.user.spi
 
-import team.comit.simtong.domain.auth.dto.TokenResponse
+import team.comit.simtong.domain.auth.dto.response.TokenResponse
 import team.comit.simtong.domain.user.model.value.Authority
 import java.util.UUID
 

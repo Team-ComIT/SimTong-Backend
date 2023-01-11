@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.menu.usecase
 
-import team.comit.simtong.domain.menu.dto.SaveMenuRequest
+import team.comit.simtong.domain.menu.dto.request.SaveMenuRequest
 import team.comit.simtong.domain.menu.exception.MenuExceptions
 import team.comit.simtong.domain.menu.spi.CommandMenuPort
 import team.comit.simtong.domain.menu.spi.ParseMenuFilePort
