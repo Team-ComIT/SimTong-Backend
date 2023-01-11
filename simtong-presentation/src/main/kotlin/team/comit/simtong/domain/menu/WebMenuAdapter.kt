@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.file.converter.ExcelFileConverter
-import team.comit.simtong.domain.menu.dto.MenuResponse
 import team.comit.simtong.domain.menu.dto.SaveMenuRequest
 import team.comit.simtong.domain.menu.dto.request.SaveMenuWebRequest
+import team.comit.simtong.domain.menu.dto.response.MenuWebResponse
 import team.comit.simtong.domain.menu.usecase.QueryMenuByMonthUseCase
 import team.comit.simtong.domain.menu.usecase.QueryPublicMenuUseCase
 import team.comit.simtong.domain.menu.usecase.SaveMenuUseCase
@@ -25,7 +25,7 @@ import javax.validation.Valid
  * @author kimbeomjin
  * @author Chokyunghyeon
  * @date 2022/09/25
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @RestController
 @RequestMapping("/menu")
@@ -39,16 +39,30 @@ class WebMenuAdapter(
     fun getMenu(
         @RequestParam("start_at") startAt: LocalDate,
         @RequestParam("end_at") endAt: LocalDate
-    ): MenuResponse {
+    ): MenuWebResponse {
         return queryMenuByMonthUseCase.execute(startAt, endAt)
+            .map {
+                MenuWebResponse.MenuElement(
+                    date = it.date,
+                    meal = it.meal
+                )
+            }
+            .run(::MenuWebResponse)
     }
 
     @GetMapping("/public")
     fun getPublicMenu(
         @RequestParam("start_at") startAt: LocalDate,
         @RequestParam("end_at") endAt: LocalDate
-    ): MenuResponse {
+    ): MenuWebResponse {
         return queryPublicMenuUseCase.execute(startAt, endAt)
+            .map {
+                MenuWebResponse.MenuElement(
+                    date = it.date,
+                    meal = it.meal
+                )
+            }
+            .run(::MenuWebResponse)
     }
 
     @PostMapping("/{spot-id}")

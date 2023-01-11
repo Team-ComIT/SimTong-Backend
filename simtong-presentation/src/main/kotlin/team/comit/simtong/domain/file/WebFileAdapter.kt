@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
-import team.comit.simtong.domain.file.dto.response.UploadImageListWebResponse
-import team.comit.simtong.domain.file.dto.response.UploadImageWebResponse
 import team.comit.simtong.domain.file.converter.ExcelFileConverter
 import team.comit.simtong.domain.file.converter.ImageFileConverter
+import team.comit.simtong.domain.file.dto.response.UploadImageListWebResponse
+import team.comit.simtong.domain.file.dto.response.UploadImageWebResponse
 import team.comit.simtong.domain.file.usecase.RegisterEmployeeCertificateUseCase
 import team.comit.simtong.domain.file.usecase.UploadImageUseCase
 
@@ -31,21 +31,17 @@ class WebFileAdapter(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun uploadSingleImage(file: MultipartFile): UploadImageWebResponse {
-        return UploadImageWebResponse(
-            uploadImageUseCase.execute(
-                file.let(ImageFileConverter::transferTo)
-            )
-        )
+        return uploadImageUseCase.execute(
+            file.let(ImageFileConverter::transferTo)
+        ).run(::UploadImageWebResponse)
     }
 
     @PostMapping("/list")
     @ResponseStatus(HttpStatus.CREATED)
     fun uploadMultipleImage(files: List<MultipartFile>): UploadImageListWebResponse {
-        return UploadImageListWebResponse(
-            uploadImageUseCase.execute(
-                files.let(ImageFileConverter::transferToList)
-            )
-        )
+        return uploadImageUseCase.execute(
+            files.let(ImageFileConverter::transferToList)
+        ).run(::UploadImageListWebResponse)
     }
 
     @PostMapping("/employee")

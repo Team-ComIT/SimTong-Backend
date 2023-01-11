@@ -15,12 +15,16 @@ import team.comit.simtong.domain.schedule.dto.AddIndividualScheduleRequest
 import team.comit.simtong.domain.schedule.dto.AddSpotScheduleRequest
 import team.comit.simtong.domain.schedule.dto.ChangeIndividualScheduleRequest
 import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
-import team.comit.simtong.domain.schedule.dto.QueryEntireSpotScheduleResponse
-import team.comit.simtong.domain.schedule.dto.QueryIndividualSpotScheduleResponse
 import team.comit.simtong.domain.schedule.dto.request.AddIndividualScheduleWebRequest
 import team.comit.simtong.domain.schedule.dto.request.AddSpotScheduleWebRequest
 import team.comit.simtong.domain.schedule.dto.request.ChangeIndividualScheduleWebRequest
 import team.comit.simtong.domain.schedule.dto.request.ChangeSpotScheduleWebRequest
+import team.comit.simtong.domain.schedule.dto.response.QueryEntireSpotScheduleWebResponse
+import team.comit.simtong.domain.schedule.dto.response.QueryIndividualSpotScheduleWebResponse
+import team.comit.simtong.domain.schedule.dto.response.ScheduleResponse
+import team.comit.simtong.domain.schedule.dto.response.SpotScheduleResponse
+import team.comit.simtong.domain.schedule.model.Schedule
+import team.comit.simtong.domain.schedule.spi.vo.SpotSchedule
 import team.comit.simtong.domain.schedule.usecase.AddIndividualScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.AddSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.ChangeIndividualScheduleUseCase
@@ -88,16 +92,39 @@ class WebScheduleAdapter(
     fun queryIndividualSpotSchedule(
         @RequestParam("start_at") startAt: LocalDate,
         @RequestParam("end_at") endAt: LocalDate
-    ): QueryIndividualSpotScheduleResponse {
-        return queryIndividualSpotScheduleUseCase.execute(startAt, endAt)
+    ): QueryIndividualSpotScheduleWebResponse {
+        val result: List<Schedule> = queryIndividualSpotScheduleUseCase.execute(startAt, endAt)
+
+        return result.map {
+            ScheduleResponse(
+                id = it.id,
+                startAt = it.startAt,
+                endAt = it.endAt,
+                title = it.title,
+                scope = it.scope
+            )
+        }.run(::QueryIndividualSpotScheduleWebResponse)
     }
 
     @GetMapping("/spots")
     fun queryEntireSpotSchedule(
         @RequestParam("start_at") startAt: LocalDate,
         @RequestParam("end_at") endAt: LocalDate
-    ): QueryEntireSpotScheduleResponse {
-        return queryEntireSpotScheduleUseCase.execute(startAt, endAt)
+    ): QueryEntireSpotScheduleWebResponse {
+        val result: List<SpotSchedule> = queryEntireSpotScheduleUseCase.execute(startAt, endAt)
+
+        return result.map {
+            SpotScheduleResponse(
+                id = it.id,
+                title = it.title,
+                startAt = it.startAt,
+                endAt = it.endAt,
+                spot = SpotScheduleResponse.SpotElement(
+                    id = it.spotId,
+                    name = it.spotName
+                )
+            )
+        }.run(::QueryEntireSpotScheduleWebResponse)
     }
 
     @PostMapping("/spots/{spot-id}")

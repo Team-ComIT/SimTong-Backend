@@ -6,12 +6,13 @@ import org.springframework.web.bind.annotation.*
 import team.comit.simtong.domain.auth.dto.TokenResponse
 import team.comit.simtong.domain.auth.usecase.ReissueTokenUseCase
 import team.comit.simtong.domain.common.dto.request.ChangePasswordWebRequest
+import team.comit.simtong.domain.common.dto.request.CheckMatchedAccountWebRequest
 import team.comit.simtong.domain.common.dto.request.FindEmployeeNumberWebRequest
 import team.comit.simtong.domain.common.dto.request.ResetPasswordWebRequest
 import team.comit.simtong.domain.common.dto.response.FindEmployeeNumberWebResponse
-import team.comit.simtong.domain.spot.dto.SpotResponse
+import team.comit.simtong.domain.common.dto.response.QueryTeamsWebResponse
+import team.comit.simtong.domain.common.dto.response.SpotWebResponse
 import team.comit.simtong.domain.spot.usecase.ShowSpotListUseCase
-import team.comit.simtong.domain.team.dto.QueryTeamsResponse
 import team.comit.simtong.domain.team.usecase.QueryTeamsUseCase
 import team.comit.simtong.domain.user.dto.ChangePasswordRequest
 import team.comit.simtong.domain.user.dto.CheckMatchedAccountRequest
@@ -53,15 +54,13 @@ class WebCommonAdapter(
 
     @GetMapping("/employee-number")
     fun findEmployeeNumber(@Valid @ModelAttribute request: FindEmployeeNumberWebRequest): FindEmployeeNumberWebResponse {
-        val result = findEmployeeNumberUseCase.execute(
+        return findEmployeeNumberUseCase.execute(
             FindEmployeeNumberRequest(
                 name = request.name,
                 spotId = request.spotId,
                 email = request.email
             )
-        )
-
-        return FindEmployeeNumberWebResponse(result)
+        ).run(::FindEmployeeNumberWebResponse)
     }
 
     @PutMapping("/token/reissue")
@@ -98,7 +97,7 @@ class WebCommonAdapter(
     }
 
     @GetMapping("/account/existence")
-    fun checkMatchedAccount(@Valid @ModelAttribute request: CheckMatchedAccountRequest) {
+    fun checkMatchedAccount(@Valid @ModelAttribute request: CheckMatchedAccountWebRequest) {
         checkMatchedAccountUseCase.execute(
             CheckMatchedAccountRequest(
                 employeeNumber = request.employeeNumber,
@@ -108,8 +107,16 @@ class WebCommonAdapter(
     }
 
     @GetMapping("/spot")
-    fun showSpotList(): SpotResponse {
+    fun showSpotList(): SpotWebResponse {
         return showSpotListUseCase.execute()
+            .map {
+                SpotWebResponse.SpotElement(
+                    id = it.id,
+                    name = it.name,
+                    location = it.location
+                )
+            }
+            .run(::SpotWebResponse)
     }
 
     @GetMapping("/password/compare")
@@ -118,8 +125,14 @@ class WebCommonAdapter(
     }
 
     @GetMapping("/team/{spot-id}")
-    fun queryTeams(@PathVariable(name = "spot-id") spotId: UUID): QueryTeamsResponse {
+    fun queryTeams(@PathVariable(name = "spot-id") spotId: UUID): QueryTeamsWebResponse {
         return queryTeamsUseCase.execute(spotId)
+            .map {
+                QueryTeamsWebResponse.TeamElement(
+                    id = it.id,
+                    name = it.name
+                )
+            }
+            .run(::QueryTeamsWebResponse)
     }
-
 }
