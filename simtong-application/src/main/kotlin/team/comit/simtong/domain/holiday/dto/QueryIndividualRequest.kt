@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.holiday.dto
 
+import team.comit.simtong.domain.holiday.model.value.HolidayStatus
 import java.time.LocalDate
 
 /**
@@ -8,12 +9,12 @@ import java.time.LocalDate
  *
  * @author Chokyunghyeon
  * @date 2022/12/21
- * @version 1.0.0
+ * @version 1.2.5
  **/
 data class QueryIndividualRequest(
     val startAt: LocalDate,
 
     val endAt: LocalDate,
 
-    val status: String
+    val status: HolidayStatus
 )
