@@ -2,7 +2,7 @@ package team.comit.simtong.domain.user.model
 
 /**
  *
- * NickName
+ * User Aggregate 중 닉네임을 담당하는 NickName
  *
  * @author kimbeomjin
  * @date 2023/01/10

@@ -2,7 +2,7 @@ package team.comit.simtong.domain.user.model
 
 /**
  *
- * EmployeeNumber
+ * User Aggregate 중 사원번호를 담당하는 EmployeeNumber
  *
  * @author kimbeomjin
  * @date 2023/01/10

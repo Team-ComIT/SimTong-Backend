@@ -2,7 +2,7 @@ package team.comit.simtong.domain.user.model
 
 /**
  *
- * Password
+ * User Aggregate 중 비밀번호를 담당하는 Password
  *
  * @author kimbeomjin
  * @date 2023/01/10
