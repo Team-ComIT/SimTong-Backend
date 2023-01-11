@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.menu.usecase
 
-import team.comit.simtong.domain.menu.model.Menu
+import team.comit.simtong.domain.menu.dto.response.MenuResponse
 import team.comit.simtong.domain.menu.spi.MenuQueryUserPort
 import team.comit.simtong.domain.menu.spi.MenuSecurityPort
 import team.comit.simtong.domain.menu.spi.QueryMenuPort
@@ -23,10 +23,17 @@ class QueryMenuByMonthUseCase(
     private val menuSecurityPort: MenuSecurityPort
 ) {
 
-    fun execute(startAt: LocalDate, endAt: LocalDate): List<Menu> {
+    fun execute(startAt: LocalDate, endAt: LocalDate): MenuResponse {
         val currentUserId = menuSecurityPort.getCurrentUserId()
         val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
-        return queryMenuPort.queryMenusByPeriodAndSpotId(startAt, endAt, user.spotId)
+        val menus = queryMenuPort.queryMenusByPeriodAndSpotId(startAt, endAt, user.spotId)
+
+        return menus.map {
+            MenuResponse.MenuElement(
+                date = it.date,
+                meal = it.meal
+            )
+        }.let(::MenuResponse)
     }
 }

@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.team.usecase
 
-import team.comit.simtong.domain.team.model.Team
+import team.comit.simtong.domain.team.dto.response.QueryTeamsResponse
 import team.comit.simtong.domain.team.spi.QueryTeamPort
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
 import java.util.UUID
@@ -19,7 +19,14 @@ class QueryTeamsUseCase(
     private val queryTeamPort: QueryTeamPort
 ) {
 
-    fun execute(spotId: UUID): List<Team> {
-        return queryTeamPort.queryTeamsBySpotId(spotId)
+    fun execute(spotId: UUID): QueryTeamsResponse {
+        val teams = queryTeamPort.queryTeamsBySpotId(spotId)
+
+        return teams.map {
+            QueryTeamsResponse.TeamElement(
+                id = it.id,
+                name = it.name
+            )
+        }.let(::QueryTeamsResponse)
     }
 }

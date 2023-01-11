@@ -1,7 +1,8 @@
 package team.comit.simtong.domain.holiday.usecase
 
-import team.comit.simtong.domain.holiday.dto.QueryIndividualRequest
-import team.comit.simtong.domain.holiday.model.Holiday
+import team.comit.simtong.domain.holiday.dto.response.IndividualHolidayResponse
+import team.comit.simtong.domain.holiday.dto.response.QueryIndividualHolidaysResponse
+import team.comit.simtong.domain.holiday.dto.request.QueryIndividualRequest
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
@@ -12,7 +13,7 @@ import team.comit.simtong.global.annotation.ReadOnlyUseCase
  *
  * @author Chokyunghyeon
  * @date 2022/12/05
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @ReadOnlyUseCase
 class QueryIndividualHolidayUseCase(
@@ -20,14 +21,21 @@ class QueryIndividualHolidayUseCase(
     private val securityPort: HolidaySecurityPort
 ) {
 
-    fun execute(request: QueryIndividualRequest): List<Holiday> {
+    fun execute(request: QueryIndividualRequest): QueryIndividualHolidaysResponse {
         val currentUserId = securityPort.getCurrentUserId()
 
-        return queryHolidayPort.queryHolidaysByPeriodAndUserIdAndStatus(
+        val holidays = queryHolidayPort.queryHolidaysByPeriodAndUserIdAndStatus(
             startAt = request.startAt,
             endAt = request.endAt,
             userId = currentUserId,
             status = request.status
         )
+
+        return holidays.map {
+            IndividualHolidayResponse(
+                date = it.date,
+                type = it.type
+            )
+        }.let(::QueryIndividualHolidaysResponse)
     }
 }

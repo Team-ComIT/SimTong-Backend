@@ -1,10 +1,10 @@
 package team.comit.simtong.domain.holiday.usecase
 
+import team.comit.simtong.domain.holiday.dto.response.QueryEmployeeHolidayResponse
 import team.comit.simtong.domain.holiday.model.value.HolidayQueryType
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
-import team.comit.simtong.domain.holiday.spi.vo.EmployeeHoliday
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
 import java.util.UUID
@@ -28,16 +28,29 @@ class QueryEmployeeHolidayUseCase(
     private val queryUserPort: HolidayQueryUserPort
 ) {
 
-    fun execute(year: Int, month: Int, type: HolidayQueryType, teamId: UUID?): List<EmployeeHoliday> {
+    fun execute(year: Int, month: Int, type: HolidayQueryType, teamId: UUID?): QueryEmployeeHolidayResponse {
         val currentUserId = securityPort.getCurrentUserId()
         val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
-        return queryHolidayPort.queryEmployeeHolidaysByYearAndMonthAndTeamId(
+        val holidays = queryHolidayPort.queryEmployeeHolidaysByYearAndMonthAndTeamId(
             year = year,
             month = month,
             type = type.toHolidayType(),
             spotId = user.spotId,
             teamId = teamId
         )
+
+        return holidays.map {
+            QueryEmployeeHolidayResponse.Holiday(
+                date = it.date,
+                type = it.type,
+                user = QueryEmployeeHolidayResponse.Holiday.Employee(
+                    id = it.userId,
+                    name = it.userName,
+                    team = it.teamName,
+                    spot = it.spotName
+                )
+            )
+        }.let(::QueryEmployeeHolidayResponse)
     }
 }
