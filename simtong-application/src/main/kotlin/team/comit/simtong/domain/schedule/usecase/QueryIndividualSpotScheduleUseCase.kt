@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.schedule.usecase
 
-import team.comit.simtong.domain.schedule.dto.QueryIndividualSpotScheduleResponse
-import team.comit.simtong.domain.schedule.dto.ScheduleResponse
+import team.comit.simtong.domain.schedule.dto.response.QueryIndividualSpotScheduleResponse
+import team.comit.simtong.domain.schedule.dto.response.ScheduleResponse
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort

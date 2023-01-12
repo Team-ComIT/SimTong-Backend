@@ -5,8 +5,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.schedule.dto.QueryEntireSpotScheduleResponse
-import team.comit.simtong.domain.schedule.dto.SpotScheduleResponse
+import team.comit.simtong.domain.schedule.dto.response.QueryEntireSpotScheduleResponse
+import team.comit.simtong.domain.schedule.dto.response.SpotScheduleResponse
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.vo.SpotSchedule

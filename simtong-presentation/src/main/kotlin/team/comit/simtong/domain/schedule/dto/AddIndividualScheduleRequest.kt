@@ -1,21 +1,21 @@
-package team.comit.simtong.domain.schedule.dto.request
+package team.comit.simtong.domain.schedule.dto
 
 import org.hibernate.validator.constraints.Length
+import team.comit.simtong.domain.schedule.dto.request.AddIndividualScheduleData
 import java.time.LocalDate
 import java.time.LocalTime
-import javax.validation.constraints.FutureOrPresent
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
 /**
  *
- * 개인 일정 추가를 요청하는 AddIndividualScheduleWebRequest
+ * 개인 일정 추가를 요청하는 AddIndividualScheduleRequest
  *
  * @author Chokyunghyeon
  * @date 2022/11/26
- * @version 1.0.0
+ * @version 1.2.5
  **/
-data class AddIndividualScheduleWebRequest(
+data class AddIndividualScheduleRequest(
 
     @field:NotBlank
     @field:Length(max = 20)
@@ -29,4 +29,12 @@ data class AddIndividualScheduleWebRequest(
     val endAt: LocalDate,
 
     val alarm: LocalTime?
-)
+) {
+
+    fun toData() = AddIndividualScheduleData(
+        title = title,
+        startAt = startAt,
+        endAt = endAt,
+        alarm = alarm
+    )
+}
