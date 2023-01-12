@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.auth.dto.TokenResponse
-import team.comit.simtong.domain.user.dto.AdminSignInRequest
+import team.comit.simtong.domain.user.dto.request.AdminSignInData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.spi.QueryUserPort
@@ -24,7 +24,7 @@ class AdminSignInUseCase(
     private val securityPort: UserSecurityPort
 ) {
 
-    fun execute(request: AdminSignInRequest): TokenResponse {
+    fun execute(request: AdminSignInData): TokenResponse {
         val admin = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber)
             ?: throw UserExceptions.NotFound("관리자가 존재하지 않습니다.")
 
