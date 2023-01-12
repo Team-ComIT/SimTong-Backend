@@ -62,7 +62,7 @@ class WebScheduleAdapter(
         @PathVariable("schedule-id") scheduleId: UUID,
         @Valid @RequestBody request: ChangeIndividualScheduleRequest
     ) {
-        changeIndividualScheduleUseCase.execute(request.toData(scheduleId))
+        changeIndividualScheduleUseCase.execute(request.toData(), scheduleId)
     }
 
     @GetMapping
@@ -87,7 +87,7 @@ class WebScheduleAdapter(
         @PathVariable("spot-id") spotId: UUID,
         @Valid @RequestBody request: AddSpotScheduleRequest
     ) {
-        addSpotScheduleUseCase.execute(request.toData(spotId))
+        addSpotScheduleUseCase.execute(request.toData(), spotId)
     }
 
     @PutMapping("/spots/{schedule-id}")
@@ -96,7 +96,7 @@ class WebScheduleAdapter(
         @PathVariable("schedule-id") scheduleId: UUID,
         @Valid @RequestBody request: ChangeSpotScheduleRequest
     ) {
-        changeSpotScheduleUseCase.execute(request.toData(scheduleId))
+        changeSpotScheduleUseCase.execute(request.toData(), scheduleId)
     }
 
     @DeleteMapping("/{schedule-id}")

@@ -4,7 +4,6 @@ import org.hibernate.validator.constraints.Length
 import team.comit.simtong.domain.schedule.dto.request.ChangeIndividualScheduleData
 import java.time.LocalDate
 import java.time.LocalTime
-import java.util.UUID
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
@@ -32,11 +31,10 @@ data class ChangeIndividualScheduleRequest(
     val alarm: LocalTime
 ) {
 
-    fun toData(scheduleId: UUID) = ChangeIndividualScheduleData(
+    fun toData() = ChangeIndividualScheduleData(
         title = title,
         startAt = startAt,
         endAt = endAt,
-        alarm = alarm,
-        scheduleId = scheduleId
+        alarm = alarm
     )
 }

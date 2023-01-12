@@ -3,7 +3,6 @@ package team.comit.simtong.domain.schedule.dto
 import org.hibernate.validator.constraints.Length
 import team.comit.simtong.domain.schedule.dto.request.AddSpotScheduleData
 import java.time.LocalDate
-import java.util.UUID
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
@@ -29,10 +28,9 @@ data class AddSpotScheduleRequest(
     val endAt: LocalDate
 ) {
 
-    fun toData(spotId: UUID) = AddSpotScheduleData(
+    fun toData() = AddSpotScheduleData(
         title = title,
         startAt = startAt,
         endAt = endAt,
-        spotId = spotId
     )
 }

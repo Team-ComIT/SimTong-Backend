@@ -1,7 +1,6 @@
 package team.comit.simtong.domain.schedule.dto.request
 
 import java.time.LocalDate
-import java.util.UUID
 
 /**
  *
@@ -12,8 +11,6 @@ import java.util.UUID
  * @version 1.2.5
  **/
 data class AddSpotScheduleData(
-    val spotId: UUID,
-
     val title: String,
 
     val startAt: LocalDate,

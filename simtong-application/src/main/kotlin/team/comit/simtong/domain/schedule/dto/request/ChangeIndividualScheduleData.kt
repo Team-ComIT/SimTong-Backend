@@ -2,7 +2,6 @@ package team.comit.simtong.domain.schedule.dto.request
 
 import java.time.LocalDate
 import java.time.LocalTime
-import java.util.UUID
 
 /**
  *
@@ -13,9 +12,6 @@ import java.util.UUID
  * @version 1.2.5
  **/
 data class ChangeIndividualScheduleData(
-
-    val scheduleId: UUID,
-
     val title: String,
 
     val startAt: LocalDate,
