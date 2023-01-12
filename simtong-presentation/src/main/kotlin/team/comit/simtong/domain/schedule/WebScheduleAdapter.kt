@@ -15,12 +15,8 @@ import team.comit.simtong.domain.schedule.dto.AddIndividualScheduleRequest
 import team.comit.simtong.domain.schedule.dto.AddSpotScheduleRequest
 import team.comit.simtong.domain.schedule.dto.ChangeIndividualScheduleRequest
 import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
-import team.comit.simtong.domain.schedule.dto.QueryEntireSpotScheduleResponse
-import team.comit.simtong.domain.schedule.dto.QueryIndividualSpotScheduleResponse
-import team.comit.simtong.domain.schedule.dto.request.AddIndividualScheduleWebRequest
-import team.comit.simtong.domain.schedule.dto.request.AddSpotScheduleWebRequest
-import team.comit.simtong.domain.schedule.dto.request.ChangeIndividualScheduleWebRequest
-import team.comit.simtong.domain.schedule.dto.request.ChangeSpotScheduleWebRequest
+import team.comit.simtong.domain.schedule.dto.response.QueryEntireSpotScheduleResponse
+import team.comit.simtong.domain.schedule.dto.response.QueryIndividualSpotScheduleResponse
 import team.comit.simtong.domain.schedule.usecase.AddIndividualScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.AddSpotScheduleUseCase
 import team.comit.simtong.domain.schedule.usecase.ChangeIndividualScheduleUseCase
@@ -39,7 +35,7 @@ import javax.validation.Valid
  *
  * @author Chokyunghyeon
  * @date 2022/11/21
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @RestController
 @RequestMapping("/schedules")
@@ -56,32 +52,17 @@ class WebScheduleAdapter(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun addIndividualSchedule(@Valid @RequestBody request: AddIndividualScheduleWebRequest) {
-        addIndividualScheduleUseCase.execute(
-            AddIndividualScheduleRequest(
-                title = request.title,
-                startAt = request.startAt,
-                endAt = request.endAt,
-                alarm = request.alarm
-            )
-        )
+    fun addIndividualSchedule(@Valid @RequestBody request: AddIndividualScheduleRequest) {
+        addIndividualScheduleUseCase.execute(request.toData())
     }
 
     @PutMapping("/{schedule-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeIndividualSchedule(
         @PathVariable("schedule-id") scheduleId: UUID,
-        @Valid @RequestBody request: ChangeIndividualScheduleWebRequest
+        @Valid @RequestBody request: ChangeIndividualScheduleRequest
     ) {
-        changeIndividualScheduleUseCase.execute(
-            ChangeIndividualScheduleRequest(
-                scheduleId = scheduleId,
-                title = request.title,
-                startAt = request.startAt,
-                endAt = request.endAt,
-                alarm = request.alarm
-            )
-        )
+        changeIndividualScheduleUseCase.execute(request.toData(scheduleId))
     }
 
     @GetMapping
@@ -104,32 +85,18 @@ class WebScheduleAdapter(
     @ResponseStatus(HttpStatus.CREATED)
     fun addSpotSchedule(
         @PathVariable("spot-id") spotId: UUID,
-        @Valid @RequestBody request: AddSpotScheduleWebRequest
+        @Valid @RequestBody request: AddSpotScheduleRequest
     ) {
-        addSpotScheduleUseCase.execute(
-            AddSpotScheduleRequest(
-                spotId = spotId,
-                title = request.title,
-                startAt = request.startAt,
-                endAt = request.endAt
-            )
-        )
+        addSpotScheduleUseCase.execute(request.toData(spotId))
     }
 
     @PutMapping("/spots/{schedule-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changeSpotSchedule(
         @PathVariable("schedule-id") scheduleId: UUID,
-        @Valid @RequestBody request: ChangeSpotScheduleWebRequest
+        @Valid @RequestBody request: ChangeSpotScheduleRequest
     ) {
-        changeSpotScheduleUseCase.execute(
-            ChangeSpotScheduleRequest(
-                scheduleId = scheduleId,
-                title = request.title,
-                startAt = request.startAt,
-                endAt = request.endAt
-            )
-        )
+        changeSpotScheduleUseCase.execute(request.toData(scheduleId))
     }
 
     @DeleteMapping("/{schedule-id}")
