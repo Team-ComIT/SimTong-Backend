@@ -40,7 +40,7 @@ import javax.validation.constraints.Pattern
  * @author Chokyunghyeon
  * @author kimbeomjin
  * @date 2022/09/04
- * @version 1.2.3
+ * @version 1.2.5
  **/
 @Validated
 @RestController
