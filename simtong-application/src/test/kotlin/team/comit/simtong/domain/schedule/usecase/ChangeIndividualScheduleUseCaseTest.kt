@@ -7,7 +7,7 @@ import org.junit.jupiter.api.assertThrows
 import org.mockito.Mock
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.schedule.dto.ChangeIndividualScheduleRequest
+import team.comit.simtong.domain.schedule.dto.request.ChangeIndividualScheduleData
 import team.comit.simtong.domain.schedule.exception.ScheduleExceptions
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
@@ -84,8 +84,8 @@ class ChangeIndividualScheduleUseCaseTest {
         )
     }
 
-    private val requestStub: ChangeIndividualScheduleRequest by lazy {
-        ChangeIndividualScheduleRequest(
+    private val requestStub: ChangeIndividualScheduleData by lazy {
+        ChangeIndividualScheduleData(
             scheduleId = scheduleId,
             title = "test title",
             startAt = LocalDate.now(),

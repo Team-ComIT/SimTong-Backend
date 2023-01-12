@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.schedule.dto.AddSpotScheduleRequest
+import team.comit.simtong.domain.schedule.dto.request.AddSpotScheduleData
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
@@ -35,8 +35,8 @@ class AddSpotScheduleUseCaseTests {
 
     private val spotId: UUID = UUID.randomUUID()
 
-    private val requestStub : AddSpotScheduleRequest by lazy {
-        AddSpotScheduleRequest(
+    private val requestStub : AddSpotScheduleData by lazy {
+        AddSpotScheduleData(
             spotId = spotId,
             title = "test title",
             startAt = LocalDate.now(),
