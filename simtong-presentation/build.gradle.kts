@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
     // impl project
+    implementation(project(":simtong-domain"))
     implementation(project(":simtong-application"))
 
     // web
