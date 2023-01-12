@@ -9,6 +9,7 @@ import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.global.annotation.UseCase
+import java.util.UUID
 
 /**
  *
@@ -27,13 +28,13 @@ class ChangeSpotScheduleUseCase(
     private val securityPort: ScheduleSecurityPort
 ) {
 
-    fun execute(request: ChangeSpotScheduleData) {
+    fun execute(request: ChangeSpotScheduleData, scheduleId: UUID) {
         val currentUserId = securityPort.getCurrentUserId()
 
         val user = queryUserPort.queryUserById(currentUserId)
             ?: throw UserExceptions.NotFound()
 
-        val schedule = querySchedulePort.queryScheduleById(request.scheduleId)
+        val schedule = querySchedulePort.queryScheduleById(scheduleId)
             ?: throw ScheduleExceptions.NotFound()
 
         if (!schedule.isSameSpot(user.spotId) && user.authority != Authority.ROLE_SUPER) {
