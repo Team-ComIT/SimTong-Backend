@@ -1,17 +1,17 @@
-package team.comit.simtong.domain.schedule.dto
+package team.comit.simtong.domain.schedule.dto.request
 
 import java.time.LocalDate
 import java.util.UUID
 
 /**
  *
- * 지점 일정 추가 요청 정보를 전달하는 AddSpotScheduleRequest
+ * 지점 일정 추가 요청 정보를 전달하는 AddSpotScheduleData
  *
  * @author Chokyunghyeon
  * @date 2022/11/21
- * @version 1.0.0
+ * @version 1.2.5
  **/
-data class AddSpotScheduleRequest(
+data class AddSpotScheduleData(
     val spotId: UUID,
 
     val title: String,
