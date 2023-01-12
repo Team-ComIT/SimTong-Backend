@@ -1,8 +1,7 @@
 package team.comit.simtong.domain.schedule.usecase
 
-import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
+import team.comit.simtong.domain.schedule.dto.request.ChangeSpotScheduleData
 import team.comit.simtong.domain.schedule.exception.ScheduleExceptions
-import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
@@ -28,7 +27,7 @@ class ChangeSpotScheduleUseCase(
     private val securityPort: ScheduleSecurityPort
 ) {
 
-    fun execute(request: ChangeSpotScheduleRequest) {
+    fun execute(request: ChangeSpotScheduleData) {
         val currentUserId = securityPort.getCurrentUserId()
 
         val user = queryUserPort.queryUserById(currentUserId)

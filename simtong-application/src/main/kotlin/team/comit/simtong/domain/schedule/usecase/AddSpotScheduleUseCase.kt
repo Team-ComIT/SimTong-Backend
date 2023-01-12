@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.schedule.usecase
 
-import team.comit.simtong.domain.schedule.dto.AddSpotScheduleRequest
+import team.comit.simtong.domain.schedule.dto.request.AddSpotScheduleData
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
@@ -26,7 +26,7 @@ class AddSpotScheduleUseCase(
     private val securityPort: ScheduleSecurityPort
 ) {
 
-    fun execute(request: AddSpotScheduleRequest) {
+    fun execute(request: AddSpotScheduleData) {
         val currentUserId = securityPort.getCurrentUserId()
         val (spotId, title, startAt, endAt) = request
 
