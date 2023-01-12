@@ -16,15 +16,10 @@ import team.comit.simtong.domain.file.usecase.CheckEmployeeUseCase
 import team.comit.simtong.domain.user.dto.ChangeEmailRequest
 import team.comit.simtong.domain.user.dto.ChangeNicknameRequest
 import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
-import team.comit.simtong.domain.user.dto.QueryUserInfoResponse
+import team.comit.simtong.domain.user.dto.ChangeSpotRequest
 import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.domain.user.dto.UserSignInRequest
-import team.comit.simtong.domain.user.dto.request.ChangeEmailWebRequest
-import team.comit.simtong.domain.user.dto.request.ChangeNicknameWebRequest
-import team.comit.simtong.domain.user.dto.request.ChangeProfileImageWebRequest
-import team.comit.simtong.domain.user.dto.request.ChangeSpotWebRequest
-import team.comit.simtong.domain.user.dto.request.SignInWebRequest
-import team.comit.simtong.domain.user.dto.request.SignUpWebRequest
+import team.comit.simtong.domain.user.dto.response.QueryUserInfoResponse
 import team.comit.simtong.domain.user.usecase.ChangeEmailUseCase
 import team.comit.simtong.domain.user.usecase.ChangeNicknameUseCase
 import team.comit.simtong.domain.user.usecase.ChangeProfileImageUseCase
@@ -64,29 +59,13 @@ class WebUserAdapter(
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    fun signUp(@Valid @RequestBody request: SignUpWebRequest): TokenResponse {
-        return signUpUseCase.execute(
-            SignUpRequest(
-                name = request.name,
-                email = request.email,
-                password = request.password.value,
-                nickname = request.nickname.value,
-                profileImagePath = request.profileImagePath,
-                employeeNumber = request.employeeNumber.value,
-                deviceToken = request.deviceToken
-            )
-        )
+    fun signUp(@Valid @RequestBody request: SignUpRequest): TokenResponse {
+        return signUpUseCase.execute(request.toData())
     }
 
     @PostMapping("/tokens")
-    fun signIn(@Valid @RequestBody request: SignInWebRequest): TokenResponse {
-        return signInUseCase.execute(
-            UserSignInRequest(
-                employeeNumber = request.employeeNumber.value,
-                password = request.password.value,
-                deviceToken = request.deviceToken
-            )
-        )
+    fun signIn(@Valid @RequestBody request: UserSignInRequest): TokenResponse {
+        return signInUseCase.execute(request.toData())
     }
 
     @GetMapping("/information")
@@ -96,49 +75,43 @@ class WebUserAdapter(
 
     @PutMapping("/nickname")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun changeNickname(@Valid @RequestBody request: ChangeNicknameWebRequest) {
-        changeNicknameUseCase.execute(
-            ChangeNicknameRequest(request.nickname.value)
-        )
+    fun changeNickname(@Valid @RequestBody request: ChangeNicknameRequest) {
+        changeNicknameUseCase.execute(request.toData())
     }
 
     @PutMapping("/email")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun changeEmail(@Valid @RequestBody request: ChangeEmailWebRequest) {
-        changeEmailUseCase.execute(
-            ChangeEmailRequest(request.email)
-        )
+    fun changeEmail(@Valid @RequestBody request: ChangeEmailRequest) {
+        changeEmailUseCase.execute(request.toData())
     }
 
     @PutMapping("/profile-image")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun changeProfileImage(@Valid @RequestBody request: ChangeProfileImageWebRequest) {
-        changeProfileImageUseCase.execute(
-            ChangeProfileImageRequest(request.profileImagePath)
-        )
+    fun changeProfileImage(@Valid @RequestBody request: ChangeProfileImageRequest) {
+        changeProfileImageUseCase.execute(request.toData())
     }
 
     @PutMapping("/spot")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun changeSpot(@Valid @RequestBody request: ChangeSpotWebRequest) {
-        changeSpotUseCase.execute(request.spotId)
+    fun changeSpot(@Valid @RequestBody request: ChangeSpotRequest) {
+        changeSpotUseCase.execute(request.toData())
     }
 
     @GetMapping("/nickname/duplication")
     fun checkNicknameDuplication(
         @Pattern(regexp = NickName.PATTERN)
-        @RequestParam nickname: NickName
+        @RequestParam nickname: String
     ) {
-        checkNicknameDuplicationUseCase.execute(nickname.value)
+        checkNicknameDuplicationUseCase.execute(nickname)
     }
 
     @GetMapping("/verification-employee")
     fun checkEmployee(
         @RequestParam name: String,
         @Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
-        @RequestParam("employee_number") employeeNumber: EmployeeNumber
+        @RequestParam("employee_number") employeeNumber: Int
     ) {
-        checkEmployeeUseCase.execute(name, employeeNumber.value)
+        checkEmployeeUseCase.execute(name, employeeNumber)
     }
 
 }
