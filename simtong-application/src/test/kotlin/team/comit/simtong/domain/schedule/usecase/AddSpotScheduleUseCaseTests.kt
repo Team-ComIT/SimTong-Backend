@@ -37,7 +37,6 @@ class AddSpotScheduleUseCaseTests {
 
     private val requestStub : AddSpotScheduleData by lazy {
         AddSpotScheduleData(
-            spotId = spotId,
             title = "test title",
             startAt = LocalDate.now(),
             endAt = LocalDate.now()
@@ -75,7 +74,7 @@ class AddSpotScheduleUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            addSpotScheduleUseCase.execute(requestStub)
+            addSpotScheduleUseCase.execute(requestStub, spotId)
         }
     }
 
@@ -103,7 +102,7 @@ class AddSpotScheduleUseCaseTests {
 
         // when & then
         assertThrows<UserExceptions.NotEnoughPermission> {
-            addSpotScheduleUseCase.execute(requestStub)
+            addSpotScheduleUseCase.execute(requestStub, spotId)
         }
     }
 
@@ -131,7 +130,7 @@ class AddSpotScheduleUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            addSpotScheduleUseCase.execute(requestStub)
+            addSpotScheduleUseCase.execute(requestStub, spotId)
         }
     }
 
@@ -146,7 +145,7 @@ class AddSpotScheduleUseCaseTests {
 
         // when & then
         assertThrows<UserExceptions.NotFound> {
-            addSpotScheduleUseCase.execute(requestStub)
+            addSpotScheduleUseCase.execute(requestStub, spotId)
         }
     }
 

@@ -86,7 +86,6 @@ class ChangeIndividualScheduleUseCaseTest {
 
     private val requestStub: ChangeIndividualScheduleData by lazy {
         ChangeIndividualScheduleData(
-            scheduleId = scheduleId,
             title = "test title",
             startAt = LocalDate.now(),
             endAt = LocalDate.now(),
@@ -100,7 +99,7 @@ class ChangeIndividualScheduleUseCaseTest {
         given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
+        given(querySchedulePort.queryScheduleById(scheduleId))
             .willReturn(scheduleStub)
 
         given(queryUserPort.queryUserById(userId))
@@ -108,7 +107,7 @@ class ChangeIndividualScheduleUseCaseTest {
 
         // when & then
         assertDoesNotThrow {
-            changeIndividualScheduleUseCase.execute(requestStub)
+            changeIndividualScheduleUseCase.execute(requestStub, scheduleId)
         }
     }
 
@@ -118,7 +117,7 @@ class ChangeIndividualScheduleUseCaseTest {
         given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
+        given(querySchedulePort.queryScheduleById(scheduleId))
             .willReturn(scheduleStub)
 
         given(queryUserPort.queryUserById(userId))
@@ -126,7 +125,7 @@ class ChangeIndividualScheduleUseCaseTest {
 
         // when & then
         assertThrows<UserExceptions.NotFound> {
-            changeIndividualScheduleUseCase.execute(requestStub)
+            changeIndividualScheduleUseCase.execute(requestStub, scheduleId)
         }
     }
 
@@ -136,12 +135,12 @@ class ChangeIndividualScheduleUseCaseTest {
         given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
+        given(querySchedulePort.queryScheduleById(scheduleId))
             .willReturn(null)
 
         // when & then
         assertThrows<ScheduleExceptions.NotFound> {
-            changeIndividualScheduleUseCase.execute(requestStub)
+            changeIndividualScheduleUseCase.execute(requestStub, scheduleId)
         }
     }
 }
