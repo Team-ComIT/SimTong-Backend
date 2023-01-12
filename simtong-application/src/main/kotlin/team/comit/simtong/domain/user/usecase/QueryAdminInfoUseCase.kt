@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.spot.exception.SpotExceptions
-import team.comit.simtong.domain.user.dto.QueryAdminInfoResponse
+import team.comit.simtong.domain.user.dto.response.QueryAdminInfoResponse
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserQuerySpotPort

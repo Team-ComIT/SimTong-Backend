@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.auth.exception.AuthExceptions
-import team.comit.simtong.domain.user.dto.ResetPasswordRequest
+import team.comit.simtong.domain.user.dto.request.ResetPasswordData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
@@ -27,7 +27,7 @@ class ResetPasswordUseCase(
     private val securityPort: UserSecurityPort
 ) {
 
-    fun execute(request: ResetPasswordRequest) {
+    fun execute(request: ResetPasswordData) {
         val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email)
             ?: throw AuthExceptions.RequiredNewEmailAuthentication()
 

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.user.dto.ChangeNicknameRequest
+import team.comit.simtong.domain.user.dto.request.ChangeNicknameData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -32,8 +32,8 @@ class ChangeNicknameUseCaseTests {
 
     private val id = UUID.randomUUID()
 
-    private val requestStub: ChangeNicknameRequest by lazy {
-        ChangeNicknameRequest(
+    private val requestStub: ChangeNicknameData by lazy {
+        ChangeNicknameData(
             nickname = "test nickname"
         )
     }

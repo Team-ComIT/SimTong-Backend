@@ -15,7 +15,7 @@ import team.comit.simtong.domain.spot.exception.SpotExceptions
 import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.team.exception.TeamExceptions
 import team.comit.simtong.domain.team.model.Team
-import team.comit.simtong.domain.user.dto.SignUpRequest
+import team.comit.simtong.domain.user.dto.request.SignUpData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -131,8 +131,8 @@ class SignUpUseCaseTests {
         )
     }
 
-    private val requestStub: SignUpRequest by lazy {
-        SignUpRequest(
+    private val requestStub: SignUpData by lazy {
+        SignUpData(
             nickname = nickname,
             name = name,
             email = email,
@@ -222,7 +222,7 @@ class SignUpUseCaseTests {
     @Test
     fun `회원가입 성공 OPTINAL`() {
         // given
-        val requestStub = SignUpRequest(
+        val requestStub = SignUpData(
             nickname = nickname,
             name = name,
             email = email,

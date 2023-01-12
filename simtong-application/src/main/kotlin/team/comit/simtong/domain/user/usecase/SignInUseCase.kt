@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.auth.dto.TokenResponse
-import team.comit.simtong.domain.user.dto.UserSignInRequest
+import team.comit.simtong.domain.user.dto.request.UserSignInData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.DeviceToken
@@ -27,7 +27,7 @@ class SignInUseCase(
     private val commandDeviceTokenPort: CommandDeviceTokenPort
 ) {
 
-    fun execute(request: UserSignInRequest): TokenResponse {
+    fun execute(request: UserSignInData): TokenResponse {
         val user = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber)
             ?: throw UserExceptions.NotFound()
 

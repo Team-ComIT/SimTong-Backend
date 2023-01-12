@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.user.dto.ChangePasswordRequest
+import team.comit.simtong.domain.user.dto.request.ChangePasswordData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -47,8 +47,8 @@ class ChangePasswordUseCaseTests {
         )
     }
 
-    private val requestStub: ChangePasswordRequest by lazy {
-        ChangePasswordRequest(
+    private val requestStub: ChangePasswordData by lazy {
+        ChangePasswordData(
             password = "test password",
             newPassword = "test new password"
         )

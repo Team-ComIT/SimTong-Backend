@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.admin.dto.request.SignInWebRequest
 import team.comit.simtong.domain.auth.dto.TokenResponse
-import team.comit.simtong.domain.user.dto.AdminSignInRequest
-import team.comit.simtong.domain.user.dto.QueryAdminInfoResponse
+import team.comit.simtong.domain.user.dto.request.AdminSignInData
+import team.comit.simtong.domain.user.dto.response.QueryAdminInfoResponse
 import team.comit.simtong.domain.user.usecase.AdminSignInUseCase
 import team.comit.simtong.domain.user.usecase.QueryAdminInfoUseCase
 import javax.validation.Valid
@@ -31,7 +31,7 @@ class WebAdminAdapter(
     @PostMapping("/tokens")
     fun signIn(@Valid @RequestBody request: SignInWebRequest): TokenResponse {
         return adminSignInUseCase.execute(
-            AdminSignInRequest(
+            AdminSignInData(
                 employeeNumber = request.employeeNumber.value,
                 password = request.password.value
             )

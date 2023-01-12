@@ -5,7 +5,7 @@ import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.file.exception.FileExceptions
 import team.comit.simtong.domain.spot.exception.SpotExceptions
 import team.comit.simtong.domain.team.exception.TeamExceptions
-import team.comit.simtong.domain.user.dto.SignUpRequest
+import team.comit.simtong.domain.user.dto.request.SignUpData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.DeviceToken
@@ -45,7 +45,7 @@ class SignUpUseCase(
     private val queryEmployeeCertificatePort: UserQueryEmployeeCertificatePort
 ) {
 
-    fun execute(request: SignUpRequest): TokenResponse {
+    fun execute(request: SignUpData): TokenResponse {
         val (name, email, password, nickname, employeeNumber, profileImagePath) = request
 
         when {

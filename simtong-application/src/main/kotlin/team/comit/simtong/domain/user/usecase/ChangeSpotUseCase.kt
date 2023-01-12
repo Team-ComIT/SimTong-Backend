@@ -1,13 +1,13 @@
 package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.spot.exception.SpotExceptions
+import team.comit.simtong.domain.user.dto.request.ChangeSpotData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserQuerySpotPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
 import team.comit.simtong.global.annotation.UseCase
-import java.util.UUID
 
 /**
  *
@@ -25,17 +25,17 @@ class ChangeSpotUseCase(
     private val securityPort: UserSecurityPort
 ) {
 
-    fun execute(newSpotId: UUID) {
+    fun execute(request: ChangeSpotData) {
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
             ?: throw UserExceptions.NotFound()
 
-        if (!querySpotPort.existsSpotById(newSpotId)) {
+        if (!querySpotPort.existsSpotById(request.spotId)) {
             throw SpotExceptions.NotFound()
         }
 
         commandUserPort.save(
             user.copy(
-                spotId = newSpotId
+                spotId = request.spotId
             )
         )
     }

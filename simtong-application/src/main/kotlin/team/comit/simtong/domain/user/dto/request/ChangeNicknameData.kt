@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.user.dto
+package team.comit.simtong.domain.user.dto.request
 
 /**
  *
@@ -6,8 +6,8 @@ package team.comit.simtong.domain.user.dto
  *
  * @author Chokyunghyeon
  * @date 2022/10/03
- * @version 1.0.0
+ * @version 1.2.5
  **/
-data class ChangeNicknameRequest(
+data class ChangeNicknameData(
     val nickname: String
 )
