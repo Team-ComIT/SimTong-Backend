@@ -10,6 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.spot.exception.SpotExceptions
+import team.comit.simtong.domain.user.dto.request.ChangeSpotData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -56,6 +57,10 @@ class ChangeSpotUseCaseTests {
         )
     }
 
+    private val requestStub: ChangeSpotData by lazy {
+        ChangeSpotData(spotId)
+    }
+
     @BeforeEach
     fun setUp() {
         changeSpotUseCase = ChangeSpotUseCase(queryUserPort, commandUserPort, querySpotPort, userSecurityPort)
@@ -75,7 +80,7 @@ class ChangeSpotUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            changeSpotUseCase.execute(spotId)
+            changeSpotUseCase.execute(requestStub)
         }
     }
 
@@ -90,7 +95,7 @@ class ChangeSpotUseCaseTests {
 
         // when & then
         assertThrows<UserExceptions.NotFound> {
-            changeSpotUseCase.execute(spotId)
+            changeSpotUseCase.execute(requestStub)
         }
     }
 
@@ -108,7 +113,7 @@ class ChangeSpotUseCaseTests {
 
         // when & then
         assertThrows<SpotExceptions.NotFound> {
-            changeSpotUseCase.execute(spotId)
+            changeSpotUseCase.execute(requestStub)
         }
     }
 

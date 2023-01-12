@@ -9,7 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.auth.spi.QueryAuthCodeLimitPort
-import team.comit.simtong.domain.user.dto.ChangeEmailRequest
+import team.comit.simtong.domain.user.dto.request.ChangeEmailData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -38,8 +38,8 @@ class ChangeEmailUseCaseTests {
 
     private val id = UUID.randomUUID()
 
-    private val requestStub: ChangeEmailRequest by lazy {
-        ChangeEmailRequest(
+    private val requestStub: ChangeEmailData by lazy {
+        ChangeEmailData(
             email = "test@test.com"
         )
     }

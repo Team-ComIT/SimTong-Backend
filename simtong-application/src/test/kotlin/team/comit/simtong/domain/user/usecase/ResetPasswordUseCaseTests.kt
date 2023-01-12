@@ -8,7 +8,7 @@ import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
-import team.comit.simtong.domain.user.dto.ResetPasswordRequest
+import team.comit.simtong.domain.user.dto.request.ResetPasswordData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -44,8 +44,8 @@ class ResetPasswordUseCaseTests {
 
     private val id = UUID.randomUUID()
 
-    private val requestStub: ResetPasswordRequest by lazy {
-        ResetPasswordRequest(
+    private val requestStub: ResetPasswordData by lazy {
+        ResetPasswordData(
             email = email,
             employeeNumber = 1234567890,
             newPassword = "test password"

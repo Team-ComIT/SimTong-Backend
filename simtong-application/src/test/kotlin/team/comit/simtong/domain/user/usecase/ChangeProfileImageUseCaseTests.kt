@@ -8,7 +8,7 @@ import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.file.exception.FileExceptions
 import team.comit.simtong.domain.file.spi.CheckFilePort
-import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
+import team.comit.simtong.domain.user.dto.request.ChangeProfileImageData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -37,8 +37,8 @@ class ChangeProfileImageUseCaseTests {
 
     private val id = UUID.randomUUID()
 
-    private val requestStub: ChangeProfileImageRequest by lazy {
-        ChangeProfileImageRequest(
+    private val requestStub: ChangeProfileImageData by lazy {
+        ChangeProfileImageData(
             profileImagePath = "test path"
         )
     }
