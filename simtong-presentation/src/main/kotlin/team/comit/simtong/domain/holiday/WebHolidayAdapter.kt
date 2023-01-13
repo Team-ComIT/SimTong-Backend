@@ -9,18 +9,18 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import team.comit.simtong.domain.holiday.dto.AppointAnnualRequest
 import team.comit.simtong.domain.holiday.dto.AppointHolidayPeriodRequest
-import team.comit.simtong.domain.holiday.dto.QueryEmployeeHolidayResponse
-import team.comit.simtong.domain.holiday.dto.QueryIndividualHolidaysResponse
-import team.comit.simtong.domain.holiday.dto.QueryIndividualRequest
-import team.comit.simtong.domain.holiday.dto.QueryMonthHolidayPeriodResponse
-import team.comit.simtong.domain.holiday.dto.request.AppointAnnualWebRequest
-import team.comit.simtong.domain.holiday.dto.request.AppointHolidayPeriodWebRequest
-import team.comit.simtong.domain.holiday.dto.request.AppointHolidayWebRequest
-import team.comit.simtong.domain.holiday.dto.request.CancelHolidayWebRequest
-import team.comit.simtong.domain.holiday.dto.request.ChangeEmployeeHolidayWebRequest
-import team.comit.simtong.domain.holiday.dto.request.ShareHolidayWebRequest
-import team.comit.simtong.domain.holiday.dto.response.QueryRemainAnnualWebResponse
+import team.comit.simtong.domain.holiday.dto.AppointHolidayRequest
+import team.comit.simtong.domain.holiday.dto.CancelHolidayRequest
+import team.comit.simtong.domain.holiday.dto.ChangeEmployeeHolidayRequest
+import team.comit.simtong.domain.holiday.dto.ShareHolidayRequest
+import team.comit.simtong.domain.holiday.dto.response.QueryEmployeeHolidayResponse
+import team.comit.simtong.domain.holiday.dto.response.QueryIndividualHolidaysResponse
+import team.comit.simtong.domain.holiday.dto.response.QueryMonthHolidayPeriodResponse
+import team.comit.simtong.domain.holiday.dto.response.QueryRemainAnnualResponse
+import team.comit.simtong.domain.holiday.model.HolidayQueryType
+import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.usecase.AppointAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayPeriodUseCase
 import team.comit.simtong.domain.holiday.usecase.AppointHolidayUseCase
@@ -32,8 +32,6 @@ import team.comit.simtong.domain.holiday.usecase.QueryIndividualHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryMonthHolidayPeriodUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryRemainAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.ShareHolidayUseCase
-import team.comit.simtong.domain.holiday.value.WebHolidayQueryType
-import team.comit.simtong.domain.holiday.value.WebHolidayStatus
 import java.time.LocalDate
 import java.util.UUID
 import javax.validation.Valid
@@ -64,51 +62,44 @@ class WebHolidayAdapter(
 ) {
 
     @GetMapping("/annual/count")
-    fun queryRemainAnnual(@RequestParam year: Int): QueryRemainAnnualWebResponse {
-        return QueryRemainAnnualWebResponse(
-            queryRemainAnnualUseCase.execute(year)
-        )
+    fun queryRemainAnnual(@RequestParam year: Int): QueryRemainAnnualResponse {
+        return queryRemainAnnualUseCase.execute(year)
     }
 
     @PostMapping("/annual")
     @ResponseStatus(HttpStatus.CREATED)
-    fun appointAnnual(@RequestBody request: AppointAnnualWebRequest) {
-        appointAnnualUseCase.execute(request.date)
+    fun appointAnnual(@RequestBody request: AppointAnnualRequest) {
+        appointAnnualUseCase.execute(request.toData())
     }
 
     @PostMapping("/dayoff")
     @ResponseStatus(HttpStatus.CREATED)
-    fun appointHoliday(@RequestBody request: AppointHolidayWebRequest) {
-        appointHolidayUseCase.execute(request.date)
+    fun appointHoliday(@RequestBody request: AppointHolidayRequest) {
+        appointHolidayUseCase.execute(request.toData())
     }
 
     @PutMapping("/work")
-    fun cancelHoliday(@RequestBody request: CancelHolidayWebRequest) {
-        cancelHolidayUseCase.execute(request.date)
+    fun cancelHoliday(@RequestBody request: CancelHolidayRequest) {
+        cancelHolidayUseCase.execute(request.toData())
     }
 
     @GetMapping("/individual")
     fun queryIndividualHolidays(
         @RequestParam("start_at") startAt: LocalDate,
         @RequestParam("end_at") endAt: LocalDate,
-        @RequestParam status: WebHolidayStatus
+        @RequestParam status: HolidayStatus
     ): QueryIndividualHolidaysResponse {
         return queryIndividualHolidayUseCase.execute(
-            QueryIndividualRequest(
-                startAt = startAt,
-                endAt = endAt,
-                status = status.name
-            )
+            startAt = startAt,
+            endAt = endAt,
+            status = status
         )
     }
 
     @PutMapping("/public")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun shareHoliday(@Valid @RequestBody request: ShareHolidayWebRequest) {
-        shareHolidayUseCase.execute(
-            year = request.year,
-            month = request.month
-        )
+    fun shareHoliday(@Valid @RequestBody request: ShareHolidayRequest) {
+        shareHolidayUseCase.execute(request.toData())
     }
 
     @GetMapping("/verification-period")
@@ -120,37 +111,26 @@ class WebHolidayAdapter(
     fun queryEmployeeHolidays(
         @RequestParam year: Int,
         @RequestParam month: Int,
-        @RequestParam type: WebHolidayQueryType,
+        @RequestParam type: HolidayQueryType,
         @RequestParam("team_id", required = false) teamId: UUID?
     ): QueryEmployeeHolidayResponse {
         return queryEmployeeHolidayUseCase.execute(
             year = year,
             month = month,
-            typeName = type.name,
+            type = type,
             teamId = teamId
         )
     }
 
     @PutMapping("/employee")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun changeEmployeeHoliday(@Valid @RequestBody request: ChangeEmployeeHolidayWebRequest) {
-        changeEmployeeHolidayUseCase.execute(
-            beforeDate = request.beforeDate,
-            userId = request.userId,
-            afterDate = request.afterDate
-        )
+    fun changeEmployeeHoliday(@Valid @RequestBody request: ChangeEmployeeHolidayRequest) {
+        changeEmployeeHolidayUseCase.execute(request.toData())
     }
 
     @PutMapping("/period")
-    fun appointHolidayPeriod(@Valid @RequestBody request: AppointHolidayPeriodWebRequest) {
-        appointHolidayPeriodUseCase.execute(
-            AppointHolidayPeriodRequest(
-                year = request.year,
-                month = request.month,
-                startAt = request.startAt,
-                endAt = request.endAt
-            )
-        )
+    fun appointHolidayPeriod(@Valid @RequestBody request: AppointHolidayPeriodRequest) {
+        appointHolidayPeriodUseCase.execute(request.toData())
     }
 
     @GetMapping("/period")
