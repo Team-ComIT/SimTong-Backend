@@ -28,7 +28,7 @@ class SignInUseCase(
 ) {
 
     fun execute(request: UserSignInData): TokenResponse {
-        val user = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber)
+        val employee = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber)
             ?.apply { checkAuthority(Authority.ROLE_COMMON) }
             ?: throw UserExceptions.NotFound()
 

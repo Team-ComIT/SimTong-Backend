@@ -64,7 +64,7 @@ class SignUpUseCase(
         )
     }
 
-    private fun create(request: SignUpRequest): User {
+    private fun create(request: SignUpData): User {
         checkAlreadyExists(request.email, request.employeeNumber, request.nickname)
 
         val employeeCertificate = queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(
