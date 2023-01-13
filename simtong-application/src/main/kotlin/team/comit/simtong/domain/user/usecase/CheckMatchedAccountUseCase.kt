@@ -24,5 +24,4 @@ class CheckMatchedAccountUseCase(
             throw UserExceptions.NotFound()
         }
     }
-
 }

@@ -31,7 +31,7 @@ class FindEmployeeNumberUseCaseTests {
     private val employeeNumber: Int = 1234567891
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             nickname = "test nickname",
             name = "test name",
             email = "test email",

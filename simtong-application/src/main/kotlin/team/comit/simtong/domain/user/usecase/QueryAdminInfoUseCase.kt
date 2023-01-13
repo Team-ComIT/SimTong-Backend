@@ -14,7 +14,7 @@ import team.comit.simtong.global.annotation.ReadOnlyUseCase
  *
  * @author Chokyunghyeon
  * @date 2022/12/11
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @ReadOnlyUseCase
 class QueryAdminInfoUseCase(
@@ -33,7 +33,7 @@ class QueryAdminInfoUseCase(
         return QueryAdminInfoResponse(
             name = user.name,
             email = user.email,
-            nickname = user.nickname,
+            nickname = user.nickname.value,
             spot = QueryAdminInfoResponse.SpotResponse(
                 id = spot.id,
                 name = spot.name

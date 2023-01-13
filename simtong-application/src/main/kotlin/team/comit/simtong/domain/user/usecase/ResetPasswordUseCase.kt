@@ -16,7 +16,7 @@ import team.comit.simtong.global.annotation.UseCase
  *
  * @author Chokyunghyeon
  * @date 2022/09/27
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class ResetPasswordUseCase(
@@ -39,7 +39,7 @@ class ResetPasswordUseCase(
             ?: throw UserExceptions.NotFound()
 
         commandUserPort.save(
-            user.copy(
+            user.changePassword(
                 password = securityPort.encode(request.newPassword)
             )
         )

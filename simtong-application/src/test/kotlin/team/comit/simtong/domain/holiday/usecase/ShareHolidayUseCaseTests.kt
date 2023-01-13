@@ -41,7 +41,7 @@ class ShareHolidayUseCaseTests {
     private val spotId: UUID = UUID.randomUUID()
 
     private val userStub by lazy {
-        User(
+        User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",

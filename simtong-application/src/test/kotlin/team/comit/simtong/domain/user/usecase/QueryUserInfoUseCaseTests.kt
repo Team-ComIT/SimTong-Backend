@@ -43,7 +43,7 @@ class QueryUserInfoUseCaseTests {
     private val profileImagePath = "test path"
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = id,
             nickname = nickname,
             name = name,

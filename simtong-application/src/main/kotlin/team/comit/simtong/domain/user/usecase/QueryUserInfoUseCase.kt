@@ -14,7 +14,7 @@ import team.comit.simtong.global.annotation.ReadOnlyUseCase
  *
  * @author Chokyunghyeon
  * @date 2022/09/27
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @ReadOnlyUseCase
 class QueryUserInfoUseCase(
@@ -32,7 +32,7 @@ class QueryUserInfoUseCase(
         return QueryUserInfoResponse(
             name = user.name,
             email = user.email,
-            nickname = user.nickname,
+            nickname = user.nickname.value,
             spot = spot.name,
             profileImagePath = user.profileImagePath
         )

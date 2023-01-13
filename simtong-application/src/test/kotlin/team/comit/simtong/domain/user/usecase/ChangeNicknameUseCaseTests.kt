@@ -39,7 +39,7 @@ class ChangeNicknameUseCaseTests {
     }
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = id,
             nickname = "test nickname",
             name = "test name",

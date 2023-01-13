@@ -17,39 +17,35 @@ import team.comit.simtong.global.annotation.UseCase
  *
  * @author kimbeomjin
  * @date 2022/09/08
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class SignInUseCase(
     private val queryUserPort: QueryUserPort,
-    private val userSecurityPort: UserSecurityPort,
-    private val userJwtPort: UserJwtPort,
+    private val securityPort: UserSecurityPort,
+    private val jwtPort: UserJwtPort,
     private val commandDeviceTokenPort: CommandDeviceTokenPort
 ) {
 
     fun execute(request: UserSignInData): TokenResponse {
         val user = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber)
+            ?.apply { checkAuthority(Authority.ROLE_COMMON) }
             ?: throw UserExceptions.NotFound()
 
-        if (Authority.ROLE_COMMON != user.authority) {
-            throw UserExceptions.DifferentPermissionAccount("사원 계정이 아닙니다.")
-        }
-
-        if (!userSecurityPort.compare(request.password, user.password)) {
+        if (!securityPort.compare(request.password, employee.password.value)) {
             throw UserExceptions.DifferentPassword()
         }
 
         commandDeviceTokenPort.save(
-            DeviceToken(
-                userId = user.id,
+            DeviceToken.of(
+                userId = employee.id,
                 token = request.deviceToken
             )
         )
 
-        return userJwtPort.receiveToken(
-            userId = user.id,
+        return jwtPort.receiveToken(
+            userId = employee.id,
             authority = Authority.ROLE_COMMON
         )
     }
-
 }

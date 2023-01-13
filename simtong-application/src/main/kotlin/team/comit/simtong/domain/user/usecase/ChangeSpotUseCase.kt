@@ -15,7 +15,7 @@ import team.comit.simtong.global.annotation.UseCase
  *
  * @author kimbeomjin
  * @date 2022/10/15
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class ChangeSpotUseCase(
@@ -34,10 +34,9 @@ class ChangeSpotUseCase(
         }
 
         commandUserPort.save(
-            user.copy(
+            user.changeSpot(
                 spotId = request.spotId
             )
         )
     }
-
 }

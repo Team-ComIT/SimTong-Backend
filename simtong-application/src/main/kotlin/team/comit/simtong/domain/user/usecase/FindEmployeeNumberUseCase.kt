@@ -11,7 +11,7 @@ import team.comit.simtong.global.annotation.UseCase
  *
  * @author Chokyunghyeon
  * @date 2022/09/11
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class FindEmployeeNumberUseCase(
@@ -22,7 +22,6 @@ class FindEmployeeNumberUseCase(
         val user = queryUserPort.queryUserByNameAndSpotAndEmail(request.name, request.spotId, request.email)
             ?: throw UserExceptions.NotFound()
 
-        return user.employeeNumber
+        return user.employeeNumber.value
     }
-
 }
