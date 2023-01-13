@@ -39,7 +39,7 @@ class SignInUseCaseTests {
     private val employeeNumber: Int = 1234567891
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = UUID.randomUUID(),
             nickname = "test nickname",
             name = "test name",
@@ -54,7 +54,7 @@ class SignInUseCaseTests {
     }
 
     private val adminStub: User by lazy {
-        User(
+        User.of(
             id = UUID.randomUUID(),
             nickname = "test nickname",
             name = "test name",
@@ -95,7 +95,7 @@ class SignInUseCaseTests {
         given(queryUserPort.queryUserByEmployeeNumber(employeeNumber))
             .willReturn(userStub)
 
-        given(userSecurityPort.compare(requestStub.password, userStub.password))
+        given(userSecurityPort.compare(requestStub.password, userStub.password.value))
             .willReturn(true)
 
         given(userJwtPort.receiveToken(userStub.id, userStub.authority))
@@ -114,7 +114,7 @@ class SignInUseCaseTests {
         given(queryUserPort.queryUserByEmployeeNumber(employeeNumber))
             .willReturn(userStub)
 
-        given(userSecurityPort.compare(requestStub.password, userStub.password))
+        given(userSecurityPort.compare(requestStub.password, userStub.password.value))
             .willReturn(false)
 
         // when & then

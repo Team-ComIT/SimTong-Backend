@@ -14,8 +14,9 @@ import team.comit.simtong.global.annotation.UseCase
  * 관리자의 로그인 기능을 담당하는 AdminSignInUseCase
  *
  * @author Chokyunghyeon
+ * @author kimbeomjin
  * @date 2022/10/04
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class AdminSignInUseCase(
@@ -26,13 +27,10 @@ class AdminSignInUseCase(
 
     fun execute(request: AdminSignInRequest): TokenResponse {
         val admin = queryUserPort.queryUserByEmployeeNumber(request.employeeNumber)
+            ?.apply { this.checkAuthority(Authority.ROLE_ADMIN) }
             ?: throw UserExceptions.NotFound("관리자가 존재하지 않습니다.")
 
-        if (Authority.ROLE_COMMON == admin.authority) {
-            throw UserExceptions.DifferentPermissionAccount("관리자 계정이 아닙니다.")
-        }
-
-        if (!securityPort.compare(request.password, admin.password)) {
+        if (!securityPort.compare(request.password, admin.password.value)) {
             throw UserExceptions.DifferentPassword()
         }
 
@@ -41,5 +39,4 @@ class AdminSignInUseCase(
             authority = admin.authority
         )
     }
-
 }

@@ -15,7 +15,7 @@ import team.comit.simtong.global.annotation.UseCase
  *
  * @author Chokyunghyeon
  * @date 2022/10/03
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class ChangeProfileImageUseCase(
@@ -34,10 +34,9 @@ class ChangeProfileImageUseCase(
         val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
         commandUserPort.save(
-            user.copy(
+            user.changeProfileImage(
                 profileImagePath = request.profileImagePath
             )
         )
     }
-
 }

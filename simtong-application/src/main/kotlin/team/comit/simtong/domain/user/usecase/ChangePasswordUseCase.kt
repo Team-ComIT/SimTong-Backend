@@ -13,28 +13,27 @@ import team.comit.simtong.global.annotation.UseCase
  *
  * @author Chokyunghyeon
  * @date 2022/10/14
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class ChangePasswordUseCase(
     private val queryUserPort: QueryUserPort,
-    private val userSecurityPort: UserSecurityPort,
+    private val securityPort: UserSecurityPort,
     private val commandUserPort: CommandUserPort
 ) {
 
     fun execute(request: ChangePasswordRequest) {
-        val currentUserId = userSecurityPort.getCurrentUserId()
+        val currentUserId = securityPort.getCurrentUserId()
         val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
-        if (!userSecurityPort.compare(request.password, user.password)) {
+        if (!securityPort.compare(request.password, user.password.value)) {
             throw UserExceptions.DifferentPassword()
         }
 
         commandUserPort.save(
-            user.copy(
-                password = userSecurityPort.encode(request.newPassword)
+            user.changePassword(
+                password = securityPort.encode(request.newPassword)
             )
         )
     }
-
 }

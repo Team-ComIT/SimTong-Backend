@@ -44,7 +44,7 @@ class ChangeEmployeeHolidayUseCaseTests {
     private val spotId = UUID.randomUUID()
 
     private val userStub by lazy {
-        User(
+        User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",

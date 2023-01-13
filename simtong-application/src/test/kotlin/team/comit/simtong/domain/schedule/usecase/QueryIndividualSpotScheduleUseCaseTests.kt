@@ -47,7 +47,7 @@ class QueryIndividualSpotScheduleUseCaseTests {
     private val scheduleId: UUID = UUID.randomUUID()
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",

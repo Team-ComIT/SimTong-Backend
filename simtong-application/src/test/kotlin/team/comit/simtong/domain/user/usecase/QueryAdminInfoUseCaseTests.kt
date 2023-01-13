@@ -47,7 +47,7 @@ class QueryAdminInfoUseCaseTests {
     private val profileImagePath = "test profile image"
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = id,
             nickname = nickname,
             name = name,

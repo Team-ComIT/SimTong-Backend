@@ -15,7 +15,7 @@ import team.comit.simtong.global.annotation.UseCase
  *
  * @author Chokyunghyeon
  * @date 2022/10/03
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class ChangeEmailUseCase(
@@ -38,13 +38,10 @@ class ChangeEmailUseCase(
         }
 
         val currentUserId = securityPort.getCurrentUserId()
-        val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
+        val employee = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
         commandUserPort.save(
-            user.copy(
-                email = request.email
-            )
+            employee.changeEmail(request.email)
         )
     }
-
 }
