@@ -18,14 +18,14 @@ import team.comit.simtong.domain.user.dto.request.ChangePasswordData
 import team.comit.simtong.domain.user.dto.request.CheckMatchedAccountData
 import team.comit.simtong.domain.user.dto.request.FindEmployeeNumberData
 import team.comit.simtong.domain.user.dto.request.ResetPasswordData
+import team.comit.simtong.domain.user.model.EmployeeNumber
+import team.comit.simtong.domain.user.model.Password
 import team.comit.simtong.domain.user.usecase.ChangePasswordUseCase
 import team.comit.simtong.domain.user.usecase.CheckEmailDuplicationUseCase
 import team.comit.simtong.domain.user.usecase.CheckMatchedAccountUseCase
 import team.comit.simtong.domain.user.usecase.ComparePasswordUseCase
 import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
 import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
-import team.comit.simtong.domain.user.value.EmployeeNumber
-import team.comit.simtong.domain.user.value.Password
 import java.util.UUID
 import javax.validation.Valid
 import javax.validation.constraints.Email
