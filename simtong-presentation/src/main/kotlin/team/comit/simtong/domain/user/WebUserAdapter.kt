@@ -20,6 +20,8 @@ import team.comit.simtong.domain.user.dto.ChangeSpotRequest
 import team.comit.simtong.domain.user.dto.SignUpRequest
 import team.comit.simtong.domain.user.dto.UserSignInRequest
 import team.comit.simtong.domain.user.dto.response.QueryUserInfoResponse
+import team.comit.simtong.domain.user.model.EmployeeNumber
+import team.comit.simtong.domain.user.model.NickName
 import team.comit.simtong.domain.user.usecase.ChangeEmailUseCase
 import team.comit.simtong.domain.user.usecase.ChangeNicknameUseCase
 import team.comit.simtong.domain.user.usecase.ChangeProfileImageUseCase
@@ -28,8 +30,6 @@ import team.comit.simtong.domain.user.usecase.CheckNicknameDuplicationUseCase
 import team.comit.simtong.domain.user.usecase.QueryUserInfoUseCase
 import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
-import team.comit.simtong.domain.user.value.EmployeeNumber
-import team.comit.simtong.domain.user.value.NickName
 import javax.validation.Valid
 import javax.validation.constraints.Pattern
 

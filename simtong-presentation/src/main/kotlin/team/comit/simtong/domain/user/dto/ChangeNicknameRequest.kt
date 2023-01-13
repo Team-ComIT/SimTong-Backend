@@ -1,7 +1,7 @@
 package team.comit.simtong.domain.user.dto
 
 import team.comit.simtong.domain.user.dto.request.ChangeNicknameData
-import team.comit.simtong.domain.user.value.NickName
+import team.comit.simtong.domain.user.model.NickName
 import javax.validation.constraints.Pattern
 
 /**

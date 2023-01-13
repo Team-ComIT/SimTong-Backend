@@ -2,9 +2,9 @@ package team.comit.simtong.domain.user.dto
 
 import org.hibernate.validator.constraints.Range
 import team.comit.simtong.domain.user.dto.request.SignUpData
-import team.comit.simtong.domain.user.value.EmployeeNumber
-import team.comit.simtong.domain.user.value.NickName
-import team.comit.simtong.domain.user.value.Password
+import team.comit.simtong.domain.user.model.EmployeeNumber
+import team.comit.simtong.domain.user.model.NickName
+import team.comit.simtong.domain.user.model.Password
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
