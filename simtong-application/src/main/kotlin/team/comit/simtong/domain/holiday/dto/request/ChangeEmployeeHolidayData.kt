@@ -5,14 +5,16 @@ import java.util.UUID
 
 /**
  *
- * 직원의 휴무일 변경을 요청하는 ChangeEmployeeHolidayWebRequest
+ * 직원 휴무일 변경 요청 정보를 전달하는 ChangeEmployeeHolidayData
  *
- * @author kimbeomjin
- * @date 2022/12/23
- * @version 1.0.0
+ * @author Chokyunghyeon
+ * @date 2023/01/13
+ * @version 1.2.5
  **/
-data class ChangeEmployeeHolidayWebRequest(
+data class ChangeEmployeeHolidayData(
     val beforeDate: LocalDate,
+
     val userId: UUID,
+
     val afterDate: LocalDate
 )
