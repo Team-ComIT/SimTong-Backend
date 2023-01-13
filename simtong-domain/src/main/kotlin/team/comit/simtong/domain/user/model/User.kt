@@ -42,6 +42,10 @@ data class User(
 ) {
 
     companion object {
+
+        @JvmField
+        val DEFAULT_IMAGE = getProperty(DomainPropertiesPrefix.USER_DEFAULT_IMAGE)
+
         fun of(
             id: UUID = UUID(0, 0),
             nickname: String,
@@ -67,9 +71,6 @@ data class User(
             profileImagePath = profileImagePath,
             deletedAt = deletedAt
         )
-
-        @JvmField
-        val DEFAULT_IMAGE = getProperty(DomainPropertiesPrefix.USER_DEFAULT_IMAGE)
     }
 
     fun checkAuthority(authority: Authority) {
