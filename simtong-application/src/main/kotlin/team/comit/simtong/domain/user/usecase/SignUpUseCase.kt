@@ -21,6 +21,7 @@ import team.comit.simtong.domain.user.spi.UserQuerySpotPort
 import team.comit.simtong.domain.user.spi.UserQueryTeamPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
 import team.comit.simtong.global.annotation.UseCase
+import java.util.UUID
 
 /**
  *
@@ -46,61 +47,66 @@ class SignUpUseCase(
 ) {
 
     fun execute(request: SignUpRequest): TokenResponse {
-        val (name, email, password, nickname, employeeNumber, profileImagePath) = request
-
-        when {
-            queryUserPort.existsUserByEmail(email) ->
-                throw AuthExceptions.AlreadyUsedEmail()
-
-            queryUserPort.existsUserByEmployeeNumber(employeeNumber) ->
-                throw AuthExceptions.AlreadyUsedEmployeeNumber()
-
-            queryUserPort.existsUserByNickname(nickname) ->
-                throw UserExceptions.AlreadyUsedNickname()
-        }
-
-        val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
+        val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email)
             ?: throw AuthExceptions.RequiredNewEmailAuthentication()
 
         if (!authCodeLimit.verified) {
             throw AuthExceptions.UncertifiedEmail()
         }
 
-        val employeeCertificate = queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(name, employeeNumber)
-            ?: throw FileExceptions.NotExistsEmployee()
-
-        val spot = querySpotPort.querySpotByName(employeeCertificate.spotName)
-            ?: throw SpotExceptions.NotFound()
-
-        val team = queryTeamPort.queryTeamByName(employeeCertificate.teamName)
-            ?: throw TeamExceptions.NotFound()
-
-        val user = commandUserPort.save(
-            User.of(
-                nickname = nickname,
-                name = name,
-                email = email,
-                password = securityPort.encode(password),
-                employeeNumber = employeeNumber,
-                authority = Authority.ROLE_COMMON,
-                spotId = spot.id,
-                teamId = team.id,
-                profileImagePath = profileImagePath ?: User.DEFAULT_IMAGE
-            )
-        )
+        val user = create(request)
 
         commandAuthCodeLimitPort.delete(authCodeLimit)
-
-        commandDeviceTokenPort.save(
-            DeviceToken.of(
-                userId = user.id,
-                token = request.deviceToken
-            )
-        )
 
         return jwtPort.receiveToken(
             userId = user.id,
             authority = user.authority
         )
+    }
+
+    private fun create(request: SignUpRequest): User {
+        checkAlreadyExists(request.email, request.employeeNumber, request.nickname)
+
+        val employeeCertificate = queryEmployeeCertificatePort.queryEmployeeCertificateByNameAndEmployeeNumber(
+            request.name, request.employeeNumber
+        ) ?: throw FileExceptions.NotExistsEmployee()
+
+        val spot = querySpotPort.querySpotByName(employeeCertificate.spotName) ?: throw SpotExceptions.NotFound()
+        val team = queryTeamPort.queryTeamByName(employeeCertificate.teamName) ?: throw TeamExceptions.NotFound()
+
+        return commandUserPort.save(
+            User.of(
+                nickname = request.nickname,
+                name = request.name,
+                email = request.email,
+                password = securityPort.encode(request.password),
+                employeeNumber = request.employeeNumber,
+                authority = Authority.ROLE_COMMON,
+                spotId = spot.id,
+                teamId = team.id,
+                profileImagePath = request.profileImagePath ?: User.DEFAULT_IMAGE
+            )
+        ).apply {
+            createdDeviceToken(id, request.deviceToken)
+        }
+    }
+
+    private fun createdDeviceToken(userId: UUID, token: String) {
+        commandDeviceTokenPort.save(
+            DeviceToken.of(
+                userId = userId,
+                token = token
+            )
+        )
+    }
+
+    private fun checkAlreadyExists(email: String, employeeNumber: Int, nickname: String) {
+        when {
+            queryUserPort.existsUserByEmail(email) -> throw AuthExceptions.AlreadyUsedEmail()
+
+            queryUserPort.existsUserByEmployeeNumber(employeeNumber) -> throw AuthExceptions.AlreadyUsedEmployeeNumber()
+
+            queryUserPort.existsUserByNickname(nickname) -> throw UserExceptions.AlreadyUsedNickname()
+        }
     }
 }

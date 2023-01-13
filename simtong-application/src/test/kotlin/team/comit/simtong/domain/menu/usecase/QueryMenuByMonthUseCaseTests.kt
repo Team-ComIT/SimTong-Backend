@@ -36,7 +36,7 @@ class QueryMenuByMonthUseCaseTests {
     private val now = LocalDate.now()
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = currentUserId,
             name = "test name",
             nickname = "test nickname",
