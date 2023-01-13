@@ -22,7 +22,7 @@ value class Password(
          *
          * non-space, $ , + , - , _ , a ~ z , A ~ Z , 0 ~ 9
          */
-        const val PATTERN = """(?=.*[a-zA-Z])(?=.*\d)(?=^[\w$+-]{$MIN_LENGTH,$MAX_LENGTH$).*"""
+        const val PATTERN = """(?=.*[a-zA-Z])(?=.*\d)(?=^[\w$+-]{$MIN_LENGTH,$MAX_LENGTH}$).*"""
 
         fun of(password: String) = Password(password)
     }
