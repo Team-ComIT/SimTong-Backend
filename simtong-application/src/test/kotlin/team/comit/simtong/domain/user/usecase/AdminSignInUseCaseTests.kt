@@ -25,10 +25,10 @@ class AdminSignInUseCaseTests {
     private lateinit var queryUserPort: QueryUserPort
 
     @MockBean
-    private lateinit var userSecurityPort: UserSecurityPort
+    private lateinit var securityPort: UserSecurityPort
 
     @MockBean
-    private lateinit var userJwtPort: UserJwtPort
+    private lateinit var jwtPort: UserJwtPort
 
     private lateinit var adminSignInUseCase: AdminSignInUseCase
 
@@ -83,8 +83,8 @@ class AdminSignInUseCaseTests {
     fun setUp() {
         adminSignInUseCase = AdminSignInUseCase(
             queryUserPort,
-            userJwtPort,
-            userSecurityPort
+            jwtPort,
+            securityPort
         )
     }
 
@@ -94,10 +94,10 @@ class AdminSignInUseCaseTests {
         given(queryUserPort.queryUserByEmployeeNumber(employeeNumber))
             .willReturn(adminStub)
 
-        given(userSecurityPort.compare(requestStub.password, adminStub.password.value))
+        given(securityPort.compare(requestStub.password, adminStub.password.value))
             .willReturn(true)
 
-        given(userJwtPort.receiveToken(adminStub.id, adminStub.authority))
+        given(jwtPort.receiveToken(adminStub.id, adminStub.authority))
             .willReturn(responseStub)
 
         // when
@@ -113,7 +113,7 @@ class AdminSignInUseCaseTests {
         given(queryUserPort.queryUserByEmployeeNumber(employeeNumber))
             .willReturn(adminStub)
 
-        given(userSecurityPort.compare(requestStub.password, adminStub.password.value))
+        given(securityPort.compare(requestStub.password, adminStub.password.value))
             .willReturn(false)
 
         // when & then

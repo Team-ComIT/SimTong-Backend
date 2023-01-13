@@ -26,7 +26,7 @@ class ChangeEmailUseCaseTests {
     private lateinit var queryUserPort: QueryUserPort
 
     @MockBean
-    private lateinit var userSecurityPort: UserSecurityPort
+    private lateinit var securityPort: UserSecurityPort
 
     @MockBean
     private lateinit var queryAuthCodeLimitPort: QueryAuthCodeLimitPort
@@ -75,7 +75,7 @@ class ChangeEmailUseCaseTests {
     fun setUp() {
         changeEmailUseCase = ChangeEmailUseCase(
             queryUserPort,
-            userSecurityPort,
+            securityPort,
             queryAuthCodeLimitPort,
             commandUserPort
         )
@@ -90,7 +90,7 @@ class ChangeEmailUseCaseTests {
         given(queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(authCodeLimitStub)
 
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))
@@ -153,7 +153,7 @@ class ChangeEmailUseCaseTests {
         given(queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(authCodeLimitStub)
 
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))

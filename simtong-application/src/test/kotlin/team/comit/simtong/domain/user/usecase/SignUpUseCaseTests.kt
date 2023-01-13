@@ -37,7 +37,7 @@ import java.util.UUID
 class SignUpUseCaseTests {
 
     @MockBean
-    private lateinit var userJwtPort: UserJwtPort
+    private lateinit var jwtPort: UserJwtPort
 
     @MockBean
     private lateinit var commandUserPort: CommandUserPort
@@ -46,7 +46,7 @@ class SignUpUseCaseTests {
     private lateinit var commandDeviceTokenPort: CommandDeviceTokenPort
 
     @MockBean
-    private lateinit var userSecurityPort: UserSecurityPort
+    private lateinit var securityPort: UserSecurityPort
 
     @MockBean
     private lateinit var queryUserPort: QueryUserPort
@@ -154,7 +154,7 @@ class SignUpUseCaseTests {
     @BeforeEach
     fun setUp() {
         signUpUseCase = SignUpUseCase(
-            userJwtPort,
+            jwtPort,
             commandUserPort,
             commandDeviceTokenPort,
             queryUserPort,
@@ -162,7 +162,7 @@ class SignUpUseCaseTests {
             commandAuthCodeLimitPort,
             userQuerySpotPort,
             userQueryTeamPort,
-            userSecurityPort,
+            securityPort,
             queryEmployeeCertificatePort
         )
     }
@@ -203,13 +203,13 @@ class SignUpUseCaseTests {
         given(userQueryTeamPort.queryTeamByName(employeeCertificateStub.teamName))
             .willReturn(teamStub)
 
-        given(userSecurityPort.encode(requestStub.password))
+        given(securityPort.encode(requestStub.password))
             .willReturn(userStub.password.value)
 
         given(commandUserPort.save(userStub))
             .willReturn(saveUserStub)
 
-        given(userJwtPort.receiveToken(saveUserStub.id, saveUserStub.authority))
+        given(jwtPort.receiveToken(saveUserStub.id, saveUserStub.authority))
             .willReturn(responseStub)
 
         // when
@@ -265,13 +265,13 @@ class SignUpUseCaseTests {
         given(userQueryTeamPort.queryTeamByName(employeeCertificateStub.teamName))
             .willReturn(teamStub)
 
-        given(userSecurityPort.encode(requestStub.password))
+        given(securityPort.encode(requestStub.password))
             .willReturn(userStub.password.value)
 
         given(commandUserPort.save(userStub))
             .willReturn(saveUserStub)
 
-        given(userJwtPort.receiveToken(saveUserStub.id, saveUserStub.authority))
+        given(jwtPort.receiveToken(saveUserStub.id, saveUserStub.authority))
             .willReturn(responseStub)
 
         // when

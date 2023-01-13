@@ -23,7 +23,7 @@ class ChangeNicknameUseCaseTests {
     private lateinit var queryUserPort: QueryUserPort
 
     @MockBean
-    private lateinit var userSecurityPort: UserSecurityPort
+    private lateinit var securityPort: UserSecurityPort
 
     @MockBean
     private lateinit var commandUserPort: CommandUserPort
@@ -57,7 +57,7 @@ class ChangeNicknameUseCaseTests {
     fun setUp() {
         changeNicknameUseCase = ChangeNicknameUseCase(
             queryUserPort,
-            userSecurityPort,
+            securityPort,
             commandUserPort
         )
     }
@@ -68,7 +68,7 @@ class ChangeNicknameUseCaseTests {
         given(queryUserPort.existsUserByNickname(requestStub.nickname))
             .willReturn(false)
 
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))

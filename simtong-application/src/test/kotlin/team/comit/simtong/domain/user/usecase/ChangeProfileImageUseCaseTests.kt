@@ -25,7 +25,7 @@ class ChangeProfileImageUseCaseTests {
     private lateinit var queryUserPort: QueryUserPort
 
     @MockBean
-    private lateinit var userSecurityPort: UserSecurityPort
+    private lateinit var securityPort: UserSecurityPort
 
     @MockBean
     private lateinit var commandUserPort: CommandUserPort
@@ -62,7 +62,7 @@ class ChangeProfileImageUseCaseTests {
     fun setUp() {
         changeProfileImageUseCase = ChangeProfileImageUseCase(
             queryUserPort,
-            userSecurityPort,
+            securityPort,
             commandUserPort,
             checkFilePort
         )
@@ -74,7 +74,7 @@ class ChangeProfileImageUseCaseTests {
         given(checkFilePort.existsPath(requestStub.profileImagePath))
             .willReturn(true)
 
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))
@@ -104,7 +104,7 @@ class ChangeProfileImageUseCaseTests {
         given(checkFilePort.existsPath(requestStub.profileImagePath))
             .willReturn(true)
 
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))

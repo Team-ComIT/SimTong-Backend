@@ -23,7 +23,7 @@ class ChangePasswordUseCaseTests {
     private lateinit var queryUserPort: QueryUserPort
 
     @MockBean
-    private lateinit var userSecurityPort: UserSecurityPort
+    private lateinit var securityPort: UserSecurityPort
 
     @MockBean
     private lateinit var commandUserPort: CommandUserPort
@@ -58,7 +58,7 @@ class ChangePasswordUseCaseTests {
     fun setUp() {
         changePasswordUseCase = ChangePasswordUseCase(
             queryUserPort,
-            userSecurityPort,
+            securityPort,
             commandUserPort
         )
     }
@@ -66,16 +66,16 @@ class ChangePasswordUseCaseTests {
     @Test
     fun `비밀번호 변경 성공`() {
         // given
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(userSecurityPort.compare(requestStub.password, userStub.password.value))
+        given(securityPort.compare(requestStub.password, userStub.password.value))
             .willReturn(true)
 
-        given(userSecurityPort.encode(requestStub.newPassword))
+        given(securityPort.encode(requestStub.newPassword))
             .willReturn(requestStub.newPassword)
 
         // when & then
@@ -87,7 +87,7 @@ class ChangePasswordUseCaseTests {
     @Test
     fun `유저 찾기 실패`() {
         // given
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))
@@ -102,13 +102,13 @@ class ChangePasswordUseCaseTests {
     @Test
     fun `비밀번호 불일치`() {
         // given
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(userSecurityPort.compare(requestStub.password, userStub.password.value))
+        given(securityPort.compare(requestStub.password, userStub.password.value))
             .willReturn(false)
 
         // when & then

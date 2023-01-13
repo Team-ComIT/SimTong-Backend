@@ -36,7 +36,7 @@ class ResetPasswordUseCaseTests {
     private lateinit var commandUserPort: CommandUserPort
 
     @MockBean
-    private lateinit var userSecurityPort: UserSecurityPort
+    private lateinit var securityPort: UserSecurityPort
 
     private lateinit var resetPasswordUseCase: ResetPasswordUseCase
 
@@ -84,7 +84,7 @@ class ResetPasswordUseCaseTests {
             userQueryAuthCodeLimitPort,
             commandAuthCodeLimitPort,
             commandUserPort,
-            userSecurityPort
+            securityPort
         )
     }
 
@@ -97,7 +97,7 @@ class ResetPasswordUseCaseTests {
         given(queryUserPort.queryUserByEmailAndEmployeeNumber(requestStub.email, requestStub.employeeNumber))
             .willReturn(userStub)
 
-        given(userSecurityPort.encode(requestStub.newPassword))
+        given(securityPort.encode(requestStub.newPassword))
             .willReturn(requestStub.newPassword)
 
         // when & then
