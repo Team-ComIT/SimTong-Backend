@@ -30,11 +30,9 @@ class QueryMonthHolidayPeriodUseCase(
         val holidayPeriod = queryHolidayPeriodPort.queryHolidayPeriodByYearAndMonthAndSpotId(year, month, user.spotId)
             ?: throw HolidayExceptions.NotFound("휴무표 작성 기간이 등록되지 않았습니다.")
 
-        return holidayPeriod.let {
-            QueryMonthHolidayPeriodResponse(
-                startAt = it.startAt,
-                endAt = it.endAt
-            )
-        }
+        return QueryMonthHolidayPeriodResponse(
+            startAt = holidayPeriod.startAt,
+            endAt = holidayPeriod.endAt
+        )
     }
 }
