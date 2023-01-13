@@ -99,7 +99,7 @@ class SignUpUseCaseTests {
     }
 
     private val saveUserStub: User by lazy {
-        User(
+        User.of(
             id = UUID.randomUUID(),
             name = name,
             nickname = nickname,
@@ -170,7 +170,7 @@ class SignUpUseCaseTests {
     @Test
     fun `회원가입 성공`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             nickname = nickname,
             name = name,
             email = email,
@@ -204,7 +204,7 @@ class SignUpUseCaseTests {
             .willReturn(teamStub)
 
         given(userSecurityPort.encode(requestStub.password))
-            .willReturn(userStub.password)
+            .willReturn(userStub.password.value)
 
         given(commandUserPort.save(userStub))
             .willReturn(saveUserStub)
@@ -232,7 +232,7 @@ class SignUpUseCaseTests {
             deviceToken = "test device token"
         )
 
-        val userStub = User(
+        val userStub = User.of(
             nickname = nickname,
             name = name,
             email = email,
@@ -266,7 +266,7 @@ class SignUpUseCaseTests {
             .willReturn(teamStub)
 
         given(userSecurityPort.encode(requestStub.password))
-            .willReturn(userStub.password)
+            .willReturn(userStub.password.value)
 
         given(commandUserPort.save(userStub))
             .willReturn(saveUserStub)

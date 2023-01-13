@@ -49,7 +49,7 @@ class AppointHolidayUseCaseTests {
     private val date: LocalDate = LocalDate.now()
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = id,
             nickname = "test nickname",
             name = "test name",

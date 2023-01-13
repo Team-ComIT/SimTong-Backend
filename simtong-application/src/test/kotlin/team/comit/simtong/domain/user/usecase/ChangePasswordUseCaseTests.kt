@@ -33,7 +33,7 @@ class ChangePasswordUseCaseTests {
     private val id = UUID.randomUUID()
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = id,
             nickname = "test nickname",
             name = "test name",
@@ -72,7 +72,7 @@ class ChangePasswordUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(userSecurityPort.compare(requestStub.password, userStub.password))
+        given(userSecurityPort.compare(requestStub.password, userStub.password.value))
             .willReturn(true)
 
         given(userSecurityPort.encode(requestStub.newPassword))
@@ -108,7 +108,7 @@ class ChangePasswordUseCaseTests {
         given(queryUserPort.queryUserById(id))
             .willReturn(userStub)
 
-        given(userSecurityPort.compare(requestStub.password, userStub.password))
+        given(userSecurityPort.compare(requestStub.password, userStub.password.value))
             .willReturn(false)
 
         // when & then
