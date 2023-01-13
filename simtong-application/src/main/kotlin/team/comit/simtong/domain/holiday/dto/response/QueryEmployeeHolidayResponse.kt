@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.holiday.dto
+package team.comit.simtong.domain.holiday.dto.response
 
 import team.comit.simtong.domain.holiday.model.HolidayType
 import java.time.LocalDate

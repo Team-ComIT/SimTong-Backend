@@ -8,6 +8,6 @@ package team.comit.simtong.domain.holiday.dto.response
  * @date 2022/12/20
  * @version 1.0.0
  **/
-data class QueryRemainAnnualWebResponse(
+data class QueryRemainAnnualResponse(
     val result: Long
 )
