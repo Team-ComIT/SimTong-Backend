@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.holiday.usecase
 
+import team.comit.simtong.domain.holiday.dto.request.AppointHolidayData
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.Holiday.Companion.checkNotExceededHolidayLimit
@@ -31,12 +32,12 @@ class AppointHolidayUseCase(
     private val securityPort: HolidaySecurityPort
 ) {
 
-    fun execute(date: LocalDate) {
+    fun execute(request: AppointHolidayData) {
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
             ?: throw UserExceptions.NotFound()
 
         val holidayPeriod = queryHolidayPeriodPort.queryHolidayPeriodByYearAndMonthAndSpotId(
-            date.year, date.monthValue, user.spotId
+            request.date.year, request.date.monthValue, user.spotId
         ) ?: throw HolidayExceptions.NotFound("휴무표 작성 기간이 등록되지 않았습니다.")
 
         val today = LocalDate.now()
@@ -45,17 +46,17 @@ class AppointHolidayUseCase(
             throw HolidayExceptions.NotWritablePeriod()
         }
 
-        if (queryHolidayPort.existsHolidayByDateAndUserIdAndType(date, user.id, HolidayType.HOLIDAY)) {
+        if (queryHolidayPort.existsHolidayByDateAndUserIdAndType(request.date, user.id, HolidayType.HOLIDAY)) {
             throw HolidayExceptions.AlreadyExists("해당 날짜는 이미 휴무일입니다.")
         }
 
-        val holidayCount = queryHolidayPort.countHolidayByWeekAndUserIdAndType(date, user.id, HolidayType.HOLIDAY)
+        val holidayCount = queryHolidayPort.countHolidayByWeekAndUserIdAndType(request.date, user.id, HolidayType.HOLIDAY)
 
         checkNotExceededHolidayLimit(holidayCount)
 
         commandHolidayPort.save(
             Holiday.createHoliday(
-                date = date,
+                date = request.date,
                 userId = user.id,
                 spotId = user.spotId
             )

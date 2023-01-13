@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.holiday.usecase
 
-import team.comit.simtong.domain.holiday.dto.QueryEmployeeHolidayResponse
+import team.comit.simtong.domain.holiday.dto.response.QueryEmployeeHolidayResponse
 import team.comit.simtong.domain.holiday.model.HolidayQueryType
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
@@ -18,6 +18,7 @@ import java.util.UUID
  * HolidayStatus가 WRITTEN 상태인 것만 조회
  *
  * @author kimbeomjin
+ * @author Chokyunghyeon
  * @date 2022/12/22
  * @version 1.2.5
  **/
@@ -28,19 +29,19 @@ class QueryEmployeeHolidayUseCase(
     private val queryUserPort: HolidayQueryUserPort
 ) {
 
-    fun execute(year: Int, month: Int, typeName: String, teamId: UUID?): QueryEmployeeHolidayResponse {
+    fun execute(year: Int, month: Int, type: HolidayQueryType, teamId: UUID?): QueryEmployeeHolidayResponse {
         val currentUserId = securityPort.getCurrentUserId()
         val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
         val holidays = queryHolidayPort.queryHolidaysByYearAndMonthAndTeamId(
             year = year,
             month = month,
-            type = HolidayQueryType.valueOf(typeName).toHolidayType(),
+            type = type.toHolidayType(),
             spotId = user.spotId,
             teamId = teamId
         )
 
-        val response = holidays.map {
+        return holidays.map {
             QueryEmployeeHolidayResponse.Holiday(
                 date = it.date,
                 type = it.type,
@@ -51,8 +52,6 @@ class QueryEmployeeHolidayUseCase(
                     spot = it.spotName
                 )
             )
-        }
-
-        return QueryEmployeeHolidayResponse(response)
+        }.let(::QueryEmployeeHolidayResponse)
     }
 }

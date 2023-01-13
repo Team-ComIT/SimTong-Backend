@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.holiday.usecase
 
-import team.comit.simtong.domain.holiday.dto.QueryMonthHolidayPeriodResponse
+import team.comit.simtong.domain.holiday.dto.response.QueryMonthHolidayPeriodResponse
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
@@ -30,9 +30,11 @@ class QueryMonthHolidayPeriodUseCase(
         val holidayPeriod = queryHolidayPeriodPort.queryHolidayPeriodByYearAndMonthAndSpotId(year, month, user.spotId)
             ?: throw HolidayExceptions.NotFound("휴무표 작성 기간이 등록되지 않았습니다.")
 
-        return QueryMonthHolidayPeriodResponse(
-            startAt = holidayPeriod.startAt,
-            endAt = holidayPeriod.endAt
-        )
+        return holidayPeriod.let {
+            QueryMonthHolidayPeriodResponse(
+                startAt = it.startAt,
+                endAt = it.endAt
+            )
+        }
     }
 }
