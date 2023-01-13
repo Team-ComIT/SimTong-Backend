@@ -23,7 +23,7 @@ class ChangePasswordUseCase(
 ) {
 
     fun execute(request: ChangePasswordData) {
-        val currentUserId = userSecurityPort.getCurrentUserId()
+        val currentUserId = securityPort.getCurrentUserId()
 
         val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
