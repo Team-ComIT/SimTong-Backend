@@ -16,8 +16,8 @@ import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.domain.user.spi.UserJwtPort
 import team.comit.simtong.domain.user.spi.UserSecurityPort
 import team.comit.simtong.global.annotation.SimtongTest
-import java.util.UUID
 import java.util.Date
+import java.util.UUID
 
 @SimtongTest
 class SignInUseCaseTests {
@@ -26,10 +26,10 @@ class SignInUseCaseTests {
     private lateinit var queryUserPort: QueryUserPort
 
     @MockBean
-    private lateinit var userSecurityPort: UserSecurityPort
+    private lateinit var securityPort: UserSecurityPort
 
     @MockBean
-    private lateinit var userJwtPort: UserJwtPort
+    private lateinit var jwtPort: UserJwtPort
 
     @MockBean
     private lateinit var commandDeviceTokenPort: CommandDeviceTokenPort
@@ -86,7 +86,7 @@ class SignInUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        signInUseCase = SignInUseCase(queryUserPort, userSecurityPort, userJwtPort, commandDeviceTokenPort)
+        signInUseCase = SignInUseCase(queryUserPort, securityPort, jwtPort, commandDeviceTokenPort)
     }
 
     @Test
@@ -95,10 +95,10 @@ class SignInUseCaseTests {
         given(queryUserPort.queryUserByEmployeeNumber(employeeNumber))
             .willReturn(userStub)
 
-        given(userSecurityPort.compare(requestStub.password, userStub.password.value))
+        given(securityPort.compare(requestStub.password, userStub.password.value))
             .willReturn(true)
 
-        given(userJwtPort.receiveToken(userStub.id, userStub.authority))
+        given(jwtPort.receiveToken(userStub.id, userStub.authority))
             .willReturn(responseStub)
 
         // when
@@ -114,7 +114,7 @@ class SignInUseCaseTests {
         given(queryUserPort.queryUserByEmployeeNumber(employeeNumber))
             .willReturn(userStub)
 
-        given(userSecurityPort.compare(requestStub.password, userStub.password.value))
+        given(securityPort.compare(requestStub.password, userStub.password.value))
             .willReturn(false)
 
         // when & then
