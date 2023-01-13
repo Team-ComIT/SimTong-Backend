@@ -43,21 +43,7 @@ class UserMapper(
     }
 
     override fun toDomain(entity: UserJpaEntity?): User? {
-        return entity?.let {
-            User.of(
-                id = it.id!!,
-                nickname = it.nickname,
-                name = it.name,
-                email = it.email,
-                password = it.password,
-                employeeNumber = it.employeeNumber,
-                authority = it.authority,
-                spotId = it.spot.id!!,
-                teamId = it.team.id!!,
-                profileImagePath = it.profileImagePath,
-                deletedAt = it.deletedAt
-            )
-        }
+        return entity?.let(::toDomainNotNull)
     }
 
     override fun toDomainNotNull(entity: UserJpaEntity): User {
