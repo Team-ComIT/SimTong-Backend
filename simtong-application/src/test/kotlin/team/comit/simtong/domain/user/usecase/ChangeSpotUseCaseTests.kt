@@ -10,6 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import team.comit.simtong.domain.spot.exception.SpotExceptions
+import team.comit.simtong.domain.user.dto.request.ChangeSpotData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -34,7 +35,7 @@ class ChangeSpotUseCaseTests {
     private lateinit var querySpotPort: UserQuerySpotPort
 
     @MockBean
-    private lateinit var userSecurityPort: UserSecurityPort
+    private lateinit var securityPort: UserSecurityPort
 
     private lateinit var changeSpotUseCase: ChangeSpotUseCase
 
@@ -56,15 +57,19 @@ class ChangeSpotUseCaseTests {
         )
     }
 
+    private val requestStub: ChangeSpotData by lazy {
+        ChangeSpotData(spotId)
+    }
+
     @BeforeEach
     fun setUp() {
-        changeSpotUseCase = ChangeSpotUseCase(queryUserPort, commandUserPort, querySpotPort, userSecurityPort)
+        changeSpotUseCase = ChangeSpotUseCase(queryUserPort, commandUserPort, querySpotPort, securityPort)
     }
 
     @Test
     fun `지점 변경 성공`() {
         // given
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
         given(queryUserPort.queryUserById(userId))
@@ -75,14 +80,14 @@ class ChangeSpotUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            changeSpotUseCase.execute(spotId)
+            changeSpotUseCase.execute(requestStub)
         }
     }
 
     @Test
     fun `유저를 찾을 수 없음`() {
         // given
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
         given(queryUserPort.queryUserById(userId))
@@ -90,14 +95,14 @@ class ChangeSpotUseCaseTests {
 
         // when & then
         assertThrows<UserExceptions.NotFound> {
-            changeSpotUseCase.execute(spotId)
+            changeSpotUseCase.execute(requestStub)
         }
     }
 
     @Test
     fun `지점을 찾을 수 없음`() {
         // given
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
         given(queryUserPort.queryUserById(userId))
@@ -108,7 +113,7 @@ class ChangeSpotUseCaseTests {
 
         // when & then
         assertThrows<SpotExceptions.NotFound> {
-            changeSpotUseCase.execute(spotId)
+            changeSpotUseCase.execute(requestStub)
         }
     }
 

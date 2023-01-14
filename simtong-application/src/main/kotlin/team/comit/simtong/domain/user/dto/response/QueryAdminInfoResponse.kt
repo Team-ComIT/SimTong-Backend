@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.user.dto
+package team.comit.simtong.domain.user.dto.response
 
 import java.util.UUID
 

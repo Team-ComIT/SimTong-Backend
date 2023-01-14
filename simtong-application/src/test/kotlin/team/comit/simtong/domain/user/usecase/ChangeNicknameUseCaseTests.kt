@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.user.dto.ChangeNicknameRequest
+import team.comit.simtong.domain.user.dto.request.ChangeNicknameData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -23,7 +23,7 @@ class ChangeNicknameUseCaseTests {
     private lateinit var queryUserPort: QueryUserPort
 
     @MockBean
-    private lateinit var userSecurityPort: UserSecurityPort
+    private lateinit var securityPort: UserSecurityPort
 
     @MockBean
     private lateinit var commandUserPort: CommandUserPort
@@ -32,8 +32,8 @@ class ChangeNicknameUseCaseTests {
 
     private val id = UUID.randomUUID()
 
-    private val requestStub: ChangeNicknameRequest by lazy {
-        ChangeNicknameRequest(
+    private val requestStub: ChangeNicknameData by lazy {
+        ChangeNicknameData(
             nickname = "test nickname"
         )
     }
@@ -57,7 +57,7 @@ class ChangeNicknameUseCaseTests {
     fun setUp() {
         changeNicknameUseCase = ChangeNicknameUseCase(
             queryUserPort,
-            userSecurityPort,
+            securityPort,
             commandUserPort
         )
     }
@@ -68,7 +68,7 @@ class ChangeNicknameUseCaseTests {
         given(queryUserPort.existsUserByNickname(requestStub.nickname))
             .willReturn(false)
 
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))

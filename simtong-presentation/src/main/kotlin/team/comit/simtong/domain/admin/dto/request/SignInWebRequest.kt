@@ -1,8 +1,8 @@
 package team.comit.simtong.domain.admin.dto.request
 
 import org.hibernate.validator.constraints.Range
-import team.comit.simtong.domain.user.value.EmployeeNumber
-import team.comit.simtong.domain.user.value.Password
+import team.comit.simtong.domain.user.model.EmployeeNumber
+import team.comit.simtong.domain.user.model.Password
 import javax.validation.constraints.NotBlank
 
 /**

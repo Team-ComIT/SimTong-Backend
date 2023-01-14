@@ -8,7 +8,7 @@ import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.spot.exception.SpotExceptions
 import team.comit.simtong.domain.spot.model.Spot
-import team.comit.simtong.domain.user.dto.QueryAdminInfoResponse
+import team.comit.simtong.domain.user.dto.response.QueryAdminInfoResponse
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User

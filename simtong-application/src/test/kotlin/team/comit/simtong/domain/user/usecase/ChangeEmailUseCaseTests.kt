@@ -9,7 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.auth.spi.QueryAuthCodeLimitPort
-import team.comit.simtong.domain.user.dto.ChangeEmailRequest
+import team.comit.simtong.domain.user.dto.request.ChangeEmailData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -26,7 +26,7 @@ class ChangeEmailUseCaseTests {
     private lateinit var queryUserPort: QueryUserPort
 
     @MockBean
-    private lateinit var userSecurityPort: UserSecurityPort
+    private lateinit var securityPort: UserSecurityPort
 
     @MockBean
     private lateinit var queryAuthCodeLimitPort: QueryAuthCodeLimitPort
@@ -38,8 +38,8 @@ class ChangeEmailUseCaseTests {
 
     private val id = UUID.randomUUID()
 
-    private val requestStub: ChangeEmailRequest by lazy {
-        ChangeEmailRequest(
+    private val requestStub: ChangeEmailData by lazy {
+        ChangeEmailData(
             email = "test@test.com"
         )
     }
@@ -75,7 +75,7 @@ class ChangeEmailUseCaseTests {
     fun setUp() {
         changeEmailUseCase = ChangeEmailUseCase(
             queryUserPort,
-            userSecurityPort,
+            securityPort,
             queryAuthCodeLimitPort,
             commandUserPort
         )
@@ -90,7 +90,7 @@ class ChangeEmailUseCaseTests {
         given(queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(authCodeLimitStub)
 
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))
@@ -153,7 +153,7 @@ class ChangeEmailUseCaseTests {
         given(queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(requestStub.email))
             .willReturn(authCodeLimitStub)
 
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))
