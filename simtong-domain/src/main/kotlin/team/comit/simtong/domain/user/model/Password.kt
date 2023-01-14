@@ -1,17 +1,18 @@
-package team.comit.simtong.domain.user.value
+package team.comit.simtong.domain.user.model
 
 /**
  *
- * 비밀번호를 의미하는 Password
+ * User Aggregate 중 비밀번호를 담당하는 Password
  *
- * @author Chokyunghyeon
- * @date 2023/01/04
- * @version 1.2.3
+ * @author kimbeomjin
+ * @date 2023/01/10
+ * @version 1.2.5
  **/
 @JvmInline
 value class Password(
     val value: String
 ) {
+
     companion object {
         const val MIN_LENGTH = 8
         const val MAX_LENGTH = 20
@@ -21,6 +22,8 @@ value class Password(
          *
          * non-space, $ , + , - , _ , a ~ z , A ~ Z , 0 ~ 9
          */
-        const val PATTERN = """(?=.*[a-zA-Z])(?=.*\d)(?=^[\w$+-]{$MIN_LENGTH,$MAX_LENGTH$).*"""
+        const val PATTERN = """(?=.*[a-zA-Z])(?=.*\d)(?=^[\w$+-]{$MIN_LENGTH,$MAX_LENGTH}$).*"""
+
+        fun of(password: String) = Password(password)
     }
 }

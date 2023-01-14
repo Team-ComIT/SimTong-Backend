@@ -9,11 +9,16 @@ import java.util.UUID
  *
  * @author kimbeomjin
  * @date 2023/01/01
- * @version 1.1.0
+ * @version 1.2.5
  **/
 @Aggregate
 data class DeviceToken(
     val userId: UUID,
 
     val token: String
-)
+) {
+
+    companion object {
+        fun of(userId: UUID, token: String) = DeviceToken(userId, token)
+    }
+}

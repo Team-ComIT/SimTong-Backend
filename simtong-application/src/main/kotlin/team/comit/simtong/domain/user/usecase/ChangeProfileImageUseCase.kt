@@ -2,7 +2,7 @@ package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.file.exception.FileExceptions
 import team.comit.simtong.domain.file.spi.CheckFilePort
-import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
+import team.comit.simtong.domain.user.dto.request.ChangeProfileImageData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
@@ -15,7 +15,7 @@ import team.comit.simtong.global.annotation.UseCase
  *
  * @author Chokyunghyeon
  * @date 2022/10/03
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class ChangeProfileImageUseCase(
@@ -25,7 +25,7 @@ class ChangeProfileImageUseCase(
     private val checkFilePort: CheckFilePort
 ) {
 
-    fun execute(request: ChangeProfileImageRequest) {
+    fun execute(request: ChangeProfileImageData) {
         if (!checkFilePort.existsPath(request.profileImagePath)) {
             throw FileExceptions.PathNotFound()
         }
@@ -34,10 +34,9 @@ class ChangeProfileImageUseCase(
         val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
         commandUserPort.save(
-            user.copy(
+            user.changeProfileImage(
                 profileImagePath = request.profileImagePath
             )
         )
     }
-
 }

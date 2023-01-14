@@ -43,7 +43,7 @@ class AppointAnnualUseCaseTests {
     private val date: LocalDate = LocalDate.MAX
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = id,
             nickname = "test nickname",
             name = "test name",
@@ -133,14 +133,6 @@ class AppointAnnualUseCaseTests {
     @Test
     fun `이미 연차일때`() {
         // given
-        val annualStub = Holiday(
-            date = date,
-            spotId = id,
-            type = HolidayType.ANNUAL,
-            employeeId = id,
-            status = HolidayStatus.COMPLETED
-        )
-
         given(securityPort.getCurrentUserId())
             .willReturn(id)
 

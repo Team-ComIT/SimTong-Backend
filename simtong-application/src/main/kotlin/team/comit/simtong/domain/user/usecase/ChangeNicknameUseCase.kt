@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.user.usecase
 
-import team.comit.simtong.domain.user.dto.ChangeNicknameRequest
+import team.comit.simtong.domain.user.dto.request.ChangeNicknameData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
@@ -13,7 +13,7 @@ import team.comit.simtong.global.annotation.UseCase
  *
  * @author Chokyunghyeon
  * @date 2022/10/03
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class ChangeNicknameUseCase(
@@ -22,18 +22,16 @@ class ChangeNicknameUseCase(
     private val commandUserPort: CommandUserPort
 ) {
 
-    fun execute(request: ChangeNicknameRequest) {
+    fun execute(request: ChangeNicknameData) {
         if (queryUserPort.existsUserByNickname(request.nickname)) {
             throw UserExceptions.AlreadyUsedNickname()
         }
 
         val currentUserId = securityPort.getCurrentUserId()
-        val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
+        val employee = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
         commandUserPort.save(
-            user.copy(
-                nickname = request.nickname
-            )
+            employee.changeNickname(request.nickname)
         )
     }
 }

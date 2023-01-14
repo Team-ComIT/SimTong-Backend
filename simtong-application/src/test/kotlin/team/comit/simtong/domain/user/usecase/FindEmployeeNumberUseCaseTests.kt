@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.user.dto.FindEmployeeNumberRequest
+import team.comit.simtong.domain.user.dto.request.FindEmployeeNumberData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -31,7 +31,7 @@ class FindEmployeeNumberUseCaseTests {
     private val employeeNumber: Int = 1234567891
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             nickname = "test nickname",
             name = "test name",
             email = "test email",
@@ -44,8 +44,8 @@ class FindEmployeeNumberUseCaseTests {
         )
     }
 
-    private val requestStub: FindEmployeeNumberRequest by lazy {
-        FindEmployeeNumberRequest(
+    private val requestStub: FindEmployeeNumberData by lazy {
+        FindEmployeeNumberData(
             name = name,
             spotId = spotId,
             email = email

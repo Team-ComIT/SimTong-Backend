@@ -34,7 +34,7 @@ class AddIndividualScheduleUseCaseTests {
     private val id: UUID = UUID.randomUUID()
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = id,
             nickname = "test nickname",
             name = "test name",

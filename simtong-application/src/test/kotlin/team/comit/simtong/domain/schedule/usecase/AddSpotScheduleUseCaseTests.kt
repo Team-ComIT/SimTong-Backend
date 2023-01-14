@@ -54,7 +54,7 @@ class AddSpotScheduleUseCaseTests {
     @Test
     fun `지점 일정 추가 성공`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",
@@ -82,7 +82,7 @@ class AddSpotScheduleUseCaseTests {
     @Test
     fun `지점 변경 권한 부족`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",
@@ -110,7 +110,7 @@ class AddSpotScheduleUseCaseTests {
     @Test
     fun `최고 관리자 계정`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",

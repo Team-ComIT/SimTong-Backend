@@ -34,7 +34,7 @@ class AppointHolidayPeriodUseCaseTests {
     private val id: UUID = UUID.randomUUID()
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = id,
             nickname = "test nickname",
             email = "test@test.com",

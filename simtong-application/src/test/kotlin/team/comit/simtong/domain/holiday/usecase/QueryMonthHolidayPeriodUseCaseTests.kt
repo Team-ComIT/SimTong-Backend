@@ -46,7 +46,7 @@ class QueryMonthHolidayPeriodUseCaseTests {
     private val endAt: LocalDate = LocalDate.now()
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = id,
             nickname = "test nickname",
             email = "test@test.com",

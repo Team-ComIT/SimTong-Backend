@@ -14,18 +14,18 @@ import team.comit.simtong.domain.spot.dto.SpotResponse
 import team.comit.simtong.domain.spot.usecase.ShowSpotListUseCase
 import team.comit.simtong.domain.team.dto.QueryTeamsResponse
 import team.comit.simtong.domain.team.usecase.QueryTeamsUseCase
-import team.comit.simtong.domain.user.dto.ChangePasswordRequest
-import team.comit.simtong.domain.user.dto.CheckMatchedAccountRequest
-import team.comit.simtong.domain.user.dto.FindEmployeeNumberRequest
-import team.comit.simtong.domain.user.dto.ResetPasswordRequest
+import team.comit.simtong.domain.user.dto.request.ChangePasswordData
+import team.comit.simtong.domain.user.dto.request.CheckMatchedAccountData
+import team.comit.simtong.domain.user.dto.request.FindEmployeeNumberData
+import team.comit.simtong.domain.user.dto.request.ResetPasswordData
+import team.comit.simtong.domain.user.model.EmployeeNumber
+import team.comit.simtong.domain.user.model.Password
 import team.comit.simtong.domain.user.usecase.ChangePasswordUseCase
 import team.comit.simtong.domain.user.usecase.CheckEmailDuplicationUseCase
 import team.comit.simtong.domain.user.usecase.CheckMatchedAccountUseCase
 import team.comit.simtong.domain.user.usecase.ComparePasswordUseCase
 import team.comit.simtong.domain.user.usecase.FindEmployeeNumberUseCase
 import team.comit.simtong.domain.user.usecase.ResetPasswordUseCase
-import team.comit.simtong.domain.user.value.EmployeeNumber
-import team.comit.simtong.domain.user.value.Password
 import java.util.UUID
 import javax.validation.Valid
 import javax.validation.constraints.Email
@@ -57,7 +57,7 @@ class WebCommonAdapter(
     @GetMapping("/employee-number")
     fun findEmployeeNumber(@Valid @ModelAttribute request: FindEmployeeNumberWebRequest): FindEmployeeNumberWebResponse {
         val result = findEmployeeNumberUseCase.execute(
-            FindEmployeeNumberRequest(
+            FindEmployeeNumberData(
                 name = request.name,
                 spotId = request.spotId,
                 email = request.email
@@ -76,7 +76,7 @@ class WebCommonAdapter(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun resetPassword(@Valid @RequestBody request: ResetPasswordWebRequest) {
         resetPasswordUseCase.execute(
-            ResetPasswordRequest(
+            ResetPasswordData(
                 email = request.email,
                 employeeNumber = request.employeeNumber.value,
                 newPassword = request.newPassword.value
@@ -93,7 +93,7 @@ class WebCommonAdapter(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun changePassword(@Valid @RequestBody request: ChangePasswordWebRequest) {
         changePasswordUseCase.execute(
-            ChangePasswordRequest(
+            ChangePasswordData(
                 password = request.password.value,
                 newPassword = request.newPassword.value
             )
@@ -108,7 +108,7 @@ class WebCommonAdapter(
         @RequestParam email: String
     ) {
         checkMatchedAccountUseCase.execute(
-            CheckMatchedAccountRequest(
+            CheckMatchedAccountData(
                 employeeNumber = employeeNumber.value,
                 email = email
             )
