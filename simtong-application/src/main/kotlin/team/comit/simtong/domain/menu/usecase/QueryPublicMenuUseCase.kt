@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.menu.usecase
 
-import team.comit.simtong.domain.menu.dto.MenuResponse
+import team.comit.simtong.domain.menu.dto.response.MenuResponse
 import team.comit.simtong.domain.menu.spi.QueryMenuPort
 import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
