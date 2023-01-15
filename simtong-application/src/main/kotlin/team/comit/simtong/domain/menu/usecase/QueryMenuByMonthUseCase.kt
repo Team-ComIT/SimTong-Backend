@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.menu.usecase
 
-import team.comit.simtong.domain.menu.dto.MenuResponse
+import team.comit.simtong.domain.menu.dto.response.MenuResponse
 import team.comit.simtong.domain.menu.spi.MenuQueryUserPort
 import team.comit.simtong.domain.menu.spi.MenuSecurityPort
 import team.comit.simtong.domain.menu.spi.QueryMenuPort

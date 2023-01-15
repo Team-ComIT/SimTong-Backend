@@ -2,7 +2,7 @@ package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.spi.QueryAuthCodeLimitPort
-import team.comit.simtong.domain.user.dto.ChangeEmailRequest
+import team.comit.simtong.domain.user.dto.request.ChangeEmailData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.CommandUserPort
 import team.comit.simtong.domain.user.spi.QueryUserPort
@@ -15,7 +15,7 @@ import team.comit.simtong.global.annotation.UseCase
  *
  * @author Chokyunghyeon
  * @date 2022/10/03
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class ChangeEmailUseCase(
@@ -25,7 +25,7 @@ class ChangeEmailUseCase(
     private val commandUserPort: CommandUserPort
 ) {
 
-    fun execute(request: ChangeEmailRequest) {
+    fun execute(request: ChangeEmailData) {
         if (queryUserPort.existsUserByEmail(request.email)) {
             throw AuthExceptions.AlreadyUsedEmail()
         }
@@ -38,13 +38,10 @@ class ChangeEmailUseCase(
         }
 
         val currentUserId = securityPort.getCurrentUserId()
-        val user = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
+        val employee = queryUserPort.queryUserById(currentUserId) ?: throw UserExceptions.NotFound()
 
         commandUserPort.save(
-            user.copy(
-                email = request.email
-            )
+            employee.changeEmail(request.email)
         )
     }
-
 }

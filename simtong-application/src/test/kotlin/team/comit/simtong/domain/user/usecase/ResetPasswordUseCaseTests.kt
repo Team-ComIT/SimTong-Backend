@@ -8,7 +8,7 @@ import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
-import team.comit.simtong.domain.user.dto.ResetPasswordRequest
+import team.comit.simtong.domain.user.dto.request.ResetPasswordData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -36,7 +36,7 @@ class ResetPasswordUseCaseTests {
     private lateinit var commandUserPort: CommandUserPort
 
     @MockBean
-    private lateinit var userSecurityPort: UserSecurityPort
+    private lateinit var securityPort: UserSecurityPort
 
     private lateinit var resetPasswordUseCase: ResetPasswordUseCase
 
@@ -44,8 +44,8 @@ class ResetPasswordUseCaseTests {
 
     private val id = UUID.randomUUID()
 
-    private val requestStub: ResetPasswordRequest by lazy {
-        ResetPasswordRequest(
+    private val requestStub: ResetPasswordData by lazy {
+        ResetPasswordData(
             email = email,
             employeeNumber = 1234567890,
             newPassword = "test password"
@@ -63,7 +63,7 @@ class ResetPasswordUseCaseTests {
     }
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = id,
             nickname = "test nickname",
             name = "test name",
@@ -84,7 +84,7 @@ class ResetPasswordUseCaseTests {
             userQueryAuthCodeLimitPort,
             commandAuthCodeLimitPort,
             commandUserPort,
-            userSecurityPort
+            securityPort
         )
     }
 
@@ -97,7 +97,7 @@ class ResetPasswordUseCaseTests {
         given(queryUserPort.queryUserByEmailAndEmployeeNumber(requestStub.email, requestStub.employeeNumber))
             .willReturn(userStub)
 
-        given(userSecurityPort.encode(requestStub.newPassword))
+        given(securityPort.encode(requestStub.newPassword))
             .willReturn(requestStub.newPassword)
 
         // when & then

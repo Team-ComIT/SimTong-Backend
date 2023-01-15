@@ -69,7 +69,7 @@ class RemoveSpotScheduleUseCaseTests {
     @Test
     fun `지점 일정 삭제 성공`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",
@@ -100,7 +100,7 @@ class RemoveSpotScheduleUseCaseTests {
     @Test
     fun `최고 관리자 계정`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",
@@ -131,7 +131,7 @@ class RemoveSpotScheduleUseCaseTests {
     @Test
     fun `권한이 부족함`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",
@@ -162,7 +162,7 @@ class RemoveSpotScheduleUseCaseTests {
     @Test
     fun `일정 범위가 다름`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",
@@ -204,7 +204,7 @@ class RemoveSpotScheduleUseCaseTests {
     @Test
     fun `일정을 찾을 수 없음`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",

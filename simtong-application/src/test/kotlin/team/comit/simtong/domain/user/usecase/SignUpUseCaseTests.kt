@@ -15,7 +15,7 @@ import team.comit.simtong.domain.spot.exception.SpotExceptions
 import team.comit.simtong.domain.spot.model.Spot
 import team.comit.simtong.domain.team.exception.TeamExceptions
 import team.comit.simtong.domain.team.model.Team
-import team.comit.simtong.domain.user.dto.SignUpRequest
+import team.comit.simtong.domain.user.dto.request.SignUpData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -37,7 +37,7 @@ import java.util.UUID
 class SignUpUseCaseTests {
 
     @MockBean
-    private lateinit var userJwtPort: UserJwtPort
+    private lateinit var jwtPort: UserJwtPort
 
     @MockBean
     private lateinit var commandUserPort: CommandUserPort
@@ -46,7 +46,7 @@ class SignUpUseCaseTests {
     private lateinit var commandDeviceTokenPort: CommandDeviceTokenPort
 
     @MockBean
-    private lateinit var userSecurityPort: UserSecurityPort
+    private lateinit var securityPort: UserSecurityPort
 
     @MockBean
     private lateinit var queryUserPort: QueryUserPort
@@ -99,7 +99,7 @@ class SignUpUseCaseTests {
     }
 
     private val saveUserStub: User by lazy {
-        User(
+        User.of(
             id = UUID.randomUUID(),
             name = name,
             nickname = nickname,
@@ -131,8 +131,8 @@ class SignUpUseCaseTests {
         )
     }
 
-    private val requestStub: SignUpRequest by lazy {
-        SignUpRequest(
+    private val requestStub: SignUpData by lazy {
+        SignUpData(
             nickname = nickname,
             name = name,
             email = email,
@@ -154,7 +154,7 @@ class SignUpUseCaseTests {
     @BeforeEach
     fun setUp() {
         signUpUseCase = SignUpUseCase(
-            userJwtPort,
+            jwtPort,
             commandUserPort,
             commandDeviceTokenPort,
             queryUserPort,
@@ -162,7 +162,7 @@ class SignUpUseCaseTests {
             commandAuthCodeLimitPort,
             userQuerySpotPort,
             userQueryTeamPort,
-            userSecurityPort,
+            securityPort,
             queryEmployeeCertificatePort
         )
     }
@@ -170,7 +170,7 @@ class SignUpUseCaseTests {
     @Test
     fun `회원가입 성공`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             nickname = nickname,
             name = name,
             email = email,
@@ -203,13 +203,13 @@ class SignUpUseCaseTests {
         given(userQueryTeamPort.queryTeamByName(employeeCertificateStub.teamName))
             .willReturn(teamStub)
 
-        given(userSecurityPort.encode(requestStub.password))
-            .willReturn(userStub.password)
+        given(securityPort.encode(requestStub.password))
+            .willReturn(userStub.password.value)
 
         given(commandUserPort.save(userStub))
             .willReturn(saveUserStub)
 
-        given(userJwtPort.receiveToken(saveUserStub.id, saveUserStub.authority))
+        given(jwtPort.receiveToken(saveUserStub.id, saveUserStub.authority))
             .willReturn(responseStub)
 
         // when
@@ -222,7 +222,7 @@ class SignUpUseCaseTests {
     @Test
     fun `회원가입 성공 OPTINAL`() {
         // given
-        val requestStub = SignUpRequest(
+        val requestStub = SignUpData(
             nickname = nickname,
             name = name,
             email = email,
@@ -232,7 +232,7 @@ class SignUpUseCaseTests {
             deviceToken = "test device token"
         )
 
-        val userStub = User(
+        val userStub = User.of(
             nickname = nickname,
             name = name,
             email = email,
@@ -265,13 +265,13 @@ class SignUpUseCaseTests {
         given(userQueryTeamPort.queryTeamByName(employeeCertificateStub.teamName))
             .willReturn(teamStub)
 
-        given(userSecurityPort.encode(requestStub.password))
-            .willReturn(userStub.password)
+        given(securityPort.encode(requestStub.password))
+            .willReturn(userStub.password.value)
 
         given(commandUserPort.save(userStub))
             .willReturn(saveUserStub)
 
-        given(userJwtPort.receiveToken(saveUserStub.id, saveUserStub.authority))
+        given(jwtPort.receiveToken(saveUserStub.id, saveUserStub.authority))
             .willReturn(responseStub)
 
         // when
