@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.schedule.dto
+package team.comit.simtong.domain.schedule.dto.response
 
 import java.time.LocalDate
 import java.util.UUID

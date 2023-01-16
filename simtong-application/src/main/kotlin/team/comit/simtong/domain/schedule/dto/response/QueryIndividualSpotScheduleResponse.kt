@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.schedule.dto
+package team.comit.simtong.domain.schedule.dto.response
 
 import team.comit.simtong.domain.schedule.model.Scope
 import java.time.LocalDate
