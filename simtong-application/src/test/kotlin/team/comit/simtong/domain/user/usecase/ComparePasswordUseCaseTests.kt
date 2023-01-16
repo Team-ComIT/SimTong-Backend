@@ -30,7 +30,7 @@ class ComparePasswordUseCaseTests {
     private val passwordStub: String = "test password"
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",
@@ -61,7 +61,7 @@ class ComparePasswordUseCaseTests {
         given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
-        given(securityPort.compare(passwordStub, userStub.password))
+        given(securityPort.compare(passwordStub, userStub.password.value))
             .willReturn(true)
 
         // when & then
@@ -79,7 +79,7 @@ class ComparePasswordUseCaseTests {
         given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
-        given(securityPort.compare(passwordStub, userStub.password))
+        given(securityPort.compare(passwordStub, userStub.password.value))
             .willReturn(false)
 
         // when & then

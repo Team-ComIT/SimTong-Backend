@@ -51,7 +51,7 @@ class ChangeEmployeeHolidayUseCaseTests {
     )
 
     private val userStub by lazy {
-        User(
+        User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",

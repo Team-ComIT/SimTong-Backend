@@ -57,7 +57,7 @@ class RemoveIndividualScheduleUseCaseTests {
     }
 
     private val userStub by lazy {
-        User(
+        User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",
@@ -84,7 +84,7 @@ class RemoveIndividualScheduleUseCaseTests {
     @Test
     fun `지점 일정 삭제 성공`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",

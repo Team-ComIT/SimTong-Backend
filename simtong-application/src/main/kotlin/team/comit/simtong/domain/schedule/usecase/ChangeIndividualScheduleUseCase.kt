@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.schedule.usecase
 
-import team.comit.simtong.domain.schedule.dto.ChangeIndividualScheduleRequest
+import team.comit.simtong.domain.schedule.dto.request.ChangeIndividualScheduleData
 import team.comit.simtong.domain.schedule.exception.ScheduleExceptions
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
@@ -8,6 +8,7 @@ import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.global.annotation.UseCase
+import java.util.UUID
 
 /**
  *
@@ -26,9 +27,9 @@ class ChangeIndividualScheduleUseCase(
     private val securityPort: ScheduleSecurityPort
 ) {
 
-    fun execute(request: ChangeIndividualScheduleRequest) {
+    fun execute(request: ChangeIndividualScheduleData, scheduleId: UUID) {
         val currentUserId = securityPort.getCurrentUserId()
-        val (scheduleId, title, startAt, endAt, alarm) = request
+        val (title, startAt, endAt, alarm) = request
 
         val schedule = querySchedulePort.queryScheduleById(scheduleId)
             ?: throw ScheduleExceptions.NotFound()

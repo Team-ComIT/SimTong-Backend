@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.schedule.dto.QueryIndividualSpotScheduleResponse
-import team.comit.simtong.domain.schedule.dto.ScheduleResponse
+import team.comit.simtong.domain.schedule.dto.response.QueryIndividualSpotScheduleResponse
+import team.comit.simtong.domain.schedule.dto.response.ScheduleResponse
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
 import team.comit.simtong.domain.schedule.spi.QuerySchedulePort
@@ -47,7 +47,7 @@ class QueryIndividualSpotScheduleUseCaseTests {
     private val scheduleId: UUID = UUID.randomUUID()
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",

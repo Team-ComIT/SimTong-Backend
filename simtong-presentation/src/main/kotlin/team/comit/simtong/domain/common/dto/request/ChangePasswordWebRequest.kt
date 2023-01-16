@@ -1,6 +1,6 @@
 package team.comit.simtong.domain.common.dto.request
 
-import team.comit.simtong.domain.user.value.Password
+import team.comit.simtong.domain.user.model.Password
 import javax.validation.constraints.Pattern
 
 /**

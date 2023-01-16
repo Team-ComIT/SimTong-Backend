@@ -7,7 +7,7 @@ import org.junit.jupiter.api.assertThrows
 import org.mockito.Mock
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.schedule.dto.ChangeIndividualScheduleRequest
+import team.comit.simtong.domain.schedule.dto.request.ChangeIndividualScheduleData
 import team.comit.simtong.domain.schedule.exception.ScheduleExceptions
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
@@ -57,7 +57,7 @@ class ChangeIndividualScheduleUseCaseTest {
     private val scheduleId= UUID.randomUUID()
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",
@@ -84,9 +84,8 @@ class ChangeIndividualScheduleUseCaseTest {
         )
     }
 
-    private val requestStub: ChangeIndividualScheduleRequest by lazy {
-        ChangeIndividualScheduleRequest(
-            scheduleId = scheduleId,
+    private val requestStub: ChangeIndividualScheduleData by lazy {
+        ChangeIndividualScheduleData(
             title = "test title",
             startAt = LocalDate.now(),
             endAt = LocalDate.now(),
@@ -100,7 +99,7 @@ class ChangeIndividualScheduleUseCaseTest {
         given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
+        given(querySchedulePort.queryScheduleById(scheduleId))
             .willReturn(scheduleStub)
 
         given(queryUserPort.queryUserById(userId))
@@ -108,7 +107,7 @@ class ChangeIndividualScheduleUseCaseTest {
 
         // when & then
         assertDoesNotThrow {
-            changeIndividualScheduleUseCase.execute(requestStub)
+            changeIndividualScheduleUseCase.execute(requestStub, scheduleId)
         }
     }
 
@@ -118,7 +117,7 @@ class ChangeIndividualScheduleUseCaseTest {
         given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
+        given(querySchedulePort.queryScheduleById(scheduleId))
             .willReturn(scheduleStub)
 
         given(queryUserPort.queryUserById(userId))
@@ -126,7 +125,7 @@ class ChangeIndividualScheduleUseCaseTest {
 
         // when & then
         assertThrows<UserExceptions.NotFound> {
-            changeIndividualScheduleUseCase.execute(requestStub)
+            changeIndividualScheduleUseCase.execute(requestStub, scheduleId)
         }
     }
 
@@ -136,12 +135,12 @@ class ChangeIndividualScheduleUseCaseTest {
         given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
+        given(querySchedulePort.queryScheduleById(scheduleId))
             .willReturn(null)
 
         // when & then
         assertThrows<ScheduleExceptions.NotFound> {
-            changeIndividualScheduleUseCase.execute(requestStub)
+            changeIndividualScheduleUseCase.execute(requestStub, scheduleId)
         }
     }
 }

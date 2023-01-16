@@ -1,0 +1,13 @@
+package team.comit.simtong.domain.user.dto.request
+
+/**
+ *
+ * 닉네임 변경 요청 정보를 전달하는 ChangeNicknameRequest
+ *
+ * @author Chokyunghyeon
+ * @date 2022/10/03
+ * @version 1.2.5
+ **/
+data class ChangeNicknameData(
+    val nickname: String
+)

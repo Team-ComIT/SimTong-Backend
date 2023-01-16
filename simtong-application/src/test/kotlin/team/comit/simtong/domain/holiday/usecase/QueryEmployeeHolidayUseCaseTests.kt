@@ -40,7 +40,7 @@ class QueryEmployeeHolidayUseCaseTests {
     private val teamId = UUID.randomUUID()
 
     private val userStub by lazy {
-        User(
+        User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",

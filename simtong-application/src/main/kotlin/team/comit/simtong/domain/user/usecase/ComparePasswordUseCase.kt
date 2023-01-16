@@ -11,7 +11,7 @@ import team.comit.simtong.global.annotation.ReadOnlyUseCase
  *
  * @author Chokyunghyeon
  * @date 2022/12/05
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @ReadOnlyUseCase
 class ComparePasswordUseCase(
@@ -23,9 +23,8 @@ class ComparePasswordUseCase(
         val user = queryUserPort.queryUserById(securityPort.getCurrentUserId())
             ?: throw UserExceptions.NotFound()
 
-        if (!securityPort.compare(password, user.password)) {
+        if (!securityPort.compare(password, user.password.value)) {
             throw UserExceptions.DifferentPassword()
         }
     }
-
 }

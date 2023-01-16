@@ -8,7 +8,7 @@ import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
 import team.comit.simtong.domain.file.exception.FileExceptions
 import team.comit.simtong.domain.file.spi.CheckFilePort
-import team.comit.simtong.domain.user.dto.ChangeProfileImageRequest
+import team.comit.simtong.domain.user.dto.request.ChangeProfileImageData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -25,7 +25,7 @@ class ChangeProfileImageUseCaseTests {
     private lateinit var queryUserPort: QueryUserPort
 
     @MockBean
-    private lateinit var userSecurityPort: UserSecurityPort
+    private lateinit var securityPort: UserSecurityPort
 
     @MockBean
     private lateinit var commandUserPort: CommandUserPort
@@ -37,14 +37,14 @@ class ChangeProfileImageUseCaseTests {
 
     private val id = UUID.randomUUID()
 
-    private val requestStub: ChangeProfileImageRequest by lazy {
-        ChangeProfileImageRequest(
+    private val requestStub: ChangeProfileImageData by lazy {
+        ChangeProfileImageData(
             profileImagePath = "test path"
         )
     }
 
     private val userStub: User by lazy {
-        User(
+        User.of(
             id = id,
             nickname = "test nickname",
             name = "test name",
@@ -62,7 +62,7 @@ class ChangeProfileImageUseCaseTests {
     fun setUp() {
         changeProfileImageUseCase = ChangeProfileImageUseCase(
             queryUserPort,
-            userSecurityPort,
+            securityPort,
             commandUserPort,
             checkFilePort
         )
@@ -74,7 +74,7 @@ class ChangeProfileImageUseCaseTests {
         given(checkFilePort.existsPath(requestStub.profileImagePath))
             .willReturn(true)
 
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))
@@ -104,7 +104,7 @@ class ChangeProfileImageUseCaseTests {
         given(checkFilePort.existsPath(requestStub.profileImagePath))
             .willReturn(true)
 
-        given(userSecurityPort.getCurrentUserId())
+        given(securityPort.getCurrentUserId())
             .willReturn(id)
 
         given(queryUserPort.queryUserById(id))

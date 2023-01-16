@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.schedule.dto.ChangeSpotScheduleRequest
+import team.comit.simtong.domain.schedule.dto.request.ChangeSpotScheduleData
 import team.comit.simtong.domain.schedule.exception.ScheduleExceptions
 import team.comit.simtong.domain.schedule.model.Schedule
 import team.comit.simtong.domain.schedule.model.Scope
@@ -57,9 +57,8 @@ class ChangeSpotScheduleUseCaseTests {
         )
     }
 
-    private val requestStub: ChangeSpotScheduleRequest by lazy {
-        ChangeSpotScheduleRequest(
-            scheduleId = scheduleId,
+    private val requestStub: ChangeSpotScheduleData by lazy {
+        ChangeSpotScheduleData(
             title = "test title",
             startAt = LocalDate.now(),
             endAt = LocalDate.now()
@@ -79,7 +78,7 @@ class ChangeSpotScheduleUseCaseTests {
     @Test
     fun `지점 일정 변경 성공`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",
@@ -98,19 +97,19 @@ class ChangeSpotScheduleUseCaseTests {
         given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
-        given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
+        given(querySchedulePort.queryScheduleById(scheduleId))
             .willReturn(scheduleStub)
 
         // when & then
         assertDoesNotThrow {
-            changeSpotScheduleUseCase.execute(requestStub)
+            changeSpotScheduleUseCase.execute(requestStub, scheduleId)
         }
     }
 
     @Test
     fun `지점 일정이 아님`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",
@@ -140,19 +139,19 @@ class ChangeSpotScheduleUseCaseTests {
         given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
-        given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
+        given(querySchedulePort.queryScheduleById(scheduleId))
             .willReturn(individualScheduleStub)
 
         // when & then
         assertThrows<ScheduleExceptions.DifferentScope> {
-            changeSpotScheduleUseCase.execute(requestStub)
+            changeSpotScheduleUseCase.execute(requestStub, scheduleId)
         }
     }
 
     @Test
     fun `권한이 부족함`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",
@@ -171,19 +170,19 @@ class ChangeSpotScheduleUseCaseTests {
         given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
-        given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
+        given(querySchedulePort.queryScheduleById(scheduleId))
             .willReturn(scheduleStub)
 
         // when & then
         assertThrows<UserExceptions.NotEnoughPermission> {
-            changeSpotScheduleUseCase.execute(requestStub)
+            changeSpotScheduleUseCase.execute(requestStub, scheduleId)
         }
     }
 
     @Test
     fun `최고 관리자 계정`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",
@@ -202,19 +201,19 @@ class ChangeSpotScheduleUseCaseTests {
         given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
-        given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
+        given(querySchedulePort.queryScheduleById(scheduleId))
             .willReturn(scheduleStub)
 
         // when & then
         assertDoesNotThrow {
-            changeSpotScheduleUseCase.execute(requestStub)
+            changeSpotScheduleUseCase.execute(requestStub, scheduleId)
         }
     }
 
     @Test
     fun `일정을 찾을 수 없음`() {
         // given
-        val userStub = User(
+        val userStub = User.of(
             id = userId,
             nickname = "test nickname",
             name = "test name",
@@ -233,12 +232,12 @@ class ChangeSpotScheduleUseCaseTests {
         given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
-        given(querySchedulePort.queryScheduleById(requestStub.scheduleId))
+        given(querySchedulePort.queryScheduleById(scheduleId))
             .willReturn(null)
 
         // when & then
         assertThrows<ScheduleExceptions.NotFound> {
-            changeSpotScheduleUseCase.execute(requestStub)
+            changeSpotScheduleUseCase.execute(requestStub, scheduleId)
         }
     }
 
@@ -253,7 +252,7 @@ class ChangeSpotScheduleUseCaseTests {
 
         // when & then
         assertThrows<UserExceptions.NotFound> {
-            changeSpotScheduleUseCase.execute(requestStub)
+            changeSpotScheduleUseCase.execute(requestStub, scheduleId)
         }
     }
 
