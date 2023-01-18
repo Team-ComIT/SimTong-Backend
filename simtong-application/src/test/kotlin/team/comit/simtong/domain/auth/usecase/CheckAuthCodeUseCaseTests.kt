@@ -6,6 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
+import team.comit.simtong.domain.auth.dto.request.CheckAuthCodeData
 import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCode
 import team.comit.simtong.domain.auth.model.Code
@@ -36,13 +37,15 @@ class CheckAuthCodeUseCaseTests {
         )
     }
 
-    private val differentAuthCodeStub by lazy {
+    private val differentAuthCodeStub: AuthCode by lazy {
         AuthCode(
             key = email,
             code = Code.of("654321"),
             expirationTime = AuthCode.EXPIRED
         )
     }
+
+    private val requestStub = CheckAuthCodeData(email, code)
 
     @BeforeEach
     fun setUp() {
@@ -60,7 +63,7 @@ class CheckAuthCodeUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            checkAuthCodeUseCase.execute(email, code)
+            checkAuthCodeUseCase.execute(requestStub)
         }
     }
 
@@ -72,7 +75,7 @@ class CheckAuthCodeUseCaseTests {
 
         // when & then
         assertThrows<AuthExceptions.RequiredNewEmailAuthentication> {
-            checkAuthCodeUseCase.execute(email, code)
+            checkAuthCodeUseCase.execute(requestStub)
         }
     }
 
@@ -84,7 +87,7 @@ class CheckAuthCodeUseCaseTests {
 
         // when & then
         assertThrows<AuthExceptions.DifferentAuthCode> {
-            checkAuthCodeUseCase.execute(email, code)
+            checkAuthCodeUseCase.execute(requestStub)
         }
     }
 

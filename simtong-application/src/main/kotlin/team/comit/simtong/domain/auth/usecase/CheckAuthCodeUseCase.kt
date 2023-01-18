@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.auth.usecase
 
+import team.comit.simtong.domain.auth.dto.request.CheckAuthCodeData
 import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
@@ -21,16 +22,16 @@ class CheckAuthCodeUseCase(
     private val queryAuthCodePort: QueryAuthCodePort
 ) {
 
-    fun execute(email: String, code: String) {
-        val authCode = queryAuthCodePort.queryAuthCodeByEmail(email)
+    fun execute(request: CheckAuthCodeData) {
+        val authCode = queryAuthCodePort.queryAuthCodeByEmail(request.email)
             ?: throw AuthExceptions.RequiredNewEmailAuthentication()
 
-        if (!authCode.code.match(code)) {
+        if (!authCode.code.match(request.code)) {
             throw AuthExceptions.DifferentAuthCode()
         }
 
         commandAuthCodeLimitPort.save(
-            AuthCodeLimit.certified(email)
+            AuthCodeLimit.certified(request.email)
         )
     }
 }

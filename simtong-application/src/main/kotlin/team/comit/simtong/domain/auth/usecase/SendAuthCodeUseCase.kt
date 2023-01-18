@@ -1,5 +1,6 @@
 package team.comit.simtong.domain.auth.usecase
 
+import team.comit.simtong.domain.auth.dto.request.SendAuthCodeData
 import team.comit.simtong.domain.auth.model.AuthCode
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
 import team.comit.simtong.domain.auth.spi.CommandAuthCodeLimitPort
@@ -24,18 +25,18 @@ class SendAuthCodeUseCase(
     private val sendEmailPort: SendEmailPort
 ) {
 
-    fun execute(email: String) {
-        val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(email)
-            ?: AuthCodeLimit.issue(email)
+    fun execute(request: SendAuthCodeData) {
+        val authCodeLimit = queryAuthCodeLimitPort.queryAuthCodeLimitByEmail(request.email)
+            ?: AuthCodeLimit.issue(request.email)
 
         commandAuthCodeLimitPort.save(
             authCodeLimit.increaseCount()
         )
 
         val authCode = commandAuthCodePort.save(
-            AuthCode.issue(email)
+            AuthCode.issue(request.email)
         )
 
-        sendEmailPort.sendAuthCode(authCode.code.value, email)
+        sendEmailPort.sendAuthCode(authCode.code.value, request.email)
     }
 }

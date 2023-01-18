@@ -1,5 +1,7 @@
 package team.comit.simtong.domain.file.usecase
 
+import team.comit.simtong.domain.file.dto.response.UploadImageListResponse
+import team.comit.simtong.domain.file.dto.response.UploadImageResponse
 import team.comit.simtong.domain.file.spi.UploadFilePort
 import team.comit.simtong.global.annotation.UseCase
 import java.io.File
@@ -10,18 +12,20 @@ import java.io.File
  *
  * @author Chokyunghyeon
  * @date 2022/09/20
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @UseCase
 class UploadImageUseCase(
     private val uploadFilePort: UploadFilePort
 ) {
 
-    fun execute(file: File): String {
+    fun execute(file: File): UploadImageResponse {
         return uploadFilePort.upload(file)
+            .let(::UploadImageResponse)
     }
 
-    fun execute(files: List<File>): List<String> {
+    fun execute(files: List<File>): UploadImageListResponse {
         return uploadFilePort.upload(files)
+            .let(::UploadImageListResponse)
     }
 }

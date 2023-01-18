@@ -8,6 +8,7 @@ import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.willDoNothing
 import org.mockito.kotlin.any
 import org.springframework.boot.test.mock.mockito.MockBean
+import team.comit.simtong.domain.auth.dto.request.SendAuthCodeData
 import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCode
 import team.comit.simtong.domain.auth.model.AuthCodeLimit
@@ -65,6 +66,8 @@ class SendAuthCodeUseCaseTests {
         )
     }
 
+    private val requestStub = SendAuthCodeData(email)
+
     @BeforeEach
     fun setUp() {
         sendAuthCodeUseCase = SendAuthCodeUseCase(
@@ -88,7 +91,7 @@ class SendAuthCodeUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            sendAuthCodeUseCase.execute(email)
+            sendAuthCodeUseCase.execute(requestStub)
         }
     }
 
@@ -100,7 +103,7 @@ class SendAuthCodeUseCaseTests {
 
         // when & then
         assertThrows<AuthExceptions.AlreadyCertifiedEmail> {
-            sendAuthCodeUseCase.execute(email)
+            sendAuthCodeUseCase.execute(requestStub)
         }
     }
 
@@ -112,7 +115,7 @@ class SendAuthCodeUseCaseTests {
 
         // when & then
         assertThrows<AuthExceptions.ExceededSendAuthCodeRequest> {
-            sendAuthCodeUseCase.execute(email)
+            sendAuthCodeUseCase.execute(requestStub)
         }
     }
 
