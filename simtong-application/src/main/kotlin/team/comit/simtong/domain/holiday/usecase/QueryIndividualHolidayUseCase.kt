@@ -1,12 +1,12 @@
 package team.comit.simtong.domain.holiday.usecase
 
-import team.comit.simtong.domain.holiday.dto.IndividualHolidayResponse
-import team.comit.simtong.domain.holiday.dto.QueryIndividualHolidaysResponse
-import team.comit.simtong.domain.holiday.dto.QueryIndividualRequest
+import team.comit.simtong.domain.holiday.dto.response.IndividualHolidayResponse
+import team.comit.simtong.domain.holiday.dto.response.QueryIndividualHolidaysResponse
 import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
 import team.comit.simtong.domain.holiday.spi.QueryHolidayPort
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
+import java.time.LocalDate
 
 /**
  *
@@ -14,7 +14,7 @@ import team.comit.simtong.global.annotation.ReadOnlyUseCase
  *
  * @author Chokyunghyeon
  * @date 2022/12/05
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @ReadOnlyUseCase
 class QueryIndividualHolidayUseCase(
@@ -22,23 +22,18 @@ class QueryIndividualHolidayUseCase(
     private val securityPort: HolidaySecurityPort
 ) {
 
-    fun execute(request: QueryIndividualRequest) : QueryIndividualHolidaysResponse {
+    fun execute(startAt: LocalDate, endAt: LocalDate, status: HolidayStatus) : QueryIndividualHolidaysResponse {
         val currentUserId = securityPort.getCurrentUserId()
 
         val holidays = queryHolidayPort.queryHolidaysByPeriodAndUserIdAndStatus(
-            startAt = request.startAt,
-            endAt = request.endAt,
+            startAt = startAt,
+            endAt = endAt,
             userId = currentUserId,
-            status = HolidayStatus.valueOf(request.status)
+            status = status
         )
 
-        val response = holidays.map {
-            IndividualHolidayResponse(
-                date = it.date,
-                type = it.type.name
-            )
-        }
-
-        return QueryIndividualHolidaysResponse(response)
+        return holidays
+            .map { IndividualHolidayResponse(date = it.date, type = it.type.name) }
+            .let(::QueryIndividualHolidaysResponse)
     }
 }

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
+import team.comit.simtong.domain.holiday.dto.request.CancelHolidayData
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayStatus
@@ -35,6 +36,8 @@ class CancelHolidayUseCaseTests {
 
     private val date: LocalDate = LocalDate.now()
 
+    private val requestStub: CancelHolidayData = CancelHolidayData(date)
+
     @BeforeEach
     fun setUp() {
         cancelHolidayUseCase = CancelHolidayUseCase(
@@ -63,7 +66,7 @@ class CancelHolidayUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            cancelHolidayUseCase.execute(date)
+            cancelHolidayUseCase.execute(requestStub)
         }
     }
 
@@ -86,7 +89,7 @@ class CancelHolidayUseCaseTests {
 
         // when & then
         assertThrows<HolidayExceptions.CannotChange> {
-            cancelHolidayUseCase.execute(date)
+            cancelHolidayUseCase.execute(requestStub)
         }
     }
 
@@ -109,7 +112,7 @@ class CancelHolidayUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            cancelHolidayUseCase.execute(date)
+            cancelHolidayUseCase.execute(requestStub)
         }
     }
 
@@ -132,7 +135,7 @@ class CancelHolidayUseCaseTests {
 
         // when & then
         assertThrows<HolidayExceptions.CannotChange> {
-            cancelHolidayUseCase.execute(date)
+            cancelHolidayUseCase.execute(requestStub)
         }
     }
 
@@ -147,7 +150,7 @@ class CancelHolidayUseCaseTests {
 
         // when & then
         assertThrows<HolidayExceptions.NotFound> {
-            cancelHolidayUseCase.execute(date)
+            cancelHolidayUseCase.execute(requestStub)
         }
     }
 

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
+import team.comit.simtong.domain.holiday.dto.request.AppointHolidayData
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayPeriod
@@ -47,6 +48,8 @@ class AppointHolidayUseCaseTests {
     private val spotId: UUID = UUID.randomUUID()
 
     private val date: LocalDate = LocalDate.now()
+
+    private val requestStub: AppointHolidayData = AppointHolidayData(date)
 
     private val userStub: User by lazy {
         User.of(
@@ -104,7 +107,7 @@ class AppointHolidayUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            appointHolidayUseCase.execute(date)
+            appointHolidayUseCase.execute(requestStub)
         }
     }
 
@@ -125,7 +128,7 @@ class AppointHolidayUseCaseTests {
 
         // when & then
         assertThrows<HolidayExceptions.AlreadyExists> {
-            appointHolidayUseCase.execute(date)
+            appointHolidayUseCase.execute(requestStub)
         }
     }
 
@@ -149,7 +152,7 @@ class AppointHolidayUseCaseTests {
 
         // when & then
         assertThrows<HolidayExceptions.WeekHolidayLimitExcess> {
-            appointHolidayUseCase.execute(date)
+            appointHolidayUseCase.execute(requestStub)
         }
     }
 
@@ -175,7 +178,7 @@ class AppointHolidayUseCaseTests {
 
         // when & then
         assertThrows<HolidayExceptions.NotWritablePeriod> {
-            appointHolidayUseCase.execute(date)
+            appointHolidayUseCase.execute(requestStub)
         }
     }
 
@@ -201,7 +204,7 @@ class AppointHolidayUseCaseTests {
 
         // when & then
         assertThrows<HolidayExceptions.NotWritablePeriod> {
-            appointHolidayUseCase.execute(date)
+            appointHolidayUseCase.execute(requestStub)
         }
     }
 
@@ -219,7 +222,7 @@ class AppointHolidayUseCaseTests {
 
         // when & then
         assertThrows<HolidayExceptions.NotFound> {
-            appointHolidayUseCase.execute(date)
+            appointHolidayUseCase.execute(requestStub)
         }
     }
 
@@ -234,7 +237,7 @@ class AppointHolidayUseCaseTests {
 
         // when & then
         assertThrows<UserExceptions.NotFound> {
-            appointHolidayUseCase.execute(date)
+            appointHolidayUseCase.execute(requestStub)
         }
     }
 
