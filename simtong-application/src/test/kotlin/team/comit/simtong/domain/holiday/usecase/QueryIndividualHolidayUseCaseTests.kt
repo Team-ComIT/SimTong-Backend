@@ -5,9 +5,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.holiday.dto.IndividualHolidayResponse
-import team.comit.simtong.domain.holiday.dto.QueryIndividualHolidaysResponse
-import team.comit.simtong.domain.holiday.dto.QueryIndividualRequest
+import team.comit.simtong.domain.holiday.dto.response.IndividualHolidayResponse
+import team.comit.simtong.domain.holiday.dto.response.QueryIndividualHolidaysResponse
 import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
@@ -29,14 +28,9 @@ class QueryIndividualHolidayUseCaseTests {
     private lateinit var queryIndividualHolidayUseCase: QueryIndividualHolidayUseCase
 
     private val userId: UUID = UUID.randomUUID()
-
-    private val requestStub: QueryIndividualRequest by lazy {
-        QueryIndividualRequest(
-            startAt = LocalDate.now(),
-            endAt = LocalDate.now(),
-            status = HolidayStatus.COMPLETED.name
-        )
-    }
+    private val startAt: LocalDate = LocalDate.now()
+    private val endAt: LocalDate = LocalDate.now()
+    private val status: HolidayStatus = HolidayStatus.COMPLETED
 
     private val holidaysStub: List<Holiday> by lazy {
         listOf(
@@ -75,11 +69,11 @@ class QueryIndividualHolidayUseCaseTests {
         given(securityPort.getCurrentUserId())
             .willReturn(userId)
 
-        given(queryHolidayPort.queryHolidaysByPeriodAndUserIdAndStatus(requestStub.startAt, requestStub.endAt, userId, HolidayStatus.COMPLETED))
+        given(queryHolidayPort.queryHolidaysByPeriodAndUserIdAndStatus(startAt, endAt, userId, HolidayStatus.COMPLETED))
             .willReturn(holidaysStub)
 
         // when
-        val response = queryIndividualHolidayUseCase.execute(requestStub)
+        val response = queryIndividualHolidayUseCase.execute(startAt, endAt, status)
 
         // then
         assertEquals(response, responseStub)

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.holiday.dto.AppointHolidayPeriodRequest
+import team.comit.simtong.domain.holiday.dto.request.AppointHolidayPeriodData
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPeriodPort
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
 import team.comit.simtong.domain.holiday.spi.HolidaySecurityPort
@@ -48,8 +48,8 @@ class AppointHolidayPeriodUseCaseTests {
         )
     }
 
-    private val requestStub: AppointHolidayPeriodRequest by lazy {
-        AppointHolidayPeriodRequest(
+    private val requestStub: AppointHolidayPeriodData by lazy {
+        AppointHolidayPeriodData(
             year = 2022,
             month = 12,
             startAt = LocalDate.now(),

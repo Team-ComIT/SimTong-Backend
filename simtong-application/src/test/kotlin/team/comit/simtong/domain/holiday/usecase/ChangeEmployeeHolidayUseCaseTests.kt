@@ -6,6 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
+import team.comit.simtong.domain.holiday.dto.request.ChangeEmployeeHolidayData
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.model.Holiday
 import team.comit.simtong.domain.holiday.model.HolidayStatus
@@ -42,6 +43,12 @@ class ChangeEmployeeHolidayUseCaseTests {
     private val afterDate = LocalDate.now().minusDays(1)
     private val userId = UUID.randomUUID()
     private val spotId = UUID.randomUUID()
+
+    private val requestStub = ChangeEmployeeHolidayData(
+        beforeDate = beforeDate,
+        userId = userId,
+        afterDate = afterDate
+    )
 
     private val userStub by lazy {
         User.of(
@@ -92,7 +99,7 @@ class ChangeEmployeeHolidayUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            changeEmployeeHolidayUseCase.execute(beforeDate, userId, afterDate)
+            changeEmployeeHolidayUseCase.execute(requestStub)
         }
     }
 
@@ -107,7 +114,7 @@ class ChangeEmployeeHolidayUseCaseTests {
 
         // when & then
         assertThrows<UserExceptions.NotFound> {
-            changeEmployeeHolidayUseCase.execute(beforeDate, userId, afterDate)
+            changeEmployeeHolidayUseCase.execute(requestStub)
         }
     }
 
@@ -125,7 +132,7 @@ class ChangeEmployeeHolidayUseCaseTests {
 
         // when & then
         assertThrows<HolidayExceptions.NotFound> {
-            changeEmployeeHolidayUseCase.execute(beforeDate, userId, afterDate)
+            changeEmployeeHolidayUseCase.execute(requestStub)
         }
     }
 
@@ -145,7 +152,7 @@ class ChangeEmployeeHolidayUseCaseTests {
 
         // when & then
         assertThrows<HolidayExceptions.CannotChange> {
-            changeEmployeeHolidayUseCase.execute(beforeDate, userId, afterDate)
+            changeEmployeeHolidayUseCase.execute(requestStub)
         }
     }
 
@@ -166,7 +173,7 @@ class ChangeEmployeeHolidayUseCaseTests {
 
         // when & then
         assertThrows<HolidayExceptions.WeekHolidayLimitExcess> {
-            changeEmployeeHolidayUseCase.execute(beforeDate, userId, afterDate)
+            changeEmployeeHolidayUseCase.execute(requestStub)
         }
     }
 }

@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import team.comit.simtong.domain.file.converter.ExcelFileConverter
-import team.comit.simtong.domain.menu.dto.MenuResponse
 import team.comit.simtong.domain.menu.dto.SaveMenuRequest
-import team.comit.simtong.domain.menu.dto.request.SaveMenuWebRequest
+import team.comit.simtong.domain.menu.dto.response.MenuResponse
 import team.comit.simtong.domain.menu.usecase.QueryMenuByMonthUseCase
 import team.comit.simtong.domain.menu.usecase.QueryPublicMenuUseCase
 import team.comit.simtong.domain.menu.usecase.SaveMenuUseCase
@@ -54,15 +52,8 @@ class WebMenuAdapter(
     @PostMapping("/{spot-id}")
     fun saveMenu(
         @PathVariable("spot-id") spotId: UUID,
-        @Valid @ModelAttribute request: SaveMenuWebRequest
+        @Valid @ModelAttribute request: SaveMenuRequest
     ) {
-        saveMenuUseCase.execute(
-            SaveMenuRequest(
-                file = request.file.let(ExcelFileConverter::transferTo),
-                year = request.year,
-                month = request.month,
-                spotId = spotId
-            )
-        )
+        saveMenuUseCase.execute(request.toData(), spotId)
     }
 }

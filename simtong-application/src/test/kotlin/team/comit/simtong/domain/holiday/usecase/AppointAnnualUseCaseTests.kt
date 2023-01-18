@@ -6,9 +6,9 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
+import team.comit.simtong.domain.holiday.dto.request.AppointAnnualData
 import team.comit.simtong.domain.holiday.exception.HolidayExceptions
 import team.comit.simtong.domain.holiday.model.Holiday
-import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.model.HolidayType
 import team.comit.simtong.domain.holiday.spi.CommandHolidayPort
 import team.comit.simtong.domain.holiday.spi.HolidayQueryUserPort
@@ -41,6 +41,10 @@ class AppointAnnualUseCaseTests {
     private val id: UUID = UUID.randomUUID()
 
     private val date: LocalDate = LocalDate.MAX
+
+    private val requestStub: AppointAnnualData by lazy {
+        AppointAnnualData(date)
+    }
 
     private val userStub: User by lazy {
         User.of(
@@ -84,7 +88,7 @@ class AppointAnnualUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            appointAnnualUseCase.execute(date)
+            appointAnnualUseCase.execute(requestStub)
         }
     }
 
@@ -105,7 +109,7 @@ class AppointAnnualUseCaseTests {
 
         // when & then
         assertThrows<HolidayExceptions.AnnualLeaveLimitExcess> {
-            appointAnnualUseCase.execute(date)
+            appointAnnualUseCase.execute(requestStub)
         }
     }
 
@@ -126,7 +130,7 @@ class AppointAnnualUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            appointAnnualUseCase.execute(date)
+            appointAnnualUseCase.execute(requestStub)
         }
     }
 
@@ -144,7 +148,7 @@ class AppointAnnualUseCaseTests {
 
         // when & then
         assertThrows<HolidayExceptions.AlreadyExists> {
-            appointAnnualUseCase.execute(date)
+            appointAnnualUseCase.execute(requestStub)
         }
     }
 
@@ -159,15 +163,20 @@ class AppointAnnualUseCaseTests {
 
         // when & then
         assertThrows<UserExceptions.NotFound> {
-            appointAnnualUseCase.execute(date)
+            appointAnnualUseCase.execute(requestStub)
         }
     }
 
     @Test
     fun `과거에 연차를 지정할 때`() {
+        // given
+        val pastRequestStub = AppointAnnualData(
+            date = LocalDate.MIN
+        )
+
         // when & then
         assertThrows<HolidayExceptions.CannotChange> {
-            appointAnnualUseCase.execute(LocalDate.MIN)
+            appointAnnualUseCase.execute(pastRequestStub)
         }
     }
 }

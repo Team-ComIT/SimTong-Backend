@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.schedule.dto.AddSpotScheduleRequest
+import team.comit.simtong.domain.schedule.dto.request.AddSpotScheduleData
 import team.comit.simtong.domain.schedule.spi.CommandSchedulePort
 import team.comit.simtong.domain.schedule.spi.ScheduleQueryUserPort
 import team.comit.simtong.domain.schedule.spi.ScheduleSecurityPort
@@ -35,9 +35,8 @@ class AddSpotScheduleUseCaseTests {
 
     private val spotId: UUID = UUID.randomUUID()
 
-    private val requestStub : AddSpotScheduleRequest by lazy {
-        AddSpotScheduleRequest(
-            spotId = spotId,
+    private val requestStub : AddSpotScheduleData by lazy {
+        AddSpotScheduleData(
             title = "test title",
             startAt = LocalDate.now(),
             endAt = LocalDate.now()
@@ -75,7 +74,7 @@ class AddSpotScheduleUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            addSpotScheduleUseCase.execute(requestStub)
+            addSpotScheduleUseCase.execute(requestStub, spotId)
         }
     }
 
@@ -103,7 +102,7 @@ class AddSpotScheduleUseCaseTests {
 
         // when & then
         assertThrows<UserExceptions.NotEnoughPermission> {
-            addSpotScheduleUseCase.execute(requestStub)
+            addSpotScheduleUseCase.execute(requestStub, spotId)
         }
     }
 
@@ -131,7 +130,7 @@ class AddSpotScheduleUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            addSpotScheduleUseCase.execute(requestStub)
+            addSpotScheduleUseCase.execute(requestStub, spotId)
         }
     }
 
@@ -146,7 +145,7 @@ class AddSpotScheduleUseCaseTests {
 
         // when & then
         assertThrows<UserExceptions.NotFound> {
-            addSpotScheduleUseCase.execute(requestStub)
+            addSpotScheduleUseCase.execute(requestStub, spotId)
         }
     }
 
