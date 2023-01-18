@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.stereotype.Component
 import team.comit.simtong.domain.auth.spi.JwtPort
-import team.comit.simtong.domain.auth.dto.TokenResponse
+import team.comit.simtong.domain.auth.dto.response.TokenResponse
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.global.security.SecurityProperties
 import team.comit.simtong.persistence.auth.entity.RefreshTokenEntity

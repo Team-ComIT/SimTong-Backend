@@ -1,4 +1,4 @@
-package team.comit.simtong.domain.auth.dto
+package team.comit.simtong.domain.auth.dto.response
 
 import java.util.Date
 
