@@ -1,6 +1,7 @@
 package team.comit.simtong.domain.user.usecase
 
 import team.comit.simtong.domain.user.dto.request.FindEmployeeNumberData
+import team.comit.simtong.domain.user.dto.response.FindEmployeeNumberResponse
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.global.annotation.UseCase
@@ -18,10 +19,11 @@ class FindEmployeeNumberUseCase(
     private val queryUserPort: QueryUserPort
 ) {
 
-    fun execute(request: FindEmployeeNumberData): Int {
+    fun execute(request: FindEmployeeNumberData): FindEmployeeNumberResponse {
         val user = queryUserPort.queryUserByNameAndSpotAndEmail(request.name, request.spotId, request.email)
             ?: throw UserExceptions.NotFound()
 
         return user.employeeNumber.value
+            .let(::FindEmployeeNumberResponse)
     }
 }

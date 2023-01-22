@@ -6,7 +6,6 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.user.dto.request.CheckMatchedAccountData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.global.annotation.SimtongTest
@@ -19,12 +18,9 @@ class CheckMatchedAccountUseCaseTests {
 
     private lateinit var checkMatchedAccountUseCase: CheckMatchedAccountUseCase
 
-    private val requestStub: CheckMatchedAccountData by lazy {
-        CheckMatchedAccountData(
-            employeeNumber = 1234567890,
-            email = "test@test.com"
-        )
-    }
+    private val employeeNumber = 1234567890
+
+    private val email = "test@test.com"
 
     @BeforeEach
     fun setUp() {
@@ -34,24 +30,24 @@ class CheckMatchedAccountUseCaseTests {
     @Test
     fun `계정 확인 성공`() {
         // given
-        given(queryUserPort.existsUserByEmployeeNumberAndEmail(requestStub.employeeNumber, requestStub.email))
+        given(queryUserPort.existsUserByEmployeeNumberAndEmail(employeeNumber, email))
             .willReturn(true)
 
         // when & then
         assertDoesNotThrow {
-            checkMatchedAccountUseCase.execute(requestStub)
+            checkMatchedAccountUseCase.execute(employeeNumber, email)
         }
     }
 
     @Test
     fun `계정 확인 실패`() {
         // given
-        given(queryUserPort.existsUserByEmployeeNumberAndEmail(requestStub.employeeNumber, requestStub.email))
+        given(queryUserPort.existsUserByEmployeeNumberAndEmail(employeeNumber, email))
             .willReturn(false)
 
         // when & then
         assertThrows<UserExceptions.NotFound> {
-            checkMatchedAccountUseCase.execute(requestStub)
+            checkMatchedAccountUseCase.execute(employeeNumber, email)
         }
     }
 

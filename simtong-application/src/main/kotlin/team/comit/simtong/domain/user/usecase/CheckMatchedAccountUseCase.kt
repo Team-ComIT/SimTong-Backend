@@ -1,6 +1,5 @@
 package team.comit.simtong.domain.user.usecase
 
-import team.comit.simtong.domain.user.dto.request.CheckMatchedAccountData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.spi.QueryUserPort
 import team.comit.simtong.global.annotation.ReadOnlyUseCase
@@ -11,16 +10,16 @@ import team.comit.simtong.global.annotation.ReadOnlyUseCase
  *
  * @author Chokyunghyeon
  * @date 2022/10/15
- * @version 1.0.0
+ * @version 1.2.5
  **/
 @ReadOnlyUseCase
 class CheckMatchedAccountUseCase(
     private val queryUserPort: QueryUserPort
 ) {
 
-    fun execute(request: CheckMatchedAccountData) {
+    fun execute(employeeNumber: Int, email: String) {
 
-        if (!queryUserPort.existsUserByEmployeeNumberAndEmail(request.employeeNumber, request.email)) {
+        if (!queryUserPort.existsUserByEmployeeNumberAndEmail(employeeNumber, email)) {
             throw UserExceptions.NotFound()
         }
     }
