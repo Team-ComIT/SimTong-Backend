@@ -63,8 +63,11 @@ class FindEmployeeNumberUseCaseTests {
         given(queryUserPort.queryUserByNameAndSpotAndEmail(name, spotId, email))
             .willReturn(userStub)
 
+        // when
+        val response = findEmployeeNumberUseCase.execute(requestStub)
+
         // when & then
-        assertEquals(findEmployeeNumberUseCase.execute(requestStub), employeeNumber)
+        assertEquals(response.employeeNumber, employeeNumber)
     }
 
     @Test
