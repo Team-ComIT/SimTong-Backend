@@ -1,9 +1,8 @@
 package team.comit.simtong.domain.admin.dto
 
-import org.hibernate.validator.constraints.Range
 import team.comit.simtong.domain.user.dto.request.AdminSignInData
-import team.comit.simtong.domain.user.model.EmployeeNumber
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 /**
  *
@@ -16,15 +15,15 @@ import javax.validation.constraints.NotBlank
  **/
 data class AdminSignInRequest(
 
-    @field:Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
-    val employeeNumber: Int,
+    @field:NotNull
+    val employeeNumber: Int?,
 
     @field:NotBlank
-    val password: String
+    val password: String?
 ) {
 
     fun toData() = AdminSignInData(
-        employeeNumber = employeeNumber,
-        password = password
+        employeeNumber = employeeNumber!!,
+        password = password!!
     )
 }
