@@ -35,7 +35,7 @@ data class AuthCode(
 
         fun issue(email: String) = AuthCode(
             key = email,
-            code = Code.defaultValue(),
+            code = Code.generate(),
             expirationTime = EXPIRED
         )
     }
@@ -61,6 +61,6 @@ value class Code private constructor(
     companion object {
         fun of(value: String) = Code(value)
 
-        fun defaultValue() = Code(RandomString(6).nextString())
+        fun generate() = Code(RandomString(6).nextString())
     }
 }
