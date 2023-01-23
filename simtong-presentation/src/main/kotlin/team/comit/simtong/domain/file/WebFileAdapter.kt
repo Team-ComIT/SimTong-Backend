@@ -1,8 +1,10 @@
 package team.comit.simtong.domain.file
 
 import org.springframework.http.HttpStatus
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
@@ -12,6 +14,7 @@ import team.comit.simtong.domain.file.dto.response.UploadImageListResponse
 import team.comit.simtong.domain.file.dto.response.UploadImageResponse
 import team.comit.simtong.domain.file.usecase.RegisterEmployeeCertificateUseCase
 import team.comit.simtong.domain.file.usecase.UploadImageUseCase
+import javax.validation.constraints.NotNull
 
 /**
  *
@@ -21,6 +24,7 @@ import team.comit.simtong.domain.file.usecase.UploadImageUseCase
  * @date 2022/09/21
  * @version 1.2.5
  **/
+@Validated
 @RestController
 @RequestMapping("/files")
 class WebFileAdapter(
@@ -30,25 +34,25 @@ class WebFileAdapter(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun uploadSingleImage(file: MultipartFile): UploadImageResponse {
+    fun uploadSingleImage(@NotNull @RequestPart file: MultipartFile?): UploadImageResponse {
         return uploadImageUseCase.execute(
-            file.let(ImageFileConverter::transferTo)
+            file!!.let(ImageFileConverter::transferTo)
         )
     }
 
     @PostMapping("/list")
     @ResponseStatus(HttpStatus.CREATED)
-    fun uploadMultipleImage(files: List<MultipartFile>): UploadImageListResponse {
+    fun uploadMultipleImage(@NotNull @RequestPart files: List<MultipartFile>?): UploadImageListResponse {
         return uploadImageUseCase.execute(
-            files.let(ImageFileConverter::transferToList)
+            files!!.let(ImageFileConverter::transferToList)
         )
     }
 
     @PostMapping("/employee")
     @ResponseStatus(HttpStatus.CREATED)
-    fun importEmployeeCertificate(file: MultipartFile) {
+    fun importEmployeeCertificate(@NotNull @RequestPart file: MultipartFile?) {
         registerEmployeeCertificateUseCase.execute(
-            file.let(ExcelFileConverter::transferTo)
+            file!!.let(ExcelFileConverter::transferTo)
         )
     }
 
