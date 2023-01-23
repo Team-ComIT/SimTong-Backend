@@ -6,7 +6,6 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.auth.dto.request.CheckAuthCodeData
 import team.comit.simtong.domain.auth.exception.AuthExceptions
 import team.comit.simtong.domain.auth.model.AuthCode
 import team.comit.simtong.domain.auth.model.Code
@@ -45,8 +44,6 @@ class CheckAuthCodeUseCaseTests {
         )
     }
 
-    private val requestStub = CheckAuthCodeData(email, code)
-
     @BeforeEach
     fun setUp() {
         checkAuthCodeUseCase = CheckAuthCodeUseCase(
@@ -63,7 +60,7 @@ class CheckAuthCodeUseCaseTests {
 
         // when & then
         assertDoesNotThrow {
-            checkAuthCodeUseCase.execute(requestStub)
+            checkAuthCodeUseCase.execute(email, code)
         }
     }
 
@@ -75,7 +72,7 @@ class CheckAuthCodeUseCaseTests {
 
         // when & then
         assertThrows<AuthExceptions.RequiredNewEmailAuthentication> {
-            checkAuthCodeUseCase.execute(requestStub)
+            checkAuthCodeUseCase.execute(email, code)
         }
     }
 
@@ -87,7 +84,7 @@ class CheckAuthCodeUseCaseTests {
 
         // when & then
         assertThrows<AuthExceptions.DifferentAuthCode> {
-            checkAuthCodeUseCase.execute(requestStub)
+            checkAuthCodeUseCase.execute(email, code)
         }
     }
 

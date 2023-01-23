@@ -64,7 +64,7 @@ class FindEmployeeNumberUseCaseTests {
             .willReturn(userStub)
 
         // when
-        val response = findEmployeeNumberUseCase.execute(requestStub)
+        val response = findEmployeeNumberUseCase.execute(name, spotId, email)
 
         // when & then
         assertEquals(response.employeeNumber, employeeNumber)
@@ -78,7 +78,7 @@ class FindEmployeeNumberUseCaseTests {
 
         // when & then
         assertThrows<UserExceptions.NotFound> {
-            findEmployeeNumberUseCase.execute(requestStub)
+            findEmployeeNumberUseCase.execute(name, spotId, email)
         }
     }
 
