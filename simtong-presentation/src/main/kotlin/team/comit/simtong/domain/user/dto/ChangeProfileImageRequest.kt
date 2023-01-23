@@ -12,11 +12,12 @@ import javax.validation.constraints.NotBlank
  * @version 1.0.0
  **/
 data class ChangeProfileImageRequest(
+
     @field:NotBlank
-    val profileImagePath: String
+    val profileImagePath: String?
 ) {
 
     fun toData() = ChangeProfileImageData(
-        profileImagePath = profileImagePath
+        profileImagePath = profileImagePath!!
     )
 }

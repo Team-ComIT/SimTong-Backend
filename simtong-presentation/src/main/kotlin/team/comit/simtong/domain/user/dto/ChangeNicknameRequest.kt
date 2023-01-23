@@ -2,6 +2,7 @@ package team.comit.simtong.domain.user.dto
 
 import team.comit.simtong.domain.user.dto.request.ChangeNicknameData
 import team.comit.simtong.domain.user.model.NickName
+import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 
 /**
@@ -13,11 +14,13 @@ import javax.validation.constraints.Pattern
  * @version 1.2.3
  **/
 data class ChangeNicknameRequest(
+
+    @field:NotNull
     @field:Pattern(regexp = NickName.PATTERN)
-    val nickname: String
+    val nickname: String?
 ) {
 
     fun toData() = ChangeNicknameData(
-        nickname = nickname
+        nickname = nickname!!
     )
 }

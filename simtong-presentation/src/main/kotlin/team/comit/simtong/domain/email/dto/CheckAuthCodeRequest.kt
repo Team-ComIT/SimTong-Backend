@@ -3,7 +3,8 @@ package team.comit.simtong.domain.email.dto
 import org.hibernate.validator.constraints.Length
 import team.comit.simtong.domain.auth.dto.request.CheckAuthCodeData
 import javax.validation.constraints.Email
-import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotEmpty
+import javax.validation.constraints.NotNull
 
 /**
  *
@@ -14,17 +15,18 @@ import javax.validation.constraints.NotBlank
  * @version 1.2.5
  **/
 data class CheckAuthCodeRequest(
-    @field:NotBlank
-    @field:Email
-    val email: String,
 
-    @field:NotBlank
+    @field:NotEmpty
+    @field:Email
+    val email: String?,
+
+    @field:NotNull
     @field:Length(min = 6, max = 6)
-    val code: String
+    val code: String?
 ) {
 
     fun toData() = CheckAuthCodeData(
-        email = email,
-        code = code
+        email = email!!,
+        code = code!!
     )
 }

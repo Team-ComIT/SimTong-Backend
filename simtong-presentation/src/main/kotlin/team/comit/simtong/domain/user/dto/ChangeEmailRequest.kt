@@ -2,7 +2,7 @@ package team.comit.simtong.domain.user.dto
 
 import team.comit.simtong.domain.user.dto.request.ChangeEmailData
 import javax.validation.constraints.Email
-import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotEmpty
 
 /**
  *
@@ -13,12 +13,13 @@ import javax.validation.constraints.NotBlank
  * @version 1.0.0
  **/
 data class ChangeEmailRequest(
-    @field:NotBlank
+
+    @field:NotEmpty
     @field:Email
-    val email: String
+    val email: String?
 ) {
 
     fun toData() = ChangeEmailData(
-        email = email
+        email = email!!
     )
 }

@@ -4,6 +4,7 @@ import team.comit.simtong.domain.user.dto.request.FindEmployeeNumberData
 import java.util.UUID
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
 /**
@@ -15,20 +16,21 @@ import javax.validation.constraints.NotNull
  * @version 1.2.5
  **/
 data class FindEmployeeNumberRequest(
+
     @field:NotBlank
-    val name: String,
+    val name: String?,
 
     @field:NotNull
-    val spotId: UUID,
+    val spotId: UUID?,
 
-    @field:NotBlank
+    @field:NotEmpty
     @field:Email
-    val email: String
+    val email: String?
 ) {
 
     fun toData() = FindEmployeeNumberData(
-        name = name,
-        spotId = spotId,
-        email = email
+        name = name!!,
+        spotId = spotId!!,
+        email = email!!
     )
 }

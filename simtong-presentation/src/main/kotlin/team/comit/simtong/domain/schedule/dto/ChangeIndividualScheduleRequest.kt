@@ -16,25 +16,26 @@ import javax.validation.constraints.NotNull
  * @version 1.2.5
  **/
 data class ChangeIndividualScheduleRequest(
+
     @field:NotBlank
     @field:Length(max = 20)
-    val title: String,
+    val title: String?,
 
     @field:NotNull
-    val startAt: LocalDate,
+    val startAt: LocalDate?,
 
     // TODO 시작일, 종료일 검증 Resolver 구현
     @field:NotNull
-    val endAt: LocalDate,
+    val endAt: LocalDate?,
 
     @field:NotNull
-    val alarm: LocalTime
+    val alarm: LocalTime?
 ) {
 
     fun toData() = ChangeIndividualScheduleData(
-        title = title,
-        startAt = startAt,
-        endAt = endAt,
-        alarm = alarm
+        title = title!!,
+        startAt = startAt!!,
+        endAt = endAt!!,
+        alarm = alarm!!
     )
 }

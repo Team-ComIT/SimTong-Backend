@@ -14,25 +14,28 @@ import javax.validation.constraints.NotNull
  * @version 1.2.5
  **/
 data class AppointHolidayPeriodRequest(
+
     @field:NotNull
-    val year: Int,
+    val year: Int?,
 
     @field:NotNull
     @field:Range(
         min = 1,
         max = 12
     )
-    val month: Int,
+    val month: Int?,
 
-    val startAt: LocalDate,
+    @field:NotNull
+    val startAt: LocalDate?,
 
-    val endAt: LocalDate
+    @field:NotNull
+    val endAt: LocalDate?
 ) {
 
     fun toData() = AppointHolidayPeriodData(
-        year = year,
-        month = month,
-        startAt = startAt,
-        endAt = endAt
+        year = year!!,
+        month = month!!,
+        startAt = startAt!!,
+        endAt = endAt!!
     )
 }

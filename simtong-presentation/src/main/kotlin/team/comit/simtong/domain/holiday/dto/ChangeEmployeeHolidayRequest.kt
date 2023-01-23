@@ -3,6 +3,7 @@ package team.comit.simtong.domain.holiday.dto
 import team.comit.simtong.domain.holiday.dto.request.ChangeEmployeeHolidayData
 import java.time.LocalDate
 import java.util.UUID
+import javax.validation.constraints.NotNull
 
 /**
  *
@@ -14,16 +15,20 @@ import java.util.UUID
  * @version 1.2.5
  **/
 data class ChangeEmployeeHolidayRequest(
-    val beforeDate: LocalDate,
 
-    val userId: UUID,
+    @field:NotNull
+    val beforeDate: LocalDate?,
 
-    val afterDate: LocalDate
+    @field:NotNull
+    val userId: UUID?,
+
+    @field:NotNull
+    val afterDate: LocalDate?
 ) {
 
     fun toData() = ChangeEmployeeHolidayData(
-        beforeDate = beforeDate,
-        userId = userId,
-        afterDate = afterDate
+        beforeDate = beforeDate!!,
+        userId = userId!!,
+        afterDate = afterDate!!
     )
 }

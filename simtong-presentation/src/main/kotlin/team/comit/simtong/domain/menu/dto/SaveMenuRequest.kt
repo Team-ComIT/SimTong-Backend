@@ -14,18 +14,20 @@ import javax.validation.constraints.NotNull
  * @version 1.2.5
  **/
 data class SaveMenuRequest(
-    val file: MultipartFile,
 
     @field:NotNull
-    val year: Int,
+    val file: MultipartFile?,
 
     @field:NotNull
-    val month: Int
+    val year: Int?,
+
+    @field:NotNull
+    val month: Int?
 ) {
 
     fun toData() = SaveMenuData(
-        file = file.let(ExcelFileConverter::transferTo),
-        year = year,
-        month = month
+        file = file!!.let(ExcelFileConverter::transferTo),
+        year = year!!,
+        month = month!!
     )
 }
