@@ -70,7 +70,7 @@ class QueryEmployeeHolidayUseCaseTests {
         given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
-        given(queryHolidayPort.queryHolidaysByYearAndMonthAndTeamId(year, month, HolidayType.HOLIDAY, spotId, teamId))
+        given(queryHolidayPort.queryEmployeeHolidaysByYearAndMonthAndTeamId(year, month, HolidayType.HOLIDAY, spotId, teamId))
             .willReturn(
                 listOf(
                     EmployeeHoliday(
@@ -99,7 +99,7 @@ class QueryEmployeeHolidayUseCaseTests {
         given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
-        given(queryHolidayPort.queryHolidaysByYearAndMonthAndTeamId(year, month, HolidayType.ANNUAL, spotId, teamId))
+        given(queryHolidayPort.queryEmployeeHolidaysByYearAndMonthAndTeamId(year, month, HolidayType.ANNUAL, spotId, teamId))
             .willReturn(
                 listOf(
                     EmployeeHoliday(
@@ -128,7 +128,7 @@ class QueryEmployeeHolidayUseCaseTests {
         given(queryUserPort.queryUserById(userId))
             .willReturn(userStub)
 
-        given(queryHolidayPort.queryHolidaysByYearAndMonthAndTeamId(year, month, null, spotId, teamId))
+        given(queryHolidayPort.queryEmployeeHolidaysByYearAndMonthAndTeamId(year, month, null, spotId, teamId))
             .willReturn(
                 listOf(
                     EmployeeHoliday(

@@ -1,9 +1,5 @@
 package team.comit.simtong.persistence.holiday
 
-import team.comit.simtong.persistence.holiday.entity.QHolidayJpaEntity.holidayJpaEntity as holiday
-import team.comit.simtong.persistence.spot.entity.QSpotJpaEntity.spotJpaEntity as spot
-import team.comit.simtong.persistence.team.entity.QTeamJpaEntity.teamJpaEntity as team
-import team.comit.simtong.persistence.user.entity.QUserJpaEntity.userJpaEntity as user
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.repository.findByIdOrNull
@@ -21,6 +17,10 @@ import team.comit.simtong.persistence.holiday.repository.HolidayJpaRepository
 import team.comit.simtong.persistence.holiday.vo.QEmployeeHolidayVO
 import java.time.LocalDate
 import java.util.UUID
+import team.comit.simtong.persistence.holiday.entity.QHolidayJpaEntity.holidayJpaEntity as holiday
+import team.comit.simtong.persistence.spot.entity.QSpotJpaEntity.spotJpaEntity as spot
+import team.comit.simtong.persistence.team.entity.QTeamJpaEntity.teamJpaEntity as team
+import team.comit.simtong.persistence.user.entity.QUserJpaEntity.userJpaEntity as user
 
 /**
  *
@@ -86,7 +86,7 @@ class HolidayPersistenceAdapter(
             .map(holidayMapper::toDomainNotNull)
     }
 
-    override fun queryHolidaysByYearAndMonthAndTeamId(
+    override fun queryEmployeeHolidaysByYearAndMonthAndTeamId(
         year: Int,
         month: Int,
         type: HolidayType?,
