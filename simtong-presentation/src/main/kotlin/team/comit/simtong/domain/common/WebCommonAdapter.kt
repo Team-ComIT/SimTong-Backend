@@ -1,6 +1,5 @@
 package team.comit.simtong.domain.common
 
-import org.hibernate.validator.constraints.Range
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
@@ -13,7 +12,6 @@ import team.comit.simtong.domain.spot.usecase.ShowSpotListUseCase
 import team.comit.simtong.domain.team.dto.QueryTeamsResponse
 import team.comit.simtong.domain.team.usecase.QueryTeamsUseCase
 import team.comit.simtong.domain.user.dto.response.FindEmployeeNumberResponse
-import team.comit.simtong.domain.user.model.EmployeeNumber
 import team.comit.simtong.domain.user.usecase.ChangePasswordUseCase
 import team.comit.simtong.domain.user.usecase.CheckEmailDuplicationUseCase
 import team.comit.simtong.domain.user.usecase.CheckMatchedAccountUseCase
@@ -87,8 +85,7 @@ class WebCommonAdapter(
 
     @GetMapping("/account/existence")
     fun checkMatchedAccount(
-        @NotNull @Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
-        @RequestParam employeeNumber: Int?,
+        @NotNull @RequestParam employeeNumber: Int?,
         @NotEmpty @Email @RequestParam email: String?
     ) {
         checkMatchedAccountUseCase.execute(

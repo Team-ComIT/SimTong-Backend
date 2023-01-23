@@ -13,8 +13,8 @@ import team.comit.simtong.domain.auth.usecase.SendAuthCodeUseCase
 import team.comit.simtong.domain.email.dto.SendAuthCodeRequest
 import javax.validation.Valid
 import javax.validation.constraints.Email
+import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
-import javax.validation.constraints.NotNull
 
 /**
  *
@@ -40,7 +40,7 @@ class WebEmailAdapter(
     @GetMapping
     fun checkAuthCode(
         @NotEmpty @Email @RequestParam email: String?,
-        @NotNull @Length(min = 6, max = 6) @RequestParam code: String?
+        @NotBlank @Length(min = 6, max = 6) @RequestParam code: String?
     ) {
         checkAuthCodeUseCase.execute(
             email = email!!,
