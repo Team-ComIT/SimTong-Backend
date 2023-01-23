@@ -17,7 +17,7 @@ data class ChangeNicknameRequest(
 
     @field:NotNull
     @field:Pattern(regexp = NickName.PATTERN)
-    val nickname: String?
+    private val nickname: String?
 ) {
 
     fun toData() = ChangeNicknameData(

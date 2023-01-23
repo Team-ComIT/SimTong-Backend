@@ -17,13 +17,13 @@ import javax.validation.constraints.NotNull
 data class ChangeEmployeeHolidayRequest(
 
     @field:NotNull
-    val beforeDate: LocalDate?,
+    private val beforeDate: LocalDate?,
 
     @field:NotNull
-    val userId: UUID?,
+    private val userId: UUID?,
 
     @field:NotNull
-    val afterDate: LocalDate?
+    private val afterDate: LocalDate?
 ) {
 
     fun toData() = ChangeEmployeeHolidayData(

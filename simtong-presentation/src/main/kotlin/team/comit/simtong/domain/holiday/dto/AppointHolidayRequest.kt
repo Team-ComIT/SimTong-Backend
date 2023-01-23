@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull
 data class AppointHolidayRequest(
 
     @field:NotNull
-    val date: LocalDate?
+    private val date: LocalDate?
 ) {
 
     fun toData() = AppointHolidayData(

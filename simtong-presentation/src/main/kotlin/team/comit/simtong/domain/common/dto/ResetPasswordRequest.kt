@@ -21,15 +21,15 @@ data class ResetPasswordRequest(
 
     @field:NotEmpty
     @field:Email
-    val email: String?,
+    private val email: String?,
 
     @field:NotNull
     @field:Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
-    val employeeNumber: Int?,
+    private val employeeNumber: Int?,
 
     @field:NotNull
     @field:Pattern(regexp = Password.PATTERN)
-    val newPassword: String?
+    private val newPassword: String?
 ) {
 
     fun toData() = ResetPasswordData(

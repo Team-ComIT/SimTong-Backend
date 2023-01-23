@@ -16,13 +16,13 @@ import javax.validation.constraints.NotNull
 data class UserSignInRequest(
 
     @field:NotNull
-    val employeeNumber: Int?,
+    private val employeeNumber: Int?,
 
     @field:NotBlank
-    val password: String?,
+    private val password: String?,
 
     @field:NotBlank
-    val deviceToken: String?
+    private val deviceToken: String?
 ) {
 
     fun toData() = UserSignInData(

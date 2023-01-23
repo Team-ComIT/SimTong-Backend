@@ -2,7 +2,6 @@ package team.comit.simtong.domain.email.dto
 
 import team.comit.simtong.domain.auth.dto.request.SendAuthCodeData
 import javax.validation.constraints.Email
-import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
 
 /**
@@ -17,7 +16,7 @@ data class SendAuthCodeRequest(
 
     @field:NotEmpty
     @field:Email
-    val email: String?
+    private val email: String?
 ) {
 
     fun toData() = SendAuthCodeData(

@@ -16,7 +16,7 @@ data class ChangeEmailRequest(
 
     @field:NotEmpty
     @field:Email
-    val email: String?
+    private val email: String?
 ) {
 
     fun toData() = ChangeEmailData(

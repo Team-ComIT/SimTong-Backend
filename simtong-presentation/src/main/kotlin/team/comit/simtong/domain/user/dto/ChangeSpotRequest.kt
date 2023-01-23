@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull
 data class ChangeSpotRequest(
 
     @field:NotNull
-    val spotId: UUID?
+    private val spotId: UUID?
 ) {
 
     fun toData() = ChangeSpotData(

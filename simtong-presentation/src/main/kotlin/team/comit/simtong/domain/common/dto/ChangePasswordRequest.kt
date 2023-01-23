@@ -17,11 +17,11 @@ data class ChangePasswordRequest(
 
     @field:NotNull
     @field:Pattern(regexp = Password.PATTERN)
-    val password: String?,
+    private val password: String?,
 
     @field:NotNull
     @field:Pattern(regexp = Password.PATTERN)
-    val newPassword: String?
+    private val newPassword: String?
 ) {
 
     fun toData() = ChangePasswordData(

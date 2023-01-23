@@ -16,10 +16,10 @@ import javax.validation.constraints.NotNull
 data class AdminSignInRequest(
 
     @field:NotNull
-    val employeeNumber: Int?,
+    private val employeeNumber: Int?,
 
     @field:NotBlank
-    val password: String?
+    private val password: String?
 ) {
 
     fun toData() = AdminSignInData(
