@@ -21,7 +21,7 @@ import javax.validation.ConstraintViolationException
  * @author kimbeomjin
  * @author Chokyunghyeon
  * @date 2022/08/22
- * @version 1.2.3
+ * @version 1.2.5
  **/
 @RestControllerAdvice
 class WebErrorHandler {
@@ -92,7 +92,7 @@ class WebErrorHandler {
     protected fun handleHttpMessageNotReadableException(
         exception: HttpMessageNotReadableException
     ): ErrorResponse? {
-        return ErrorResponse.of(GlobalExceptions.BadRequest())
+        return ErrorResponse.of(exception)
     }
 
     /**

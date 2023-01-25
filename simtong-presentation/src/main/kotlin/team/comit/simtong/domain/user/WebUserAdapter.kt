@@ -31,6 +31,8 @@ import team.comit.simtong.domain.user.usecase.QueryUserInfoUseCase
 import team.comit.simtong.domain.user.usecase.SignInUseCase
 import team.comit.simtong.domain.user.usecase.SignUpUseCase
 import javax.validation.Valid
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 
 /**
@@ -99,19 +101,22 @@ class WebUserAdapter(
 
     @GetMapping("/nickname/duplication")
     fun checkNicknameDuplication(
-        @Pattern(regexp = NickName.PATTERN)
-        @RequestParam nickname: String
+        @NotNull @Pattern(regexp = NickName.PATTERN)
+        @RequestParam nickname: String?
     ) {
-        checkNicknameDuplicationUseCase.execute(nickname)
+        checkNicknameDuplicationUseCase.execute(nickname!!)
     }
 
     @GetMapping("/verification-employee")
     fun checkEmployee(
-        @RequestParam name: String,
-        @Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
-        @RequestParam("employee_number") employeeNumber: Int
+        @NotBlank @RequestParam name: String?,
+        @NotNull @Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
+        @RequestParam("employee_number") employeeNumber: Int?
     ) {
-        checkEmployeeUseCase.execute(name, employeeNumber)
+        checkEmployeeUseCase.execute(
+            name = name!!,
+            employeeNumber = employeeNumber!!
+        )
     }
 
 }

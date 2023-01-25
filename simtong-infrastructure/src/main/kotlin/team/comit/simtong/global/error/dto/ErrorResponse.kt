@@ -1,6 +1,7 @@
 package team.comit.simtong.global.error.dto
 
 import org.springframework.dao.DataIntegrityViolationException
+import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
@@ -16,7 +17,7 @@ import javax.validation.ConstraintViolationException
  * @author kimbeomjin
  * @author Chokyunghyeon
  * @date 2022/08/22
- * @version 1.2.3
+ * @version 1.2.5
  **/
 class ErrorResponse(
     val status: Int,
@@ -44,10 +45,10 @@ class ErrorResponse(
 
         fun of(exception: ConstraintViolationException): ErrorResponse {
             val fieldErrors = exception.constraintViolations.flatMap { violation ->
-                val path = violation.propertyPath
-                val field = path.last().name
+                val field = violation.propertyPath.last().name
+                val value = violation.invalidValue?.toString()
                 val message = violation.message
-                CustomFieldError.of(field, "", message)
+                CustomFieldError.of(field, value, message)
             }
 
             return of(
@@ -57,10 +58,9 @@ class ErrorResponse(
         }
 
         fun of(exception: MethodArgumentTypeMismatchException): ErrorResponse {
-            val value = exception.value
             val fieldErrors = CustomFieldError.of(
                 field = exception.parameter.parameterName ?: "",
-                value = value.toString(),
+                value = exception.value?.toString(),
                 reason = "${exception.requiredType!!.name} 타입으로 변환할 수 없습니다."
             )
 
@@ -84,10 +84,14 @@ class ErrorResponse(
             fieldErrors = CustomFieldError.of("", "", exception.message ?: "")
         )
 
-        fun of(exception: IllegalArgumentException): ErrorResponse = of(
-            exception = GlobalExceptions.BadRequest(),
-            fieldErrors = CustomFieldError.of("", "", exception.message ?: "")
-        )
+        fun of(exception: HttpMessageNotReadableException): ErrorResponse {
+            val message = exception.mostSpecificCause.message?.substringBeforeLast('\n') ?: ""
+
+            return of(
+                exception = GlobalExceptions.BadRequest(),
+                fieldErrors = CustomFieldError.of("", "", message)
+            )
+        }
 
         private fun of(exception: BusinessException, fieldErrors: List<CustomFieldError>) = ErrorResponse(
             status = exception.status,

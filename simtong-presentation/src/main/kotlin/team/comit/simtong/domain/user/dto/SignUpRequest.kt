@@ -7,6 +7,7 @@ import team.comit.simtong.domain.user.model.NickName
 import team.comit.simtong.domain.user.model.Password
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 
@@ -16,41 +17,42 @@ import javax.validation.constraints.Pattern
  *
  * @author Chokyunghyeon
  * @date 2022/09/04
- * @version 1.2.3
+ * @version 1.2.5
  **/
 data class SignUpRequest(
 
     @field:NotBlank
-    val name: String,
+    private val name: String?,
 
-    @field:NotBlank
+    @field:NotEmpty
     @field:Email
-    val email: String,
+    private val email: String?,
 
+    @field:NotNull
     @field:Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
-    val employeeNumber: Int,
+    private val employeeNumber: Int?,
 
     @field:NotNull
     @field:Pattern(regexp = Password.PATTERN)
-    val password: String,
+    private val password: String?,
 
     @field:NotNull
     @field:Pattern(regexp = NickName.PATTERN)
-    val nickname: String,
+    private val nickname: String?,
 
-    val profileImagePath: String?,
+    private val profileImagePath: String?,
 
     @field:NotBlank
-    val deviceToken: String
+    private val deviceToken: String?
 ) {
 
     fun toData() = SignUpData(
-        name = name,
-        email = email,
-        employeeNumber = employeeNumber,
-        password = password,
-        nickname = nickname,
+        name = name!!,
+        email = email!!,
+        employeeNumber = employeeNumber!!,
+        password = password!!,
+        nickname = nickname!!,
         profileImagePath = profileImagePath,
-        deviceToken = deviceToken
+        deviceToken = deviceToken!!
     )
 }

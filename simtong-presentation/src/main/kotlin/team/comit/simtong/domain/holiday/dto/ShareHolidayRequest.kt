@@ -15,14 +15,14 @@ import javax.validation.constraints.NotNull
 data class ShareHolidayRequest(
 
     @field:NotNull
-    val year: Int,
+    private val year: Int?,
 
     @field:NotNull
-    val month: Int
+    private val month: Int?
 ) {
 
     fun toData() = ShareHolidayData(
-        year = year,
-        month = month
+        year = year!!,
+        month = month!!
     )
 }

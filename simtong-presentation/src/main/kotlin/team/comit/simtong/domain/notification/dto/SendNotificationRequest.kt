@@ -19,25 +19,25 @@ import javax.validation.constraints.NotNull
 data class SendNotificationRequest(
 
     @field:NotNull
-    val userId: UUID,
+    private val userId: UUID?,
 
     @field:NotBlank
-    val title: String,
+    private val title: String?,
 
     @field:NotBlank
-    val content: String,
+    private val content: String?,
 
     @field:NotNull
-    val type: NotificationType,
+    private val type: NotificationType?,
 
-    val identify: UUID?
+    private val identify: UUID?
 ) {
 
     fun toData() = SendNotificationData(
-        userId = userId,
-        title = title,
-        content = content,
-        type = type,
+        userId = userId!!,
+        title = title!!,
+        content = content!!,
+        type = type!!,
         identify = identify
     )
 }
@@ -52,25 +52,27 @@ data class SendNotificationRequest(
  * @version 1.2.5
  **/
 data class SendMultiNotificationRequest(
-    val userIds: List<UUID>,
-
-    @field:NotBlank
-    val title: String,
-
-    @field:NotBlank
-    val content: String,
 
     @field:NotNull
-    val type: NotificationType,
+    private val userIds: List<UUID>?,
 
-    val identify: UUID?
+    @field:NotBlank
+    private val title: String?,
+
+    @field:NotBlank
+    private val content: String?,
+
+    @field:NotNull
+    private val type: NotificationType?,
+
+    private val identify: UUID?
 ) {
 
     fun toData() = SendMulticastNotificationData(
-        userIds = userIds,
-        title = title,
-        content = content,
-        type = type,
+        userIds = userIds!!,
+        title = title!!,
+        content = content!!,
+        type = type!!,
         identify = identify
     )
 }

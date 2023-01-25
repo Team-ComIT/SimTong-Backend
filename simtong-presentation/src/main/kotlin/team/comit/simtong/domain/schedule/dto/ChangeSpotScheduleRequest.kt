@@ -15,21 +15,22 @@ import javax.validation.constraints.NotNull
  * @version 1.2.5
  **/
 data class ChangeSpotScheduleRequest(
+
     @field:NotBlank
     @field:Length(max = 20)
-    val title: String,
+    private val title: String?,
 
     @field:NotNull
-    val startAt: LocalDate,
+    private val startAt: LocalDate?,
 
     // TODO 시작일, 종료일 검증 Resolver 구현
     @field:NotNull
-    val endAt: LocalDate
+    private val endAt: LocalDate?
 ) {
 
     fun toData() = ChangeSpotScheduleData(
-        title = title,
-        startAt = startAt,
-        endAt = endAt
+        title = title!!,
+        startAt = startAt!!,
+        endAt = endAt!!
     )
 }

@@ -1,6 +1,7 @@
 package team.comit.simtong.domain.schedule
 
 import org.springframework.http.HttpStatus
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -28,6 +29,7 @@ import team.comit.simtong.domain.schedule.usecase.RemoveSpotScheduleUseCase
 import java.time.LocalDate
 import java.util.UUID
 import javax.validation.Valid
+import javax.validation.constraints.NotNull
 
 /**
  *
@@ -37,6 +39,7 @@ import javax.validation.Valid
  * @date 2022/11/21
  * @version 1.2.5
  **/
+@Validated
 @RestController
 @RequestMapping("/schedules")
 class WebScheduleAdapter(
@@ -62,23 +65,32 @@ class WebScheduleAdapter(
         @PathVariable("schedule-id") scheduleId: UUID,
         @Valid @RequestBody request: ChangeIndividualScheduleRequest
     ) {
-        changeIndividualScheduleUseCase.execute(request.toData(), scheduleId)
+        changeIndividualScheduleUseCase.execute(
+            request = request.toData(),
+            scheduleId = scheduleId
+        )
     }
 
     @GetMapping
     fun queryIndividualSpotSchedule(
-        @RequestParam("start_at") startAt: LocalDate,
-        @RequestParam("end_at") endAt: LocalDate
+        @NotNull @RequestParam("start_at") startAt: LocalDate?,
+        @NotNull @RequestParam("end_at") endAt: LocalDate?
     ): QueryIndividualSpotScheduleResponse {
-        return queryIndividualSpotScheduleUseCase.execute(startAt, endAt)
+        return queryIndividualSpotScheduleUseCase.execute(
+            startAt = startAt!!,
+            endAt = endAt!!
+        )
     }
 
     @GetMapping("/spots")
     fun queryEntireSpotSchedule(
-        @RequestParam("start_at") startAt: LocalDate,
-        @RequestParam("end_at") endAt: LocalDate
+        @NotNull @RequestParam("start_at") startAt: LocalDate?,
+        @NotNull @RequestParam("end_at") endAt: LocalDate?
     ): QueryEntireSpotScheduleResponse {
-        return queryEntireSpotScheduleUseCase.execute(startAt, endAt)
+        return queryEntireSpotScheduleUseCase.execute(
+            startAt = startAt!!,
+            endAt = endAt!!
+        )
     }
 
     @PostMapping("/spots/{spot-id}")
@@ -87,7 +99,10 @@ class WebScheduleAdapter(
         @PathVariable("spot-id") spotId: UUID,
         @Valid @RequestBody request: AddSpotScheduleRequest
     ) {
-        addSpotScheduleUseCase.execute(request.toData(), spotId)
+        addSpotScheduleUseCase.execute(
+            request = request.toData(),
+            spotId = spotId
+        )
     }
 
     @PutMapping("/spots/{schedule-id}")
@@ -96,7 +111,10 @@ class WebScheduleAdapter(
         @PathVariable("schedule-id") scheduleId: UUID,
         @Valid @RequestBody request: ChangeSpotScheduleRequest
     ) {
-        changeSpotScheduleUseCase.execute(request.toData(), scheduleId)
+        changeSpotScheduleUseCase.execute(
+            request = request.toData(),
+            scheduleId = scheduleId
+        )
     }
 
     @DeleteMapping("/{schedule-id}")

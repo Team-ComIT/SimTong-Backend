@@ -1,20 +1,17 @@
 package team.comit.simtong.domain.common
 
-import org.hibernate.validator.constraints.Range
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import team.comit.simtong.domain.auth.dto.response.TokenResponse
 import team.comit.simtong.domain.auth.usecase.ReissueTokenUseCase
 import team.comit.simtong.domain.common.dto.ChangePasswordRequest
-import team.comit.simtong.domain.common.dto.FindEmployeeNumberRequest
 import team.comit.simtong.domain.common.dto.ResetPasswordRequest
 import team.comit.simtong.domain.spot.dto.SpotResponse
 import team.comit.simtong.domain.spot.usecase.ShowSpotListUseCase
 import team.comit.simtong.domain.team.dto.QueryTeamsResponse
 import team.comit.simtong.domain.team.usecase.QueryTeamsUseCase
 import team.comit.simtong.domain.user.dto.response.FindEmployeeNumberResponse
-import team.comit.simtong.domain.user.model.EmployeeNumber
 import team.comit.simtong.domain.user.usecase.ChangePasswordUseCase
 import team.comit.simtong.domain.user.usecase.CheckEmailDuplicationUseCase
 import team.comit.simtong.domain.user.usecase.CheckMatchedAccountUseCase
@@ -25,6 +22,8 @@ import java.util.UUID
 import javax.validation.Valid
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotEmpty
+import javax.validation.constraints.NotNull
 
 /**
  *
@@ -50,13 +49,21 @@ class WebCommonAdapter(
 ) {
 
     @GetMapping("/employee-number")
-    fun findEmployeeNumber(@Valid @ModelAttribute request: FindEmployeeNumberRequest): FindEmployeeNumberResponse {
-        return findEmployeeNumberUseCase.execute(request.toData())
+    fun findEmployeeNumber(
+        @NotBlank @RequestParam name: String?,
+        @NotNull @RequestParam("spot_id") spotId: UUID?,
+        @NotEmpty @Email @RequestParam email: String?
+    ): FindEmployeeNumberResponse {
+        return findEmployeeNumberUseCase.execute(
+            name = name!!,
+            spotId = spotId!!,
+            email = email!!
+        )
     }
 
     @PutMapping("/token/reissue")
-    fun reissueJsonWebToken(@RequestHeader("Refresh-Token") request: String): TokenResponse {
-        return reissueTokenUseCase.execute(request)
+    fun reissueJsonWebToken(@NotNull @RequestHeader("Refresh-Token") token: String?): TokenResponse {
+        return reissueTokenUseCase.execute(token!!)
     }
 
     @PutMapping("/password/initialization")
@@ -66,8 +73,8 @@ class WebCommonAdapter(
     }
 
     @GetMapping("/email/duplication")
-    fun checkEmailDuplication(@Email @NotBlank @RequestParam email: String) {
-        checkEmailDuplicationUseCase.execute(email)
+    fun checkEmailDuplication(@NotEmpty @Email @RequestParam email: String?) {
+        checkEmailDuplicationUseCase.execute(email!!)
     }
 
     @PutMapping("/password")
@@ -78,12 +85,13 @@ class WebCommonAdapter(
 
     @GetMapping("/account/existence")
     fun checkMatchedAccount(
-        @Range(min = EmployeeNumber.MIN_VALUE, max = EmployeeNumber.MAX_VALUE)
-        @RequestParam employeeNumber: Int,
-        @NotBlank @Email
-        @RequestParam email: String
+        @NotNull @RequestParam employeeNumber: Int?,
+        @NotEmpty @Email @RequestParam email: String?
     ) {
-        checkMatchedAccountUseCase.execute(employeeNumber, email)
+        checkMatchedAccountUseCase.execute(
+            employeeNumber = employeeNumber!!,
+            email = email!!
+        )
     }
 
     @GetMapping("/spot")
@@ -92,8 +100,8 @@ class WebCommonAdapter(
     }
 
     @GetMapping("/password/compare")
-    fun comparePassword(@NotBlank @RequestParam password: String) {
-        comparePasswordUseCase.execute(password)
+    fun comparePassword(@NotBlank @RequestParam password: String?) {
+        comparePasswordUseCase.execute(password!!)
     }
 
     @GetMapping("/team/{spot-id}")

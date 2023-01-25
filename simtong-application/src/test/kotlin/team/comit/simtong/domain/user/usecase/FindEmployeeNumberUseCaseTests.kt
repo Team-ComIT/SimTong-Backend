@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.mock.mockito.MockBean
-import team.comit.simtong.domain.user.dto.request.FindEmployeeNumberData
 import team.comit.simtong.domain.user.exception.UserExceptions
 import team.comit.simtong.domain.user.model.Authority
 import team.comit.simtong.domain.user.model.User
@@ -44,14 +43,6 @@ class FindEmployeeNumberUseCaseTests {
         )
     }
 
-    private val requestStub: FindEmployeeNumberData by lazy {
-        FindEmployeeNumberData(
-            name = name,
-            spotId = spotId,
-            email = email
-        )
-    }
-
     @BeforeEach
     fun setUp() {
         findEmployeeNumberUseCase = FindEmployeeNumberUseCase(queryUserPort)
@@ -64,7 +55,7 @@ class FindEmployeeNumberUseCaseTests {
             .willReturn(userStub)
 
         // when
-        val response = findEmployeeNumberUseCase.execute(requestStub)
+        val response = findEmployeeNumberUseCase.execute(name, spotId, email)
 
         // when & then
         assertEquals(response.employeeNumber, employeeNumber)
@@ -78,7 +69,7 @@ class FindEmployeeNumberUseCaseTests {
 
         // when & then
         assertThrows<UserExceptions.NotFound> {
-            findEmployeeNumberUseCase.execute(requestStub)
+            findEmployeeNumberUseCase.execute(name, spotId, email)
         }
     }
 

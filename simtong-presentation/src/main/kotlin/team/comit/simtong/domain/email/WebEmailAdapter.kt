@@ -1,15 +1,20 @@
 package team.comit.simtong.domain.email
 
+import org.hibernate.validator.constraints.Length
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import team.comit.simtong.domain.auth.usecase.CheckAuthCodeUseCase
 import team.comit.simtong.domain.auth.usecase.SendAuthCodeUseCase
-import team.comit.simtong.domain.email.dto.CheckAuthCodeRequest
 import team.comit.simtong.domain.email.dto.SendAuthCodeRequest
 import javax.validation.Valid
+import javax.validation.constraints.Email
+import javax.validation.constraints.NotEmpty
+import javax.validation.constraints.NotNull
 
 /**
  *
@@ -19,6 +24,7 @@ import javax.validation.Valid
  * @date 2022/09/24
  * @version 1.0.0
  **/
+@Validated
 @RestController
 @RequestMapping("/emails")
 class WebEmailAdapter(
@@ -32,8 +38,14 @@ class WebEmailAdapter(
     }
 
     @GetMapping
-    fun checkAuthCode(@Valid request: CheckAuthCodeRequest) {
-        checkAuthCodeUseCase.execute(request.toData())
+    fun checkAuthCode(
+        @NotEmpty @Email @RequestParam email: String?,
+        @NotNull @Length(min = 6, max = 6) @RequestParam code: String?
+    ) {
+        checkAuthCodeUseCase.execute(
+            email = email!!,
+            code = code!!
+        )
     }
 
 }

@@ -2,6 +2,7 @@ package team.comit.simtong.domain.holiday.dto
 
 import team.comit.simtong.domain.holiday.dto.request.CancelHolidayData
 import java.time.LocalDate
+import javax.validation.constraints.NotNull
 
 /**
  *
@@ -13,10 +14,12 @@ import java.time.LocalDate
  * @version 1.2.5
  **/
 data class CancelHolidayRequest(
-    val date: LocalDate
+
+    @field:NotNull
+    private val date: LocalDate?
 ) {
 
     fun toData() = CancelHolidayData(
-        date = date
+        date = date!!
     )
 }

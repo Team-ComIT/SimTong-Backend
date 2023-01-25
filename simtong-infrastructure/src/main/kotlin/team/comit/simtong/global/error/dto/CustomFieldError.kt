@@ -12,11 +12,11 @@ import org.springframework.validation.BindingResult
  **/
 class CustomFieldError(
     val field: String,
-    val value: String,
+    val value: String?,
     val reason: String
 ) {
     companion object {
-        fun of(field: String, value: String, reason: String): List<CustomFieldError> {
+        fun of(field: String, value: String?, reason: String): List<CustomFieldError> {
             val fieldErrors: MutableList<CustomFieldError> = ArrayList()
             fieldErrors.add(CustomFieldError(field, value, reason))
             return fieldErrors
@@ -27,7 +27,7 @@ class CustomFieldError(
             return fieldErrors.map { error ->
                 CustomFieldError(
                     field = error.field,
-                    value = error.rejectedValue.toString(),
+                    value = error.rejectedValue?.toString(),
                     reason = error.defaultMessage!!
                 )
             }
