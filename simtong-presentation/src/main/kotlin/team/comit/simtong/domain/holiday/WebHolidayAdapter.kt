@@ -19,7 +19,7 @@ import team.comit.simtong.domain.holiday.dto.ShareHolidayRequest
 import team.comit.simtong.domain.holiday.dto.response.QueryEmployeeHolidayResponse
 import team.comit.simtong.domain.holiday.dto.response.QueryIndividualHolidaysResponse
 import team.comit.simtong.domain.holiday.dto.response.QueryMonthHolidayPeriodResponse
-import team.comit.simtong.domain.holiday.dto.response.QueryRemainAnnualResponse
+import team.comit.simtong.domain.holiday.dto.response.QueryRestOfAnnualResponse
 import team.comit.simtong.domain.holiday.model.HolidayQueryType
 import team.comit.simtong.domain.holiday.model.HolidayStatus
 import team.comit.simtong.domain.holiday.usecase.AppointAnnualUseCase
@@ -31,7 +31,7 @@ import team.comit.simtong.domain.holiday.usecase.CheckHolidayPeriodUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryEmployeeHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryIndividualHolidayUseCase
 import team.comit.simtong.domain.holiday.usecase.QueryMonthHolidayPeriodUseCase
-import team.comit.simtong.domain.holiday.usecase.QueryRemainAnnualUseCase
+import team.comit.simtong.domain.holiday.usecase.QueryRestOfAnnualUseCase
 import team.comit.simtong.domain.holiday.usecase.ShareHolidayUseCase
 import java.time.LocalDate
 import java.util.UUID
@@ -54,7 +54,7 @@ class WebHolidayAdapter(
     private val queryMonthHolidayPeriodUseCase: QueryMonthHolidayPeriodUseCase,
     private val appointHolidayPeriodUseCase: AppointHolidayPeriodUseCase,
     private val checkHolidayPeriodUseCase: CheckHolidayPeriodUseCase,
-    private val queryRemainAnnualUseCase: QueryRemainAnnualUseCase,
+    private val queryRestOfAnnualUseCase: QueryRestOfAnnualUseCase,
     private val appointAnnualUseCase: AppointAnnualUseCase,
     private val appointHolidayUseCase: AppointHolidayUseCase,
     private val cancelHolidayUseCase: CancelHolidayUseCase,
@@ -65,8 +65,8 @@ class WebHolidayAdapter(
 ) {
 
     @GetMapping("/annual/count")
-    fun queryRemainAnnual(@NotNull @RequestParam year: Int?): QueryRemainAnnualResponse {
-        return queryRemainAnnualUseCase.execute(year!!)
+    fun queryRestOfAnnual(@NotNull @RequestParam year: Int?): QueryRestOfAnnualResponse {
+        return queryRestOfAnnualUseCase.execute(year!!)
     }
 
     @PostMapping("/annual")
