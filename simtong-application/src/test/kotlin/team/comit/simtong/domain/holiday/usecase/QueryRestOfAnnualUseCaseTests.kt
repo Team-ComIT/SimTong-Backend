@@ -13,7 +13,7 @@ import team.comit.simtong.global.annotation.SimtongTest
 import java.util.UUID
 
 @SimtongTest
-class QueryRemainAnnualUseCaseTests {
+class QueryRestOfAnnualUseCaseTests {
 
     @MockBean
     private lateinit var queryHolidayPort: QueryHolidayPort
@@ -21,7 +21,7 @@ class QueryRemainAnnualUseCaseTests {
     @MockBean
     private lateinit var securityPort: HolidaySecurityPort
 
-    private lateinit var queryRemainAnnualUseCase: QueryRemainAnnualUseCase
+    private lateinit var queryRestOfAnnualUseCase: QueryRestOfAnnualUseCase
 
     private val id: UUID = UUID.randomUUID()
 
@@ -29,7 +29,7 @@ class QueryRemainAnnualUseCaseTests {
 
     @BeforeEach
     fun setUp() {
-        queryRemainAnnualUseCase = QueryRemainAnnualUseCase(queryHolidayPort, securityPort)
+        queryRestOfAnnualUseCase = QueryRestOfAnnualUseCase(queryHolidayPort, securityPort)
     }
 
     @Test
@@ -44,7 +44,7 @@ class QueryRemainAnnualUseCaseTests {
             .willReturn(count)
 
         // when
-        val result = queryRemainAnnualUseCase.execute(year)
+        val result = queryRestOfAnnualUseCase.execute(year)
 
         // then
         assertEquals(result.result, Holiday.ANNUAL_LEAVE_LIMIT - count)

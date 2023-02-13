@@ -51,7 +51,7 @@ data class Holiday(
             status: HolidayStatus = HolidayStatus.COMPLETED
         ) = Holiday(date, userId, type, spotId, status)
 
-        fun calculateRemainedAnnualCount(annualCount: Long) = ANNUAL_LEAVE_LIMIT - annualCount
+        fun calculateRestOfAnnualCount(annualCount: Long) = ANNUAL_LEAVE_LIMIT - annualCount
 
         fun checkNotExceededHolidayLimit(holidayCount: Long) {
             if (holidayCount >= WEEK_HOLIDAY_LIMIT) {
